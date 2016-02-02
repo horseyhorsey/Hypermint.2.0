@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Hypermint.Modules.HyperSpin.SelectedFolderBrowserView"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:extToolKit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d">
+
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Left">
+                <Button Grid.Column="0" Content="Open" Width="47" />
+                <ListBox Height="200" Width="150" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></ListBox>
+            </StackPanel>
+            <StackPanel Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DockPanel.Dock="Right">
+                <Button Content="Trash" Margin="25,0,0,0" Width="44"/>
+                <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="200" Width="Auto" Margin="5"/>
+            </StackPanel>
+        </DockPanel>
+    
+
+
+</UserControl>

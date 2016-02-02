@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Hs.Hypermint.DatabaseDetails.DbToolbarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="600">
+    <Grid>
+        <DockPanel>
+            <TextBlock Width="150" Text="{Binding Message}"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+            <Button Content="Button"/>
+        </DockPanel>
+    </Grid>
+</UserControl>

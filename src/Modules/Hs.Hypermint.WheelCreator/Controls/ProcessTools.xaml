@@ -1,0 +1,14 @@
+﻿<DockPanel x:Class="Hs.Hypermint.WheelCreator.Controls.ProcessTools"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
+             mc:Ignorable="d"            
+             d:DesignHeight="300" d:DesignWidth="600">
+        <Button Content="Preview" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Height="25" ToolTip="Preview the parameters"/>
+        <Button Content="Run" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Background="#FF57B814" ToolTip="Run the wheels in batch." Height="25" />
+        <Button Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="51" ToolTip="Stop wheel processing" Background="#FFEC5050" Height="25"/>
+        <Button Content="Export Folder" HorizontalAlignment="Left" VerticalAlignment="top" Width="93" ToolTip="Open current systems export folder" Height="25" DockPanel.Dock="Left"/>
+        <CheckBox Content="Missing Wheels" HorizontalAlignment="Left" Margin="5"  VerticalAlignment="Top" IsChecked="True" Height="18" Width="136" ToolTip="Only run batch on missing wheels in database" DockPanel.Dock="Left"/>
+    <CheckBox Content="Preview Created" IsChecked="True" Height="18" Margin="5" VerticalAlignment="Top" ToolTip="Preview the output of each image in batch run"  Width="132" HorizontalAlignment="Left" DockPanel.Dock="Left"/>
+</DockPanel>
