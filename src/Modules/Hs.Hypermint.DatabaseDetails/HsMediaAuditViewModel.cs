@@ -4,10 +4,6 @@ using Hypermint.Base.Interfaces;
 using Prism.Events;
 using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Data;
-using Hs.HyperSpin.Database;
 
 namespace Hs.Hypermint.DatabaseDetails
 {

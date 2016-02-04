@@ -25,15 +25,29 @@ namespace Hypermint.Shell.Views
         {
             InitializeComponent();
 
-            //var hsPath = Properties.Settings.Default.HyperSpinPath;
+        }
 
-            //if (hsPath == string.Empty)
-            //{
-            //    MessageBox.Show("HyperSpin Path DOesnt exist");
-            //    Properties.Settings.Default.HyperSpinPath = @"I:\HyperSpin";
-            //    Properties.Settings.Default.Save();
-            //    Application.Current.Shutdown();
-            //}
+        //Settings flyout button
+        private void Button_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+            
+        }
+
+        private void ToggleFlyout(int index)
+        {
+            var flyout = Flyouts.Items[index] as Flyout;
+            if (flyout == null)
+            {
+                return;
+            }
+
+            flyout.IsOpen = !flyout.IsOpen;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleFlyout(0);
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using Hs.HyperSpin.Database;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hypermint.Base.Paths;
 
 namespace Hs.Hypermint.Services
@@ -12,7 +9,7 @@ namespace Hs.Hypermint.Services
     /// <summary>
     /// Scan for Hyperspin media
     /// </summary>
-     public static class Auditer
+    public static class Auditer
     {
         /// <summary>
         /// Scans Game list for media and sets whether media exits,

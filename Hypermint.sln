@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
+# Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.Shell", "src\Hypermint.Shell\Hypermint.Shell.csproj", "{989C2D81-B19B-463C-BFFC-343087E7E5F9}"
@@ -30,6 +30,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.WheelCreator", "src\Modules\Hs.Hypermint.WheelCreator\Hs.Hypermint.WheelCreator.csproj", "{AE055706-C4C1-4CD9-AF7D-EF82BFB94DEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditerTests", "src\Tests\AuditerTests\AuditerTests.csproj", "{FCAF8247-0C0A-4219-996C-5F918A6CC5EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperSpinTests", "src\Tests\HyperSpinTests\HyperSpinTests.csproj", "{9E73405F-C1CE-4936-9C27-02C8053677EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsTests", "src\Tests\SettingsTests\SettingsTests.csproj", "{A2C47F9F-B18F-45EB-8C07-FE67FCAB2223}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +85,14 @@ Global
 		{FCAF8247-0C0A-4219-996C-5F918A6CC5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCAF8247-0C0A-4219-996C-5F918A6CC5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCAF8247-0C0A-4219-996C-5F918A6CC5EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E73405F-C1CE-4936-9C27-02C8053677EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E73405F-C1CE-4936-9C27-02C8053677EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E73405F-C1CE-4936-9C27-02C8053677EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E73405F-C1CE-4936-9C27-02C8053677EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2C47F9F-B18F-45EB-8C07-FE67FCAB2223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C47F9F-B18F-45EB-8C07-FE67FCAB2223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2C47F9F-B18F-45EB-8C07-FE67FCAB2223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2C47F9F-B18F-45EB-8C07-FE67FCAB2223}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,5 +107,7 @@ Global
 		{C5175C8F-D3CC-4D51-9BF5-A3BCE627DFAF} = {BEA36734-9F9E-40BE-92D0-E2F6F3B1A6CE}
 		{AE055706-C4C1-4CD9-AF7D-EF82BFB94DEC} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{FCAF8247-0C0A-4219-996C-5F918A6CC5EC} = {BEA36734-9F9E-40BE-92D0-E2F6F3B1A6CE}
+		{9E73405F-C1CE-4936-9C27-02C8053677EC} = {BEA36734-9F9E-40BE-92D0-E2F6F3B1A6CE}
+		{A2C47F9F-B18F-45EB-8C07-FE67FCAB2223} = {BEA36734-9F9E-40BE-92D0-E2F6F3B1A6CE}
 	EndGlobalSection
 EndGlobal

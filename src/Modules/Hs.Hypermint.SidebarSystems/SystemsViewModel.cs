@@ -2,12 +2,8 @@
 using Hypermint.Base;
 using Hypermint.Base.Interfaces;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.SidebarSystems
@@ -18,20 +14,28 @@ namespace Hs.Hypermint.SidebarSystems
         public ICollectionView SystemItems { get; private set; }
 
         IMainMenuRepo _mainMenuRepo;
+        ISettingsRepo _settingsRepo;
 
         private IEventAggregator _eventAggregator;
-
-        public SystemsViewModel(IMainMenuRepo main, IEventAggregator eventAggregator)
+        
+        public SystemsViewModel(ISettingsRepo settings, IMainMenuRepo main, IEventAggregator eventAggregator)
         {
+            _settingsRepo = settings;
             _mainMenuRepo = main;
             _eventAggregator = eventAggregator;
 
-            SystemItems = new ListCollectionView(
-        _mainMenuRepo.BuildMainMenuItems(@"I:\HyperSpin\Databases\Main Menu\Main Menu.xml",
-        @"I:\RocketLauncher\Media\Icons\"));
+            var mainMenuXml = _settingsRepo.HyperSpinPath + @"\Databases\Main Menu\Main Menu.xml";
 
-            SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+            if (File.Exists(mainMenuXml))
+            {
+                SystemItems = new ListCollectionView(
+            _mainMenuRepo.BuildMainMenuItems(mainMenuXml,
+            _settingsRepo.RocketLauncherPath + @"\Media\Icons\"));
 
+                SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+            }
+            else
+                SystemItems = null;
         }
 
         private void SystemItems_CurrentChanged(object sender, System.EventArgs e)

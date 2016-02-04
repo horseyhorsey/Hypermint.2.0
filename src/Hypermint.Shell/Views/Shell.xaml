@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
-                      prism:ViewModelLocator.AutoWireViewModel="True"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-    xmlns:local="clr-namespace:Hypermint.Shell"
+        xmlns:local="clr-namespace:Hypermint.Shell"
+        xmlns:flyout="clr-namespace:Hypermint.Shell.Views"
         mc:Ignorable="d"
-        Title="HyperMint" Height="768" Width="1024" GlowBrush="{DynamicResource AccentColorBrush}"
+        Title="HyperMint 2.0" Height="768" Width="1024" GlowBrush="{DynamicResource AccentColorBrush}"
                      TitleCaps="False" ShowMaxRestoreButton="False"
                       ShowCloseButton="False" ShowMinButton="False"
                       ResizeMode="CanResizeWithGrip"
@@ -18,9 +19,16 @@
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
-            <Button>Settings</Button>
+            <Button Click="Button_Click" >Settings</Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
+
+
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <flyout:SettingsFlyout></flyout:SettingsFlyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -42,16 +50,16 @@
             <Button Content="Database" Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
              Width="100" HorizontalAlignment="Left"></Button>
         </DockPanel>-->
-        
-         <!--SystemsSidebarRegion-->
+
+        <!--SystemsSidebarRegion-->
         <ItemsControl Grid.RowSpan="5" prism:RegionManager.RegionName="SidebarRegion"/>
 
 
-            <ContentControl Grid.Column="1" Grid.RowSpan="3" Background="{DynamicResource AccentColorBrush}"
+        <ContentControl Grid.Column="1" Grid.RowSpan="3" Background="{DynamicResource AccentColorBrush}"
             prism:RegionManager.RegionName="ContentRegion" 
             />
 
-     
+
         <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
               x:Name="ViewerGrid" Grid.Row="4" Grid.RowSpan="1" 
               Margin="5,0" Grid.Column="1" VerticalAlignment="Stretch">

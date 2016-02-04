@@ -14,10 +14,7 @@ namespace Hypermint.Shell
 
         protected override void InitializeShell()
         {
-            base.InitializeShell();
-
-            //App.Current.MainWindow = (Window)Shell;
-            //App.Current.MainWindow.Show();
+            base.InitializeShell();           
 
             Application.Current.MainWindow = (Views.Shell)this.Shell;
             Application.Current.MainWindow.Show();
@@ -38,9 +35,8 @@ namespace Hypermint.Shell
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
-            //Container.RegisterType<LotteryDraws.IMyObject, LotteryDraws.MyObject>();
-            // Old implementation
-            
+
+            // Old implementation            
             //Container.RegisterType(typeof(object), typeof(Hs.Hypermint.DatabaseDetails.DatabaseDetailsView),"DatabaseDetailsView");
             //Container.RegisterTypeForNavigation<Hs.Hypermint.SidebarSystems.SidebarSystemsView>("SidebarSystemsView");
         }

@@ -13,8 +13,11 @@ namespace AuditerTests
         public void ScanGameListForMedia()
         {
             // Set the Hs directory by searching
-            Installation.HsPath = Installation.SearchForInstall();
+            Installation.HsPath = Installation.SearchForInstall("HyperSpin");
+
             var mainMenuXmlPath = Path.Combine(Installation.HsPath, Root.Databases, "Main Menu\\Main Menu.xml");
+
+            Assert.IsTrue(File.Exists(mainMenuXmlPath));
 
             Hypermint.Base.Interfaces.IGameRepo gameRepo = new HsServices.GameRepo();
            

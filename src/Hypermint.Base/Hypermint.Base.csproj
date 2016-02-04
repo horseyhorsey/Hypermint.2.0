@@ -73,8 +73,10 @@
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Converters\ConvertTime.cs" />
     <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Interfaces\IGameRepo.cs" />
     <Compile Include="Interfaces\IMainMenuRepo.cs" />
+    <Compile Include="Interfaces\ISettingsRepo.cs" />
     <Compile Include="Interfaces\IStatsRepo.cs" />
     <Compile Include="Paths\Installation.cs" />
     <Compile Include="Paths\Paths.cs" />

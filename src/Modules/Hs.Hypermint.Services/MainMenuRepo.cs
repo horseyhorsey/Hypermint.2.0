@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Hs.HyperSpin.Database;
-using Hypermint.Base;
 using Hypermint.Base.Interfaces;
 using System.IO;
 using System.Xml;
@@ -17,6 +13,9 @@ namespace Hs.Hypermint.Services
 
         public Systems BuildMainMenuItems(string mainMenuXml, string iconsPath = "")
         {
+            if (!File.Exists(mainMenuXml))
+                return null;
+
             _systems = new Systems();
             //Create a databaseMenu object to reference
             foreach (string system in GetSystems(mainMenuXml))

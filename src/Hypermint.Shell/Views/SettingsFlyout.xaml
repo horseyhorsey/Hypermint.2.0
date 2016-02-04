@@ -1,0 +1,51 @@
+﻿<metro:Flyout x:Class="Hypermint.Shell.Views.SettingsFlyout"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hypermint.Shell.Views"
+              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+              xmlns:prism="http://prismlibrary.com/"
+              prism:ViewModelLocator.AutoWireViewModel="True"
+              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+              mc:Ignorable="d" 
+              Theme="Accent"
+              Position="Left"
+              Header="Settings"
+              Width="460" d:DesignWidth="500" Height="435">
+
+    <Grid Background="{DynamicResource AccentColorBrush}">
+        <ComboBox x:Name="comboStyles" HorizontalAlignment="Left" Margin="88,10,0,0" VerticalAlignment="Top" Width="120" />
+        <CheckBox x:Name="guiThemeCheckbox" Content="Dark" HorizontalAlignment="Left" Margin="212,10,0,0" VerticalAlignment="Top" Width="64" Height="26"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,15,0,0" TextWrapping="Wrap" Text="Gui Style" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,118,0,0" TextWrapping="Wrap" Text="Launcher" VerticalAlignment="Top"/>
+        <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
+                             Controls:TextBoxHelper.Watermark="Path to launchers executable not set..."
+                             x:Name="txt_launchPath" HorizontalAlignment="Left" Height="23" Margin="88,114,0,0" 
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="354" ToolTip="Specify launchers executable to test game."/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,147,0,0" TextWrapping="Wrap" Text="Params" VerticalAlignment="Top"/>
+        <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
+                             Controls:TextBoxHelper.Watermark="Launcher params not set..."
+                             x:Name="txt_launchParams" HorizontalAlignment="Left" Height="23" Margin="88,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="354" ToolTip="Specify launcher parameters."/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,48,0,0" TextWrapping="Wrap" Text="HS Path" VerticalAlignment="Top"/>
+        <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
+                             Controls:TextBoxHelper.Watermark="HyperSpin path not set..."
+                             x:Name="textboxHSPath" HorizontalAlignment="Left" Height="23" Margin="88,44,0,0"
+                             TextWrapping="Wrap" VerticalAlignment="Top" Width="354"
+                             ToolTip="Path to HyperSpin."/>
+        <TextBlock HorizontalAlignment="Left" Margin="9,178,0,0" TextWrapping="Wrap" Text="Launch Media" VerticalAlignment="Top"/>
+        <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
+                             Controls:TextBoxHelper.Watermark="Launcher media path not set..."
+                             x:Name="txt_launchMediaPath" HorizontalAlignment="Left" Height="23" Margin="88,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="354"
+                             ToolTip="Path to media for launcher. ie C:\Rocketlauncher\Media"/>
+        <TextBlock HorizontalAlignment="Left" Margin="9,79,0,0" TextWrapping="Wrap" Text="ImageMagick" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="9,236,0,0" TextWrapping="Wrap" Text="Set Author" VerticalAlignment="Top"/>
+        <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
+                                	Controls:TextBoxHelper.Watermark="Hypermint"
+                                	x:Name="txt_author" HorizontalAlignment="Left" Height="23" Margin="88,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="354" ToolTip="Set author name for media creations"/>
+        <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
+                             Controls:TextBoxHelper.Watermark="ImageMagick not set..."
+                             x:Name="txt_IMPath" HorizontalAlignment="Left" Height="23" Margin="88,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="354" ToolTip="Path to ImageMagick"/>
+        <Button x:Name="btn_SavePaths" Command="{Binding SetTheme}" Content="Save" HorizontalAlignment="Left" Margin="50,217,0,0" VerticalAlignment="Center" Width="75"/>
+    </Grid>
+</metro:Flyout>
