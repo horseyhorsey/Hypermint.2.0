@@ -1,17 +1,13 @@
-﻿namespace Hypermint.Base.Interfaces
+﻿using Hs.Hypermint.Settings;
+
+namespace Hypermint.Base.Interfaces
 {
     public interface ISettingsRepo
     {
-        string HyperSpinPath { get; set; }
+        Setting HypermintSettings { get; set; }
 
-        string RocketLauncherPath { get; set; }
+        void LoadHypermintSettings();
 
-        string GetHsPathFromSettings();
-
-        string GetRlPathFromSettings();
-
-        bool SaveHsPathToSettings();
-
-        bool SaveRlPathToSettings();
+        void SaveHypermintSettings();          
     }
 }

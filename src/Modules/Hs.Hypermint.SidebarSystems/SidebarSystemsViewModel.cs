@@ -27,7 +27,7 @@ namespace Hs.Hypermint.SidebarSystems
         
         #endregion
 
-        public SidebarSystemsViewModel(  IMainMenuRepo main)
+        public SidebarSystemsViewModel( IMainMenuRepo main)
         {
             _mainMenuRepo = main;
             

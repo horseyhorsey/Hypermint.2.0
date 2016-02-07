@@ -5,6 +5,7 @@ using Prism.Events;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Data;
+using Hs.Hypermint.Settings;
 
 namespace Hs.Hypermint.SidebarSystems
 {
@@ -24,15 +25,15 @@ namespace Hs.Hypermint.SidebarSystems
             _mainMenuRepo = main;
             _eventAggregator = eventAggregator;
 
-            var mainMenuXml = _settingsRepo.HyperSpinPath + @"\Databases\Main Menu\Main Menu.xml";
+            var mainMenuXml = _settingsRepo.HypermintSettings.HsPath  + @"\Databases\Main Menu\Main Menu.xml";
 
             if (File.Exists(mainMenuXml))
             {
                 SystemItems = new ListCollectionView(
             _mainMenuRepo.BuildMainMenuItems(mainMenuXml,
-            _settingsRepo.RocketLauncherPath + @"\Media\Icons\"));
+            _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\"));
 
-                SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+            SystemItems.CurrentChanged += SystemItems_CurrentChanged;
             }
             else
                 SystemItems = null;

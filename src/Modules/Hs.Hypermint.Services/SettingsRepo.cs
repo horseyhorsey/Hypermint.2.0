@@ -1,48 +1,41 @@
-﻿using Hypermint.Base.Interfaces;
+﻿using System;
+using Hs.Hypermint.Settings;
+using Hypermint.Base.Interfaces;
 
 namespace Hs.Hypermint.Services
 {
     public class SettingsRepo : ISettingsRepo
     {
-        public string HyperSpinPath { get; set; }
+        private Setting hypermintSettings = new Setting();
+        public Setting HypermintSettings
+        {
+            get { return hypermintSettings; }
+            set { hypermintSettings = value; }
+        }
 
-        public string RocketLauncherPath { get; set; }
-
-        public string GetHsPathFromSettings()
+        public void LoadHypermintSettings()
         {            
-            return Properties.Settings.Default.HyperSpinPath;
+            HypermintSettings.HsPath = Properties.Settings.Default.HsPath;
+            HypermintSettings.RlPath = Properties.Settings.Default.RlPath;
+            HypermintSettings.RlMediaPath = Properties.Settings.Default.RlMediaPath;
+            HypermintSettings.LaunchParams = Properties.Settings.Default.RlParams;
+            HypermintSettings.ImageMagickPath = Properties.Settings.Default.ImPath;
+            HypermintSettings.Author = Properties.Settings.Default.RlAuthor;
         }
 
-        public string GetRlPathFromSettings()
+        public void SaveHypermintSettings()
         {
-            return Properties.Settings.Default.RocketLauncherPath;
-        }
-
-        public bool SaveHsPathToSettings()
-        {
-            if (string.IsNullOrEmpty(HyperSpinPath))
-                return false;
-            else {
-
-                Properties.Settings.Default.HyperSpinPath = HyperSpinPath;
-
-                Properties.Settings.Default.Save();
-
-                return true;
-            }
-        }
-
-        public bool SaveRlPathToSettings()
-        {
-            if (RocketLauncherPath == "")
-                return false;
-
-            Properties.Settings.Default.RocketLauncherPath = RocketLauncherPath;
+            
+            Properties.Settings.Default.HsPath = HypermintSettings.HsPath;
+            Properties.Settings.Default.RlPath = HypermintSettings.RlPath;
+            Properties.Settings.Default.RlMediaPath = HypermintSettings.RlMediaPath;
+            Properties.Settings.Default.RlParams = HypermintSettings.LaunchParams;
+            Properties.Settings.Default.ImPath = HypermintSettings.ImageMagickPath;
+            Properties.Settings.Default.RlAuthor = HypermintSettings.Author;
 
             Properties.Settings.Default.Save();
-
-            return true;
-
         }
+
     }
+
 }

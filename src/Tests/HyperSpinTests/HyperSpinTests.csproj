@@ -52,11 +52,14 @@
   <ItemGroup>
     <Compile Include="MainMenuRepoTests.cs" />
     <Compile Include="Paths\InstallationTests.cs" />
-    <Compile Include="SettingsRepoTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
+      <Project>{d814d158-e6ae-4369-b1b0-185a6e08339d}</Project>
+      <Name>Hs.Hypermint.Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
       <Project>{6108DDA5-DDA5-4254-B62D-6CDFB049FA8B}</Project>
       <Name>Hs.HyperSpin.Database</Name>

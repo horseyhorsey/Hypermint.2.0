@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Hs.Hypermint.Services</RootNamespace>
     <AssemblyName>Hs.Hypermint.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -111,6 +112,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
+      <Project>{d814d158-e6ae-4369-b1b0-185a6e08339d}</Project>
+      <Name>Hs.Hypermint.Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
       <Project>{6108dda5-dda5-4254-b62d-6cdfb049fa8b}</Project>
       <Name>Hs.HyperSpin.Database</Name>

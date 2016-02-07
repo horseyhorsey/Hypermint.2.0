@@ -1,18 +1,8 @@
-﻿using MahApps.Metro.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hypermint.Base.Constants;
+using MahApps.Metro.Controls;
+using Prism.Regions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Hypermint.Shell.Views
 {
@@ -20,34 +10,22 @@ namespace Hypermint.Shell.Views
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class Shell : MetroWindow
-    {
-        public Shell()
+    {                
+
+        public Shell(IRegionManager regionManager)
         {
             InitializeComponent();
-
-        }
-
-        //Settings flyout button
-        private void Button_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            
-            
-        }
-
-        private void ToggleFlyout(int index)
-        {
-            var flyout = Flyouts.Items[index] as Flyout;
-            if (flyout == null)
+            if (regionManager != null)
             {
-                return;
+                SetRegionManager(regionManager, this.flyoutsControlRegion, RegionNames.FlyoutRegion);
             }
-
-            flyout.IsOpen = !flyout.IsOpen;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        void SetRegionManager(IRegionManager regionManager, DependencyObject regionTarget, string regionName)
         {
-            ToggleFlyout(0);
+            RegionManager.SetRegionName(regionTarget, regionName);
+            RegionManager.SetRegionManager(regionTarget, regionManager);
         }
+
     }
 }

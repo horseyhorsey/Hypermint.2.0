@@ -12,7 +12,9 @@ namespace Hs.Hypermint.Services.Tests
             var mainMenuRepo = new MainMenuRepo();
             var settingsRepo = new SettingsRepo();
 
-            var hsPath = settingsRepo.GetHsPathFromSettings();
+            settingsRepo.LoadHypermintSettings();
+
+            var hsPath = settingsRepo.HypermintSettings.HsPath;
             hsPath += @"\Databases\Main Menu\Main Menu.xml";
             Assert.IsFalse(string.IsNullOrEmpty(hsPath));
 

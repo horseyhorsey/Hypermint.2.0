@@ -33,14 +33,9 @@ namespace Hs.Hypermint.DatabaseDetails
         {           
             _eventAggregator = eventAggregator;
             _gameRepo = gameRepo;
-
-            
-            
-          //  GamesList.CurrentChanged += GamesList_CurrentChanged;
-            //GamesList = new ListCollectionView(_gameRepo.GamesList);
-            //GamesList = new ListCollectionView( _gameRepo.GamesList);            
+       
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
-            //this._eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.Description);
+
         }
 
         private void GamesList_CurrentChanged(object sender, EventArgs e)

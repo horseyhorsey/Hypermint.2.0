@@ -1,6 +1,6 @@
 ﻿using Hypermint.Base.Base;
 
-namespace Hs.Hypermint.SidebarSystems
+namespace Hs.Hypermint.FilesViewer
 {
     public class FilesViewModel : ViewModelBase
     {
