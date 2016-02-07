@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Hypermint.Base.Paths;
 using System.IO;
 using HsServices = Hs.Hypermint.Services;
+using Hypermint.Base.Constants;
 
 namespace AuditerTests
 {

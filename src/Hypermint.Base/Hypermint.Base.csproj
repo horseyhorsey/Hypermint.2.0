@@ -94,7 +94,7 @@
     <Compile Include="Interfaces\ISettingsRepo.cs" />
     <Compile Include="Interfaces\IStatsRepo.cs" />
     <Compile Include="Paths\Installation.cs" />
-    <Compile Include="Paths\Paths.cs" />
+    <Compile Include="Constants\Paths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\RegionNames.cs" />
     <Compile Include="Services\FindDirectoryService.cs" />

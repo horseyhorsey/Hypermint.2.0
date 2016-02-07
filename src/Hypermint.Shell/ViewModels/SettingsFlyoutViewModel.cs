@@ -39,7 +39,10 @@ namespace Hypermint.Shell.ViewModels
             _hyperMintSettings = settings;
             _findDirectoryService = findDir;
             HyperMintSettings = new Setting();
-            getSavedHypermintSettings();
+
+            //Loading this through other module. 
+            //getSavedHypermintSettings();
+
             HyperMintSettings = _hyperMintSettings.HypermintSettings;
 
             CurrentThemeColor = Properties.Settings.Default.GuiColor;
@@ -50,8 +53,7 @@ namespace Hypermint.Shell.ViewModels
             
             //setup commands
             SaveSettings = new DelegateCommand(SaveGuiSettings);
-            FindPath = new DelegateCommand<string>(LocatePath);
-            UpdateProperty = new DelegateCommand<string>(UpdateProperties);
+            FindPath = new DelegateCommand<string>(LocatePath);            
 
         }
 
@@ -100,21 +102,6 @@ namespace Hypermint.Shell.ViewModels
                     break;
             };
 
-        }
-
-        /// <summary>
-        /// Update the other string properties in settings
-        /// </summary>
-        /// <param name="pathName"></param>
-        private void UpdateProperties(string pathName)
-        {
-            switch (pathName)
-            {
-                case "":
-                    break;
-                default:
-                    break;
-            }
         }
 
         private void getSavedHypermintSettings()

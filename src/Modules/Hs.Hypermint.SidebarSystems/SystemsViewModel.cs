@@ -5,7 +5,7 @@ using Prism.Events;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Data;
-using Hs.Hypermint.Settings;
+using Hypermint.Base.Constants;
 
 namespace Hs.Hypermint.SidebarSystems
 {
@@ -22,10 +22,14 @@ namespace Hs.Hypermint.SidebarSystems
         public SystemsViewModel(ISettingsRepo settings, IMainMenuRepo main, IEventAggregator eventAggregator)
         {
             _settingsRepo = settings;
+            _settingsRepo.LoadHypermintSettings();
             _mainMenuRepo = main;
             _eventAggregator = eventAggregator;
 
-            var mainMenuXml = _settingsRepo.HypermintSettings.HsPath  + @"\Databases\Main Menu\Main Menu.xml";
+           // Setup the main menu database to read in all systems
+           var mainMenuXml = Path.Combine(
+               _settingsRepo.HypermintSettings.HsPath, 
+               Root.Databases, @"Main Menu\Main Menu.xml");
 
             if (File.Exists(mainMenuXml))
             {

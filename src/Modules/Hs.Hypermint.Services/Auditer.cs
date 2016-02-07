@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Hypermint.Base.Paths;
+using Hypermint.Base.Constants;
 
 namespace Hs.Hypermint.Services
 {

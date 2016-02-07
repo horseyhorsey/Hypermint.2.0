@@ -51,10 +51,11 @@ namespace Hypermint.Shell
             base.ConfigureContainer();
 
             Container.RegisterType<IApplicationCommands, ApplicationCommandsProxy>();
-            
+
+            Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
             Container.RegisterInstance<IFindDirectoryService>(Container.Resolve<FindDirectoryService>());
-            Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
+            
 
         }
 

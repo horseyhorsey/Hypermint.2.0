@@ -1,4 +1,4 @@
-﻿namespace Hypermint.Base.Paths
+﻿namespace Hypermint.Base.Constants
 {
     public static class Root
     {
