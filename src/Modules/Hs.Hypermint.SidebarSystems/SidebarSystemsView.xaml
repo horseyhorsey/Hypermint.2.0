@@ -10,7 +10,7 @@
     
         <Image  Source="Resources/sysLogo.png"></Image>
     <GroupBox Header="Main Menus" Grid.Row="1">
-        <ComboBox ItemsSource="{Binding MainMenuDatabases}"></ComboBox>
+        <ComboBox ItemsSource="{Binding MainMenuDatabases}" SelectedItem="{Binding SelectedMainMenu}"></ComboBox>
     </GroupBox>
     <GroupBox Header="Systems" Grid.Row="1">
         <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">

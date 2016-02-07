@@ -13,8 +13,7 @@ namespace Hypermint.Shell.Views
     {
         public SettingsFlyout()
         {
-            InitializeComponent();
-            
+            InitializeComponent();            
         }
 
         /// <summary>

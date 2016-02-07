@@ -14,26 +14,27 @@ namespace Hs.Hypermint.DatabaseDetails
 {
     public class DatabaseDetailsViewModel : ViewModelBase
     {
-        // Temp paths
-        private string systemXml = @"I:\HyperSpin\Databases\Amstrad CPC\Amstrad CPC.xml";
-        private string systemName = @"Amstrad CPC";
 
         #region Constructors
-        public DatabaseDetailsViewModel(IGameRepo gameRepo, IEventAggregator eventAggregator)
+        public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, IEventAggregator eventAggregator)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
-            //_getGamesCommand = new Commands.GetGamesCommand();
+            //_getGamesCommand = new Commands.GetGamesCommand()
+            _settingsRepo = settings;
+            //_settingsRepo.LoadHypermintSettings();
             _gameRepo = gameRepo;
-            _gameRepo.GetGames(systemXml, systemName);
-                        
-            GamesList = new ListCollectionView(_gameRepo.GamesList);
-            
             _eventAggregator = eventAggregator;
-            GamesList.CurrentChanged += GamesList_CurrentChanged;
-
-            AuditScanStart = new DelegateCommand(AuditRunScan);
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
+
+            _gameRepo.GetGames( _settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
+                        
+            GamesList = new ListCollectionView(_gameRepo.GamesList);
+                                  
+            AuditScanStart = new DelegateCommand(AuditRunScan);
+
+            GamesList.CurrentChanged += GamesList_CurrentChanged;
+            
         }
         #endregion
 
@@ -51,6 +52,8 @@ namespace Hs.Hypermint.DatabaseDetails
 
         #region Commands
         private ICommand _getGamesCommand;
+        private ISettingsRepo _settingsRepo;
+
         public DelegateCommand SaveDb { get; set; }
         public DelegateCommand AuditScanStart { get; private set; }
         #endregion
@@ -58,14 +61,14 @@ namespace Hs.Hypermint.DatabaseDetails
         #region Methods
         private void UpdateGames(string obj)
         {
+
             if (GamesList != null)
+            {
                 try
                 {
-                    GamesList.CurrentChanged -= GamesList_CurrentChanged;
+                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\" + obj + "\\" + obj + ".xml", obj);
 
-                    _gameRepo.GetGames(@"I:\HyperSpin\Databases\" + obj + "\\" + obj + ".xml", obj);
-
-                    GamesList = new ListCollectionView(_gameRepo.GamesList);                    
+                    GamesList = new ListCollectionView(_gameRepo.GamesList);
                 }
                 catch (Exception exception)
                 {
@@ -74,8 +77,10 @@ namespace Hs.Hypermint.DatabaseDetails
                 }
                 finally
                 {
-                    GamesList.CurrentChanged += GamesList_CurrentChanged;
+
                 }
+            }
+
         }
 
         private void AuditRunScan()

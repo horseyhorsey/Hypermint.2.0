@@ -6,41 +6,69 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Data;
 using Hypermint.Base.Constants;
+using Hypermint.Base.Base;
 
 namespace Hs.Hypermint.SidebarSystems
 {
-    public class SystemsViewModel
+    public class SystemsViewModel : ViewModelBase
     {
         private ICollectionView _systemItems;
-        public ICollectionView SystemItems { get; private set; }
+        public ICollectionView SystemItems { 
+            get { return _systemItems; }
+            set { SetProperty(ref _systemItems, value); }
+        }
 
         IMainMenuRepo _mainMenuRepo;
         ISettingsRepo _settingsRepo;
 
         private IEventAggregator _eventAggregator;
         
-        public SystemsViewModel(ISettingsRepo settings, IMainMenuRepo main, IEventAggregator eventAggregator)
+        public SystemsViewModel(IMainMenuRepo main, IEventAggregator eventAggregator, ISettingsRepo settings)
         {
-            _settingsRepo = settings;
-            _settingsRepo.LoadHypermintSettings();
             _mainMenuRepo = main;
             _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
 
-           // Setup the main menu database to read in all systems
-           var mainMenuXml = Path.Combine(
-               _settingsRepo.HypermintSettings.HsPath, 
-               Root.Databases, @"Main Menu\Main Menu.xml");
+            _settingsRepo = settings;
+            _settingsRepo.LoadHypermintSettings();
+
+            // Setup the main menu database to read in all systems
+
+            var mainMenuXml  = "";
+            try
+            {
+                mainMenuXml = Path.Combine(
+                    _settingsRepo.HypermintSettings.HsPath,Root.Databases,
+                    @"Main Menu\Main Menu.xml");
+            }
+            catch (System.Exception)
+            {
+
+            }
 
             if (File.Exists(mainMenuXml))
             {
-                SystemItems = new ListCollectionView(
-            _mainMenuRepo.BuildMainMenuItems(mainMenuXml,
-            _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\"));
-
-            SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+                _mainMenuRepo.BuildMainMenuItems(mainMenuXml, _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\");
+                SystemItems = new ListCollectionView(_mainMenuRepo.Systems);
+                
             }
             else
                 SystemItems = null;
+
+            SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+
+        }
+
+        private void UpdateSystems(string mainMenuXml)
+        {
+            
+            _mainMenuRepo.BuildMainMenuItems(mainMenuXml, _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\");
+            SystemItems = new ListCollectionView(_mainMenuRepo.Systems);
+
+            //Subscribe here again?? 
+            //##    Existing unsubscribes when the system list is changed.
+            SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+
         }
 
         private void SystemItems_CurrentChanged(object sender, System.EventArgs e)

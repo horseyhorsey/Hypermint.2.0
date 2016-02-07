@@ -119,7 +119,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MockData\Hyperspin\Media\" />
+    <Folder Include="MockData\Hyperspin\Settings\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MockData\Hyperspin\Databases\American Laser Games\American Laser Games.xml" />
+    <Content Include="MockData\Hyperspin\Databases\Amstrad CPC\Amstrad CPC.xml" />
+    <Content Include="MockData\Hyperspin\Databases\Main Menu\Main Menu.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

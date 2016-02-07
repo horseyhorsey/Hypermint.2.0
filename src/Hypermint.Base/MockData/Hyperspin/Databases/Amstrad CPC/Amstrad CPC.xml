@@ -1,0 +1,2532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+  <game name="180 (Europe)" enabled="1" index="" image="">
+    <description>180</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Sports - Darts</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="1942 (Europe)" enabled="1" index="" image="">
+    <description>1942</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Elite Systems Ltd.</manufacturer>
+    <genre>Shoot'em Up - V-Scrolling</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="1943 (Europe)" enabled="1" index="" image="">
+    <description>1943</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Capcom Co. Ltd.</manufacturer>
+    <genre>Shoot'em Up - V-Scrolling</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="1st Division Manager (Europe)" enabled="1" index="" image="">
+    <description>1st Division Manager</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Simulation - Soccer</genre>
+    <year>1992</year>
+    <rating />
+  </game>
+  <game name="2 Player Soccer Squad (Europe)" enabled="1" index="true" image="2">
+    <description>2 Player Soccer Squad</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cult</manufacturer>
+    <genre>Simulation - Soccer</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="2 Player Super League (Europe)" enabled="1" index="" image="">
+    <description>2 Player Super League</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cult</manufacturer>
+    <genre>Simulation - Soccer</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="2088 (Europe)" enabled="1" index="" image="">
+    <description>2088</description>
+    <cloneof>2088</cloneof>
+    <crc>28272d</crc>
+    <manufacturer>Zeppelin Games Ltd.</manufacturer>
+    <genre>Shoot'em Up - Multi-Event</genre>
+    <year>1988</year>
+    <rating>Good</rating>
+  </game>
+  <game name="2112 AD (Europe)" enabled="1" index="" image="">
+    <description>2112 AD</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Design Design</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="3D Boxing (Europe)" enabled="1" index="true" image="3">
+    <description>3D Boxing</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Sports - Boxing</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="3D Construction Kit (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>3D Construction Kit</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Domark Software Ltd.</manufacturer>
+    <genre>Utilities - Game Maker</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="3D Grand Prix (Europe)" enabled="1" index="" image="">
+    <description>3D Grand Prix</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Racing - Formula One</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="3D Invaders (Europe)" enabled="1" index="" image="">
+    <description>3D Invaders (Europe)</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Shoot'em Up - 3D</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="3D Monster Chase (Europe)" enabled="1" index="" image="">
+    <description>3D Monster Chase</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Romik</manufacturer>
+    <genre>Arcade - Labyrinth/Maze</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="3D Pinball (Europe)" enabled="1" index="" image="">
+    <description>3D Pinball</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Plus</manufacturer>
+    <genre>Arcade - Pinball</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="3D Pool (Europe)" enabled="1" index="" image="">
+    <description>3D Pool</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Firebird</manufacturer>
+    <genre>Sports - Snooker/Pool</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="3D Snooker (Europe)" enabled="1" index="" image="">
+    <description>3D Snooker</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Players Premier</manufacturer>
+    <genre>Sports - Snooker/Pool</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="3D Starfighter (Europe)" enabled="1" index="" image="">
+    <description>3D Starfighter</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Shoot'em Up - 3D</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="3D Starstrike (Europe)" enabled="1" index="" image="">
+    <description>3D Starstrike</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Realtime Software Ltd.</manufacturer>
+    <genre>Shoot'em Up - 3D</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="3D Stunt Rider (Europe)" enabled="1" index="" image="">
+    <description>3D Stunt Rider</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Simulation - Stunt</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="3D Time Trek (Europe)" enabled="1" index="" image="">
+    <description>3d Time Trek</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Anirog Software</manufacturer>
+    <genre>Simulation Space</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="3D Voice Chess (Europe)" enabled="1" index="" image="">
+    <description>3D Voice Chess</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CP Software</manufacturer>
+    <genre>Gambling - Chess</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="3DC (Europe)" enabled="1" index="" image="">
+    <description>3DC</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Encore</manufacturer>
+    <genre>Adventure - Arcade 3D</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="4x4 Off-Road Racing (Europe)" enabled="1" index="true" image="4">
+    <description>4x4 Off-road Racing</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Epyx</manufacturer>
+    <genre>Racing - Cars</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="7 Card Stud (Europe)" enabled="1" index="true" image="7">
+    <description>7 Card Stud</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Martech Games Ltd.</manufacturer>
+    <genre>Gambling - Cards</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="720 Degrees (Europe)" enabled="1" index="" image="">
+    <description>720 Degrees</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="750cc Grand Prix (Europe)" enabled="1" index="" image="">
+    <description>750cc Grand Prix</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters </manufacturer>
+    <genre>Racing - Motorbike</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="A.D.A.M (Europe)" enabled="1" index="true" image="a">
+    <description>A.D.A.M</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Micro Application</manufacturer>
+    <genre>Util</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="A.M.C. - Astro Marine Corps (Europe)" enabled="1" index="" image="">
+    <description>A.M.C. - Astro Marine Corps</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Dinamic Software</manufacturer>
+    <genre>Arcade - Run &amp; Gun</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="A.P.B - All Points Bulletin (Europe)" enabled="1" index="" image="">
+    <description>A.P.B - All Points Bulletin</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Domark Software Ltd.</manufacturer>
+    <genre>Arcade - Collect'em Up</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="A.R.C.O.S. (Europe)" enabled="1" index="" image="">
+    <description>A.R.C.O.S.</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Kabuto Factory</manufacturer>
+    <genre>Arcade - Breakout/Pong</genre>
+    <year>2012</year>
+    <rating />
+  </game>
+  <game name="Ace (Europe)" enabled="1" index="" image="">
+    <description>Ace</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cascade Games Ltd.</manufacturer>
+    <genre>Simulation - Flight (Military)</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Ace of Aces (Europe)" enabled="1" index="" image="">
+    <description>Ace of Aces</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Simulation - Flight (Military)</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Acro Jet (Europe)" enabled="1" index="" image="">
+    <description>Acro Jet</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Microprose Software, Inc.</manufacturer>
+    <genre>Simulation - Stunt</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Action Fighter (Europe)" enabled="1" index="" image="">
+    <description>Action Fighter</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Firebird</manufacturer>
+    <genre>Shoot'em Up - V-Scrolling</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Action Force (Europe)" enabled="1" index="" image="">
+    <description>Action Force</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Virgin Games Ltd.</manufacturer>
+    <genre>Shoot'em Up - H-Scrolling</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Action Service (Europe)" enabled="1" index="" image="">
+    <description>Action Service</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Players Premier</manufacturer>
+    <genre>Arcade - Run &amp; Gun</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Activator (Europe)" enabled="1" index="" image="">
+    <description>Activator</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cascade Games Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Addams Family, The (Europe)" enabled="1" index="" image="">
+    <description>Addams Family , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ocean Software Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Adidas Championship Football (Europe)" enabled="1" index="" image="">
+    <description>Adidas Championship Football</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ocean Software Ltd.</manufacturer>
+    <genre>Sports - Soccer</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Adidas Championship Tie-break (Europe)" enabled="1" index="" image="">
+    <description>Adidas Championship Tie-break</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ocean Software Ltd.</manufacturer>
+    <genre>Sports - Tennis</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Admiral Graf Spee (Europe)" enabled="1" index="" image="">
+    <description>Admiral Graf Spee</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Simulation - Marine</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Adult One (PD) (Europe)" enabled="1" index="" image="">
+    <description>Adult Two</description>
+    <cloneof />
+    <crc />
+    <manufacturer>PD</manufacturer>
+    <genre>Adventure - Text</genre>
+    <year>0</year>
+    <rating />
+  </game>
+  <game name="Adult Two (PD) (Europe)" enabled="1" index="" image="">
+    <description>Adult Two</description>
+    <cloneof />
+    <crc />
+    <manufacturer>PD</manufacturer>
+    <genre>Adventure - Text</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Advanced Lawnmowing Simulator (PD) (Europe)" enabled="1" index="" image="">
+    <description>Advanced Lawnmowing Simulator</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Self Published</manufacturer>
+    <genre>Simulation - Miscellaneous</genre>
+    <year>2010</year>
+    <rating />
+  </game>
+  <game name="Advanced Music System, The (Europe)" enabled="1" index="" image="">
+    <description>Advanced Music System , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Rainbird Software</manufacturer>
+    <genre>Utilities - Sound</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Advanced OCP Art Studio, The (Europe)" enabled="1" index="" image="">
+    <description>Advanced OCP Art Studio , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Rainbird Software</manufacturer>
+    <genre>Utilities - Pictures</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Advanced Pinball Simulator (Europe)" enabled="1" index="" image="">
+    <description>Advanced Pinball Simulator</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Arcade - Pinball</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Advanced Tactical Fighter (Europe)" enabled="1" index="" image="">
+    <description>Advanced Tactical Fighter</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Digital Integration</manufacturer>
+    <genre>Simulation - Aircraft</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Adventure A - The Planet of Death (Europe)" enabled="1" index="" image="">
+    <description>Adventure A - The Planet of Death</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Artic Computing</manufacturer>
+    <genre>Adventure - Text only</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Adventure B - Inca Curse (Europe)" enabled="1" index="" image="">
+    <description>Adventure B - Inca Curse </description>
+    <cloneof />
+    <crc />
+    <manufacturer>Artic Computing</manufacturer>
+    <genre>Adventure - Text only</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Adventure C - The Ship of Doom (Europe)" enabled="1" index="" image="">
+    <description>Adventure C - The Ship of Doom</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Artic Computing</manufacturer>
+    <genre>Adventure - Text only</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Adventure D - Espionage Island (Europe)" enabled="1" index="" image="">
+    <description>Adventure D - Espionage Island </description>
+    <cloneof />
+    <crc />
+    <manufacturer>Artic Computing</manufacturer>
+    <genre>Adventure - Text only</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Adventure Quest (Europe)" enabled="1" index="" image="">
+    <description>Adventure Quest</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Level 9 Computing</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Adventures of Basildon Bond, The (Europe)" enabled="1" index="" image="">
+    <description>Adventures of Basildon Bond, The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Probe Software</manufacturer>
+    <genre>Action - Adventure</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="African Trail Simulator (Europe)" enabled="1" index="" image="">
+    <description>African Trail Simulator</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Positive</manufacturer>
+    <genre>Racing - Motorbike</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="After Burner (Europe)" enabled="1" index="" image="">
+    <description>After Burner</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Activision</manufacturer>
+    <genre>Shoot'em Up - 3D</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="After Shock (Europe)" enabled="1" index="" image="">
+    <description>After Shock</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Interceptor Software</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="After the War (Europe)" enabled="1" index="" image="">
+    <description>After the War</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Inamic Software</manufacturer>
+    <genre>Arcade - Action</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Aftermath (Europe)" enabled="1" index="" image="">
+    <description>Aftermath</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Alternative Software</manufacturer>
+    <genre>Arcade - Action</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Agent Orange (Europe)" enabled="1" index="" image="">
+    <description>Agent Orange</description>
+    <cloneof />
+    <crc />
+    <manufacturer>A&amp;F Software Ltd.</manufacturer>
+    <genre>Shoot'em Up - Multi-Screen</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Agent X II (Europe)" enabled="1" index="" image="">
+    <description>Agent X II</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Ahhh... (Europe)" enabled="1" index="" image="">
+    <description>Ahhh...</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CRL Group</manufacturer>
+    <genre>Shoot'em Up</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Air Traffic Control (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Air Traffic Control</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Hewson Consultants Ltd.</manufacturer>
+    <genre>Simulation - Flight (Civil)</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Airballs (Europe)" enabled="1" index="" image="">
+    <description>Airballs</description>
+    <cloneof />
+    <crc />
+    <manufacturer>PC Amstrad International</manufacturer>
+    <genre>Arcade - Action</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Airborne Ranger (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Airborne Ranger</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Microprose Software, Inc.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Airwolf (Europe)" enabled="1" index="" image="">
+    <description>Airwolf</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Shoot'em Up - Multi-Scrolling</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Airwolf 2 (Europe)" enabled="1" index="" image="">
+    <description>Airwolf 2</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Elite Systems</manufacturer>
+    <genre>Shoot'em Up</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Aladdin's Cave (Europe)" enabled="1" index="" image="">
+    <description>Aladdin's Cave</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Artic Computing</manufacturer>
+    <genre>Platform</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Alex Higgins' World Pool (Europe)" enabled="1" index="" image="">
+    <description>Alex Higgins' World Pool</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Sports - Snooker/Pool</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Alex Higgins' World Snooker (Europe)" enabled="1" index="" image="">
+    <description>Alex Higgins' World Snooker</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Sports - Snooker/Pool</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Alien (Europe)" enabled="1" index="" image="">
+    <description>Alien</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Adventure - RPG 2D</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Alien 8 (Europe)" enabled="1" index="" image="">
+    <description>Alien 8</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ultimate Play the Game</manufacturer>
+    <genre>Adventure - Arcade 3D</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Alien Attack (Europe)" enabled="1" index="" image="">
+    <description>Alien Attack</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Schneider Computer Partner</manufacturer>
+    <genre>Shoot em Up</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Alien Break-In (Europe)" enabled="1" index="" image="">
+    <description>Alien Break-In</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Shoot'em Up - Space Invaders</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Alien Highway - Encounter 2 (Europe)" enabled="1" index="" image="">
+    <description>Alien Highway - Encounter 2</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Vortex Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 3D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Alien Intervention (Europe)" enabled="1" index="" image="">
+    <description>Alien Intervention</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amstrad Action</manufacturer>
+    <genre>Arcade - Action</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Alien Storm (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Alien Storm</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S Gold</manufacturer>
+    <genre>Beat em Up</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Alien Syndrome (Europe)" enabled="1" index="" image="">
+    <description>Alien Syndrome</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Dro Soft</manufacturer>
+    <genre>Shoot'em Up - Gauntlet</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Aliens (Europe)" enabled="1" index="" image="">
+    <description>Aliens</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Electric Dreams Software</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Aliens US (Europe)" enabled="1" index="" image="">
+    <description>Aliens US</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Electric Dreams Software</manufacturer>
+    <genre>Action - Adventure</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Alkahera (Europe)" enabled="1" index="" image="">
+    <description>Alkahera</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Budgie Software</manufacturer>
+    <genre>Shoot'em Up - 3D</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Alpine Games (Europe)" enabled="1" index="" image="">
+    <description>Alpine Games</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Alternative Software Ltd.</manufacturer>
+    <genre>Sports - Multi-Event</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Al-Strad (Europe)" enabled="1" index="" image="">
+    <description>Al-Strad</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Rhinosoft</manufacturer>
+    <genre>Adventure - Text</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Altered Beast (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Altered Beast</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Activision</manufacturer>
+    <genre>Arcade - Beat'em Up</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Alternative World Games (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Alternative World Games</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Amaurote (Europe)" enabled="1" index="" image="">
+    <description>Amaurote</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Amazing Shrinking Man, The (Europe)" enabled="1" index="" image="">
+    <description>Amazing Shrinking Man , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Infogrames</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="American Football (Europe)" enabled="1" index="" image="">
+    <description>American Football</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Sports - American Football</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="American Tag Team Wrestling (Europe)" enabled="1" index="" image="">
+    <description>American Tag Team Wrestling</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Zeppelin Games</manufacturer>
+    <genre>Sports - Wrestling</genre>
+    <year>1992</year>
+    <rating />
+  </game>
+  <game name="American Turbo King (Europe)" enabled="1" index="" image="">
+    <description>American Turbo King</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Racing - Cars</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="American Turbo King (Gunstick) (Europe)" enabled="1" index="" image="">
+    <description>American Turbo King</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Racing - Cars</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="America's Cup Challenge (Europe)" enabled="1" index="" image="">
+    <description>America's Cup Challenge</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S.Gold</manufacturer>
+    <genre>Sports Boating</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Amnesia (PD) (Europe)" enabled="1" index="" image="">
+    <description>Amnesia</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Self Published</manufacturer>
+    <genre>Brain - Puzzle</genre>
+    <year>1998</year>
+    <rating />
+  </game>
+  <game name="Amsgolf (Europe)" enabled="1" index="" image="">
+    <description>Amsgolf</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Sports - Golf</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Amsoccer (Europe)" enabled="1" index="" image="">
+    <description>Amsoccer</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Sports - Soccer</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Amsoft Business Control (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Amsoft Business Control</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Utilities - Multi Purpose</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Amstrad Artist (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Amstrad Artist</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CRL Group</manufacturer>
+    <genre>Utilities - Pictures</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Amstrad Shuffle (Europe)" enabled="1" index="" image="">
+    <description>Amstrad Shuffle</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Alpha Omega Software</manufacturer>
+    <genre>Arcade</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Amstroids (Europe)" enabled="1" index="" image="">
+    <description>Amstroids</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CPC Computing</manufacturer>
+    <genre>Shoot em Up</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="AMX Mouse (Europe)" enabled="1" index="" image="">
+    <description>AMX Mouse</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cygnet Computer Cosultants Ltd.</manufacturer>
+    <genre>Utilities - Pictures</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Anarchy (Europe)" enabled="1" index="" image="">
+    <description>Anarchy</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Hewson Consultants Ltd.</manufacturer>
+    <genre>Arcade - Puzzle</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Ancient Battles (Europe)" enabled="1" index="" image="">
+    <description>Ancient Battles</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cases Computer Simulations Ltd.</manufacturer>
+    <genre>Strategy - War</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Android 2 (Europe)" enabled="1" index="" image="">
+    <description>Android 2</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Vortex Software Ltd.</manufacturer>
+    <genre>Arcade - Shooting</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Android One (Europe)" enabled="1" index="" image="">
+    <description>Android One</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Vortex Software Ltd.</manufacturer>
+    <genre>Arcade - Shooting</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Andy Capp (Europe)" enabled="1" index="" image="">
+    <description>Andy Capp</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mirrorsoft Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Animal Vegetable Mineral (Europe)" enabled="1" index="" image="">
+    <description>Animal Vegetable Mineral</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Brain - Logical Game</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Animated Strip Poker (Europe)" enabled="1" index="" image="">
+    <description>Animated Strip Poker</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Knightsoft</manufacturer>
+    <genre>Gambling - Cards</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Animator, The (Europe)" enabled="1" index="" image="">
+    <description>Animator , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Discovery Software</manufacturer>
+    <genre>Utilities - Pictures</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Annals of Rome (Europe)" enabled="1" index="" image="">
+    <description>Annals of Rome</description>
+    <cloneof />
+    <crc />
+    <manufacturer>P.S.S. Software Ltd.</manufacturer>
+    <genre>Strategy - War</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Answer Back Factfile 500 - Spelling 6 - 11 (Europe)" enabled="1" index="" image="">
+    <description>Answer Back Factfile 500 - Spelling 6 - 11</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Kosmos Software Ltd.</manufacturer>
+    <genre>Brain - Quiz</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Answer Back Junior Quiz (Europe)" enabled="1" index="" image="">
+    <description>Answer Back Junior Quiz</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Kosmos Software Ltd.</manufacturer>
+    <genre>Brain - Quiz</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Apprentice, The (Europe)" enabled="1" index="" image="">
+    <description>Apprentice, The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic</manufacturer>
+    <genre>Action - Adventure</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Arachnophobia (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Arachnophobia</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Titus</manufacturer>
+    <genre>Adventure - [uncategorized]</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Arcade Flight Simulator (Europe)" enabled="1" index="" image="">
+    <description>Arcade Flight Simulator</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Shoot'em Up - Duel</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Arcade Trivia Quiz (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Arcade Trivia Quiz</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Zeppelin Games Ltd.</manufacturer>
+    <genre>Brain - Quiz</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Archers, The (Europe)" enabled="1" index="" image="">
+    <description>Archers, The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mosaic Publishing Ltd.</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Archon Collection, The (Europe)" enabled="1" index="" image="">
+    <description>Archon Collection , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Electronic Arts</manufacturer>
+    <genre>Strategy - Action</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Arcticfox (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Arcticfox</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Electronic Arts</manufacturer>
+    <genre>Simulation - Tank</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Area 51 (PD) (Europe)" enabled="1" index="" image="">
+    <description>Area 51</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Public Domain</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>2005</year>
+    <rating />
+  </game>
+  <game name="Arkanoid - Revenge of Doh (Europe)" enabled="1" index="" image="">
+    <description>Arkanoid - Revenge of Doh</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Imagine Software Ltd.</manufacturer>
+    <genre>Arcade - Breakout/Pong</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Arkanoid (Europe)" enabled="1" index="" image="">
+    <description>Arkanoid</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Imagine Software Ltd.</manufacturer>
+    <genre>Arcade - Breakout/Pong</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Armageddon Man (Europe)" enabled="1" index="" image="">
+    <description>Armageddon Man</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Martech Games Ltd.</manufacturer>
+    <genre>Simulation - Military</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Army Moves (Europe)" enabled="1" index="" image="">
+    <description>Army Moves</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Imagine Software Ltd.</manufacturer>
+    <genre>Arcade - Run &amp; Gun</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Arnhem (Europe)" enabled="1" index="" image="">
+    <description>Arnhem</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cases Computer Simulations Ltd.</manufacturer>
+    <genre>Strategy - War</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Arquimedes XXI (Europe)" enabled="1" index="" image="">
+    <description>Arquimedes XXI</description>
+    <cloneof />
+    <crc />
+    <manufacturer>ESP Soft</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>2011</year>
+    <rating />
+  </game>
+  <game name="Artura (Europe)" enabled="1" index="" image="">
+    <description>Artura</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Artwork (Europe)" enabled="1" index="" image="">
+    <description>Artwork</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Kuma Computers Ltd.</manufacturer>
+    <genre>Utilities - Pictures</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Assault Course (Europe)" enabled="1" index="" image="">
+    <description>Assault Course</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Players Premier</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Assault on Port Stanley (Europe)" enabled="1" index="" image="">
+    <description>Assault on Port Stanley</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Asterix &amp; The Magic Cauldron (Europe)" enabled="1" index="" image="">
+    <description>Asterix &amp; The Magic Cauldron</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Melbourne House</manufacturer>
+    <genre>Adventure</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Astro Attack (Europe)" enabled="1" index="" image="">
+    <description>Astro Attack</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Shoot'em Up - Multi-Screen</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Astro Plumber (Europe)" enabled="1" index="" image="">
+    <description>Astro Plumber</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Blue Ribbon Software Ltd.</manufacturer>
+    <genre>Arcade - Collect'em Up</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Astroball (Europe)" enabled="1" index="" image="">
+    <description>Astroball</description>
+    <cloneof />
+    <crc />
+    <manufacturer>The Power House</manufacturer>
+    <genre>Arcade - Action</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="A-Team, The (Gunstick) (Spanish) (Disk 1)" enabled="1" index="" image="">
+    <description>A-Team, The </description>
+    <cloneof />
+    <crc />
+    <manufacturer>Zafiro Software</manufacturer>
+    <genre>Shooter - Light Gun</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="ATF - Advanced Tactical Fighter (Europe)" enabled="1" index="" image="">
+    <description>ATF - Advanced Tactical Fighter</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Digital Integration Ltd.</manufacturer>
+    <genre>Simulation - Flight (Military)</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Athlete (Europe)" enabled="1" index="" image="">
+    <description>Athlete</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Microids</manufacturer>
+    <genre>Sports - Multi Event</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Atlantis (Europe)" enabled="1" index="" image="">
+    <description>Atlantis</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Anirog Software</manufacturer>
+    <genre>Arcade - Action</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Atom Ant (Europe)" enabled="1" index="" image="">
+    <description>Atom Ant</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Hi-Tech Software Ltd.</manufacturer>
+    <genre>Arcade - Collect'em Up</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Atom Smasher (Europe)" enabled="1" index="" image="">
+    <description>Atom Smasher</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Romik</manufacturer>
+    <genre>Shoot'em Up - Single Screen</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Atomic (PD) (Europe)" enabled="1" index="" image="">
+    <description>Atomic</description>
+    <cloneof />
+    <crc />
+    <manufacturer>PD</manufacturer>
+    <genre>Reflection</genre>
+    <year>1992</year>
+    <rating />
+  </game>
+  <game name="Atomic Battle (PD) (Europe)" enabled="1" index="" image="">
+    <description>Atomic Battle</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Public Domain</manufacturer>
+    <genre>Shoot'em Up</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Attack of the Killer Tomatoes (Europe)" enabled="1" index="" image="">
+    <description>Attack Of The Killer Tomatoes</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Global Software</manufacturer>
+    <genre>Action Adventure</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="ATV Simulator (Europe)" enabled="1" index="" image="">
+    <description>ATV Simulator</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Racing - Stay on Track</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Au Revoir Monty (Europe)" enabled="1" index="" image="">
+    <description>Au Revoir Monty</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Auf Wiedersehen Monty (Europe)" enabled="1" index="" image="">
+    <description>Auf Wiedersehen Monty</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Aussie Safari (Europe) (19xx)" enabled="1" index="" image="">
+    <description>Aussie Safari</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S.Gold</manufacturer>
+    <genre>Sports - Multi Event</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Australian Rules Football (Europe)" enabled="1" index="" image="">
+    <description>Australian Rules Football</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Again Again</manufacturer>
+    <genre>Sports - Football</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Avenger (Europe)" enabled="1" index="" image="">
+    <description>Avenger</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="AXYS - The Last Battle (PD) (Europe)" enabled="1" index="" image="">
+    <description>Axys - The Last Battle</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CPC Infos</manufacturer>
+    <genre>Shoot em Up</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Azimuth Head Alignment Kit (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Azimuth Head Alignment Kit</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Interceptor Software</manufacturer>
+    <genre>Utilities - Azimuth</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Baby Jo (Europe) (Disk 1)" enabled="1" index="true" image="b">
+    <description>Baby Jo</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Loriciels</manufacturer>
+    <genre>Arcade - Platformer (Scrolling Screen)</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Back to Reality (Europe)" enabled="1" index="" image="">
+    <description>Back to Reality</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Back to the Future (Europe)" enabled="1" index="" image="">
+    <description>Back to the Future</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Electric Dreams Software</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Back to the Future Part II (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Back to the Future Part II</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Image Works</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Back to the Future Part III (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Back to the Future Part III</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Image Works</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Backgammon (Europe)" enabled="1" index="" image="">
+    <description>Backgammon</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CP Software</manufacturer>
+    <genre>Gambling - Backgammon</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Bad Cat (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Bad Cat</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Rainbow Arts</manufacturer>
+    <genre>Sports - Multi-Event</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Badlands (Europe)" enabled="1" index="" image="">
+    <description>Badlands</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Domark Software Ltd.</manufacturer>
+    <genre>Racing - Overhead</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Ball Breaker (Europe)" enabled="1" index="" image="">
+    <description>Ball Breaker</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CRL Group</manufacturer>
+    <genre>Arcade - Breakout/Pong</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Ball Crazy (Europe)" enabled="1" index="" image="">
+    <description>Ball Crazy</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Arcade - Logical Game</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Ballblazer (Europe)" enabled="1" index="" image="">
+    <description>Ballblazer</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Activision</manufacturer>
+    <genre>Sports - Miscellaneous</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Balldozer (PD) (Europe)" enabled="1" index="" image="">
+    <description>Balldozer</description>
+    <cloneof />
+    <crc />
+    <manufacturer>PD</manufacturer>
+    <genre>Brain - Sokoban</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Balloon Buster (Europe)" enabled="1" index="" image="">
+    <description>Balloon Buster</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Blue Ribbon Software Ltd.</manufacturer>
+    <genre>Arcade - Puzzle</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Balloonacy (Europe)" enabled="1" index="" image="">
+    <description>Balloonacy</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cronosoft</manufacturer>
+    <genre>Arcade - Avoid it</genre>
+    <year>2007</year>
+    <rating />
+  </game>
+  <game name="Ballyhoo (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Ballyhoo</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Infocom</manufacturer>
+    <genre>Adventure - Text only</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Barbarian (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Barbarian</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Palace Software Ltd.</manufacturer>
+    <genre>Arcade - Beat'em Up</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Barbarian (Europe) (Melbourne House)" enabled="1" index="" image="">
+    <description>Barbarian</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Melbourne House Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Barbarian II (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Barbarian II</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Palace Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Barrier Reef (Europe)" enabled="1" index="" image="">
+    <description>Barrier Reef</description>
+    <cloneof />
+    <crc />
+    <manufacturer>The Power House</manufacturer>
+    <genre>Arcade - Avoid it</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Barry McGuigan World Championship Boxing (Europe)" enabled="1" index="" image="">
+    <description>Barry McGuigan World Championship Boxing</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Activision</manufacturer>
+    <genre>Sports - Boxing</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Basil the Great Mouse Detective (Europe)" enabled="1" index="" image="">
+    <description>Basil the Great Mouse Detective</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Basket Master (Europe)" enabled="1" index="" image="">
+    <description>Basket Master</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Imagine Software Ltd.</manufacturer>
+    <genre>Sports - Basketball</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Batman - The Movie (Europe)" enabled="1" index="" image="">
+    <description>Batman - The Movie</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ocean Software Ltd.</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Batman (Europe)" enabled="1" index="" image="">
+    <description>Batman</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ocean Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 3D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Batman the Caped Crusader (Europe)" enabled="1" index="" image="">
+    <description>Batman the Caped Crusader</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ocean Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Battle Command (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Battle Command</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ocean Software Ltd.</manufacturer>
+    <genre>Simulation - Tank</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Battle of Britain (Europe)" enabled="1" index="" image="">
+    <description>Battle of Britain</description>
+    <cloneof />
+    <crc />
+    <manufacturer>P.S.S. Software Ltd.</manufacturer>
+    <genre>Strategy - War</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Battle of the Bulge (Europe)" enabled="1" index="" image="">
+    <description>Battle of the Bulge</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Cases Computer Simulations Ltd.</manufacturer>
+    <genre>Strategy - War</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Battle of the Planets (Europe)" enabled="1" index="" image="">
+    <description>Battle of the Planets</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mikro-Gen</manufacturer>
+    <genre>Shoot'em Up - 3D</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Battle Ships (Europe)" enabled="1" index="" image="">
+    <description>Battle Ships</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Encore</manufacturer>
+    <genre>Brain - Logical Game</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Battle Valley (Europe)" enabled="1" index="" image="">
+    <description>Battle Valley</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Hewson Consultants Ltd.</manufacturer>
+    <genre>Shoot'em Up - H-Scrolling</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Battlefield Germany (Europe)" enabled="1" index="" image="">
+    <description>Battlefield Germany</description>
+    <cloneof />
+    <crc />
+    <manufacturer>P.S.S. Software Ltd.</manufacturer>
+    <genre>Strategy - War</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Beach Buggy Simulator (Europe)" enabled="1" index="" image="">
+    <description>Beach Buggy Simulator</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Silverbird</manufacturer>
+    <genre>Arcade - Avoid it</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Beach Volley (Europe)" enabled="1" index="" image="">
+    <description>Beach Volley</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Ocean Software Ltd.</manufacturer>
+    <genre>Sports - Volleyball</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Beach-Head (Europe)" enabled="1" index="" image="">
+    <description>Beach-Head</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Beach-Head II (Europe)" enabled="1" index="" image="">
+    <description>Beach-Head II</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bedlam (Europe)" enabled="1" index="" image="">
+    <description>Bedlam</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Go !</manufacturer>
+    <genre>Shoot'em Up - V-Scrolling</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Bells, The (Europe)" enabled="1" index="" image="">
+    <description>Bells , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Blaby Computer Games</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Berks (Europe)" enabled="1" index="" image="">
+    <description>Berks</description>
+    <cloneof />
+    <crc />
+    <manufacturer>The Power House</manufacturer>
+    <genre>Shoot'em Up - Multi-Screen</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Best of the Best Championship Karate (Europe)" enabled="1" index="" image="">
+    <description>Best of the Best Championship Karate</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Futura</manufacturer>
+    <genre>Sports - Fighting</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Bestial Warrior (Gunstick) (Europe)" enabled="1" index="" image="">
+    <description>Bestial Warrior</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Dinamic Software</manufacturer>
+    <genre>Shooting - Light Gun</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Betiled! (Europe)" enabled="1" index="" image="">
+    <description>Betiled!</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CEZ Games Studio</manufacturer>
+    <genre>Arcade - Puzzle</genre>
+    <year>2009</year>
+    <rating />
+  </game>
+  <game name="Better Spelling (Age 8 - Adult) (Europe)" enabled="1" index="" image="">
+    <description>Better Spelling (Age 8 - Adult)</description>
+    <cloneof />
+    <crc />
+    <manufacturer>School Software Ltd.</manufacturer>
+    <genre>Educational - Spelling</genre>
+    <year>0</year>
+    <rating />
+  </game>
+  <game name="Beverly Hills Cop (Europe)" enabled="1" index="" image="">
+    <description>Beverly Hills Cop</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Tynesoft Computer Software</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Beyond the Ice Palace (Europe)" enabled="1" index="" image="">
+    <description>Beyond the Ice Palace</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Elite Systems Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Scrolling Screen)</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Biff (Europe)" enabled="1" index="" image="">
+    <description>Biff</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Beyond Belief Software</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1992</year>
+    <rating />
+  </game>
+  <game name="Big Sleaze, The (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Big Sleaze, The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Piranha</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Big Trouble in Little China (Europe)" enabled="1" index="" image="">
+    <description>Big Trouble in Little China</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Electric Dreams Software</manufacturer>
+    <genre>Arcade - Beat'em Up</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Bigfoot (Europe)" enabled="1" index="" image="">
+    <description>Bigfoot</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Biggles (Europe)" enabled="1" index="" image="">
+    <description>Biggles</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mirrorsoft Ltd.</manufacturer>
+    <genre>Shoot'em Up - Multi-Event</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bigtop Barney (Europe)" enabled="1" index="" image="">
+    <description>Bigtop Barney</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Players</manufacturer>
+    <genre>Arcade - Avoid it</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Billy The Kid (Europe)" enabled="1" index="" image="">
+    <description>Billy The Kid </description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic</manufacturer>
+    <genre>Shooting</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Billy The Kid (Gunstick) (Europe)" enabled="1" index="" image="">
+    <description>Billy The Kid </description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic</manufacturer>
+    <genre>Shooting - LightGun</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Binky (Europe)" enabled="1" index="" image="">
+    <description>Binky</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Software Projects</manufacturer>
+    <genre>Arcade - Labyrinth/Maze</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Bio Spheres (Europe)" enabled="1" index="" image="">
+    <description>Bio Spheres</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Silverbird</manufacturer>
+    <genre>Arcade - Collect'em Up</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Bionic Commando (Europe)" enabled="1" index="" image="">
+    <description>Bionic Commando</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Capcom Co. Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Bionic Ninja (Europe)" enabled="1" index="" image="">
+    <description>Bionic Ninja</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Zeppelin Games Ltd.</manufacturer>
+    <genre>Arcade - Run &amp; Gun</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Black Beard (Europe)" enabled="1" index="" image="">
+    <description>Black Beard</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Kixx</manufacturer>
+    <genre>Aracde Action</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Black Land (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Black Land</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Bollaware</manufacturer>
+    <genre>Adventure - RPG 3D</genre>
+    <year>1998</year>
+    <rating />
+  </game>
+  <game name="Black Tiger (Europe)" enabled="1" index="" image="">
+    <description>Black Tiger</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Arcade - Platformer (Scrolling Screen)</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Blade Runner (Europe)" enabled="1" index="" image="">
+    <description>Blade Runner</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CRL Group</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Blade Warrior (Europe)" enabled="1" index="" image="">
+    <description>Blade Warrior</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Arcade - Beat'em Up</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Blagger (Europe) (Alligata Version)" enabled="1" index="" image="">
+    <description>Blagger</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Alligata Software Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Blasteroids (Europe)" enabled="1" index="" image="">
+    <description>Blasteroids</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mirrorsoft Ltd.</manufacturer>
+    <genre>Shoot'em Up - Single Screen</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Blazing Thunder (Europe)" enabled="1" index="" image="">
+    <description>Blazing Thunder</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Hi-Tech Software Ltd.</manufacturer>
+    <genre>Arcade - Commando</genre>
+    <year>1990</year>
+    <rating />
+  </game>
+  <game name="Blockbusters (Europe)" enabled="1" index="" image="">
+    <description>Blockbusters</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Domark Software Ltd.</manufacturer>
+    <genre>Brain - Quiz</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Blockbusters (Europe) - Macsen" enabled="1" index="" image="">
+    <description>Blockbusters</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Macsen Software</manufacturer>
+    <genre>Brain - Quiz</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Blockbusters and Gold Run (Europe)" enabled="1" index="" image="">
+    <description>Blockbusters and Gold Run</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Macsen Software</manufacturer>
+    <genre>Brain - Quiz</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Blood Brothers (Europe)" enabled="1" index="" image="">
+    <description>Blood Brothers</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Blood Valley (Europe)" enabled="1" index="" image="">
+    <description>Blood Valley</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Bloodwych (Europe)" enabled="1" index="" image="">
+    <description>Bloodwych</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Image Works</manufacturer>
+    <genre>Adventure - RPG 3D</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Blowaway Bob (PD) (Europe)" enabled="1" index="" image="">
+    <description>Blowaway Bob</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Electric Monk of TGS</manufacturer>
+    <genre>Brain - Puzzle</genre>
+    <year>1995</year>
+    <rating />
+  </game>
+  <game name="Blue Angel 69 (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Blue Angel 69</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Self Published</manufacturer>
+    <genre>Brain - Miscellaneous</genre>
+    <year>2010</year>
+    <rating />
+  </game>
+  <game name="Blues Brothers, The (Europe)" enabled="1" index="" image="">
+    <description>Blues Brothers , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Titus</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="BMX Freestyle (Europe)" enabled="1" index="" image="">
+    <description>BMX Freestyle</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Racing - Bicycle</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="BMX Kidz (Europe)" enabled="1" index="" image="">
+    <description>BMX Kidz</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Silverbird</manufacturer>
+    <genre>Racing - Bicycle</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="BMX Ninja (Europe)" enabled="1" index="" image="">
+    <description>BMX Ninja</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Alternative Software</manufacturer>
+    <genre>Fighting</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="BMX Simulator (Europe)" enabled="1" index="" image="">
+    <description>BMX Simulator</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Racing - Overhead</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="BMX Simulator 2 (Dirt Biking) (Europe)" enabled="1" index="" image="">
+    <description>BMX Simulator 2</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Racing - Overhead</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="BMX Simulator 2 (Quarry Racing) (Europe)" enabled="1" index="" image="">
+    <description>BMX Simulator 2</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Racing - Overhead</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Bobby Bearing (Europe)" enabled="1" index="" image="">
+    <description>Bobby Bearing</description>
+    <cloneof />
+    <crc />
+    <manufacturer>The Edge</manufacturer>
+    <genre>Arcade - Labyrinth/Maze</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bob's Full House (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Bob's Full House</description>
+    <cloneof />
+    <crc />
+    <manufacturer>TV Games</manufacturer>
+    <genre>Brain - Quiz</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Bobsleigh (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Bobsleigh</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Digital Integration Ltd.</manufacturer>
+    <genre>Sports - Bobsleigh</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Boggit, The (Europe)" enabled="1" index="" image="">
+    <description>Boggit , The</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CRL Group</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Boinggg ! (Europe)" enabled="1" index="" image="">
+    <description>Boinggg !</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Atlantis Software Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Bomb Fusion (Europe)" enabled="1" index="" image="">
+    <description>Bomb Fusion</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Arcade - Collect'em Up</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Bomb Jack (Europe)" enabled="1" index="" image="">
+    <description>Bomb Jack</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Elite Systems Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Single Screen)</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Bomb Jack II (Europe)" enabled="1" index="" image="">
+    <description>Bomb Jack II</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Elite Systems Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Single Screen)</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bombscare (Europe)" enabled="1" index="" image="">
+    <description>Bombscare</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Firebird</manufacturer>
+    <genre>Adventure - Arcade 3D</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bonanza Bros (Europe)" enabled="1" index="" image="">
+    <description>Bonanza Bros</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Arcade - Collect'em Up</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Bonzo Blitz (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Bonzo Blitz</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Nemesis Software</manufacturer>
+    <genre>Utilities - Disk</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Bonzo Super Meddler &amp; Hack Pack (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Bonzo Super Meddler &amp; Hack Pack</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Nemesis Software</manufacturer>
+    <genre>Utilities - Disk</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Book of the Dead (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Book of the Dead</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CRL Group</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Booly (Europe)" enabled="1" index="" image="">
+    <description>Booly</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Loriciels</manufacturer>
+    <genre>Arcade - Puzzle</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Booty (Europe)" enabled="1" index="" image="">
+    <description>Booty</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Firebird</manufacturer>
+    <genre>Arcade - Collect'em Up</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Bored of the Rings (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Bored of the Rings</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Silversoft Ltd.</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Bosconian 87 (Europe)" enabled="1" index="" image="">
+    <description>Bosconian 87</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Shoot'em Up - Multi-Scrolling</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Boulder Dash (Europe)" enabled="1" index="" image="">
+    <description>Boulder Dash</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mirrorsoft Ltd.</manufacturer>
+    <genre>Arcade - Puzzle</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Boulder Dash Construction Kit (Europe)" enabled="1" index="" image="">
+    <description>Boulder Dash Construction Kit</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Databyte</manufacturer>
+    <genre>Arcade - Boulder Dash</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Boulder Dash III (Europe)" enabled="1" index="" image="">
+    <description>Boulder Dash III</description>
+    <cloneof />
+    <crc />
+    <manufacturer>First Star Software</manufacturer>
+    <genre>Arcade - Collect'em Up</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bounder (Europe)" enabled="1" index="" image="">
+    <description>Bounder</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Gremlin Graphics Software Ltd.</manufacturer>
+    <genre>Arcade - Platformer (Scrolling Screen)</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Bounty Bob Strikes Back (Europe)" enabled="1" index="" image="">
+    <description>Bounty Bob Strikes Back</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Boxing Manager (Europe)" enabled="1" index="" image="">
+    <description>Boxing Manager</description>
+    <cloneof />
+    <crc />
+    <manufacturer>D &amp; H Games</manufacturer>
+    <genre>Sports - Boxing</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+  <game name="Boy Racer (Europe)" enabled="1" index="" image="">
+    <description>Boy Racer</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Alligata Software Ltd.</manufacturer>
+    <genre>Racing - Cars</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Brainache (Europe)" enabled="1" index="" image="">
+    <description>Brainache</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Arcade - Avoid it</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Brainstorm (Europe)" enabled="1" index="" image="">
+    <description>Brainstorm</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Firebird </manufacturer>
+    <genre>BreakOut</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Brainstorm (Europe) (Caxton) (Disk 1)" enabled="1" index="" image="">
+    <description>Brainstorm</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Caxton Software Ltd.</manufacturer>
+    <genre>Utilities - Multi Purpose</genre>
+    <year>1983</year>
+    <rating />
+  </game>
+  <game name="Bravestarr (Europe)" enabled="1" index="" image="">
+    <description>Bravestarr</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Braxx Bluff (Europe)" enabled="1" index="" image="">
+    <description>Braxx Bluff</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Breakthru (Europe)" enabled="1" index="" image="">
+    <description>Breakthru</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Shoot'em Up - H-Scrolling</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Brian Bloodaxe (Europe)" enabled="1" index="" image="">
+    <description>Brian Bloodaxe</description>
+    <cloneof />
+    <crc />
+    <manufacturer>The Edge</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Brian Clough's Football Fortunes (Europe)" enabled="1" index="" image="">
+    <description>Brian Clough's Football Fortunes</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CDS Software Ltd.</manufacturer>
+    <genre>Gambling - Board Game</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Brian Jacks Superstar Challenge (Europe)" enabled="1" index="" image="">
+    <description>Brian Jacks Superstar Challenge</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Martech Games Ltd.</manufacturer>
+    <genre>Sports - Multi-Event</genre>
+    <year>1985</year>
+    <rating />
+  </game>
+  <game name="Bridge (Europe)" enabled="1" index="" image="">
+    <description>Bridge</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Infogrames</manufacturer>
+    <genre>Gambling - Cards</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bridge Player 3 (Europe)" enabled="1" index="" image="">
+    <description>Bridge Player 3</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CP Software</manufacturer>
+    <genre>Gambling - Cards</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bridge-It (Europe)" enabled="1" index="" image="">
+    <description>Bridge-It</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Amsoft</manufacturer>
+    <genre>Arcade - Avoid it</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Bronx Street Cop (Europe)" enabled="1" index="" image="">
+    <description>Bronx Street Cop</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Shoot'em Up - Gallery</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Bronx Street Cop (Gunstick) (Europe)" enabled="1" index="" image="">
+    <description>Bronx Street Cop</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Gunstick</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Bruce Lee (Europe)" enabled="1" index="" image="">
+    <description>Bruce Lee</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Adventure - Arcade 2D</genre>
+    <year>1984</year>
+    <rating />
+  </game>
+  <game name="Brunword 6128 (Europe) (Disk 1)" enabled="1" index="" image="">
+    <description>Brunword 6128</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Brunning Software</manufacturer>
+    <genre>Utilities - Word Processor</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Brunword Elite (Europe)" enabled="1" index="" image="">
+    <description>Brunword Elite</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Brunning Software</manufacturer>
+    <genre>Utilities - Word Processor</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Bubble Bobble (Europe)" enabled="1" index="" image="">
+    <description>Bubble Bobble</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Firebird</manufacturer>
+    <genre>Arcade - Platformer (Single Screen)</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Bubble Dizzy (Europe)" enabled="1" index="" image="">
+    <description>Bubble Dizzy</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Codemasters</manufacturer>
+    <genre>Arcade - Platformer (Scrolling Screen)</genre>
+    <year>1991</year>
+    <rating />
+  </game>
+  <game name="Bubbler (Europe)" enabled="1" index="" image="">
+    <description>Bubbler</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Adventure - Arcade 3D</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Buffalo Bill's Rodeo Games (Europe)" enabled="1" index="" image="">
+    <description>Buffalo Bill's Rodeo Games</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Tynesoft Computer Software</manufacturer>
+    <genre>Arcade - Multi-Event</genre>
+    <year>1989</year>
+    <rating />
+  </game>
+  <game name="Buggy Boy (Europe)" enabled="1" index="" image="">
+    <description>Buggy Boy</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Elite Systems Ltd.</manufacturer>
+    <genre>Racing - Cars</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="Bugsy (Europe) (Tape 1 Side A)" enabled="1" index="" image="">
+    <description>Bugsy</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CRL Group</manufacturer>
+    <genre>Adventure - Graphic(Hi-Res)/Text</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bump Set Spike (Europe)" enabled="1" index="" image="">
+    <description>Bump Set Spike</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Mastertronic Ltd.</manufacturer>
+    <genre>Sports - Volleyball</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="Bumpy's Arcade Fantasy (Europe)" enabled="1" index="" image="">
+    <description>Bumpy's Arcade Fantasy</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Loriciels</manufacturer>
+    <genre>Arcade - Platformer (Multi Screen)</genre>
+    <year>1992</year>
+    <rating />
+  </game>
+  <game name="Bust Out (Europe)" enabled="1" index="" image="">
+    <description>Bust Out</description>
+    <cloneof />
+    <crc />
+    <manufacturer>CPC Schneider International</manufacturer>
+    <genre>Arcade - Breakout/Pong</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+  <game name="By Fair Means or Foul (Europe)" enabled="1" index="" image="">
+    <description>By Fair Means or Foul</description>
+    <cloneof />
+    <crc />
+    <manufacturer>Superior Software Ltd.</manufacturer>
+    <genre>Sports - Boxing</genre>
+    <year>1988</year>
+    <rating />
+  </game>
+</menu>

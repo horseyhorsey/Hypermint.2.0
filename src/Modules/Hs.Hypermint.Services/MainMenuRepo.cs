@@ -8,28 +8,27 @@ using System.Xml;
 namespace Hs.Hypermint.Services
 {
     public class MainMenuRepo : IMainMenuRepo
-    {
-        private Systems _systems;
+    {        
+        public Systems Systems { get; set; }
 
-        public Systems BuildMainMenuItems(string mainMenuXml, string iconsPath = "")
+        public void BuildMainMenuItems(string mainMenuXml, string iconsPath = "")
         {
             if (!File.Exists(mainMenuXml))
-                return null;
+                return;
 
-            _systems = new Systems();
+            Systems = new Systems();
             //Create a databaseMenu object to reference
             foreach (string system in GetSystems(mainMenuXml))
             {
                 if (iconsPath != string.Empty && Directory.Exists(iconsPath))
                 {
                     Uri iconImage = new Uri(Path.Combine(iconsPath, system + ".png"));
-                    _systems.Add(new MainMenu(system, iconImage));
+                    Systems.Add(new MainMenu(system, iconImage));
                 }
                 else
-                    _systems.Add(new MainMenu(system, 1));
+                    Systems.Add(new MainMenu(system, 1));
             }
-
-            return _systems;       
+     
         }
 
         private string[] GetSystems(string MainMenuXml)

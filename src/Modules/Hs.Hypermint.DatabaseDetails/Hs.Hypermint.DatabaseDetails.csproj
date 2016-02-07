@@ -142,6 +142,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
+      <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
+      <Name>Hs.Hypermint.Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
       <Project>{6108dda5-dda5-4254-b62d-6cdfb049fa8b}</Project>
       <Name>Hs.HyperSpin.Database</Name>

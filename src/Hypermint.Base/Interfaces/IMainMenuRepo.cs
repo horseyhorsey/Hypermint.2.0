@@ -6,6 +6,8 @@ namespace Hypermint.Base.Interfaces
     {
         string[] GetMainMenuDatabases(string MainMenuFolder);
 
-        Systems BuildMainMenuItems(string mainMenuXml, string iconsPath = "");
+        void BuildMainMenuItems(string mainMenuXml, string iconsPath = "");
+
+        Systems Systems { get; set; }
     }
 }

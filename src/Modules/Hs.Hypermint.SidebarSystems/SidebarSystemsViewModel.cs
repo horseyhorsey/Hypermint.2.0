@@ -1,6 +1,13 @@
 ﻿using Hypermint.Base.Base;
 using System.Collections.ObjectModel;
 using Hypermint.Base.Interfaces;
+using System.IO;
+using Hypermint.Base.Constants;
+using System.Windows.Data;
+using System.ComponentModel;
+using System.Collections.Generic;
+using Prism.Events;
+using Hypermint.Base;
 
 namespace Hs.Hypermint.SidebarSystems
 {
@@ -20,25 +27,64 @@ namespace Hs.Hypermint.SidebarSystems
             get { return "Systems: "; }
             set { SetProperty(ref _systemTitleCount, value); }
         }
-
-        public ObservableCollection<string> MainMenuDatabases { get; set; }
-
-        IMainMenuRepo _mainMenuRepo;
         
+        public ICollectionView MainMenuDatabases { get; private set; }
+
+        private IEventAggregator _eventAggregator;
+
+        public string SelectedMainMenu { get; set; }
         #endregion
 
-        public SidebarSystemsViewModel( IMainMenuRepo main)
-        {
-            _mainMenuRepo = main;
-            
+        #region Service Repos
+            IMainMenuRepo _mainMenuRepo;
+            ISettingsRepo _settingsRepo;
+        #endregion
 
-            MainMenuDatabases = new ObservableCollection<string>();
-            foreach (var item in _mainMenuRepo.GetMainMenuDatabases(@"I:\HyperSpin\Databases\Main Menu\"))
+        public SidebarSystemsViewModel(IEventAggregator eventAggregator, IMainMenuRepo main, ISettingsRepo settings)
+        {
+            _mainMenuRepo = main;            
+            _settingsRepo = settings;
+            _settingsRepo.LoadHypermintSettings();
+            _eventAggregator = eventAggregator; 
+
+            //SelectedMainMenu
+            var mainMenuDatabasePath = Path.Combine(    
+                _settingsRepo.HypermintSettings.HsPath,
+                Root.Databases, @"Main Menu");
+
+            var databases = new List<string>();
+
+            if (Directory.Exists(mainMenuDatabasePath))
             {
-                MainMenuDatabases.Add(item);
+                foreach (var item in _mainMenuRepo.GetMainMenuDatabases(mainMenuDatabasePath))
+                {
+                    databases.Add(item);
+                }
+
+                if (databases.Count != 0)
+                {
+                    SelectedMainMenu = "Main Menu";
+
+                    MainMenuDatabases = new ListCollectionView(databases);
+
+                    MainMenuDatabases.CurrentChanged += MainMenuDatabases_CurrentChanged;
+
+                }
             }
+
         }
 
+        private void MainMenuDatabases_CurrentChanged(object sender, System.EventArgs e)
+        {
+            var mainMenuXml = Path.Combine(
+                _settingsRepo.HypermintSettings.HsPath,
+                Root.Databases,
+                @"Main Menu\", SelectedMainMenu + ".xml");
 
+               _mainMenuRepo.BuildMainMenuItems(mainMenuXml);
+
+               _eventAggregator.GetEvent<MainMenuSelectedEvent>().Publish(mainMenuXml);
+
+        }
     }
 }

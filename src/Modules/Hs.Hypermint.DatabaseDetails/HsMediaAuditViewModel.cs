@@ -34,7 +34,7 @@ namespace Hs.Hypermint.DatabaseDetails
             _eventAggregator = eventAggregator;
             _gameRepo = gameRepo;
        
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
+            _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateGames);
 
         }
 

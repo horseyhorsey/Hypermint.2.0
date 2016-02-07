@@ -32,16 +32,16 @@ namespace Hypermint.Shell.ViewModels
         #endregion
 
         #region Ctors
-        public SettingsFlyoutViewModel(ISettingsRepo settings, IFindDirectoryService findDir)
+        public SettingsFlyoutViewModel( IFindDirectoryService findDir, ISettingsRepo settings)
         {
            // if (settings == null) throw new ArgumentNullException("settings");
             //_eventAggregator = eventAggregator;     
             _hyperMintSettings = settings;
+            
             _findDirectoryService = findDir;
-            HyperMintSettings = new Setting();
-
+            
             //Loading this through other module. 
-            //getSavedHypermintSettings();
+            getSavedHypermintSettings();
 
             HyperMintSettings = _hyperMintSettings.HypermintSettings;
 

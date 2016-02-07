@@ -38,9 +38,9 @@ namespace Hypermint.Shell
         {
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.Services.ServicesModule));            
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.DatabaseDetails.ModuleInit));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.Services.ServicesModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.SidebarSystems.SidebarSystemsModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.DatabaseDetails.ModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.FilesViewer.FilesViewModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.WheelCreator.WheelModuleInit));
 

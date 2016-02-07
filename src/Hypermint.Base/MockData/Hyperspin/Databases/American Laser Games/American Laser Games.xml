@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+    <header>
+        <listname>American Laser Games</listname>
+        <lastlistupdate>15/04/2012</lastlistupdate>
+        <listversion>1.0 Final</listversion>
+        <exporterversion>HyperSpin XML Bidouilleur 0.2</exporterversion>
+    </header>
+    <game name="crimepatrol" index="" image="c">
+        <description>Crime Patrol</description>
+        <cloneof></cloneof>
+        <crc></crc>
+        <manufacturer>American Laser Games</manufacturer>
+        <year>1993</year>
+        <genre>Gun</genre>
+        <rating>AAMA - Red (Life Like Violence Strong)</rating>
+        <enabled>Yes</enabled>
+    </game>
+    <game name="drugwars" index="" image="d">
+        <description>Crime Patrol 2: Drug Wars</description>
+        <cloneof></cloneof>
+        <crc></crc>
+        <manufacturer>American Laser Games</manufacturer>
+        <year>1993</year>
+        <genre>Gun</genre>
+        <rating>AAMA - Red (Life Like Violence Strong)</rating>
+        <enabled>Yes</enabled>
+    </game>
+    <game name="johnnyrock" index="" image="j">
+        <description>Who Shot Johnny Rock?</description>
+        <cloneof></cloneof>
+        <crc></crc>
+        <manufacturer>American Laser Games</manufacturer>
+        <year>1991</year>
+        <genre>Gun</genre>
+        <rating>AAMA - Red (Life Like Violence Strong)</rating>
+        <enabled>Yes</enabled>
+    </game>
+    <game name="lbh" index="" image="l">
+        <description>The Last Bounty Hunter</description>
+        <cloneof></cloneof>
+        <crc></crc>
+        <manufacturer>American Laser Games</manufacturer>
+        <year>1994</year>
+        <genre>Gun</genre>
+        <rating>AAMA - Red (Life Like Violence Strong)</rating>
+        <enabled>Yes</enabled>
+    </game>
+    <game name="maddog" index="" image="m">
+        <description>Mad Dog McCree</description>
+        <cloneof></cloneof>
+        <crc></crc>
+        <manufacturer>American Laser Games</manufacturer>
+        <year>1990</year>
+        <genre>Gun</genre>
+        <rating>AAMA - Red (Life Like Violence Strong)</rating>
+        <enabled>Yes</enabled>
+    </game>
+    <game name="maddog2" index="" image="">
+        <description>Mad Dog McCree II: The Lost Gold</description>
+        <cloneof></cloneof>
+        <crc></crc>
+        <manufacturer>American Laser Games</manufacturer>
+        <year>1992</year>
+        <genre>Gun</genre>
+        <rating>AAMA - Red (Life Like Violence Strong)</rating>
+        <enabled>Yes</enabled>
+    </game>
+    <game name="spacepirates" index="" image="s">
+        <description>Space Pirates</description>
+        <cloneof></cloneof>
+        <crc></crc>
+        <manufacturer>American Laser Games</manufacturer>
+        <year>1992</year>
+        <genre>Gun</genre>
+        <rating>AAMA - Red (Life Like Violence Strong)</rating>
+        <enabled>Yes</enabled>
+    </game>
+</menu>
