@@ -15,12 +15,12 @@ namespace Hs.Hypermint.NavBar
         {
             _regionManager = manager;
             //RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.MediaPaneView));
-            RegionManager.RegisterViewWithRegion(RegionNames.ToolBarRegion, typeof(Views.NavBarView));
+            
         }
 
         public override void Initialize()
         {
-
+            RegionManager.RegisterViewWithRegion(RegionNames.ToolBarRegion, typeof(Views.NavBarView));
         }
     }
 }

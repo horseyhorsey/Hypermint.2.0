@@ -1,33 +1,30 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Base;
+using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 
-namespace Hs.Hypermint.DatabaseDetails
+namespace Hs.Hypermint.NavBar.ViewModels
 {
     public class NavBarViewModel : ViewModelBase
-    {
-        private string message = "Test Message";
-        private IEventAggregator _eventAggregator;
+    {                
+        private IRegionManager _regionManager;
 
-        public string Message
+        /// <summary>
+        /// Navigate command for the navbar
+        /// </summary>
+        public DelegateCommand<string> NavigateCommand { get; set; }
+
+        public NavBarViewModel(IRegionManager manager)
         {
-            get { return message; }
-            set {
-                 SetProperty(ref message, value);
-            }
+            _regionManager = manager;
+
+            NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
-        public NavBarViewModel(IEventAggregator eventAggregator)
-        {           
-            _eventAggregator = eventAggregator;
-
-            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMessage);
-            //this._eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.Description);
-        }
-
-        private void SetMessage(string obj)
+        private void Navigate(string uri)
         {
-            Message = obj;
+            _regionManager.RequestNavigate("ContentRegion",uri);
         }
     }
 }

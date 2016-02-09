@@ -214,6 +214,10 @@
       <Project>{ab8b448c-dd74-4d60-a041-3e5d03a32180}</Project>
       <Name>Hs.Hypermint.MediaPane</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.MultiSystem\Hs.Hypermint.MultiSystem.csproj">
+      <Project>{d3212775-3e4a-4a36-a31d-26c3c6d1ba91}</Project>
+      <Name>Hs.Hypermint.MultiSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.NavBar\Hs.Hypermint.NavBar.csproj">
       <Project>{06f98afb-d675-479d-9608-97c287bb1317}</Project>
       <Name>Hs.Hypermint.NavBar</Name>

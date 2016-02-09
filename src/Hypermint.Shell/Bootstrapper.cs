@@ -9,6 +9,8 @@ using Hypermint.Base.Services;
 using Hypermint.Base.Constants;
 using Hs.Hypermint.Services;
 using Hypermint.Shell.Views;
+using Hs.Hypermint.MultiSystem.Views;
+using Hs.Hypermint.DatabaseDetails;
 
 namespace Hypermint.Shell
 {
@@ -42,6 +44,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.SidebarSystems.SidebarSystemsModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.DatabaseDetails.ModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.NavBar.NavBarModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.MultiSystem.MultiSystemModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.FilesViewer.FilesViewModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.WheelCreator.WheelModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MediaPane.MediaPaneModule));
@@ -57,8 +60,10 @@ namespace Hypermint.Shell
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
             Container.RegisterInstance<IFindDirectoryService>(Container.Resolve<FindDirectoryService>());
-            
 
+            Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
+            Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
+            
         }
 
     }

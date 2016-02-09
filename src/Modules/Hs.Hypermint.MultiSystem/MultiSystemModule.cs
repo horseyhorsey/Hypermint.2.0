@@ -13,13 +13,14 @@ namespace Hs.Hypermint.MultiSystem
         public MultiSystemModule(IUnityContainer container, IRegionManager manager)
             : base(container, manager)
         {
-            _regionManager = manager;
-            //RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.MediaPaneView));
+           _regionManager = manager;
+            
+
         }
 
         public override void Initialize()
-        {
-            
+        {            
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.MultiSystemView));
         }
     }
 }

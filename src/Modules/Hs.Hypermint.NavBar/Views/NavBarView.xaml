@@ -2,10 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">
 
     <GroupBox Header="Views" Height="Auto">
@@ -14,6 +14,7 @@
         
         <!--Database Editor View Btton-->
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
                 ToolTip="Database Editor" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
             <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -51,7 +52,7 @@
             </Button>
 
             <!--MultiSystem-->
-            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView"
                 ToolTip="Multi system." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
                 <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>

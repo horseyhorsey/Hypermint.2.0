@@ -2,8 +2,70 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    
     <Grid>
-        <TextBlock Text="This is some test text"></TextBlock>
+
+        <!--ItemsSource="{Binding m_System}"
+        Binding="{Binding RomName}
+        Binding="{Binding Genre}"
+        Binding="{Binding Year}"
+         Binding="{Binding System}"-->
+        
+        <DataGrid CanUserAddRows="False" AutoGenerateColumns="False"  Margin="10,42,10,60">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="X">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button  Content="X"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Rom"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Genre"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Year"></DataGridTextColumn>
+                    <DataGridTextColumn Header="System"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap"
+                   Text="Multi-System Name" Height="16" VerticalAlignment="Top"/>
+        
+        <Button Content="Build-XML" HorizontalAlignment="Left"
+                Margin="617,0,0,5" Width="76" Height="25" VerticalAlignment="Bottom"/>
+
+        <TextBox metro:TextBoxHelper.ClearTextButton="True" 
+                 ToolTip="Specify name for multi system" metro:TextBoxHelper.Watermark="Filter System"
+                 Margin="126,6,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" 
+                 Width="206" Height="26" VerticalAlignment="Top"/>
+
+        <Button  Content="+ Faves" ToolTip="Scan all favorites.txt and build one list."
+                 HorizontalAlignment="Left" Margin="351,6,0,0" VerticalAlignment="Top" Width="76" />
+        <Button  Content="Clear" ToolTip="Clear this preperation list" 
+                 HorizontalAlignment="Left" Margin="432,6,0,0" VerticalAlignment="Top" Width="76" />
+
+        <TextBlock HorizontalAlignment="Left" Margin="10,0,0,39" TextWrapping="Wrap" 
+                   Text="Default HS Settings" VerticalAlignment="Bottom"/>
+        
+        <TextBox metro:TextBoxHelper.Watermark="Choose settings file" 
+                 ToolTip="Pick an existing settings file for template for this system" 
+                 Height="26" Margin="10,0,0,5" TextWrapping="Wrap" 
+                 VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="278"/>
+        <Button Content="..." ToolTip="Pick an existing settings file for template for this system"
+                HorizontalAlignment="Left" Margin="293,0,0,6" VerticalAlignment="Bottom"
+                Width="30"/>
+        <CheckBox Content="Use default theme"
+                  Margin="468,0,0,6" ToolTip="Make links to the current systems default.zip theme/nif game theme doesn't exist" 
+                  VerticalAlignment="Bottom" HorizontalAlignment="Left" 
+                  Width="129" IsChecked="True"/>
+        <CheckBox Content="Rom Map" Margin="468,0,0,29" 
+                  ToolTip="Creates a Games.ini for Rocketlauncher rom mapping" VerticalAlignment="Bottom"
+                  HorizontalAlignment="Left" Width="129" IsChecked="True"/>
+        <CheckBox Content="Create links" ToolTip="Don't create symbolic links for media." 
+                  Margin="334,0,0,6" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="129"/>
+        <CheckBox Content="Genre lists" Margin="334,0,0,29" 
+                  ToolTip="Create genre lists for this system." VerticalAlignment="Bottom" 
+                  HorizontalAlignment="Left" Width="129" IsChecked="True"/>
     </Grid>
 </UserControl>
