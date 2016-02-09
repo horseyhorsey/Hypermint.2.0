@@ -6,22 +6,90 @@
              xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             mc:Ignorable="d" 
-             d:DesignHeight="80" d:DesignWidth="600">
-    <Grid>
-        <DockPanel>
-            <TextBlock Width="150" Text="{Binding Message}"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
+             mc:Ignorable="d">
+
+    <GroupBox Header="Views" Height="Auto">
+    <DockPanel >
+        <!--<TextBlock Width="150" Height="30" Text="{Binding Message}"/>-->
+        
+        <!--Database Editor View Btton-->
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                ToolTip="Database Editor" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_social_stackoverflow}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                ToolTip="Hyperspin audit." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_list_gear}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                ToolTip="RocketLaunch audit." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_list_gear}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+        
+        <!--Wheel Creator-->
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                ToolTip="Simple wheel." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_bike}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <!--MultiSystem-->
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                ToolTip="Multi system." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <!--System Intros-->
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                ToolTip="System video intros" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_movie_clapper}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <!--Search-->
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                ToolTip="Web Search" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="25" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_browser}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <!--Rocketlaunch Stats-->
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                ToolTip="RocketLaunch Stats" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="25" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_leaderboard}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
         </DockPanel>
-    </Grid>
+    </GroupBox>
 </UserControl>

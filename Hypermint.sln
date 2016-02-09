@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.FilesViewer", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Settings", "src\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj", "{D814D158-E6AE-4369-B1B0-185A6E08339D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.MediaPane", "src\Modules\Hs.Hypermint.MediaPane\Hs.Hypermint.MediaPane.csproj", "{AB8B448C-DD74-4D60-A041-3E5D03A32180}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{D814D158-E6AE-4369-B1B0-185A6E08339D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D814D158-E6AE-4369-B1B0-185A6E08339D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D814D158-E6AE-4369-B1B0-185A6E08339D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB8B448C-DD74-4D60-A041-3E5D03A32180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8B448C-DD74-4D60-A041-3E5D03A32180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8B448C-DD74-4D60-A041-3E5D03A32180}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8B448C-DD74-4D60-A041-3E5D03A32180}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,5 +115,6 @@ Global
 		{9E73405F-C1CE-4936-9C27-02C8053677EC} = {BEA36734-9F9E-40BE-92D0-E2F6F3B1A6CE}
 		{8A62E2D1-32E9-4FEE-9781-D397B73C80C4} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{D814D158-E6AE-4369-B1B0-185A6E08339D} = {93FF07FF-821C-48FF-AC5F-EB934D6B0A6B}
+		{AB8B448C-DD74-4D60-A041-3E5D03A32180} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 	EndGlobalSection
 EndGlobal

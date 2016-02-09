@@ -9,36 +9,31 @@
              prism:ViewModelLocator.AutoWireViewModel="True"  
              xmlns:sss="clr-namespace:Hs.Hypermint.DatabaseDetails"
              mc:Ignorable="d" >
-    <GroupBox Header="Database Options">
-        <TabControl >
-            <TabItem Header="Database">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30*"></RowDefinition>
-                        <RowDefinition Height="42"></RowDefinition>
-                    </Grid.RowDefinitions>
+    <GroupBox Header="Database editor">
+        <Grid>
 
-                    <DockPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Height="42">
-                        <local:FilterControl></local:FilterControl>
-                        <local:EditDatabaseControls></local:EditDatabaseControls>
-                    </DockPanel>
+            <DockPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Height="42">
+                <local:FilterControl></local:FilterControl>
+                <local:EditDatabaseControls></local:EditDatabaseControls>
+            </DockPanel>
 
-                    <DataGrid BorderThickness="5" ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" CanUserAddRows="True"  Grid.Row="0"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                            <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}"/>
-                            <DataGridTextColumn Header="Year" Binding="{Binding Year}"/>
-                            <DataGridTextColumn Header="Genre" Binding="{Binding Genre}"/>
-                            <DataGridTextColumn Header="CloneOf" Binding="{Binding CloneOf}"/>
-                            <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" />
-                            <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled}"/>
-                            <DataGridTextColumn Header="Crc" Binding="{Binding Crc}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Audit Hyperspin">
+            <DataGrid BorderThickness="5" ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" 
+                      CanUserAddRows="True" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}"/>
+                    <DataGridTextColumn Header="Year" Binding="{Binding Year}"/>
+                    <DataGridTextColumn Header="Genre" Binding="{Binding Genre}"/>
+                    <DataGridTextColumn Header="CloneOf" Binding="{Binding CloneOf}"/>
+                    <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" />
+                    <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled}"/>
+                    <DataGridTextColumn Header="Crc" Binding="{Binding Crc}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        
+            <!--<TabItem Header="Audit Hyperspin">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30*"></RowDefinition>
@@ -51,8 +46,7 @@
 
                     <sss:HsMediaAuditView Grid.Row="0" ></sss:HsMediaAuditView>
                 </Grid>
-            </TabItem>
-
-        </TabControl>
+            </TabItem>-->
+        
     </GroupBox>
 </UserControl>

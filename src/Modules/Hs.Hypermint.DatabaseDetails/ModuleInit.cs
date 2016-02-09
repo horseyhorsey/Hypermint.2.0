@@ -17,11 +17,14 @@ namespace Hs.Hypermint.DatabaseDetails
 
         public override void Initialize()
         {
-            UnityContainer.RegisterType<IGameRepo, GameRepo>();            
+            UnityContainer.RegisterType<IGameRepo, GameRepo>();
+
+            RegionManager.RegisterViewWithRegion(RegionNames.ToolBarRegion, typeof(DbToolbarView));
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DatabaseDetailsView));
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(HsMediaAuditView));
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DbToolbarView));
-            RegionManager.RegisterViewWithRegion(RegionNames.ToolBarRegion, typeof(DbToolbarView));
+            
+            //RegionManager.RegisterViewWithRegion(RegionNames.ToolBarRegion, typeof(Controls.FilterControl));
+            
         }
 
     }

@@ -6,11 +6,10 @@
              xmlns:local="clr-namespace:Hs.Hypermint.SidebarSystems"
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com/"
-            prism:ViewModelLocator.AutoWireViewModel="True"   
-             d:DesignHeight="300" d:DesignWidth="300">
-    
-    <ListBox Grid.Row="2" Height="760"                
-                   BorderThickness="0" HorizontalAlignment="Left" ItemsSource="{Binding SystemItems}" 
+            prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <ListBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="700"        
+                   BorderThickness="0" ItemsSource="{Binding SystemItems}" 
                        SelectionMode="Single">
         <ListBox.ItemTemplate>
             <DataTemplate>
@@ -21,5 +20,4 @@
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>
-    
 </UserControl>

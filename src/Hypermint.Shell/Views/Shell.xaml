@@ -33,56 +33,70 @@
 
     <metro:MetroContentControl>
 
-    <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="36*"/>
-            <RowDefinition Height="71*"/>
-            <RowDefinition Height="383*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="204*"/>
-            <RowDefinition Height="24*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36*"/>
+                <RowDefinition Height="71*"/>
+                <RowDefinition Height="383*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="204*"/>
+                <RowDefinition Height="30*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <!--<DockPanel Grid.Column="1" >
+            <!--<DockPanel Grid.Column="1" >
             <Button Content="Audit" Command="{Binding NavigateCommand}" CommandParameter="HsMediaAuditView"
             Width="100" HorizontalAlignment="Left"></Button>
             <Button Content="Database" Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
              Width="100" HorizontalAlignment="Left"></Button>
         </DockPanel>-->
 
-        <!--SystemsSidebarRegion-->
-        <ItemsControl Grid.RowSpan="5" prism:RegionManager.RegionName="SidebarRegion"/>
+            <!--SystemsSidebarRegion-->
+            <DockPanel Grid.RowSpan="5" >
+                <ItemsControl prism:RegionManager.RegionName="SidebarRegion"/>
+            </DockPanel>
+            
+            <DockPanel Grid.Column="1" Grid.RowSpan="3">
+                <ItemsControl DockPanel.Dock="Top"  prism:RegionManager.RegionName="ToolBarRegion"/>
+                <!--Main Content view - ContentRegion-->
+                <ContentControl Background="{DynamicResource AccentColorBrush}"
+                prism:RegionManager.RegionName="ContentRegion" />
+            </DockPanel>
+
+            <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
+            x:Name="ViewerGrid" Grid.Row="4" Grid.RowSpan="1" 
+            Margin="5,0" Grid.Column="1" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="223*"/>
+                    <ColumnDefinition Width="175*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <ItemsControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
+                </StackPanel>
+
+                <!--Media Pane-->
+                <ContentControl Grid.Column="1" Grid.Row="4"
+                        Background="{DynamicResource AccentColorBrush}" 
+                        prism:RegionManager.RegionName="MediaPaneRegion"/>
+
+                <GridSplitter  ResizeDirection="Columns" HorizontalAlignment="Left" Width="6" Grid.Column="1"/>
 
 
-        <ContentControl Grid.Column="1" Grid.RowSpan="3" Background="{DynamicResource AccentColorBrush}"
-            prism:RegionManager.RegionName="ContentRegion" 
-            />
+            </Grid>
 
 
-        <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
-              x:Name="ViewerGrid" Grid.Row="4" Grid.RowSpan="1" 
-              Margin="5,0" Grid.Column="1" VerticalAlignment="Stretch">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="223*"/>
-                <ColumnDefinition Width="175*"/>
-            </Grid.ColumnDefinitions>
-            <Rectangle Fill="{DynamicResource AccentColorBrush}" Grid.Column="1" Margin="11,5,5,5"/>
-            <StackPanel>
-                <ItemsControl Grid.Column="0" Grid.Row="1" prism:RegionManager.RegionName="ToolBarRegion" VerticalAlignment="Top"/>
-                <ItemsControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
-            </StackPanel>
-            <GridSplitter  ResizeDirection="Columns" HorizontalAlignment="Left" Width="6" Grid.Column="1"/>
+            <GridSplitter Grid.Column="1" Grid.Row="3" ResizeDirection="Rows" Cursor="SizeNS" HorizontalAlignment="Stretch" Margin="5,0,5,0"/>
+
+
+            <StatusBar  Grid.Row="5" Margin="2" Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentColorBrush}"
+                   BorderThickness="2">
+                <StatusBarItem >Status</StatusBarItem>
+            </StatusBar>
 
         </Grid>
-        <GridSplitter Grid.Column="1" Grid.Row="3" ResizeDirection="Rows" Cursor="SizeNS" HorizontalAlignment="Stretch" Margin="5,0,5,0"/>
-        <StatusBar Grid.Row="5" Grid.ColumnSpan="2" BorderBrush="Aqua" BorderThickness="3">
-            <StatusBarItem>Status</StatusBarItem>
-        </StatusBar>
-
-    </Grid>
     </metro:MetroContentControl>
 </metro:MetroWindow>

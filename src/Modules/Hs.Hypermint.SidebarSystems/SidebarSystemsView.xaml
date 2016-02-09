@@ -1,23 +1,31 @@
-﻿<StackPanel Orientation="Vertical" x:Class="Hs.Hypermint.SidebarSystems.SidebarSystemsView"
+﻿<UserControl x:Class="Hs.Hypermint.SidebarSystems.SidebarSystemsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                      xmlns:prism="http://prismlibrary.com/"
             prism:ViewModelLocator.AutoWireViewModel="True"          
-             mc:Ignorable="d"
-            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-    
-        <Image  Source="Resources/sysLogo.png"></Image>
-    <GroupBox Header="Main Menus" Grid.Row="1">
-        <ComboBox ItemsSource="{Binding MainMenuDatabases}" SelectedItem="{Binding SelectedMainMenu}"></ComboBox>
-    </GroupBox>
-    <GroupBox Header="Systems" Grid.Row="1">
-        <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <ContentControl Grid.Row="1" Background="{DynamicResource AccentColorBrush}"
-                      prism:RegionManager.RegionName ="SystemsRegion" 
-                      />
-        </ScrollViewer>
-    </GroupBox>
-    
-</StackPanel>
+             mc:Ignorable="d">
+
+    <DockPanel VerticalAlignment="Stretch">
+            <!--<Image  Source="Resources/sysLogo.png"></Image>-->
+            <GroupBox Header="Main Menus" Grid.Row="1" DockPanel.Dock="Top">
+                <ComboBox ItemsSource="{Binding MainMenuDatabases}" SelectedItem="{Binding SelectedMainMenu}"></ComboBox>
+            </GroupBox>
+
+            <GroupBox Header="Filter" DockPanel.Dock="Top">
+                <TextBox></TextBox>
+            </GroupBox>
+
+            <GroupBox Header="Systems" DockPanel.Dock="Top">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ContentControl  Background="{DynamicResource AccentColorBrush}"
+                        prism:RegionManager.RegionName ="SystemsRegion" />
+                </ScrollViewer>
+            </GroupBox>
+        </DockPanel>
+
+</UserControl>
+
+
+

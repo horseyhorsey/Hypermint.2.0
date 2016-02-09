@@ -43,6 +43,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.DatabaseDetails.ModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.FilesViewer.FilesViewModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.WheelCreator.WheelModuleInit));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.MediaPane.MediaPaneModule));
 
         }
 

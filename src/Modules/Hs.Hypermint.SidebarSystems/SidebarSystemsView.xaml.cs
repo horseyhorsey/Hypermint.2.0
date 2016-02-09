@@ -18,7 +18,7 @@ namespace Hs.Hypermint.SidebarSystems
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class SidebarSystemsView : StackPanel
+    public partial class SidebarSystemsView : UserControl
     {
         public SidebarSystemsView()
         {

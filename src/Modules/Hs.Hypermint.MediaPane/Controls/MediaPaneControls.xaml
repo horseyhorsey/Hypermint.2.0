@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Hs.Hypermint.MediaPane.Controls.MediaPaneControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <GroupBox Header="Options">
+    
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                Width="289" Height="38" Grid.Column="1" Margin="8,0,0,0">
+
+        <Button Margin="0,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="30" 
+                ToolTip="Convert this text to PDF" IsEnabled="False">
+            <Button.OpacityMask >
+                <VisualBrush Visual="{StaticResource appbar_paper}" />
+            </Button.OpacityMask>
+        </Button>
+        
+        <Button Margin="5,2,0,0" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" 
+                ToolTip="Convert this pdf to images" IsEnabled="False">
+            <Button.OpacityMask >
+                <VisualBrush Visual="{StaticResource appbar_adobe_acrobat}" />
+            </Button.OpacityMask>
+        </Button>
+        
+        <Button Margin="5,5,0,0" HorizontalAlignment="Left" Width="27" Height="30" 
+                VerticalAlignment="Top" ToolTip="Open with external text editor" IsEnabled="False">
+            <Button.OpacityMask >
+                <VisualBrush Visual="{StaticResource appbar_draw_brush}" />
+            </Button.OpacityMask>
+        </Button>
+        
+        <Button Margin="5,2,0,0" Background="Red" HorizontalAlignment="Left" Width="31" Height="30" 
+                VerticalAlignment="Top" ToolTip="Cancel scanning" IsEnabled="False">
+            <Button.OpacityMask >
+                <VisualBrush Visual="{StaticResource appbar_cancel}" />
+            </Button.OpacityMask>
+        </Button>
+        
+    </StackPanel>
+    </GroupBox>
+</UserControl>

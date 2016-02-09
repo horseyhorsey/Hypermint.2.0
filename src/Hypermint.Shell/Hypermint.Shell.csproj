@@ -210,6 +210,10 @@
       <Project>{8a62e2d1-32e9-4fee-9781-d397b73c80c4}</Project>
       <Name>Hs.Hypermint.FilesViewer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.MediaPane\Hs.Hypermint.MediaPane.csproj">
+      <Project>{ab8b448c-dd74-4d60-a041-3e5d03a32180}</Project>
+      <Name>Hs.Hypermint.MediaPane</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
       <Project>{7c5872ea-a3bd-4bfa-911c-0a9b62f2f11f}</Project>
       <Name>Hs.Hypermint.Services</Name>
