@@ -35,40 +35,36 @@ namespace Hs.Hypermint.SidebarSystems
             // Setup the main menu database to read in all systems
 
             var mainMenuXml  = "";
-            try
-            {
-                mainMenuXml = Path.Combine(
+
+            mainMenuXml = Path.Combine(
                     _settingsRepo.HypermintSettings.HsPath,Root.Databases,
                     @"Main Menu\Main Menu.xml");
-            }
-            catch (System.Exception)
-            {
-
-            }
 
             if (File.Exists(mainMenuXml))
             {
                 _mainMenuRepo.BuildMainMenuItems(mainMenuXml, _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\");
                 SystemItems = new ListCollectionView(_mainMenuRepo.Systems);
-                
+                SystemItems.CurrentChanged += SystemItems_CurrentChanged;
             }
             else
                 SystemItems = null;
 
             _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
-            SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+            
 
         }
 
         private void UpdateSystems(string mainMenuXml)
-        {            
-            _mainMenuRepo.BuildMainMenuItems(mainMenuXml, _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\");
-            SystemItems = new ListCollectionView(_mainMenuRepo.Systems);
+        {
+            if (File.Exists(mainMenuXml))
+            {
+                _mainMenuRepo.BuildMainMenuItems(mainMenuXml, _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\");
+                SystemItems = new ListCollectionView(_mainMenuRepo.Systems);
 
-            //Subscribe here again?? 
-            //##    Existing unsubscribes when the system list is changed.
-            SystemItems.CurrentChanged += SystemItems_CurrentChanged;
-
+                //Subscribe here again?? 
+                //##    Existing unsubscribes when the system list is changed.
+                SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+            }
         }
 
         private void SystemItems_CurrentChanged(object sender, System.EventArgs e)

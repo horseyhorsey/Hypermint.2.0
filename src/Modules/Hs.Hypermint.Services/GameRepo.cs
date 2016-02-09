@@ -2,6 +2,7 @@
 using System;
 using Hs.HyperSpin.Database;
 using System.Xml;
+using System.IO;
 
 namespace Hs.Hypermint.Services
 {
@@ -19,7 +20,7 @@ namespace Hs.Hypermint.Services
         /// <param name="systemName"></param>
         public void GetGames(string systemXml, string systemName = "Main Menu")
         {
-            //if (_games != null) return null;
+            if (!File.Exists(systemXml)) return;
 
             GamesList = new Games();
             XmlDocument xdoc = new XmlDocument();

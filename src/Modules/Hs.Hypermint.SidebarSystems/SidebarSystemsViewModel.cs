@@ -68,7 +68,6 @@ namespace Hs.Hypermint.SidebarSystems
                     MainMenuDatabases = new ListCollectionView(databases);
 
                     MainMenuDatabases.CurrentChanged += MainMenuDatabases_CurrentChanged;
-
                 }
             }
 

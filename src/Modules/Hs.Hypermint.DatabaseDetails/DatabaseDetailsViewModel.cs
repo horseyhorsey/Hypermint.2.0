@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using Prism.Events;
 using Hypermint.Base;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Hs.Hypermint.DatabaseDetails
 {
@@ -38,17 +39,29 @@ namespace Hs.Hypermint.DatabaseDetails
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;
 
-            _gameRepo.GetGames( _settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
-                        
-            GamesList = new ListCollectionView(_gameRepo.GamesList);
+            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+                {
+                try
+                {
+                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
+                }
+                catch (Exception)
+                {
+                    //                
+                }
+            }
+
+            if (_gameRepo.GamesList != null)
+            {
+                GamesList = new ListCollectionView(_gameRepo.GamesList);
+                GamesList.CurrentChanged += GamesList_CurrentChanged;
+            }
                                   
             AuditScanStart = new DelegateCommand(AuditRunScan);
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
-            _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);
-
-            GamesList.CurrentChanged += GamesList_CurrentChanged;
+            _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);           
             
         }
 
@@ -144,23 +157,26 @@ namespace Hs.Hypermint.DatabaseDetails
         {            
             if (GamesList != null)
             {
-                try
+                if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
                 {
-                    if (systemName.Contains("Main Menu"))
-                        _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
-                    else
-                        _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
+                    try
+                    {
+                        if (systemName.Contains("Main Menu"))
+                            _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
+                        else
+                            _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
 
-                    GamesList = new ListCollectionView(_gameRepo.GamesList);
-                }
-                catch (Exception exception)
-                {
-                    exception.GetBaseException();
-                    var msg = exception.Message;
-                }
-                finally
-                {
+                        GamesList = new ListCollectionView(_gameRepo.GamesList);
+                    }
+                    catch (Exception exception)
+                    {
+                        exception.GetBaseException();
+                        var msg = exception.Message;
+                    }
+                    finally
+                    {
 
+                    }
                 }
             }
 
@@ -176,10 +192,13 @@ namespace Hs.Hypermint.DatabaseDetails
         #region Events
         private void GamesList_CurrentChanged(object sender, EventArgs e)
         {
-            Game game = GamesList.CurrentItem as Game;
-            if (game != null)
+            if (GamesList != null)
             {
-                this._eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.Description);
+                Game game = GamesList.CurrentItem as Game;
+                if (game != null)
+                {
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.Description);
+                }
             }
         }
 

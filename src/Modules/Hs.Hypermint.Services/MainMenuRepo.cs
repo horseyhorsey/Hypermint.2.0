@@ -33,6 +33,9 @@ namespace Hs.Hypermint.Services
 
         private string[] GetSystems(string MainMenuXml)
         {
+            if (!File.Exists(MainMenuXml))
+                return new string[0];
+
             string[] sysName;
 
             using (XmlTextReader reader = new XmlTextReader(MainMenuXml))
@@ -60,6 +63,9 @@ namespace Hs.Hypermint.Services
 
         public string[] GetMainMenuDatabases(string MainMenuFolder)
         {
+            if (!Directory.Exists(MainMenuFolder))
+                return new string[0];
+
             var xmlPath = MainMenuFolder;
             string[] menuXmls;
 
