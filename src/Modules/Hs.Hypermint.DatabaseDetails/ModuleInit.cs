@@ -19,7 +19,6 @@ namespace Hs.Hypermint.DatabaseDetails
         {
             UnityContainer.RegisterType<IGameRepo, GameRepo>();
 
-            RegionManager.RegisterViewWithRegion(RegionNames.ToolBarRegion, typeof(DbToolbarView));
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DatabaseDetailsView));
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(HsMediaAuditView));
             

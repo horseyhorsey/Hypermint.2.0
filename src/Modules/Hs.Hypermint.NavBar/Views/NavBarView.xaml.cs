@@ -13,14 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Hs.Hypermint.DatabaseDetails
+namespace Hs.Hypermint.NavBar.Views
 {
-    /// <summary>
-    /// Interaction logic for DbToolbar.xaml
-    /// </summary>
-    public partial class DbToolbarView : UserControl
+    public partial class NavBarView : UserControl
     {
-        public DbToolbarView()
+        public NavBarView()
         {
             InitializeComponent();
         }

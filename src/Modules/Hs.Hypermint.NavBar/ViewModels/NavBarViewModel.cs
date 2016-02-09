@@ -4,7 +4,7 @@ using Prism.Events;
 
 namespace Hs.Hypermint.DatabaseDetails
 {
-    public class DbToolbarViewModel : ViewModelBase
+    public class NavBarViewModel : ViewModelBase
     {
         private string message = "Test Message";
         private IEventAggregator _eventAggregator;
@@ -17,7 +17,7 @@ namespace Hs.Hypermint.DatabaseDetails
             }
         }
 
-        public DbToolbarViewModel(IEventAggregator eventAggregator)
+        public NavBarViewModel(IEventAggregator eventAggregator)
         {           
             _eventAggregator = eventAggregator;
 
