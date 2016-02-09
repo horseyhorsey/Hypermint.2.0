@@ -57,7 +57,7 @@ namespace Hs.Hypermint.Services
                     }
                 }
 
-                if (systemName != "Main Menu")
+                if (!systemName.Contains("Main Menu"))
                 {
                     if (node.SelectSingleNode("@enabled") != null)
                     {

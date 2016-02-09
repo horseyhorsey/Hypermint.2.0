@@ -1,4 +1,5 @@
 ﻿using Prism.Events;
+using System.Collections.Generic;
 
 namespace Hypermint.Base
 {
@@ -15,4 +16,16 @@ namespace Hypermint.Base
     {
 
     }
+
+    public class GameFilteredEvent : PubSubEvent<Dictionary<string,bool>>
+    {
+
+    }
+
+    public class CloneFilterEvent : PubSubEvent<bool>
+    {
+
+    }
+
+    
 }

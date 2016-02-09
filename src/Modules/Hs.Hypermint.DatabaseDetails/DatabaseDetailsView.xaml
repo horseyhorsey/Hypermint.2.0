@@ -8,20 +8,20 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              prism:ViewModelLocator.AutoWireViewModel="True"  
              xmlns:sss="clr-namespace:Hs.Hypermint.DatabaseDetails"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" >
     <GroupBox Header="Database Options">
-    <TabControl >
-        <TabItem Header="Database">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30*"></RowDefinition>
-                    <RowDefinition Height="42"></RowDefinition>
-                </Grid.RowDefinitions>
+        <TabControl >
+            <TabItem Header="Database">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30*"></RowDefinition>
+                        <RowDefinition Height="42"></RowDefinition>
+                    </Grid.RowDefinitions>
 
-                <DockPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Height="42">
-                    <local:EditDatabaseControls></local:EditDatabaseControls>
-                </DockPanel>
+                    <DockPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Height="42">
+                        <local:FilterControl></local:FilterControl>
+                        <local:EditDatabaseControls></local:EditDatabaseControls>
+                    </DockPanel>
 
                     <DataGrid BorderThickness="5" ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" CanUserAddRows="True"  Grid.Row="0"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
                         <DataGrid.Columns>
@@ -37,14 +37,14 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
-        </TabItem>
-        <TabItem Header="Audit Hyperspin">
+            </TabItem>
+            <TabItem Header="Audit Hyperspin">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30*"></RowDefinition>
                         <RowDefinition Height="42"></RowDefinition>
                     </Grid.RowDefinitions>
-                    
+
                     <DockPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom" Height="42">
                         <local:AuditControls></local:AuditControls>
                     </DockPanel>
@@ -52,7 +52,7 @@
                     <sss:HsMediaAuditView Grid.Row="0" ></sss:HsMediaAuditView>
                 </Grid>
             </TabItem>
-            
-    </TabControl>
+
+        </TabControl>
     </GroupBox>
 </UserControl>

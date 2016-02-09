@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows.Data;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Base;
+using System.Diagnostics;
 
 namespace Hs.Hypermint.SidebarSystems
 {
@@ -27,7 +28,6 @@ namespace Hs.Hypermint.SidebarSystems
         {
             _mainMenuRepo = main;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
 
             _settingsRepo = settings;
             _settingsRepo.LoadHypermintSettings();
@@ -55,13 +55,13 @@ namespace Hs.Hypermint.SidebarSystems
             else
                 SystemItems = null;
 
+            _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
             SystemItems.CurrentChanged += SystemItems_CurrentChanged;
 
         }
 
         private void UpdateSystems(string mainMenuXml)
-        {
-            
+        {            
             _mainMenuRepo.BuildMainMenuItems(mainMenuXml, _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\");
             SystemItems = new ListCollectionView(_mainMenuRepo.Systems);
 
@@ -74,6 +74,7 @@ namespace Hs.Hypermint.SidebarSystems
         private void SystemItems_CurrentChanged(object sender, System.EventArgs e)
         {
             MainMenu system = SystemItems.CurrentItem as MainMenu;
+            
             if (system != null)
             {
                 this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);

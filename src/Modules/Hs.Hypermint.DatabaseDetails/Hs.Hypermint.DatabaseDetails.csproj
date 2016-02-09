@@ -79,6 +79,9 @@
     <Compile Include="Controls\EditDatabaseControls.xaml.cs">
       <DependentUpon>EditDatabaseControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FilterControl.xaml.cs">
+      <DependentUpon>FilterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HsMediaAuditViewModel.cs" />
     <Compile Include="HsMediaAuditView.xaml.cs">
       <DependentUpon>HsMediaAuditView.xaml</DependentUpon>
@@ -108,6 +111,7 @@
     </Compile>
     <Compile Include="ModuleInit.cs" />
     <Compile Include="DatabaseDetailsViewModel.cs" />
+    <Compile Include="Controls\FilterControlViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -125,6 +129,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\EditDatabaseControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FilterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

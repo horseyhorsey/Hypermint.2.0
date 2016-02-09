@@ -37,12 +37,13 @@ namespace Hs.Hypermint.Services
 
             using (XmlTextReader reader = new XmlTextReader(MainMenuXml))
             {
+                var menuName = Path.GetFileNameWithoutExtension(MainMenuXml);
                 XmlDocument xdoc = new XmlDocument();
                 xdoc.Load(MainMenuXml);
                 int sysCount = xdoc.SelectNodes("menu/game").Count + 1;
                 sysName = new string[sysCount];
                 int i = 0;
-                sysName[i] = "Main Menu";
+                sysName[i] = menuName;
                 i++;
                 while (reader.Read())
                 {
