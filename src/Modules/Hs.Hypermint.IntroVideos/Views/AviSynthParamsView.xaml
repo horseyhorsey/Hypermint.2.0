@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Hs.Hypermint.IntroVideos.Views.AviSynthParamsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"            
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <GroupBox Header="Options">
+        <StackPanel>
+            <Label Content="Start" ToolTip="Number of frame to start from each video"></Label>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding StartFrame}"/>
+            <Label Content="End" ToolTip="Frame number to end on each video"></Label>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding EndFrame}"/>
+            <Label Content="Dissolve" ToolTip="Frame number to end on each video"></Label>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding DissolveAmount}"/>
+            <Label Content="Fade In" ToolTip="Frame number to end on each video"></Label>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding FadeIn}"/>
+            <Label Content="Fade Out" ToolTip="Frame number to end on each video"></Label>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding FadeOut}"/>
+        </StackPanel>
+    </GroupBox>
+</UserControl>

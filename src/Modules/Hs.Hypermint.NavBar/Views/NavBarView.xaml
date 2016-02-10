@@ -52,7 +52,8 @@
             </Button>
 
             <!--MultiSystem-->
-            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView"
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                    Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView"
                 ToolTip="Multi system." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
                 <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
@@ -63,6 +64,7 @@
 
             <!--System Intros-->
             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                Command="{Binding NavigateCommand}" CommandParameter="IntroVideosView"
                 ToolTip="System video intros" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
                 <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
