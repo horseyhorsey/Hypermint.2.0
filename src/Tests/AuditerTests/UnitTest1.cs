@@ -24,7 +24,7 @@ namespace AuditerTests
            
             gameRepo.GetGames(Path.Combine(Installation.HsPath, Root.Databases, "Amstrad CPC\\Amstrad CPC.xml"), "Amstrad CPC");
 
-            HsServices.Auditer.ScanForMedia("Amstrad CPC", gameRepo.GamesList);
+            //HsServices.Auditer.ScanForMedia("Amstrad CPC", gameRepo.GamesList);
                         
         }
     }

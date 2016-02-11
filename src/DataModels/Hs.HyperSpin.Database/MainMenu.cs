@@ -16,8 +16,7 @@ namespace Hs.HyperSpin.Database
         [XmlIgnore]
         public bool XmlExists { get; set; }
         [XmlIgnore]
-        public bool GenreExists { get; set; }
-        public List<AuditMainMenu> AuditList { get; set; }
+        public bool GenreExists { get; set; }        
 
         //[XmlIgnore]
         //public List<Media.AuditMainMenu> AuditList { get; set; }

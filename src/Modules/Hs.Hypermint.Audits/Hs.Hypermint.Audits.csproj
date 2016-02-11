@@ -121,9 +121,21 @@
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
+      <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
+      <Name>Hs.Hypermint.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
+      <Project>{6108DDA5-DDA5-4254-B62D-6CDFB049FA8B}</Project>
+      <Name>Hs.HyperSpin.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
+      <Project>{7c5872ea-a3bd-4bfa-911c-0a9b62f2f11f}</Project>
+      <Name>Hs.Hypermint.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

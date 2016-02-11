@@ -55,9 +55,7 @@ namespace Hs.Hypermint.DatabaseDetails
             {
                 GamesList = new ListCollectionView(_gameRepo.GamesList);
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
-            }
-                                  
-            AuditScanStart = new DelegateCommand(AuditRunScan);
+            }                                  
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
@@ -175,18 +173,14 @@ namespace Hs.Hypermint.DatabaseDetails
                     }
                     finally
                     {
-
+                        //Publish after the gameslist is updated here
+                        _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
                     }
                 }
             }
 
         }
 
-        private void AuditRunScan()
-        {
-            Hs.Hypermint.Services.Auditer.ScanForMedia("Amstrad CPC",_gameRepo.GamesList);
-            GamesList = new ListCollectionView(_gameRepo.GamesList);
-        }
         #endregion
 
         #region Events

@@ -49,6 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audit\Audit.cs" />
+    <Compile Include="Audit\AuditGame.cs" />
+    <Compile Include="Audit\AuditMenu.cs" />
+    <Compile Include="Audit\AuditsMenu.cs" />
+    <Compile Include="Audit\AuditsGame.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Games.cs" />
     <Compile Include="Genre.cs" />

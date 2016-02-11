@@ -1,62 +1,98 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.ComponentModel;
+using System.Windows.Data;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
     public class HsMediaAuditViewModel : ViewModelBase
-    {
-        private string message = "Test Message";
+    {        
+        #region Fields
         private IEventAggregator _eventAggregator;
-        private IGameRepo _gameRepo;       
+        private ISettingsRepo _settings;
+        private IGameRepo _gameRepo;
+        private IAuditer _auditer;
+        public DelegateCommand RunScanCommand { get; private set; }
+        #endregion
 
+        #region Properties
+        private bool runningScan;
+        public bool RunningScan
+        {
+            get { return runningScan; }
+            set { SetProperty(ref runningScan, value); }
+        }
+        private string message = "Test Message";
         public string Message
         {
             get { return message; }
-            set {
-                 SetProperty(ref message, value);
+            set
+            {
+                SetProperty(ref message, value);
             }
         }
 
-        private ICollectionView _gamesList;
-        public ICollectionView GamesList
+        private ICollectionView _auditList;        
+        public ICollectionView AuditList
         {
-            get { return _gamesList; }
-            set { _gamesList = value; }
+            get { return _auditList; }
+            set { SetProperty(ref _auditList, value); }
         }
+        #endregion
 
-
-        public HsMediaAuditViewModel( IGameRepo gameRepo, IEventAggregator eventAggregator)
-        {           
+        #region ctors
+        public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
+            IEventAggregator eventAggregator,IAuditer auditer)
+        {
             _eventAggregator = eventAggregator;
+            _settings = settings;
+            _auditer = auditer;
+            _auditer.AuditsGameList = new HyperSpin.Database.Audit.AuditsGame();
             _gameRepo = gameRepo;
-       
-            _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateGames);
 
+            //This event is called after main database view is updated
+            _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(gamesUpdated);
+
+            RunScanCommand = new DelegateCommand(RunScan);            
         }
+
+        private void gamesUpdated(string systemName)
+        {
+            if (_gameRepo.GamesList != null)
+            {
+                _auditer.AuditsGameList.Clear();
+
+                foreach (var item in _gameRepo.GamesList)
+                {
+                    _auditer.AuditsGameList.Add(new HyperSpin.Database.Audit.AuditGame
+                    {
+                        RomName = item.RomName
+                    });
+                }
+
+                AuditList = new ListCollectionView(_auditer.AuditsGameList);
+            }
+        }
+        #endregion
 
         private void GamesList_CurrentChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void AuditRunScan()
+        private void RunScan()
         {
-            throw new NotImplementedException();
+           _auditer.ScanForMedia(_settings.HypermintSettings.HsPath,
+                "Amstrad CPC",_gameRepo.GamesList);
+            
+             AuditList = new ListCollectionView(_auditer.AuditsGameList);
+            
         }
-
-
-
-        private void UpdateGames(string obj)
-        {
-          //  if (_gameRepo.GamesList != null && GamesList !=null)
-           //     GamesList = new ListCollectionView(_gameRepo.GamesList);
-
-        }
-
+        
         private void SetMessage(string obj)
         {
             Message = obj;

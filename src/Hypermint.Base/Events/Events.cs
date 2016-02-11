@@ -27,5 +27,10 @@ namespace Hypermint.Base
 
     }
 
-    
+    public class GamesUpdatedEvent : PubSubEvent<string>
+    {
+
+    }
+
+
 }

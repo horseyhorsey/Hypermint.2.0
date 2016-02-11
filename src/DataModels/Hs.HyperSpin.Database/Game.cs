@@ -13,13 +13,7 @@ namespace Hs.HyperSpin.Database
             get { return RomName; }
             set { RomName = value; }
         }
-
-        [XmlIgnore]
-        public AuditGames AuditList
-        {
-            get; set;
-        }
-       
+              
         [XmlAttribute("enabled")]
         public int Enabled { get; set; }
 
@@ -63,9 +57,7 @@ namespace Hs.HyperSpin.Database
         public Game(string Gamename, string Description)
         {
             this.RomName = Gamename;
-            this.Description = Description;
-            AuditList = new AuditGames();
-            AuditList.Add(new AuditGame());
+            this.Description = Description;            
         }
 
         public Game(string name, string index, string image, string desc, string cloneof,
@@ -81,9 +73,7 @@ namespace Hs.HyperSpin.Database
             Year = year;
             Genre = genre;
             Rating = rating;
-            Enabled = enabled;
-            AuditList = new AuditGames();
-            AuditList.Add(new AuditGame());
+            Enabled = enabled;            
         }
 
         public Game(string name, string index, string image, string desc, string cloneof,
@@ -100,9 +90,7 @@ namespace Hs.HyperSpin.Database
             Genre = genre;
             Rating = rating;
             Enabled = enabled;
-            System = system;
-            AuditList = new AuditGames();
-            AuditList.Add(new AuditGame());
+            System = system;            
         }
         #endregion
 

@@ -8,42 +8,67 @@
              prism:ViewModelLocator.AutoWireViewModel="True"  
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
-    <GroupBox Header="Hyperspin Media Audit">
 
-        <Grid>
-        <StackPanel>
-            <DataGrid Height="Auto" ItemsSource="{Binding GamesList}" AutoGenerateColumns="False"  Grid.Row="0" 
-                  HorizontalAlignment="Left"  VerticalAlignment="Top">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type DataGridCell}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding}" 
+                     Value="True">
+                    <Setter Property="Background" Value="#263DDE36"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding}" Value="False">
+                    <Setter Property="Background" Value="#26FF5454"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <GroupBox Header="Hyperspin Media Audit" >
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="55"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DataGrid Height="Auto" ItemsSource="{Binding AuditList}" 
+                      BorderThickness="2" AutoGenerateColumns="False"  Grid.Row="0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                    <DataGridTextColumn Header="Wheel" Binding="{Binding AuditList.HaveWheel}"/>
+                    
+                     <DataGridTextColumn Header="Romname" Binding="{Binding RomName}"/>
+                        <!--<DataGridTextColumn Header="Description" Binding="{Binding Description}"/>-->
+                        <!--<DataGridTextColumn Header="RomNam" Binding="{Binding RomName}"/>-->
                     <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
+                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
+                    <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
+
                     <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
                     <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
                     <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
                     <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
-                    <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveHsBackground}"/>
-                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
-                    <DataGridTextColumn Header="Pointer" Binding="{Binding HavePointer}"/>
-                    <DataGridTextColumn Header="GenreWheel" Binding="{Binding HaveGenreWheel}"/>
-                    <DataGridTextColumn Header="GenreBg" Binding="{Binding HaveGenreBg}"/>
-                    <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
-                    <DataGridTextColumn Header="Wheel Sounds" Binding="{Binding HaveWheelSound}"/>
-                    <DataGridTextColumn Header="Sound Start" Binding="{Binding HaveSoundsStart}"/>
-                    <DataGridTextColumn Header="Sound Exit" Binding="{Binding HaveSoundsExit}"/>
-                    <DataGridTextColumn Header="Sound Click" Binding="{Binding HaveSoundsClick}"/>
+                    
+                    <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackground}"/>
+                    <DataGridTextColumn Header="Sound Start" Binding="{Binding HaveS_Start}"/>
+                    <DataGridTextColumn Header="Sound End" Binding="{Binding HaveS_Exit}"/>
+
+                    <DataGridTextColumn Header="Sound Click" Binding="{Binding HaveS_Click}"/>
+                    <DataGridTextColumn Header="Wheel Sounds" Binding="{Binding HaveS_Wheel}"/>
+                                            
                     <DataGridTextColumn Header="Letters" Binding="{Binding HaveLetters}"/>
                     <DataGridTextColumn Header="Special" Binding="{Binding HaveSpecial}"/>
-
+                    <DataGridTextColumn Header="GenreBg" Binding="{Binding HaveGenreBG}"/>
+                    <DataGridTextColumn Header="GenreWheel" Binding="{Binding HaveGenreWheel}"/>
+                    <DataGridTextColumn Header="Pointer" Binding="{Binding HavePointer}"/>
 
                     </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
-        
-        <local:AuditControls Height="100" VerticalAlignment="Bottom"></local:AuditControls>
+                </DataGrid>
+
+                <DockPanel Grid.Row="1">
+                    <local:AuditControls Grid.Row="1" MaxHeight="55"></local:AuditControls>
+                </DockPanel>
+            
+
+
         </Grid>
     </GroupBox>
 
-    
+
 </UserControl>

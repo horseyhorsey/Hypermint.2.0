@@ -88,6 +88,7 @@
     <Compile Include="Converters\ConvertTime.cs" />
     <Compile Include="Events\Events.cs" />
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
+    <Compile Include="Interfaces\IAuditer.cs" />
     <Compile Include="Interfaces\IFlyoutView.cs" />
     <Compile Include="Interfaces\IGameRepo.cs" />
     <Compile Include="Interfaces\IMainMenuRepo.cs" />
