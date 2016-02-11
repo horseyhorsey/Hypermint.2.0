@@ -7,7 +7,14 @@ using Prism.Regions;
 namespace Hs.Hypermint.NavBar.ViewModels
 {
     public class NavBarViewModel : ViewModelBase
-    {                
+    {
+        private string currentView = "Views: ";
+        public string CurrentView
+        {
+            get { return currentView; }
+            set { SetProperty(ref currentView, value); }
+        }
+
         private IRegionManager _regionManager;
 
         /// <summary>
@@ -24,6 +31,25 @@ namespace Hs.Hypermint.NavBar.ViewModels
 
         private void Navigate(string uri)
         {
+            CurrentView = "Views: ";
+
+            switch (uri)
+            {
+                case "DatabaseDetailsView":
+                    CurrentView += "Database editor";
+                    break;
+                case "HsMediaAuditView":
+                    CurrentView += "Hyperspin media audit";
+                    break;
+                case "IntroVideosView":
+                    CurrentView += "Hyperspin video intros";
+                    break;
+                case "MultiSystemView":
+                    CurrentView += "Hyperspin multiple system generator";
+                    break;
+                default:
+                    break;
+            }
             _regionManager.RequestNavigate("ContentRegion",uri);
         }
     }

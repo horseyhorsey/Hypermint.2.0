@@ -8,7 +8,7 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">
 
-    <GroupBox Header="Views" Height="Auto">
+    <GroupBox Header="{Binding CurrentView}" Height="Auto">
     <DockPanel >
         <!--<TextBlock Width="150" Height="30" Text="{Binding Message}"/>-->
         
