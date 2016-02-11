@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Hs.Hypermint.Audits.Views.HsMediaAuditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"       
+             xmlns:local="clr-namespace:Hs.Hypermint.Audits.Views"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"  
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <GroupBox Header="Hyperspin Media Audit">
+
+        <Grid>
+        <StackPanel>
+            <DataGrid Height="Auto" ItemsSource="{Binding GamesList}" AutoGenerateColumns="False"  Grid.Row="0" 
+                  HorizontalAlignment="Left"  VerticalAlignment="Top">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="Wheel" Binding="{Binding AuditList.HaveWheel}"/>
+                    <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
+                    <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
+                    <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
+                    <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
+                    <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        
+        <local:AuditControls Height="100" VerticalAlignment="Bottom"></local:AuditControls>
+        </Grid>
+    </GroupBox>
+
+    
+</UserControl>

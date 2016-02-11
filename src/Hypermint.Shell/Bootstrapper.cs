@@ -12,6 +12,7 @@ using Hypermint.Shell.Views;
 using Hs.Hypermint.MultiSystem.Views;
 using Hs.Hypermint.DatabaseDetails;
 using Hs.Hypermint.IntroVideos.Views;
+using Hs.Hypermint.Audits.Views;
 
 namespace Hypermint.Shell
 {
@@ -50,6 +51,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.WheelCreator.WheelModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MediaPane.MediaPaneModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.IntroVideos.IntroVideosModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.Audits.AuditsModule));
 
         }
 
@@ -66,6 +68,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
             Container.RegisterTypeForNavigation<IntroVideosView>("IntroVideosView");
+            Container.RegisterTypeForNavigation<HsMediaAuditView>("HsMediaAuditView");
 
         }
 

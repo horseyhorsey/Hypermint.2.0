@@ -5,7 +5,7 @@ using Prism.Events;
 using System;
 using System.ComponentModel;
 
-namespace Hs.Hypermint.DatabaseDetails
+namespace Hs.Hypermint.Audits.ViewModels
 {
     public class HsMediaAuditViewModel : ViewModelBase
     {

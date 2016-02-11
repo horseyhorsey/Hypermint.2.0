@@ -24,8 +24,9 @@
         </Button>
 
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
-                ToolTip="Hyperspin audit." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
-            <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                ToolTip="Hyperspin audit." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}"
+                Command="{Binding NavigateCommand}" CommandParameter="HsMediaAuditView">
+                <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_list_gear}"/>
                 </Rectangle.OpacityMask>
