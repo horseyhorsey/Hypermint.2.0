@@ -50,7 +50,7 @@ namespace Hs.Hypermint.SidebarSystems
                 SystemItems = null;
 
             _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
-            _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterGamesByText);
+            _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterSystemsByText);
 
 
         }
@@ -72,7 +72,7 @@ namespace Hs.Hypermint.SidebarSystems
         /// Filter the systems list
         /// </summary>
         /// <param name="obj"></param>
-        private void FilterGamesByText(string filter)
+        private void FilterSystemsByText(string filter)
         {
             if (SystemItems != null)
             {
