@@ -41,9 +41,10 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
-        
-        <!--Wheel Creator-->
+
+            <!--Wheel Creator--> 
             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                    Command="{Binding NavigateCommand}" CommandParameter="SimpleWheelView"
                 ToolTip="Simple wheel." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
                 <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
