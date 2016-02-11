@@ -5,6 +5,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.Audits.ViewModels
@@ -86,11 +87,13 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private void RunScan()
         {
-           _auditer.ScanForMedia(_settings.HypermintSettings.HsPath,
-                "Amstrad CPC",_gameRepo.GamesList);
+            if (AuditList !=null && Directory.Exists(_settings.HypermintSettings.HsPath))
+            { 
+               _auditer.ScanForMedia(_settings.HypermintSettings.HsPath,
+                    "Amstrad CPC",_gameRepo.GamesList);
             
-             AuditList = new ListCollectionView(_auditer.AuditsGameList);
-            
+                 AuditList = new ListCollectionView(_auditer.AuditsGameList);
+            }
         }
         
         private void SetMessage(string obj)

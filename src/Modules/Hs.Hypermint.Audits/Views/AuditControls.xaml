@@ -10,7 +10,8 @@
              d:DesignHeight="50" d:DesignWidth="300">
 
     <DockPanel Height="50" VerticalAlignment="Bottom">
-        <Button Command="{Binding RunScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" ToolTip="Add game">
+        <Button Command="{Binding RunScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40"
+                ToolTip="Scan Media" IsEnabled="{Binding ScanEnabled}">
                 <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
