@@ -1,4 +1,5 @@
-﻿using Hs.Hypermint.Services;
+﻿using Hs.Hypermint.DatabaseDetails.Services;
+using Hs.Hypermint.Services;
 using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
@@ -18,7 +19,7 @@ namespace Hs.Hypermint.DatabaseDetails
         public override void Initialize()
         {
             UnityContainer.RegisterType<IGameRepo, GameRepo>();
-
+            UnityContainer.RegisterType<IFavoriteService,FavoriteService>();
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DatabaseDetailsView));
                         
             //RegionManager.RegisterViewWithRegion(RegionNames.ToolBarRegion, typeof(Controls.FilterControl));

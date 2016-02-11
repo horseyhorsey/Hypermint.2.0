@@ -11,6 +11,7 @@ using Prism.Events;
 using Hypermint.Base;
 using System.Collections.Generic;
 using System.IO;
+using Hs.Hypermint.DatabaseDetails.Services;
 
 namespace Hs.Hypermint.DatabaseDetails
 {
@@ -30,7 +31,8 @@ namespace Hs.Hypermint.DatabaseDetails
         #endregion
 
         #region Constructors
-        public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, IEventAggregator eventAggregator)
+        public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo,
+            IFavoriteService favoriteService, IEventAggregator eventAggregator)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
             //_getGamesCommand = new Commands.GetGamesCommand()
@@ -38,6 +40,7 @@ namespace Hs.Hypermint.DatabaseDetails
             //_settingsRepo.LoadHypermintSettings();
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;
+            _favouriteService = favoriteService;
 
             if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
                 {
@@ -67,6 +70,8 @@ namespace Hs.Hypermint.DatabaseDetails
 
         #region Commands
         private ICommand _getGamesCommand;
+        private IFavoriteService _favouriteService;
+
         public DelegateCommand SaveDb { get; set; }
         public DelegateCommand AuditScanStart { get; private set; }
         #endregion
@@ -173,12 +178,28 @@ namespace Hs.Hypermint.DatabaseDetails
                     }
                     finally
                     {
+                        updateFavoritesForGamesList();
                         //Publish after the gameslist is updated here
                         _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
                     }
                 }
             }
 
+        }
+
+        private void updateFavoritesForGamesList()
+        {
+            //var favorites = new Favourite
+            //_gameRepo.GamesList
+            var favesList = _favouriteService.GetFavoritesForSystem
+                ("Amstrad CPC", _settingsRepo.HypermintSettings.HsPath);
+
+            foreach (var item in _gameRepo.GamesList)
+            {
+                if (favesList.Contains(item.RomName))
+                    item.IsFavorite = true;
+            }
+            
         }
 
         #endregion
