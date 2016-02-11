@@ -20,6 +20,7 @@
             <DataGrid BorderThickness="2" ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" 
                       CanUserAddRows="True" >
                 <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Favourite" Binding="{Binding IsFavorite}"/>
                     <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                     <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}"/>

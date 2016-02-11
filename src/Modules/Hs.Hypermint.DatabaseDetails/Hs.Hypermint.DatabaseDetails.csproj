@@ -101,6 +101,8 @@
     <Compile Include="ModuleInit.cs" />
     <Compile Include="DatabaseDetailsViewModel.cs" />
     <Compile Include="Controls\FilterControlViewModel.cs" />
+    <Compile Include="Services\FavoriteService.cs" />
+    <Compile Include="Services\IFavoriteService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
