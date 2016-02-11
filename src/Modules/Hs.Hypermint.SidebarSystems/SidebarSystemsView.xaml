@@ -14,7 +14,7 @@
             </GroupBox>
 
             <GroupBox Header="Filter" DockPanel.Dock="Top">
-                <TextBox></TextBox>
+            <TextBox Text="{Binding SystemTextFilter,UpdateSourceTrigger=PropertyChanged}"></TextBox>
             </GroupBox>
 
             <GroupBox Header="Systems" DockPanel.Dock="Top">

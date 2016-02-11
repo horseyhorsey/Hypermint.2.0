@@ -32,5 +32,9 @@ namespace Hypermint.Base
 
     }
 
+    public class SystemFilteredEvent : PubSubEvent<string>
+    {
 
+    }
+    
 }

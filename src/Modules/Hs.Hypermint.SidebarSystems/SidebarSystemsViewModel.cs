@@ -8,12 +8,15 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using Prism.Events;
 using Hypermint.Base;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace Hs.Hypermint.SidebarSystems
 {
     public class SidebarSystemsViewModel : ViewModelBase
     {
         #region Properties
+
         private string _systemWheelImage;
         public string SystemWheelImage
         {
@@ -27,18 +30,40 @@ namespace Hs.Hypermint.SidebarSystems
             get { return "Systems: "; }
             set { SetProperty(ref _systemTitleCount, value); }
         }
-        
-        public ICollectionView MainMenuDatabases { get; private set; }
 
-        private IEventAggregator _eventAggregator;
+        private string systemTextFilter;
+        public string SystemTextFilter
+        {
+            get { return systemTextFilter; }
+            set
+            {
+                SetProperty(ref systemTextFilter, value);
+                OnPropertyChanged(() => SystemTextFilter);
+            }
+        }
 
         public string SelectedMainMenu { get; set; }
+
+        public ICollectionView MainMenuDatabases { get; private set; }
+              
         #endregion
 
         #region Service Repos
-            IMainMenuRepo _mainMenuRepo;
-            ISettingsRepo _settingsRepo;
+        IMainMenuRepo _mainMenuRepo;
+        ISettingsRepo _settingsRepo;
         #endregion
+
+        private IEventAggregator _eventAggregator;
+
+        protected override void OnPropertyChanged(string propertyName)
+        {
+            //base.OnPropertyChanged(propertyName);
+            if (propertyName == "SystemTextFilter")
+            {
+                //Publish to SystemsViewModel with SystemFilteredEvent
+                _eventAggregator.GetEvent<SystemFilteredEvent>().Publish(SystemTextFilter);
+            }
+        }
 
         public SidebarSystemsViewModel(IEventAggregator eventAggregator, IMainMenuRepo main, ISettingsRepo settings)
         {
@@ -73,6 +98,11 @@ namespace Hs.Hypermint.SidebarSystems
 
         }
 
+        /// <summary>
+        /// Combo box event of main menu xmls changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainMenuDatabases_CurrentChanged(object sender, System.EventArgs e)
         {
             var mainMenuXml = Path.Combine(

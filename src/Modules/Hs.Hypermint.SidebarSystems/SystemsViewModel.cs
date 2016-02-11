@@ -50,7 +50,8 @@ namespace Hs.Hypermint.SidebarSystems
                 SystemItems = null;
 
             _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
-            
+            _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterGamesByText);
+
 
         }
 
@@ -64,6 +65,29 @@ namespace Hs.Hypermint.SidebarSystems
                 //Subscribe here again?? 
                 //##    Existing unsubscribes when the system list is changed.
                 SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+            }
+        }
+
+        /// <summary>
+        /// Filter the systems list
+        /// </summary>
+        /// <param name="obj"></param>
+        private void FilterGamesByText(string filter)
+        {
+            if (SystemItems != null)
+            {
+                ICollectionView cv;
+
+                cv = CollectionViewSource.GetDefaultView(SystemItems);
+
+                cv.Filter = o =>
+                {
+                    var m = o as MainMenu;
+
+                    var textFiltered = m.Name.ToUpper().Contains(filter.ToUpper());
+                    return textFiltered;
+                };
+
             }
         }
 
