@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com/"             
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    
+
+    <GroupBox Header="Multi system generator">
     <Grid>
 
         <!--ItemsSource="{Binding m_System}"
@@ -68,4 +69,5 @@
                   ToolTip="Create genre lists for this system." VerticalAlignment="Bottom" 
                   HorizontalAlignment="Left" Width="129" IsChecked="True"/>
     </Grid>
+    </GroupBox>
 </UserControl>
