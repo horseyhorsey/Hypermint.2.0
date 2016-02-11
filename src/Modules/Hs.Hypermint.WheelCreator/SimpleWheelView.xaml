@@ -8,6 +8,7 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:local="clr-namespace:Hs.Hypermint.WheelCreator.Controls"
              mc:Ignorable="d" Width="Auto">
+    <GroupBox Header="Simple wheel creator">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -35,10 +36,15 @@
                     <RadioButton Content="Special Art 3" ToolTip="Special Art for hyperspin" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Margin="0,4,0,0" />
                 </StackPanel>
                 <TextBox x:Name="fontTextBox" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Arial" VerticalAlignment="Top" Width="161" Margin="62,7,0,0"/>
-                <Button x:Name="fontSelect" Content="Select" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name" Margin="7,7,0,0"/>
+                <Button x:Name="fontSelect" Content="Select" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" 
+                        ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name"
+                        Margin="7,7,0,0"/>
                 <StackPanel Margin="568,10,103,20" Orientation="Horizontal">
-                    <RadioButton x:Name="CaptionCheckBox" Content="Caption" ToolTip="Type of wheel text style, caption or label." HorizontalAlignment="Left" Width="69" IsChecked="True" Height="22" VerticalAlignment="Top" RenderTransformOrigin="1.304,4.8"/>
-                    <RadioButton x:Name="labelRadioButton" Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" Width="57" Height="22"/>
+                    <RadioButton x:Name="CaptionCheckBox" Content="Caption"
+                                 ToolTip="Type of wheel text style, caption or label." HorizontalAlignment="Left" 
+                                 Width="69" IsChecked="True" Height="22" VerticalAlignment="Top" RenderTransformOrigin="1.304,4.8"/>
+                    <RadioButton x:Name="labelRadioButton" Content="Label" 
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" Width="57" Height="22"/>
                 </StackPanel>
             </Grid>
         </GroupBox>
@@ -105,4 +111,5 @@
 
         <Label Content="Distance" HorizontalAlignment="Left" Margin="184,343,0,0" VerticalAlignment="Top" Grid.Column="1"/>
     </Grid>
+    </GroupBox>
 </UserControl>

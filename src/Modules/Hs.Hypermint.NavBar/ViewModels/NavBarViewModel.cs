@@ -47,6 +47,9 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 case "MultiSystemView":
                     CurrentView += "Hyperspin multiple system generator";
                     break;
+                case "SimpleWheelView":
+                    CurrentView += "Simple wheel creator";
+                    break;
                 default:
                     break;
             }
