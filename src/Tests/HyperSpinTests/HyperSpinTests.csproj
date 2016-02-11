@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="MainMenuRepoTests.cs" />
     <Compile Include="Paths\InstallationTests.cs" />
+    <Compile Include="Services\FavoriteServiceTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -75,6 +76,10 @@
     <ProjectReference Include="..\..\Hypermint.Shell\Hypermint.Shell.csproj">
       <Project>{989c2d81-b19b-463c-bffc-343087e7e5f9}</Project>
       <Name>Hypermint.Shell</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Hs.Hypermint.DatabaseDetails\Hs.Hypermint.DatabaseDetails.csproj">
+      <Project>{0F4321E7-FA9A-4528-B7CA-8D0EDEC79BC3}</Project>
+      <Name>Hs.Hypermint.DatabaseDetails</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Modules\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
       <Project>{7C5872EA-A3BD-4BFA-911C-0A9B62F2F11F}</Project>
