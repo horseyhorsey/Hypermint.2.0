@@ -23,7 +23,21 @@
                     <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
                     <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
                     <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
-                </DataGrid.Columns>
+                    <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveHsBackground}"/>
+                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
+                    <DataGridTextColumn Header="Pointer" Binding="{Binding HavePointer}"/>
+                    <DataGridTextColumn Header="GenreWheel" Binding="{Binding HaveGenreWheel}"/>
+                    <DataGridTextColumn Header="GenreBg" Binding="{Binding HaveGenreBg}"/>
+                    <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
+                    <DataGridTextColumn Header="Wheel Sounds" Binding="{Binding HaveWheelSound}"/>
+                    <DataGridTextColumn Header="Sound Start" Binding="{Binding HaveSoundsStart}"/>
+                    <DataGridTextColumn Header="Sound Exit" Binding="{Binding HaveSoundsExit}"/>
+                    <DataGridTextColumn Header="Sound Click" Binding="{Binding HaveSoundsClick}"/>
+                    <DataGridTextColumn Header="Letters" Binding="{Binding HaveLetters}"/>
+                    <DataGridTextColumn Header="Special" Binding="{Binding HaveSpecial}"/>
+
+
+                    </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
         
