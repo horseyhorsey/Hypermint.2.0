@@ -1,7 +1,5 @@
-﻿using Hypermint.Base;
-using Hypermint.Base.Base;
+﻿using Hypermint.Base.Base;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Regions;
 
 namespace Hs.Hypermint.NavBar.ViewModels

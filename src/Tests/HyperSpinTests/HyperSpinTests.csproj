@@ -57,6 +57,7 @@
     <Compile Include="MainMenuRepoTests.cs" />
     <Compile Include="Paths\InstallationTests.cs" />
     <Compile Include="Services\FavoriteServiceTests.cs" />
+    <Compile Include="Services\HyperspinXmlServiceTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

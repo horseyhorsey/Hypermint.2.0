@@ -65,6 +65,7 @@ namespace Hypermint.Shell
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
             Container.RegisterInstance<IFindDirectoryService>(Container.Resolve<FindDirectoryService>());
+            Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
 
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");

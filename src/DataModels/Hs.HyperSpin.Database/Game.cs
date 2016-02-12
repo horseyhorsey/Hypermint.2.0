@@ -63,6 +63,11 @@ namespace Hs.HyperSpin.Database
             this.Description = Description;            
         }
 
+        public Game()
+        {
+
+        }
+
         public Game(string name, string index, string image, string desc, string cloneof,
     string crc, string manu, int year, string genre, string rating, int enabled)
         {
