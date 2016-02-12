@@ -8,9 +8,10 @@
              xmlns:prism="http://prismlibrary.com/"
             prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <ListBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="700"        
-                   BorderThickness="0" ItemsSource="{Binding SystemItems}" 
-                       SelectionMode="Single">
+
+    <ListBox BorderThickness="2"  ItemsSource="{Binding SystemItems}" 
+         SelectionMode="Single" IsEnabled="{Binding SystemListEnabled}"  
+              >
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel>
