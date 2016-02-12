@@ -10,7 +10,8 @@
                        metro:TextBoxHelper.Watermark="Filter games"
                        Width="200"
                        Height="25"
-                 Text="{Binding FilterText}"/>
-        <CheckBox Margin="5" Content="Clones" IsChecked="{Binding ShowClones}"></CheckBox>
+                 Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox Margin="5" Content="Clones"
+                  IsChecked="{Binding ShowClones,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
     </DockPanel>
 </UserControl>
