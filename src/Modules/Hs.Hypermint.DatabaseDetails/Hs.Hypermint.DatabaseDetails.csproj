@@ -81,7 +81,6 @@
     </Compile>
     <Compile Include="Interfaces\IUpdateGames.cs" />
     <Compile Include="Interfaces\UpdateGames.cs" />
-    <Compile Include="Models\Games.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
