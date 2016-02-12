@@ -34,7 +34,6 @@
             </DataGrid>
 
             <DockPanel Grid.Row="1" >
-                <local:FilterControl></local:FilterControl>
                 <local:EditDatabaseControls></local:EditDatabaseControls>
             </DockPanel>
         </Grid>

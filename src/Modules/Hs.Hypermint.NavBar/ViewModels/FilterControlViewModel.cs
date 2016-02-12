@@ -1,38 +1,37 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Base;
-using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
-namespace Hs.Hypermint.DatabaseDetails.Controls
+namespace Hs.Hypermint.NavBar.ViewModels
 {
     public class FilterControlViewModel : ViewModelBase
     {        
         private IEventAggregator _eventAggregator;
 
+        #region Properties
         private string filterText;
         public string FilterText
         {
             get { return filterText; }
-            set {
+            set
+            {
                 SetProperty(ref filterText, value);
                 OnPropertyChanged(() => FilterText);
-                }
+            }
         }
 
         private bool showClones = true;
         public bool ShowClones
         {
             get { return showClones; }
-            set {
+            set
+            {
                 SetProperty(ref showClones, value);
                 OnPropertyChanged(() => ShowClones);
             }
         }
+        #endregion
 
         public FilterControlViewModel(IEventAggregator eventAggregator)
         {

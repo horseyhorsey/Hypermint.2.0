@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Hs.Hypermint.DatabaseDetails.Controls
+namespace Hs.Hypermint.NavBar.Views
 {
     /// <summary>
     /// Interaction logic for FilterControl
