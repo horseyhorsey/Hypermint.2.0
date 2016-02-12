@@ -7,9 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" Width="580.366">
     <DockPanel Height="42">
-        <TextBox Text="GameName" Width="150" Height="25"></TextBox>
         
-        <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" ToolTip="Add game">
+        <TextBox Text="{Binding NewGameName}" Width="150" Height="25"></TextBox>
+        
+        <!--Add game to list-->
+        <Button Style="{DynamicResource MetroCircleButtonStyle}"
+                Command="{Binding AddGameCommand}"
+                Height="40" Width="40" ToolTip="Add game">
             <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>

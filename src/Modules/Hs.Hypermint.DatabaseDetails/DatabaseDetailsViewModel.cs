@@ -21,12 +21,24 @@ namespace Hs.Hypermint.DatabaseDetails
         private ISettingsRepo _settingsRepo;
         private readonly IEventAggregator _eventAggregator;
 
+        public DelegateCommand AddGameCommand { get; private set; } 
+
         #region Properties
         private ICollectionView _gameList;
         public ICollectionView GamesList
         {
             get { return _gameList; }
             set { SetProperty(ref _gameList, value); }
+        }
+
+        /// <summary>
+        /// Name of new game to add to database
+        /// </summary>
+        private string newGameName;
+        public string NewGameName
+        {
+            get { return newGameName; }
+            set { SetProperty(ref newGameName, value); }
         }
         #endregion
 
@@ -58,12 +70,23 @@ namespace Hs.Hypermint.DatabaseDetails
             {
                 GamesList = new ListCollectionView(_gameRepo.GamesList);
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
-            }                                  
+            }
+
+            AddGameCommand = new DelegateCommand(AddGame);
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
             _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);           
             
+        }
+
+        /// <summary>
+        /// Create a new game and add to gameList
+        /// </summary>
+        private void AddGame()
+        {
+            _gameRepo.GamesList.Add(
+                new Game(NewGameName, NewGameName));
         }
 
         #endregion

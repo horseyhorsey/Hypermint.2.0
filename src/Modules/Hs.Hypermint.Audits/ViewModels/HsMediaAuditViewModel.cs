@@ -1,6 +1,7 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -37,7 +38,9 @@ namespace Hs.Hypermint.Audits.ViewModels
             }
         }
 
-        private ICollectionView _auditList;        
+        private ICollectionView _auditList;
+        private ISelectedService _selectedService;
+
         public ICollectionView AuditList
         {
             get { return _auditList; }
@@ -47,17 +50,18 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         #region ctors
         public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
-            IEventAggregator eventAggregator,IAuditer auditer)
+            IEventAggregator eventAggregator,IAuditer auditer, ISelectedService selectedService)
         {
             _eventAggregator = eventAggregator;
             _settings = settings;
             _auditer = auditer;
             _auditer.AuditsGameList = new HyperSpin.Database.Audit.AuditsGame();
             _gameRepo = gameRepo;
+            _selectedService = selectedService;
 
             //This event is called after main database view is updated
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(gamesUpdated);
-
+            
             RunScanCommand = new DelegateCommand(RunScan);            
         }
 
@@ -88,9 +92,13 @@ namespace Hs.Hypermint.Audits.ViewModels
         private void RunScan()
         {
             if (AuditList !=null && Directory.Exists(_settings.HypermintSettings.HsPath))
-            { 
-               _auditer.ScanForMedia(_settings.HypermintSettings.HsPath,
-                    "Amstrad CPC",_gameRepo.GamesList);
+            {
+                var systemName = _selectedService.CurrentSystem;
+
+               _auditer.ScanForMedia(
+                   _settings.HypermintSettings.HsPath,
+                    systemName, _gameRepo.GamesList
+                    );
             
                  AuditList = new ListCollectionView(_auditer.AuditsGameList);
             }
