@@ -47,18 +47,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!--<DockPanel Grid.Column="1" >
-            <Button Content="Audit" Command="{Binding NavigateCommand}" CommandParameter="HsMediaAuditView"
-            Width="100" HorizontalAlignment="Left"></Button>
-            <Button Content="Database" Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
-             Width="100" HorizontalAlignment="Left"></Button>
-        </DockPanel>-->
+            <!--SystemsSidebarRegion : Systems MainMenu Dbs-->
+            <ContentControl Grid.RowSpan="6" Grid.Row="0" 
+            prism:RegionManager.RegionName="SidebarRegion"/>
 
-            <!--SystemsSidebarRegion-->
-            <DockPanel Grid.RowSpan="5" >
-                <ItemsControl prism:RegionManager.RegionName="SidebarRegion"/>
-            </DockPanel>
-            
             <DockPanel Grid.Column="1" Grid.RowSpan="3">
                 <ItemsControl DockPanel.Dock="Top"  prism:RegionManager.RegionName="ToolBarRegion"/>
                 <!--Main Content view - ContentRegion-->
@@ -84,15 +76,11 @@
                         prism:RegionManager.RegionName="MediaPaneRegion"/>
 
                 <GridSplitter  ResizeDirection="Columns" HorizontalAlignment="Left" Width="6" Grid.Column="1"/>
-
-
             </Grid>
-
 
             <GridSplitter Grid.Column="1" Grid.Row="3" ResizeDirection="Rows" Cursor="SizeNS" HorizontalAlignment="Stretch" Margin="5,0,5,0"/>
 
-
-            <StatusBar  Grid.Row="5" Margin="2" Grid.ColumnSpan="2" BorderBrush="{DynamicResource AccentColorBrush}"
+            <StatusBar  Grid.Row="5" Grid.Column="1" Margin="2" Grid.ColumnSpan="2"
                    BorderThickness="2">
                 <StatusBarItem >Status</StatusBarItem>
             </StatusBar>
