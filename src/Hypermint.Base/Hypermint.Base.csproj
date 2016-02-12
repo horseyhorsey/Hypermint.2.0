@@ -102,6 +102,8 @@
     <Compile Include="Services\FlyoutService.cs" />
     <Compile Include="Services\IFindDirectoryService.cs" />
     <Compile Include="Services\IFlyoutService.cs" />
+    <Compile Include="Services\ISelectedService.cs" />
+    <Compile Include="Services\SelectedService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">

@@ -8,6 +8,7 @@ using System.Windows.Data;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Base;
 using System.Diagnostics;
+using Hypermint.Base.Services;
 
 namespace Hs.Hypermint.SidebarSystems
 {
@@ -29,15 +30,19 @@ namespace Hs.Hypermint.SidebarSystems
         IMainMenuRepo _mainMenuRepo;
         ISettingsRepo _settingsRepo;
 
-        private IEventAggregator _eventAggregator;
-        
-        public SystemsViewModel(IMainMenuRepo main, IEventAggregator eventAggregator, ISettingsRepo settings)
+        IEventAggregator _eventAggregator;
+        ISelectedService _selectedService;
+
+        public SystemsViewModel(IMainMenuRepo main, IEventAggregator eventAggregator,
+            ISettingsRepo settings, ISelectedService selectedService)
         {
             _mainMenuRepo = main;
             _eventAggregator = eventAggregator;
 
             _settingsRepo = settings;
             _settingsRepo.LoadHypermintSettings();
+
+            _selectedService = selectedService;
 
             // Setup the main menu database to read in all systems
 
@@ -113,6 +118,7 @@ namespace Hs.Hypermint.SidebarSystems
             if (system != null)
             {
                 this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);
+                _selectedService.CurrentSystem = system.Name;
             }
         }
     }
