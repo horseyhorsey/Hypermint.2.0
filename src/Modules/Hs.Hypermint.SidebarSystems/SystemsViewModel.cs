@@ -19,6 +19,13 @@ namespace Hs.Hypermint.SidebarSystems
             set { SetProperty(ref _systemItems, value); }
         }
 
+        private bool systemListEnabled = true;
+        public bool SystemListEnabled
+        {
+            get { return systemListEnabled; }
+            set { SetProperty(ref systemListEnabled, value); }
+        }
+
         IMainMenuRepo _mainMenuRepo;
         ISettingsRepo _settingsRepo;
 
@@ -74,6 +81,10 @@ namespace Hs.Hypermint.SidebarSystems
         /// <param name="obj"></param>
         private void FilterSystemsByText(string filter)
         {
+            //Unsubscribe when the filter is being set
+            //Avoiding the systems databases loading on each filter change            
+            SystemItems.CurrentChanged -= SystemItems_CurrentChanged;
+           
             if (SystemItems != null)
             {
                 ICollectionView cv;
@@ -89,10 +100,14 @@ namespace Hs.Hypermint.SidebarSystems
                 };
 
             }
+            
+            SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+            
         }
 
         private void SystemItems_CurrentChanged(object sender, System.EventArgs e)
         {
+            
             MainMenu system = SystemItems.CurrentItem as MainMenu;
             
             if (system != null)
