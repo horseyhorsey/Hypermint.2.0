@@ -117,8 +117,9 @@ namespace Hs.Hypermint.SidebarSystems
             
             if (system != null)
             {
-                this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);
                 _selectedService.CurrentSystem = system.Name;
+                this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);
+                
             }
         }
     }
