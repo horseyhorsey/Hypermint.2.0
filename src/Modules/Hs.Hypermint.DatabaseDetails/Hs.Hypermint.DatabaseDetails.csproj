@@ -100,7 +100,7 @@
     </Compile>
     <Compile Include="ModuleInit.cs" />
     <Compile Include="DatabaseDetailsViewModel.cs" />
-    <Compile Include="Controls\FilterControlViewModel.cs" />
+    <Compile Include="ViewModels\FilterControlViewModel.cs" />
     <Compile Include="Services\FavoriteService.cs" />
     <Compile Include="Services\IFavoriteService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -146,9 +146,7 @@
       <Name>Hs.Hypermint.Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

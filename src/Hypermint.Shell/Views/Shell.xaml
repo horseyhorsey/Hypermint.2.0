@@ -58,6 +58,7 @@
                 prism:RegionManager.RegionName="ContentRegion" />
             </DockPanel>
 
+            <!--Bottom panes-->
             <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
             x:Name="ViewerGrid" Grid.Row="4" Grid.RowSpan="1" 
             Margin="5,0" Grid.Column="1" VerticalAlignment="Stretch">

@@ -5,7 +5,6 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <GroupBox Header="Games Filter">
     <DockPanel>
         <TextBox metro:TextBoxHelper.ClearTextButton="True"                        
                        metro:TextBoxHelper.Watermark="Filter games"
@@ -14,5 +13,4 @@
                  Text="{Binding FilterText}"/>
         <CheckBox Margin="5" Content="Clones" IsChecked="{Binding ShowClones}"></CheckBox>
     </DockPanel>
-    </GroupBox>
 </UserControl>
