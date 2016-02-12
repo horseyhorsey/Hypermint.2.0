@@ -33,7 +33,7 @@
     <metro:MetroContentControl>
         <Grid Margin="5">
             <Grid.RowDefinitions>
-                <RowDefinition Height="36*"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="71*"/>
                 <RowDefinition Height="383*"/>
                 <RowDefinition Height="5*"/>
@@ -44,18 +44,20 @@
                 <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+
             <!--SystemsSidebarRegion : Systems MainMenu Dbs-->
             <ContentControl Grid.RowSpan="6" Grid.Row="0" 
             prism:RegionManager.RegionName="SidebarRegion"/>
 
-            <StackPanel Grid.Column="1" Grid.RowSpan="3">
-            <DockPanel >
-                <ItemsControl prism:RegionManager.RegionName="ToolBarRegion"/>
-            </DockPanel>
-            <!--Main Content view - ContentRegion-->
-            <ContentControl Background="{DynamicResource AccentColorBrush}"
+                <!--ToolBar Regions-->
+                <ContentControl Grid.Row="0" Grid.Column="1"  prism:RegionManager.RegionName="ToolBarRegion"/>
+
+            <ContentControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
                 prism:RegionManager.RegionName="ContentRegion" />
-            </StackPanel>
+
+
+
+
             <!--Bottom panes-->
             <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
             x:Name="ViewerGrid" Grid.Row="4" Grid.RowSpan="1" 

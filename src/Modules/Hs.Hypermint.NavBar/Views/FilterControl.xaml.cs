@@ -11,7 +11,6 @@ namespace Hs.Hypermint.NavBar.Views
         {
             InitializeComponent();
             
-        }
-
+        }        
     }
 }
