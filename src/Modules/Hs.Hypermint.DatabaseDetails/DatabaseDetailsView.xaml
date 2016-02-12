@@ -20,7 +20,8 @@
                           ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" 
                       CanUserAddRows="True" >
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="Favourite" Binding="{Binding IsFavorite}"/>
+                    <DataGridCheckBoxColumn Header="Favourite" MaxWidth="90" Binding="{Binding IsFavorite}"/>
+                    <DataGridCheckBoxColumn Header="Enabled" MaxWidth="90" Binding="{Binding Enabled}"/>
                     <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                     <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}"/>
@@ -28,7 +29,6 @@
                     <DataGridTextColumn Header="Genre" Binding="{Binding Genre}"/>
                     <DataGridTextColumn Header="CloneOf" Binding="{Binding CloneOf}"/>
                     <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" />
-                    <DataGridCheckBoxColumn Header="Enabled" Binding="{Binding Enabled}"/>
                     <DataGridTextColumn Header="Crc" Binding="{Binding Crc}"/>
                 </DataGrid.Columns>
             </DataGrid>
