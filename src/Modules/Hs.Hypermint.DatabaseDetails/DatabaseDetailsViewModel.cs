@@ -12,6 +12,7 @@ using Hypermint.Base;
 using System.Collections.Generic;
 using System.IO;
 using Hs.Hypermint.DatabaseDetails.Services;
+using Hypermint.Base.Services;
 
 namespace Hs.Hypermint.DatabaseDetails
 {
@@ -20,6 +21,8 @@ namespace Hs.Hypermint.DatabaseDetails
         private IGameRepo _gameRepo;
         private ISettingsRepo _settingsRepo;
         private readonly IEventAggregator _eventAggregator;
+        private IFavoriteService _favouriteService;
+        private ISelectedService _selectedService;
 
         public DelegateCommand AddGameCommand { get; private set; } 
 
@@ -43,8 +46,9 @@ namespace Hs.Hypermint.DatabaseDetails
         #endregion
 
         #region Constructors
-        public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo,
-            IFavoriteService favoriteService, IEventAggregator eventAggregator)
+        public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
+            ISelectedService selectedService, IFavoriteService favoriteService, 
+            IEventAggregator eventAggregator)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
             //_getGamesCommand = new Commands.GetGamesCommand()
@@ -53,6 +57,7 @@ namespace Hs.Hypermint.DatabaseDetails
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;
             _favouriteService = favoriteService;
+            _selectedService = selectedService;
 
             if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
                 {
@@ -92,9 +97,7 @@ namespace Hs.Hypermint.DatabaseDetails
         #endregion
 
         #region Commands
-        private ICommand _getGamesCommand;
-        private IFavoriteService _favouriteService;
-
+        private ICommand _getGamesCommand;        
         public DelegateCommand SaveDb { get; set; }
         public DelegateCommand AuditScanStart { get; private set; }
         #endregion
@@ -201,9 +204,10 @@ namespace Hs.Hypermint.DatabaseDetails
                     }
                     finally
                     {
-                        updateFavoritesForGamesList();
                         //Publish after the gameslist is updated here
                         _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
+
+                        updateFavoritesForGamesList();
                     }
                 }
             }
@@ -212,15 +216,19 @@ namespace Hs.Hypermint.DatabaseDetails
 
         private void updateFavoritesForGamesList()
         {
-            //var favorites = new Favourite
-            //_gameRepo.GamesList
-            var favesList = _favouriteService.GetFavoritesForSystem
-                ("Amstrad CPC", _settingsRepo.HypermintSettings.HsPath);
-
-            foreach (var item in _gameRepo.GamesList)
+            if (_selectedService != null)
             {
-                if (favesList.Contains(item.RomName))
-                    item.IsFavorite = true;
+                var selectedSystemName = _selectedService.CurrentSystem;
+
+                //_gameRepo.GamesList
+                var favesList = _favouriteService.GetFavoritesForSystem
+                    (selectedSystemName, _settingsRepo.HypermintSettings.HsPath);
+
+                foreach (var item in _gameRepo.GamesList)
+                {
+                    if (favesList.Contains(item.RomName))
+                        item.IsFavorite = true;
+                }
             }
             
         }
