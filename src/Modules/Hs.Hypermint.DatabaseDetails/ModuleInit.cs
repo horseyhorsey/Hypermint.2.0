@@ -4,6 +4,7 @@ using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 
@@ -20,6 +21,7 @@ namespace Hs.Hypermint.DatabaseDetails
         {
             UnityContainer.RegisterType<IGameRepo, GameRepo>();
             UnityContainer.RegisterType<IFavoriteService,FavoriteService>();
+            
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DatabaseDetailsView));                                    
             
         }
