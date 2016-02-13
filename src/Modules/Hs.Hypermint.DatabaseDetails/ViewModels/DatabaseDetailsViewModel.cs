@@ -14,6 +14,7 @@ using System.IO;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hypermint.Base.Services;
 using System.Collections;
+using Hypermint.Base.Constants;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -47,13 +48,24 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             get { return databaseHeaderInfo; }
             set { SetProperty(ref databaseHeaderInfo, value); }
-        }    
+        }
+        #endregion
+
+        #region Commands & Event
+        private readonly IEventAggregator _eventAggregator;
+        public DelegateCommand AddGameCommand { get; private set; }
+        private ICommand _getGamesCommand;   // UN-USED??
+        public DelegateCommand SaveDb { get; set; }
+        public DelegateCommand AuditScanStart { get; private set; }
+        public DelegateCommand<IList> SelectionChanged { get; set; }
+        public DelegateCommand<string> EnableDbItemsCommand { get; set; }
+        public DelegateCommand<string> OpenFolderCommand { get; set; }
         #endregion
 
         #region Constructors
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
             ISelectedService selectedService, IFavoriteService favoriteService, 
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator, IFolderExplore folderService)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
             _settingsRepo = settings;
@@ -61,6 +73,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _eventAggregator = eventAggregator;
             _favouriteService = favoriteService;
             _selectedService = selectedService;
+            _folderExploreService = folderService;
 
             SetUpGamesListFromMainMenuDb();
             SelectedGames = new List<Game>();
@@ -73,6 +86,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
             AddGameCommand = new DelegateCommand(AddGame);
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
+            OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -117,30 +131,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         }
 
-        private void SetUpGamesListFromMainMenuDb()
-        {
-            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
-            {
-                try
-                {
-                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
-                }
-                catch (Exception)
-                {
-                    //                
-                }
-            }
-        }
-
-        /// <summary>
-        /// Create a new game and add to gameList
-        /// </summary>
-        private void AddGame()
-        {
-            _gameRepo.GamesList.Add(
-                new Game(NewGameName, NewGameName));
-        }
-
         #endregion
 
         #region Services
@@ -148,16 +138,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private ISettingsRepo _settingsRepo;
         private IFavoriteService _favouriteService;
         private ISelectedService _selectedService;
-        #endregion
-
-        #region Commands & Event
-        private readonly IEventAggregator _eventAggregator;
-        public DelegateCommand AddGameCommand { get; private set; }
-        private ICommand _getGamesCommand;   // UN-USED??
-        public DelegateCommand SaveDb { get; set; }        
-        public DelegateCommand AuditScanStart { get; private set; }
-        public DelegateCommand<IList> SelectionChanged { get; set; }
-        public DelegateCommand<string> EnableDbItemsCommand { get; set; }
+        private IFolderExplore _folderExploreService;
         #endregion
 
         #region Filter Methods
@@ -313,6 +294,46 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
         }
 
+        private void SetUpGamesListFromMainMenuDb()
+        {
+            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+            {
+                try
+                {
+                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
+                }
+                catch (Exception)
+                {
+                    //                
+                }
+            }
+        }
+
+        /// <summary>
+        /// Create a new game and add to gameList
+        /// </summary>
+        private void AddGame()
+        {
+            _gameRepo.GamesList.Add(
+                new Game(NewGameName, NewGameName));
+        }
+
+
+        private void OpenFolder(string hyperspinDirType)
+        {
+            switch (hyperspinDirType)
+            {
+                case "Databases":
+                    var pathToOpen = _settingsRepo.HypermintSettings.HsPath;
+                    _folderExploreService.OpenFolder(pathToOpen + "\\" +
+                        Root.Databases + "\\" +
+                        _selectedService.CurrentSystem);
+                        break;
+                default:
+                    break;
+            }
+                        
+        }
 
         #endregion
 

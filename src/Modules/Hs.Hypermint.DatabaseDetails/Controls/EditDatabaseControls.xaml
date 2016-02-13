@@ -10,6 +10,8 @@
         <GroupBox Header="Databases" MinWidth="250">
             <DockPanel>
                 <Button Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding OpenFolderCommand}"
+                        CommandParameter="Databases"
                         ToolTip="Open system database directory."
                 Height="40" Width="40">
                     <Rectangle Width="15" Height="15"
