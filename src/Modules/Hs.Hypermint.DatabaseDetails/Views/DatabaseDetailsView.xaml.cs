@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Hs.Hypermint.DatabaseDetails
+namespace Hs.Hypermint.DatabaseDetails.Views
 {
     /// <summary>
     /// Interaction logic for FilesView.xaml

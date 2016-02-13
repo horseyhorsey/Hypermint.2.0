@@ -10,10 +10,10 @@ using Hypermint.Base.Constants;
 using Hs.Hypermint.Services;
 using Hypermint.Shell.Views;
 using Hs.Hypermint.MultiSystem.Views;
-using Hs.Hypermint.DatabaseDetails;
 using Hs.Hypermint.IntroVideos.Views;
 using Hs.Hypermint.Audits.Views;
 using Hs.Hypermint.WheelCreator;
+using Hs.Hypermint.DatabaseDetails.Views;
 
 namespace Hypermint.Shell
 {

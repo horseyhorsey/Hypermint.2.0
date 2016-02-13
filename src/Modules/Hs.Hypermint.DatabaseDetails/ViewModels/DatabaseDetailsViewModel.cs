@@ -13,19 +13,13 @@ using System.Collections.Generic;
 using System.IO;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hypermint.Base.Services;
+using System.Collections;
 
-namespace Hs.Hypermint.DatabaseDetails
+namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class DatabaseDetailsViewModel : ViewModelBase
     {
-        private IGameRepo _gameRepo;
-        private ISettingsRepo _settingsRepo;
-        private readonly IEventAggregator _eventAggregator;
-        private IFavoriteService _favouriteService;
-        private ISelectedService _selectedService;
-
-        public DelegateCommand AddGameCommand { get; private set; } 
-
+        
         #region Properties
         private ICollectionView _gameList;
         public ICollectionView GamesList
@@ -42,6 +36,15 @@ namespace Hs.Hypermint.DatabaseDetails
         {
             get { return newGameName; }
             set { SetProperty(ref newGameName, value); }
+        }
+
+        public int SelectedItemsCount { get; private set; }
+
+        private string databaseHeaderInfo = "Database Editor";
+        public string DatabaseHeaderInfo
+        {
+            get { return databaseHeaderInfo; }
+            set { SetProperty(ref databaseHeaderInfo, value); }
         }
         #endregion
 
@@ -79,6 +82,38 @@ namespace Hs.Hypermint.DatabaseDetails
 
             AddGameCommand = new DelegateCommand(AddGame);
 
+            // Command for datagrid selectedItems
+            SelectionChanged = new DelegateCommand<IList>(
+                items =>
+                {
+                    if (items == null)
+                    {
+                        SelectedItemsCount = 0;
+                        return;
+                    }
+
+                    try
+                    {                        
+                        SelectedItemsCount = items.Count;
+
+                        if (SelectedItemsCount > 1)
+                            DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
+                        else if (SelectedItemsCount == 1)
+                        {
+                            var game = items[0] as Game;
+                            DatabaseHeaderInfo = "Selected item: " + game.RomName;
+                        }
+                        else
+                            DatabaseHeaderInfo = "";
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
+
+                });                
+
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
             _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);           
@@ -96,10 +131,20 @@ namespace Hs.Hypermint.DatabaseDetails
 
         #endregion
 
-        #region Commands
-        private ICommand _getGamesCommand;        
+        #region Services
+        private IGameRepo _gameRepo;
+        private ISettingsRepo _settingsRepo;
+        private IFavoriteService _favouriteService;
+        private ISelectedService _selectedService;
+        #endregion
+
+        #region Commands & Event
+        private readonly IEventAggregator _eventAggregator;
+        public DelegateCommand AddGameCommand { get; private set; }
+        private ICommand _getGamesCommand;   // UN-USED??
         public DelegateCommand SaveDb { get; set; }
         public DelegateCommand AuditScanStart { get; private set; }
+        public DelegateCommand<IList> SelectionChanged { get; set; }        
         #endregion
 
         #region Filter Methods
@@ -209,10 +254,13 @@ namespace Hs.Hypermint.DatabaseDetails
 
                         updateFavoritesForGamesList();
                     }
+
+                    GamesList.CurrentChanged += GamesList_CurrentChanged;
+                    
                 }
             }
 
-        }
+        }        
 
         private void updateFavoritesForGamesList()
         {

@@ -76,7 +76,7 @@
     <Compile Include="Controls\EditDatabaseControls.xaml.cs">
       <DependentUpon>EditDatabaseControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseDetailsView.xaml.cs">
+    <Compile Include="Views\DatabaseDetailsView.xaml.cs">
       <DependentUpon>DatabaseDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IUpdateGames.cs" />
@@ -95,7 +95,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ModuleInit.cs" />
-    <Compile Include="DatabaseDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DatabaseDetailsViewModel.cs" />
     <Compile Include="Services\FavoriteService.cs" />
     <Compile Include="Services\HyperspinXmlService.cs" />
     <Compile Include="Services\IFavoriteService.cs" />
@@ -116,7 +116,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DatabaseDetailsView.xaml">
+    <Page Include="Views\DatabaseDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -139,9 +139,7 @@
       <Name>Hs.Hypermint.Services</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

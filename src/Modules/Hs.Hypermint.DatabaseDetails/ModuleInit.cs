@@ -1,10 +1,9 @@
 ﻿using Hs.Hypermint.DatabaseDetails.Services;
+using Hs.Hypermint.DatabaseDetails.Views;
 using Hs.Hypermint.Services;
-using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
-using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 
