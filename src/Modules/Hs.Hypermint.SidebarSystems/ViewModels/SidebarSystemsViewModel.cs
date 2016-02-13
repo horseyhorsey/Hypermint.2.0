@@ -11,7 +11,7 @@ using Hypermint.Base;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Hs.Hypermint.SidebarSystems
+namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
     public class SidebarSystemsViewModel : ViewModelBase
     {
@@ -24,11 +24,11 @@ namespace Hs.Hypermint.SidebarSystems
             set { SetProperty(ref _systemWheelImage, value); }
         }
 
-        private string _systemTitleCount;
-        public string SystemTitleCount
+        private string mainMenuDataBaseCount = "Main Menus: ";
+        public string MainMenuDataBaseCount
         {
-            get { return "Systems: "; }
-            set { SetProperty(ref _systemTitleCount, value); }
+            get { return mainMenuDataBaseCount; }
+            set { SetProperty(ref mainMenuDataBaseCount, value); }
         }
 
         private string systemTextFilter;
@@ -89,7 +89,7 @@ namespace Hs.Hypermint.SidebarSystems
                 if (databases.Count != 0)
                 {
                     SelectedMainMenu = "Main Menu";
-
+                    MainMenuDataBaseCount = "Main Menus: " + databases.Count;
                     MainMenuDatabases = new ListCollectionView(databases);
 
                     MainMenuDatabases.CurrentChanged += MainMenuDatabases_CurrentChanged;

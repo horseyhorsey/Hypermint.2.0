@@ -12,11 +12,13 @@
     <UserControl.Resources>
         <Style TargetType="{x:Type DataGridCell}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding}" 
+                <DataTrigger 
+                    Binding="{Binding RelativeSource={RelativeSource Self},Path=Content.Text}" 
                      Value="True">
                     <Setter Property="Background" Value="#263DDE36"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding}" Value="False">
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self},Path=Content.Text}"
+                             Value="False">
                     <Setter Property="Background" Value="#26FF5454"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -29,7 +31,8 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="55"></RowDefinition>
             </Grid.RowDefinitions>
-            <DataGrid Height="Auto" ItemsSource="{Binding AuditList}" 
+            <DataGrid Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False"
+                      IsReadOnly="True" SelectionMode="Extended"
                       BorderThickness="2" AutoGenerateColumns="False"  Grid.Row="0">
                 <DataGrid.Columns>
                     

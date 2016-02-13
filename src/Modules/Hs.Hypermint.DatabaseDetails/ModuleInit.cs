@@ -20,7 +20,8 @@ namespace Hs.Hypermint.DatabaseDetails
         {
             UnityContainer.RegisterType<IGameRepo, GameRepo>();
             UnityContainer.RegisterType<IFavoriteService,FavoriteService>();
-            
+            UnityContainer.RegisterType<IFolderExplore, FileFolderService>();
+
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DatabaseDetailsView));                                    
             
         }

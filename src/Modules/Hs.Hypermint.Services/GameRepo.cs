@@ -58,19 +58,18 @@ namespace Hs.Hypermint.Services
                     }
                 }
 
+                if (node.SelectSingleNode("@enabled") != null)
+                {
+                    if (node.SelectSingleNode("@enabled").InnerText != null)
+                    {
+                        enabled = Convert.ToInt32(node.SelectSingleNode("@enabled").InnerText);
+                    }
+                }
+                else
+                    enabled = 1;
+
                 if (!systemName.Contains("Main Menu"))
                 {
-                    if (node.SelectSingleNode("@enabled") != null)
-                    {
-                        if (node.SelectSingleNode("@enabled").InnerText != null)
-                        {
-                            enabled = Convert.ToInt32(node.SelectSingleNode("@enabled").InnerText);
-                        }
-                    }
-                    else
-                        enabled = 1;
-
-
                     desc = node.SelectSingleNode("description").InnerText;
 
                     if (node.SelectSingleNode("cloneof") != null)

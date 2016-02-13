@@ -14,28 +14,28 @@ using System.IO;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hypermint.Base.Services;
 using System.Collections;
+using Hypermint.Base.Constants;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class DatabaseDetailsViewModel : ViewModelBase
     {
-        
+
         #region Properties
         private ICollectionView _gameList;
         public ICollectionView GamesList
         {
             get { return _gameList; }
             set { SetProperty(ref _gameList, value); }
-        }
+        }        
 
-        /// <summary>
-        /// Name of new game to add to database
-        /// </summary>
-        private string newGameName;
-        public string NewGameName
+        public List<Game> SelectedGames { get; set; }
+
+        private ICollectionView systemDatabases;
+        public ICollectionView SystemDatabases
         {
-            get { return newGameName; }
-            set { SetProperty(ref newGameName, value); }
+            get { return systemDatabases; }
+            set { SetProperty(ref systemDatabases, value); }
         }
 
         public int SelectedItemsCount { get; private set; }
@@ -48,31 +48,31 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         }
         #endregion
 
+        #region Commands & Event
+        private readonly IEventAggregator _eventAggregator;        
+        private ICommand _getGamesCommand;   // UN-USED??
+        public DelegateCommand SaveDb { get; set; }
+        public DelegateCommand AuditScanStart { get; private set; }
+        public DelegateCommand<IList> SelectionChanged { get; set; }
+        public DelegateCommand<string> EnableDbItemsCommand { get; set; }
+        public DelegateCommand<string> OpenFolderCommand { get; set; }
+        #endregion
+
         #region Constructors
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
             ISelectedService selectedService, IFavoriteService favoriteService, 
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator, IFolderExplore folderService)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
-            //_getGamesCommand = new Commands.GetGamesCommand()
             _settingsRepo = settings;
-            //_settingsRepo.LoadHypermintSettings();
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;
             _favouriteService = favoriteService;
             _selectedService = selectedService;
+            _folderExploreService = folderService;
 
-            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
-                {
-                try
-                {
-                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
-                }
-                catch (Exception)
-                {
-                    //                
-                }
-            }
+            SetUpGamesListFromMainMenuDb();
+            SelectedGames = new List<Game>();
 
             if (_gameRepo.GamesList != null)
             {
@@ -80,7 +80,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
             }
 
-            AddGameCommand = new DelegateCommand(AddGame);
+            EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
+            OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -89,12 +90,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     if (items == null)
                     {
                         SelectedItemsCount = 0;
+                        SelectedGames.Clear();
                         return;
                     }
 
                     try
-                    {                        
-                        SelectedItemsCount = items.Count;
+                    {
+                        SelectedGames.Clear();
+                        foreach (var item in items)
+                        {
+                            SelectedGames.Add(item as Game);
+                        }
 
                         if (SelectedItemsCount > 1)
                             DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
@@ -109,24 +115,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     catch (Exception)
                     {
 
-                        
+
                     }
 
-                });                
+                });
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
-            _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);           
-            
-        }
+            _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);
 
-        /// <summary>
-        /// Create a new game and add to gameList
-        /// </summary>
-        private void AddGame()
-        {
-            _gameRepo.GamesList.Add(
-                new Game(NewGameName, NewGameName));
         }
 
         #endregion
@@ -136,15 +133,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private ISettingsRepo _settingsRepo;
         private IFavoriteService _favouriteService;
         private ISelectedService _selectedService;
-        #endregion
-
-        #region Commands & Event
-        private readonly IEventAggregator _eventAggregator;
-        public DelegateCommand AddGameCommand { get; private set; }
-        private ICommand _getGamesCommand;   // UN-USED??
-        public DelegateCommand SaveDb { get; set; }
-        public DelegateCommand AuditScanStart { get; private set; }
-        public DelegateCommand<IList> SelectionChanged { get; set; }        
+        private IFolderExplore _folderExploreService;
         #endregion
 
         #region Filter Methods
@@ -231,15 +220,16 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {            
             if (GamesList != null)
             {
-                if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+                var hsPath = _settingsRepo.HypermintSettings.HsPath;
+                if (Directory.Exists(hsPath))
                 {
                     try
                     {
                         if (systemName.Contains("Main Menu"))
-                            _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
+                            _gameRepo.GetGames(hsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
                         else
-                            _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
-
+                            _gameRepo.GetGames(hsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
+                       
                         GamesList = new ListCollectionView(_gameRepo.GamesList);
                     }
                     catch (Exception exception)
@@ -253,6 +243,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
 
                         updateFavoritesForGamesList();
+
+                        updateSystemDatabases();
                     }
 
                     GamesList.CurrentChanged += GamesList_CurrentChanged;
@@ -260,7 +252,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
 
-        }        
+        }
 
         private void updateFavoritesForGamesList()
         {
@@ -279,6 +271,77 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
             
+        }
+
+        private void updateSystemDatabases()
+        {
+            
+            var pathToScan = _settingsRepo.HypermintSettings.HsPath +
+                "\\" +
+                Root.Databases + "\\" +
+                _selectedService.CurrentSystem;
+
+            if (!Directory.Exists(pathToScan)) return;
+
+            var xmlsInDirectory = new List<string>();
+
+            foreach (var item in Directory.GetFiles(pathToScan, "*.xml"))
+            {
+                xmlsInDirectory.Add(item);
+            }
+
+            SystemDatabases = new ListCollectionView(xmlsInDirectory);
+            SystemDatabases.Refresh();
+        }
+
+        private void EnableDbItems(string enabled)
+        {
+            var enableItems = Convert.ToInt32(enabled);
+            if (SelectedGames != null && SelectedGames.Count > 0)
+            {
+                try
+                {
+                    foreach (var game in SelectedGames)
+                    {
+                        var gameIndex = _gameRepo.GamesList.IndexOf(game);
+                        _gameRepo.GamesList[gameIndex].Enabled = enableItems;                        
+                    }
+                                                               
+                    GamesList.Refresh();
+                }
+                catch (Exception) { }
+            }
+        }
+
+        private void SetUpGamesListFromMainMenuDb()
+        {
+            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+            {
+                try
+                {
+                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
+                }
+                catch (Exception)
+                {
+                    //                
+                }
+            }
+        }
+
+        private void OpenFolder(string hyperspinDirType)
+        {
+            switch (hyperspinDirType)
+            {
+                case "Databases":
+                    var pathToOpen = _settingsRepo.HypermintSettings.HsPath;
+                    _folderExploreService.OpenFolder(pathToOpen + "\\" +
+                        Root.Databases + "\\" +
+                        _selectedService.CurrentSystem);
+                        break;
+                default:
+                    break;
+            }
+                        
         }
 
         #endregion

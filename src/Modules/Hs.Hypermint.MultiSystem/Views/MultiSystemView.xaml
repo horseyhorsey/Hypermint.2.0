@@ -37,7 +37,8 @@
                 Margin="617,0,0,5" Width="76" Height="25" VerticalAlignment="Bottom"/>
 
         <TextBox metro:TextBoxHelper.ClearTextButton="True" 
-                 ToolTip="Specify name for multi system" metro:TextBoxHelper.Watermark="Filter System"
+                 ToolTip="Specify name for multi system"
+                 metro:TextBoxHelper.Watermark="New system name"
                  Margin="126,6,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" 
                  Width="206" Height="26" VerticalAlignment="Top"/>
 

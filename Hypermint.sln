@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.IntroVideos", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Audits", "src\Modules\Hs.Hypermint.Audits\Hs.Hypermint.Audits.csproj", "{4DF6B19A-6129-46F7-8020-9F24E5D2584B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandardTests", "StandardTests\StandardTests.csproj", "{A39705A5-7C1D-4CC7-9659-467C983D4B45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{4DF6B19A-6129-46F7-8020-9F24E5D2584B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DF6B19A-6129-46F7-8020-9F24E5D2584B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DF6B19A-6129-46F7-8020-9F24E5D2584B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A39705A5-7C1D-4CC7-9659-467C983D4B45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A39705A5-7C1D-4CC7-9659-467C983D4B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A39705A5-7C1D-4CC7-9659-467C983D4B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A39705A5-7C1D-4CC7-9659-467C983D4B45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

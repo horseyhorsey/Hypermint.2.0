@@ -10,7 +10,7 @@ using Hypermint.Base.Base;
 using System.Diagnostics;
 using Hypermint.Base.Services;
 
-namespace Hs.Hypermint.SidebarSystems
+namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
     public class SystemsViewModel : ViewModelBase
     {
@@ -32,6 +32,11 @@ namespace Hs.Hypermint.SidebarSystems
 
         IEventAggregator _eventAggregator;
         ISelectedService _selectedService;
+
+        public SystemsViewModel()
+        {
+
+        }
 
         public SystemsViewModel(IMainMenuRepo main, IEventAggregator eventAggregator,
             ISettingsRepo settings, ISelectedService selectedService)

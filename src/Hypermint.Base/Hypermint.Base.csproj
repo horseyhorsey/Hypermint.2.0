@@ -85,10 +85,12 @@
     <Compile Include="Base\PrismBaseModule.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Constants\FlyoutNames.cs" />
+    <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\ConvertTime.cs" />
     <Compile Include="Events\Events.cs" />
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Interfaces\IAuditer.cs" />
+    <Compile Include="Interfaces\IFolderExplore.cs" />
     <Compile Include="Interfaces\IFlyoutView.cs" />
     <Compile Include="Interfaces\IGameRepo.cs" />
     <Compile Include="Interfaces\IMainMenuRepo.cs" />

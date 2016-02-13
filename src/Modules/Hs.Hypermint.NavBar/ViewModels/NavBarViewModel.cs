@@ -6,7 +6,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
 {
     public class NavBarViewModel : ViewModelBase
     {
-        private string currentView = "Views: ";
+        private string currentView = "Views: Database editor";
         public string CurrentView
         {
             get { return currentView; }

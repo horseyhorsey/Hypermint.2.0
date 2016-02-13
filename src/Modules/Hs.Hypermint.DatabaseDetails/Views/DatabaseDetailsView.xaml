@@ -3,20 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls"
+             xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True"  
              xmlns:sss="clr-namespace:Hs.Hypermint.DatabaseDetails"
              mc:Ignorable="d" >
+
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="90"></RowDefinition>
             </Grid.RowDefinitions>
 
+            <!--Games database datagrid-->
             <DataGrid x:Name="DatabaseGrid" DockPanel.Dock="Top" BorderThickness="2"
                           ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" 
                       CanUserAddRows="True" >
@@ -32,12 +34,17 @@
                 </i:Interaction.Triggers>
                 
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="Favourite" MaxWidth="90" Binding="{Binding IsFavorite}"/>
-                    <DataGridCheckBoxColumn Header="Enabled" MaxWidth="90" Binding="{Binding Enabled}"/>
+                    <DataGridCheckBoxColumn 
+                        ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                        Header="Fave" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                        MaxWidth="50" Binding="{Binding IsFavorite}"/>
+                    <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                        EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                        Header="On" MaxWidth="40" Binding="{Binding Enabled}"/>
                     <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                     <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}"/>
-                    <DataGridTextColumn Header="Year" Binding="{Binding Year}"/>
+                    <DataGridTextColumn Header="Year" Binding="{Binding Year}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Genre" Binding="{Binding Genre}"/>
                     <DataGridTextColumn Header="CloneOf" Binding="{Binding CloneOf}"/>
                     <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" />
@@ -45,10 +52,8 @@
                 </DataGrid.Columns>
 
             </DataGrid>
-           
-            <DockPanel Grid.Row="1" >
-                <local:EditDatabaseControls></local:EditDatabaseControls>
-            </DockPanel>
+
+            <local:EditDatabaseControls  Grid.Row="1"/>
         </Grid>
     </GroupBox>
 </UserControl>

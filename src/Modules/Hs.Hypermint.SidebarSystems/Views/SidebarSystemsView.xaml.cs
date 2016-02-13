@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Hs.Hypermint.SidebarSystems
+namespace Hs.Hypermint.SidebarSystems.Views
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml

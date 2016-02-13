@@ -3,48 +3,71 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" Width="580.366">
-    <DockPanel Height="42">
-        
-        <TextBox Text="{Binding NewGameName}" Width="150" Height="25"></TextBox>
-        
-        <!--Add game to list-->
-        <Button Style="{DynamicResource MetroCircleButtonStyle}"
-                Command="{Binding AddGameCommand}"
-                Height="40" Width="40" ToolTip="Add game">
-            <Rectangle Width="15" Height="15"
+             xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls"             
+             mc:Ignorable="d" >
+    <DockPanel Height="90">
+
+        <GroupBox Header="Databases" MinWidth="250">
+            <DockPanel>
+                <Button Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding OpenFolderCommand}"
+                        CommandParameter="Databases"
+                        ToolTip="Open system database directory."
+                Height="40" Width="40">
+                    <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
-        <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" HorizontalAlignment="Left" ToolTip="Save database">
-            <Rectangle Width="15" Height="15"
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <ComboBox Height="25" ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
+
+            </DockPanel>
+        </GroupBox>
+
+        <GroupBox Header="Enable">
+            <DockPanel>
+                <Button Margin="5" Content="On " 
+                        Command="{Binding EnableDbItemsCommand}"
+                        CommandParameter="1"
+                        ToolTip="Enable selected items."/>
+                <Button Margin="5" Content="Off" 
+                        Command="{Binding EnableDbItemsCommand}"
+                        CommandParameter="0"
+                        ToolTip="Disable selected items."/>
+            </DockPanel>
+        </GroupBox>
+
+        <GroupBox Header="Save">
+            <DockPanel>
+                <CheckBox Content="Favorites" IsChecked="{Binding SaveFavoritesTxt}"
+                          ToolTip="Save Hyperspin favorites.txt ?"/>
+                <!--Save hyperspin database xml-->
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40"
+                        IsEnabled="{Binding SaveEnabled}" HorizontalAlignment="Left" ToolTip="Save database">
+                    <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
-        <Label Content="Favorites" Margin="0,5"></Label>
-        <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" HorizontalAlignment="Left" ToolTip="Update favorites text for system.">
-            <Rectangle Width="15" Height="15"
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+                <!--Save favorites to xml-->
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        IsEnabled="{Binding SaveEnabled}"
+                        Height="40" Width="40" HorizontalAlignment="Left" ToolTip="Save favorites to xml.">
+                    <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
-        <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40" HorizontalAlignment="Left" ToolTip="Save favorites to xml.">
-            <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_page_arrow}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+        </GroupBox>
+
+
     </DockPanel>
 </UserControl>
