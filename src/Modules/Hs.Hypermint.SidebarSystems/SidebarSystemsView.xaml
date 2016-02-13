@@ -16,7 +16,7 @@
 
     <StackPanel Grid.Row="0">
         <!--<Image  Source="Resources/sysLogo.png"></Image>-->
-        <GroupBox Header="Main Menus">
+        <GroupBox Header="{Binding MainMenuDataBaseCount}">
             <ComboBox ItemsSource="{Binding MainMenuDatabases}" 
                           SelectedItem="{Binding SelectedMainMenu}"></ComboBox>
         </GroupBox>
