@@ -1,6 +1,6 @@
 ﻿using Hypermint.Base.Base;
 
-namespace Hs.Hypermint.WheelCreator
+namespace Hs.Hypermint.WheelCreator.ViewModels
 {
     public class SimpleWheelViewModel : ViewModelBase
     {

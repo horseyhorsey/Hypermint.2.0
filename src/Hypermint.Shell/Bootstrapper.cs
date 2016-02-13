@@ -12,8 +12,8 @@ using Hypermint.Shell.Views;
 using Hs.Hypermint.MultiSystem.Views;
 using Hs.Hypermint.IntroVideos.Views;
 using Hs.Hypermint.Audits.Views;
-using Hs.Hypermint.WheelCreator;
 using Hs.Hypermint.DatabaseDetails.Views;
+using Hs.Hypermint.WheelCreator.Views;
 
 namespace Hypermint.Shell
 {

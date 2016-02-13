@@ -1,4 +1,4 @@
-﻿using Hypermint.Base;
+﻿using Hs.Hypermint.WheelCreator.Views;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Microsoft.Practices.Unity;
