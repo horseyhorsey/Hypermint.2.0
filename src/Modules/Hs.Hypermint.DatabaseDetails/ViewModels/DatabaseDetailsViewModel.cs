@@ -27,17 +27,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             get { return _gameList; }
             set { SetProperty(ref _gameList, value); }
-        }
-
-        /// <summary>
-        /// Name of new game to add to database
-        /// </summary>
-        private string newGameName;
-        public string NewGameName
-        {
-            get { return newGameName; }
-            set { SetProperty(ref newGameName, value); }
-        }
+        }        
 
         public List<Game> SelectedGames { get; set; }
 
@@ -52,8 +42,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #endregion
 
         #region Commands & Event
-        private readonly IEventAggregator _eventAggregator;
-        public DelegateCommand AddGameCommand { get; private set; }
+        private readonly IEventAggregator _eventAggregator;        
         private ICommand _getGamesCommand;   // UN-USED??
         public DelegateCommand SaveDb { get; set; }
         public DelegateCommand AuditScanStart { get; private set; }
@@ -84,7 +73,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
             }
 
-            AddGameCommand = new DelegateCommand(AddGame);
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
 
@@ -308,16 +296,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
         }
-
-        /// <summary>
-        /// Create a new game and add to gameList
-        /// </summary>
-        private void AddGame()
-        {
-            _gameRepo.GamesList.Add(
-                new Game(NewGameName, NewGameName));
-        }
-
 
         private void OpenFolder(string hyperspinDirType)
         {
