@@ -25,6 +25,19 @@
             </DockPanel>
         </GroupBox>
 
+        <GroupBox Header="Enable">
+            <DockPanel>
+                <Button Margin="5" Content="On " 
+                        Command="{Binding EnableDbItemsCommand}"
+                        CommandParameter="1"
+                        ToolTip="Enable selected items."/>
+                <Button Margin="5" Content="Off" 
+                        Command="{Binding EnableDbItemsCommand}"
+                        CommandParameter="0"
+                        ToolTip="Disable selected items."/>
+            </DockPanel>
+        </GroupBox>
+
         <GroupBox Header="Add Game">
             <DockPanel>
                 <TextBox Text="{Binding NewGameName}" Margin="5" Width="150" Height="25"></TextBox>

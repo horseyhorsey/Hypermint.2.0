@@ -38,6 +38,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set { SetProperty(ref newGameName, value); }
         }
 
+        public List<Game> SelectedGames { get; set; }
+
         public int SelectedItemsCount { get; private set; }
 
         private string databaseHeaderInfo = "Database Editor";
@@ -53,24 +55,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             ISelectedService selectedService, IFavoriteService favoriteService, 
             IEventAggregator eventAggregator)
         {
-            if (gameRepo == null) throw new ArgumentNullException("gameRepo");            
-            _settingsRepo = settings;            
+            if (gameRepo == null) throw new ArgumentNullException("gameRepo");
+            _settingsRepo = settings;
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;
             _favouriteService = favoriteService;
             _selectedService = selectedService;
 
-            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
-                {
-                try
-                {
-                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
-                }
-                catch (Exception)
-                {
-                    //                
-                }
-            }
+            SetUpGamesListFromMainMenuDb();
+            SelectedGames = new List<Game>();
 
             if (_gameRepo.GamesList != null)
             {
@@ -79,6 +72,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
 
             AddGameCommand = new DelegateCommand(AddGame);
+            EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -87,12 +81,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     if (items == null)
                     {
                         SelectedItemsCount = 0;
+                        SelectedGames.Clear();
                         return;
                     }
 
                     try
-                    {                        
-                        SelectedItemsCount = items.Count;
+                    {
+                        SelectedGames.Clear();
+                        foreach (var item in items)
+                        {
+                            SelectedGames.Add(item as Game);
+                        }
 
                         if (SelectedItemsCount > 1)
                             DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
@@ -107,15 +106,30 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     catch (Exception)
                     {
 
-                        
+
                     }
 
-                });                
+                });
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
-            _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);           
-            
+            _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);
+
+        }
+
+        private void SetUpGamesListFromMainMenuDb()
+        {
+            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+            {
+                try
+                {
+                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
+                }
+                catch (Exception)
+                {
+                    //                
+                }
+            }
         }
 
         /// <summary>
@@ -140,9 +154,10 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private readonly IEventAggregator _eventAggregator;
         public DelegateCommand AddGameCommand { get; private set; }
         private ICommand _getGamesCommand;   // UN-USED??
-        public DelegateCommand SaveDb { get; set; }
+        public DelegateCommand SaveDb { get; set; }        
         public DelegateCommand AuditScanStart { get; private set; }
-        public DelegateCommand<IList> SelectionChanged { get; set; }        
+        public DelegateCommand<IList> SelectionChanged { get; set; }
+        public DelegateCommand<string> EnableDbItemsCommand { get; set; }
         #endregion
 
         #region Filter Methods
@@ -278,6 +293,26 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
             
         }
+
+        private void EnableDbItems(string enabled)
+        {
+            var enableItems = Convert.ToInt32(enabled);
+            if (SelectedGames != null && SelectedGames.Count > 0)
+            {
+                try
+                {
+                    foreach (var game in SelectedGames)
+                    {
+                        var gameIndex = _gameRepo.GamesList.IndexOf(game);
+                        _gameRepo.GamesList[gameIndex].Enabled = enableItems;                        
+                    }
+                                                               
+                    GamesList.Refresh();
+                }
+                catch (Exception) { }
+            }
+        }
+
 
         #endregion
 
