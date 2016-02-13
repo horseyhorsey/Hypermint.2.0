@@ -11,7 +11,7 @@ using Hypermint.Base;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Hs.Hypermint.SidebarSystems
+namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
     public class SidebarSystemsViewModel : ViewModelBase
     {

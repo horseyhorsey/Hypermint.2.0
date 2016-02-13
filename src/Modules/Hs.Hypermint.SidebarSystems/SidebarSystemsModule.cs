@@ -1,4 +1,5 @@
-﻿using Hypermint.Base.Base;
+﻿using Hs.Hypermint.SidebarSystems.Views;
+using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
@@ -14,8 +15,7 @@ namespace Hs.Hypermint.SidebarSystems
 
         public override void Initialize()
         {
-            RegionManager.RegisterViewWithRegion(RegionNames.SidebarRegion, typeof(SidebarSystemsView));
-            RegionManager.RegisterViewWithRegion(RegionNames.SystemsRegion, typeof(SystemsView));
+            RegionManager.RegisterViewWithRegion(RegionNames.SidebarRegion, typeof(SidebarSystemsView));            
         }
 
     }

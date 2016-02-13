@@ -109,9 +109,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\SystemFilterControl.xaml.cs">
-      <DependentUpon>SystemFilterControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SidebarSystemsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -126,15 +123,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SidebarSystemsViewModel.cs" />
-    <Compile Include="SidebarSystemsView.xaml.cs">
+    <Compile Include="ViewModels\SidebarSystemsViewModel.cs" />
+    <Compile Include="Views\SidebarSystemsView.xaml.cs">
       <DependentUpon>SidebarSystemsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SystemsView.xaml.cs">
+    <Compile Include="Views\SystemsView.xaml.cs">
       <DependentUpon>SystemsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SystemsViewModel.cs" />
-    <Compile Include="ViewModels\SystemFilterControlViewModel.cs" />
+    <Compile Include="ViewModels\SystemsViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -161,15 +157,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\SystemFilterControl.xaml">
+    <Page Include="Views\SidebarSystemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidebarSystemsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SystemsView.xaml">
+    <Page Include="Views\SystemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
