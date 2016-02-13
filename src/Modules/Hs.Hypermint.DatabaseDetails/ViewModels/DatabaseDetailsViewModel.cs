@@ -31,6 +31,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         public List<Game> SelectedGames { get; set; }
 
+        private ICollectionView systemDatabases;
+        public ICollectionView SystemDatabases
+        {
+            get { return systemDatabases; }
+            set { SetProperty(ref systemDatabases, value); }
+        }
+
         public int SelectedItemsCount { get; private set; }
 
         private string databaseHeaderInfo = "Database Editor";
@@ -213,14 +220,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {            
             if (GamesList != null)
             {
-                if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+                var hsPath = _settingsRepo.HypermintSettings.HsPath;
+                if (Directory.Exists(hsPath))
                 {
                     try
                     {
                         if (systemName.Contains("Main Menu"))
-                            _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
+                            _gameRepo.GetGames(hsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
                         else
-                            _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
+                            _gameRepo.GetGames(hsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
                        
                         GamesList = new ListCollectionView(_gameRepo.GamesList);
                     }
@@ -235,6 +243,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
 
                         updateFavoritesForGamesList();
+
+                        updateSystemDatabases();
                     }
 
                     GamesList.CurrentChanged += GamesList_CurrentChanged;
@@ -242,7 +252,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
 
-        }        
+        }
 
         private void updateFavoritesForGamesList()
         {
@@ -261,6 +271,27 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
             
+        }
+
+        private void updateSystemDatabases()
+        {
+            
+            var pathToScan = _settingsRepo.HypermintSettings.HsPath +
+                "\\" +
+                Root.Databases + "\\" +
+                _selectedService.CurrentSystem;
+
+            if (!Directory.Exists(pathToScan)) return;
+
+            var xmlsInDirectory = new List<string>();
+
+            foreach (var item in Directory.GetFiles(pathToScan, "*.xml"))
+            {
+                xmlsInDirectory.Add(item);
+            }
+
+            SystemDatabases = new ListCollectionView(xmlsInDirectory);
+            SystemDatabases.Refresh();
         }
 
         private void EnableDbItems(string enabled)

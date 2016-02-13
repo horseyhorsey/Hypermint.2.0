@@ -22,7 +22,7 @@
                     </Rectangle>
                 </Button>
 
-                <ComboBox Height="25"></ComboBox>
+                <ComboBox Height="25" ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
 
             </DockPanel>
         </GroupBox>
