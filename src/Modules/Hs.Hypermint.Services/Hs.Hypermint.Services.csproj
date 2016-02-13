@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auditer.cs" />
+    <Compile Include="FileFolderService.cs" />
     <Compile Include="GameRepo.cs" />
     <Compile Include="IniFile.cs" />
     <Compile Include="MainMenuRepo.cs" />
