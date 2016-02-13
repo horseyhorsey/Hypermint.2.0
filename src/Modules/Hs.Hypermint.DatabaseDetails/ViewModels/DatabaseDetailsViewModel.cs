@@ -19,7 +19,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class DatabaseDetailsViewModel : ViewModelBase
     {
-        
+
         #region Properties
         private ICollectionView _gameList;
         public ICollectionView GamesList
@@ -45,7 +45,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             get { return databaseHeaderInfo; }
             set { SetProperty(ref databaseHeaderInfo, value); }
-        }
+        }    
         #endregion
 
         #region Constructors
@@ -53,10 +53,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             ISelectedService selectedService, IFavoriteService favoriteService, 
             IEventAggregator eventAggregator)
         {
-            if (gameRepo == null) throw new ArgumentNullException("gameRepo");
-            //_getGamesCommand = new Commands.GetGamesCommand()
-            _settingsRepo = settings;
-            //_settingsRepo.LoadHypermintSettings();
+            if (gameRepo == null) throw new ArgumentNullException("gameRepo");            
+            _settingsRepo = settings;            
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;
             _favouriteService = favoriteService;
@@ -239,7 +237,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                             _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
                         else
                             _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
-
+                       
                         GamesList = new ListCollectionView(_gameRepo.GamesList);
                     }
                     catch (Exception exception)

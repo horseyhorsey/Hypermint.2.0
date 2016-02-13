@@ -85,6 +85,7 @@
     <Compile Include="Base\PrismBaseModule.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Constants\FlyoutNames.cs" />
+    <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\ConvertTime.cs" />
     <Compile Include="Events\Events.cs" />
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
