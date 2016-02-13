@@ -55,7 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Modules\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
+    <ProjectReference Include="..\..\Modules\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
       <Project>{7C5872EA-A3BD-4BFA-911C-0A9B62F2F11F}</Project>
       <Name>Hs.Hypermint.Services</Name>
     </ProjectReference>
