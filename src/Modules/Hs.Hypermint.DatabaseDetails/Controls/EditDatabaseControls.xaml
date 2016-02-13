@@ -7,10 +7,27 @@
              mc:Ignorable="d" >
     <DockPanel Height="90">
 
+        <GroupBox Header="Databases" MinWidth="250">
+            <DockPanel>
+                <Button Style="{DynamicResource MetroCircleButtonStyle}"
+                        ToolTip="Open system database directory."
+                Height="40" Width="40">
+                    <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <ComboBox Height="25"></ComboBox>
+
+            </DockPanel>
+        </GroupBox>
+
         <GroupBox Header="Add Game">
             <DockPanel>
                 <TextBox Text="{Binding NewGameName}" Margin="5" Width="150" Height="25"></TextBox>
-
                 <!--Add game to list-->
                 <Button Style="{DynamicResource MetroCircleButtonStyle}"
                 Command="{Binding AddGameCommand}"
