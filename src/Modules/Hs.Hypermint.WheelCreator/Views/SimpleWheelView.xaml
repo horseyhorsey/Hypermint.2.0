@@ -24,10 +24,10 @@
             <TextBox  HorizontalAlignment="Left" TextWrapping="Wrap" Text="Current Genre" Width="303" Height="26" VerticalAlignment="Top"/>
         </StackPanel>
         
-        <!--Top Dock Panel Process Tools-->
+        <!--Top Dock Panel Process Tools-->           
         <local:ProcessTools VerticalAlignment="Bottom" Grid.Row="0"></local:ProcessTools>
-
-        <GroupBox Grid.Row="1" Header="Font &amp; Wheel Type">
+            
+            <GroupBox Grid.Row="1" Header="Font &amp; Wheel Type">
             <Grid VerticalAlignment="Top" Margin="0,0,-2,-1">
                 <StackPanel Margin="228,7,157,22" Orientation="Horizontal">
                     <RadioButton Content="Wheels" HorizontalAlignment="Left" Width="69" ToolTip="Wheels for hyperspin" IsChecked="True" Height="26" VerticalAlignment="Top" />
