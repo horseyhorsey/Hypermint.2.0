@@ -39,6 +39,7 @@
                      <DataGridTextColumn Header="Romname" Binding="{Binding RomName}"/>
                         <!--<DataGridTextColumn Header="Description" Binding="{Binding Description}"/>-->
                         <!--<DataGridTextColumn Header="RomNam" Binding="{Binding RomName}"/>-->
+                    <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
                     <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
                     <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
                     <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
