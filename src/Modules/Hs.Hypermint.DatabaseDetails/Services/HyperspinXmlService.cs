@@ -2,17 +2,17 @@
 using System.Xml.Serialization;
 using System.IO;
 using Hypermint.Base.Constants;
+using System.Collections.Generic;
 
 namespace Hs.Hypermint.DatabaseDetails.Services
 {
     public class HyperspinXmlService : IHyperspinXmlService
     {
-        public bool SerializeHyperspinXml(Games gamesList, string systemName, 
+        public bool SerializeHyperspinXml(IList<Game> gamesList, string systemName, 
             string hyperspinPath, string dbName = "")
-        {
-            if (dbName != "Favorites")
-                gamesList.RemoveAt(0);
-
+        {            
+            // This is to allow setting the database name
+            // Used for favorites ..atm
             if (string.IsNullOrEmpty(dbName))
                 dbName = systemName;
 

@@ -45,7 +45,10 @@
                 <CheckBox Content="Favorites" IsChecked="{Binding SaveFavoritesTxt}"
                           ToolTip="Save Hyperspin favorites.txt ?"/>
                 <!--Save hyperspin database xml-->
-                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="40" Width="40"
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        Height="40" Width="40"
+                        Command="{Binding SaveXmlCommand}"
+                        CommandParameter=""
                         IsEnabled="{Binding SaveEnabled}" HorizontalAlignment="Left" ToolTip="Save database">
                     <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
@@ -57,6 +60,8 @@
                 <!--Save favorites to xml-->
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         IsEnabled="{Binding SaveEnabled}"
+                        Command="{Binding SaveXmlCommand}"
+                        CommandParameter="Favorites"
                         Height="40" Width="40" HorizontalAlignment="Left" ToolTip="Save favorites to xml.">
                     <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">

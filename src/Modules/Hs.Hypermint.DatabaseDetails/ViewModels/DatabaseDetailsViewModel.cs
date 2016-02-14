@@ -49,18 +49,18 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #endregion
 
         #region Commands & Event
-        private readonly IEventAggregator _eventAggregator;        
-        private ICommand _getGamesCommand;   // UN-USED??
-        public DelegateCommand SaveDb { get; set; }
+        private readonly IEventAggregator _eventAggregator;                        
         public DelegateCommand AuditScanStart { get; private set; }
         public DelegateCommand<IList> SelectionChanged { get; set; }
         public DelegateCommand<string> EnableDbItemsCommand { get; set; }
         public DelegateCommand<string> OpenFolderCommand { get; set; }
+        public DelegateCommand<string> SaveXmlCommand { get; set; }        
         #endregion
 
         #region Constructors
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
-            ISelectedService selectedService, IFavoriteService favoriteService, 
+            IHyperspinXmlService xmlService, ISelectedService selectedService, 
+            IFavoriteService favoriteService, 
             IEventAggregator eventAggregator, IFolderExplore folderService)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
@@ -70,6 +70,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _favouriteService = favoriteService;
             _selectedService = selectedService;
             _folderExploreService = folderService;
+            _xmlService = xmlService;
 
             SetUpGamesListFromMainMenuDb();
             SelectedGames = new List<Game>();
@@ -82,6 +83,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
+            SaveXmlCommand = new DelegateCommand<string>(SaveXml);
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -134,6 +136,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private IFavoriteService _favouriteService;
         private ISelectedService _selectedService;
         private IFolderExplore _folderExploreService;
+        private IHyperspinXmlService _xmlService;
         #endregion
 
         #region Filter Methods
@@ -342,6 +345,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     break;
             }
                         
+        }
+
+        private void SaveXml(string dbName)
+        {
+            try
+            {
+                _xmlService.SerializeHyperspinXml(_gameRepo.GamesList, _selectedService.CurrentSystem,
+                _settingsRepo.HypermintSettings.HsPath, dbName);
+            }
+            catch (Exception e) { var m = e.Message; }
+            
         }
 
         #endregion
