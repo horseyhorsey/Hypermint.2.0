@@ -12,7 +12,7 @@ namespace Hypermint.Base.Interfaces
 
         void ScanForMedia(string hyperspinPath, string systemName, Games databaseGameList);
 
-        void ScanForMediaMainMenu(string hyperspinPath, List<MainMenu> mainMenuList);
+        void ScanForMediaMainMenu(string hyperspinPath, Games mainMenuList);
 
     }
 }

@@ -91,16 +91,27 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private void RunScan()
         {
-            if (AuditList !=null && Directory.Exists(_settings.HypermintSettings.HsPath))
+            var hsPath = _settings.HypermintSettings.HsPath;
+
+            if (AuditList !=null && Directory.Exists(hsPath))
             {
                 var systemName = _selectedService.CurrentSystem;
 
-               _auditer.ScanForMedia(
-                   _settings.HypermintSettings.HsPath,
-                    systemName, _gameRepo.GamesList
-                    );
-            
-                 AuditList = new ListCollectionView(_auditer.AuditsGameList);
+                if (systemName.Contains("Main Menu"))
+                {
+                    _auditer.ScanForMediaMainMenu(
+                        hsPath, _gameRepo.GamesList);
+
+                    AuditList = new ListCollectionView(_auditer.AuditsMenuList);
+                }
+                else
+                {
+                    _auditer.ScanForMedia(
+                        hsPath, systemName, _gameRepo.GamesList
+                         );
+
+                    AuditList = new ListCollectionView(_auditer.AuditsGameList);
+                }
             }
         }
         
