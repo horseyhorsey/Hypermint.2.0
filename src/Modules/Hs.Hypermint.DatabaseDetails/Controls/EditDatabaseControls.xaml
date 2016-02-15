@@ -31,12 +31,12 @@
                         Command="{Binding EnableFaveItemsCommand}"
                         CommandParameter="0"
                         ToolTip="Disable selected items."/>
-                <!--Save favorites to xml-->
+                <!--Save favorites-->
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         IsEnabled="{Binding SaveEnabled}"
                         Command="{Binding SaveXmlCommand}"
                         CommandParameter="Favorites"
-                        Height="40" Width="40" HorizontalAlignment="Left" ToolTip="Save favorites to xml.">
+                        Height="40" Width="40" HorizontalAlignment="Left" ToolTip="Save favorites text.">
                     <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                         <Rectangle.OpacityMask>
