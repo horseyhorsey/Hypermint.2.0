@@ -234,9 +234,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// </summary>
         /// <param name="systemName"></param>
         private void UpdateGames(string systemName)
-        {            
+        {
+            _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Status: ");
             if (GamesList != null)
             {
+                _gameRepo.GamesList.Clear();
                 var hsPath = _settingsRepo.HypermintSettings.HsPath;
                 if (Directory.Exists(hsPath))
                 {
@@ -250,7 +252,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                             //Populate genres
                             var genrePath = Path.Combine(hsPath, Root.Databases, systemName, "Genre.xml");
-                            if (File.Exists(genrePath)) { _genreRepo.PopulateGenres(genrePath); }
+                            if (File.Exists(genrePath))
+                            {
+                                 
+                                _genreRepo.PopulateGenres(genrePath);
+                            }
                             else { _genreRepo.GenreList.Clear(); }
                         }
                        
@@ -258,10 +264,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         
                         GenreDatabases = new ListCollectionView(_genreRepo.GenreList);
                     }
-                    catch (Exception exception)
+                    catch (System.Xml.XmlException exception)
                     {
                         exception.GetBaseException();
                         var msg = exception.Message;
+                        _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri +  " : " + msg);
+                    }
+                    catch (Exception e)
+                    {
+
                     }
                     finally
                     {
@@ -271,8 +282,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         updateFavoritesForGamesList();
 
                         updateSystemDatabases();
-
-                        updateGenres();
+                        
                     }
 
                     GamesList.CurrentChanged += GamesList_CurrentChanged;
@@ -321,11 +331,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             SystemDatabases = new ListCollectionView(xmlsInDirectory);         
         }
 
-
         private void updateGenres()
-        {
+        {            
             if (_genreRepo.GenreList.Count != 0 && _genreRepo.GenreList != null)
             {                
+                _genreRepo.PopulateGenres(_selectedService.CurrentSystem);
                 GenreDatabases = new ListCollectionView(_genreRepo.GenreList);
                 
             }
@@ -398,6 +408,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #region Events
         private void GamesList_CurrentChanged(object sender, EventArgs e)
         {
+            
             if (GamesList != null)
             {
                 Game game = GamesList.CurrentItem as Game;
@@ -408,8 +419,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
+        protected override void OnPropertyChanged(string propertyName)
+        {            
             base.OnPropertyChanged(propertyName);
         }
         #endregion

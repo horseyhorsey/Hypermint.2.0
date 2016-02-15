@@ -36,5 +36,12 @@ namespace Hypermint.Base
     {
 
     }
+
+
+    public class ErrorMessageEvent : PubSubEvent<string>
+    {
+
+    }
     
+
 }

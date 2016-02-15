@@ -21,7 +21,7 @@
 
     <Label Content="Genres" Margin="5"></Label>
 
-    <ComboBox Margin="5" Height="25" Width="160" ItemsSource="{Binding GenreDatabases,UpdateSourceTrigger=PropertyChanged}"/>
+    <ComboBox Margin="5" Height="25" Width="160" ItemsSource="{Binding GenreDatabases,UpdateSourceTrigger=Default}"/>
 
 
 </DockPanel>
