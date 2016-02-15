@@ -14,12 +14,14 @@
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="40" MaxHeight="90"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="90"></RowDefinition>
             </Grid.RowDefinitions>
 
+            <local:DatabasePickerCtrl Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <!--Games database datagrid-->
-            <DataGrid x:Name="DatabaseGrid" DockPanel.Dock="Top" BorderThickness="2"
+            <DataGrid x:Name="DatabaseGrid" Grid.Row="1" VerticalAlignment="Top" BorderThickness="2"
                           ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" 
                       CanUserAddRows="True" >
 
@@ -37,10 +39,10 @@
                     <DataGridCheckBoxColumn 
                         ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                         Header="Fave" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                        MaxWidth="50" Binding="{Binding IsFavorite}"/>
+                        MaxWidth="50" Binding="{Binding IsFavorite,UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                        Header="On" MaxWidth="40" Binding="{Binding Enabled}"/>
+                        Header="On" MaxWidth="40" Binding="{Binding Enabled,UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                     <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}"/>
@@ -52,8 +54,9 @@
                 </DataGrid.Columns>
 
             </DataGrid>
-
-            <local:EditDatabaseControls  Grid.Row="1"/>
+            
+            
+            <local:EditDatabaseControls  Grid.Row="2" Grid.Column="1"/>
         </Grid>
     </GroupBox>
 </UserControl>

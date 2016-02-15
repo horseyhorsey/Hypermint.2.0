@@ -6,27 +6,7 @@
              xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls"     
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" >
-    <DockPanel Height="90">
-
-        <GroupBox Header="Databases" MinWidth="250">
-            <DockPanel>
-                <Button Style="{DynamicResource MetroCircleButtonStyle}"
-                        Command="{Binding OpenFolderCommand}"
-                        CommandParameter="Databases"
-                        ToolTip="Open system database directory."
-                Height="40" Width="40">
-                    <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-
-                <ComboBox Height="25" ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
-
-            </DockPanel>
-        </GroupBox>
+    <DockPanel MaxHeight="85">
 
         <GroupBox Header="Enable">
             <DockPanel>
@@ -40,10 +20,17 @@
                         ToolTip="Disable selected items."/>
             </DockPanel>
         </GroupBox>
-        
-        
+
         <GroupBox Header="Favorites">
             <DockPanel>
+                <Button Margin="5" Content="On " 
+                        Command="{Binding EnableFaveItemsCommand}"
+                        CommandParameter="1"
+                        ToolTip="Enable selected items."/>
+                <Button Margin="5" Content="Off" 
+                        Command="{Binding EnableFaveItemsCommand}"
+                        CommandParameter="0"
+                        ToolTip="Disable selected items."/>
                 <!--Save favorites to xml-->
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         IsEnabled="{Binding SaveEnabled}"
@@ -57,12 +44,13 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
-                <CheckBox Margin="5" Content="Add to genre" IsChecked="{Binding SaveFavoritesTxt}"
-                          ToolTip="Add favorites to genre.xml?"/>
+                <CheckBox Margin="5" Content="As Xml" IsChecked="{Binding SaveFavoritesXml}"
+                          ToolTip="Save favorites to favorites.xml?"/>
+                <CheckBox Margin="5" Content="Add to genre" IsChecked="{Binding FavesToGenre}"
+                          ToolTip="Add favorites to genre.xml? (Not implemented)"/>
             </DockPanel>
         </GroupBox>
         
-
         <GroupBox Header="Save">
             <DockPanel>
                 <TextBox Margin="5" ToolTip="Leave empty to save as this system name" metro:TextBoxHelper.Watermark="Database Name"

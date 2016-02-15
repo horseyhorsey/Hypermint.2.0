@@ -83,7 +83,7 @@
 
             <StatusBar  Grid.Row="5" Grid.Column="1" Margin="2" Grid.ColumnSpan="2"
                    BorderThickness="2">
-                <StatusBarItem >Status</StatusBarItem>
+                <StatusBarItem Content="{Binding ErrorMessage}"></StatusBarItem>
             </StatusBar>
 
         </Grid>

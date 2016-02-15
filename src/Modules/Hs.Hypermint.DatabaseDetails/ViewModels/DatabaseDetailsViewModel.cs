@@ -38,6 +38,27 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set { SetProperty(ref systemDatabases, value); }
         }
 
+        private ICollectionView genreDatabases;
+        public ICollectionView GenreDatabases
+        {
+            get { return genreDatabases; }
+            set { SetProperty(ref genreDatabases, value); }
+        }
+
+        private bool saveFavoritesXml;
+        public bool SaveFavoritesXml
+        {
+            get { return saveFavoritesXml; }
+            set { SetProperty(ref saveFavoritesXml, value); }
+        }
+
+        private bool addToGenre;
+        public bool AddToGenre
+        {
+            get { return addToGenre; }
+            set { SetProperty(ref addToGenre, value); }
+        }
+
         public int SelectedItemsCount { get; private set; }
 
         private string databaseHeaderInfo = "Database Editor";
@@ -54,13 +75,14 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand<IList> SelectionChanged { get; set; }
         public DelegateCommand<string> EnableDbItemsCommand { get; set; }
         public DelegateCommand<string> OpenFolderCommand { get; set; }
-        public DelegateCommand<string> SaveXmlCommand { get; set; }        
+        public DelegateCommand<string> SaveXmlCommand { get; set; }
+        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
         #endregion
 
         #region Constructors
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
             IHyperspinXmlService xmlService, ISelectedService selectedService, 
-            IFavoriteService favoriteService, 
+            IFavoriteService favoriteService, IGenreRepo genreRepo,
             IEventAggregator eventAggregator, IFolderExplore folderService)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
@@ -71,6 +93,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _selectedService = selectedService;
             _folderExploreService = folderService;
             _xmlService = xmlService;
+            _genreRepo = genreRepo;
 
             SetUpGamesListFromMainMenuDb();
             SelectedGames = new List<Game>();
@@ -81,9 +104,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
             }
 
+            if (_genreRepo.GenreList != null)
+            {
+                GenreDatabases = new ListCollectionView(_genreRepo.GenreList);                
+            }
+
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
             SaveXmlCommand = new DelegateCommand<string>(SaveXml);
+            EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -137,6 +166,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private ISelectedService _selectedService;
         private IFolderExplore _folderExploreService;
         private IHyperspinXmlService _xmlService;
+        private IGenreRepo _genreRepo;
         #endregion
 
         #region Filter Methods
@@ -220,9 +250,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// </summary>
         /// <param name="systemName"></param>
         private void UpdateGames(string systemName)
-        {            
+        {
+            _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Status: ");
             if (GamesList != null)
             {
+                _gameRepo.GamesList.Clear();
                 var hsPath = _settingsRepo.HypermintSettings.HsPath;
                 if (Directory.Exists(hsPath))
                 {
@@ -231,14 +263,32 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         if (systemName.Contains("Main Menu"))
                             _gameRepo.GetGames(hsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
                         else
+                        {
                             _gameRepo.GetGames(hsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
+
+                            //Populate genres
+                            var genrePath = Path.Combine(hsPath, Root.Databases, systemName, "Genre.xml");
+                            if (File.Exists(genrePath))
+                            {
+                                 
+                                _genreRepo.PopulateGenres(genrePath);
+                            }
+                            else { _genreRepo.GenreList.Clear(); }
+                        }
                        
                         GamesList = new ListCollectionView(_gameRepo.GamesList);
+                        
+                        GenreDatabases = new ListCollectionView(_genreRepo.GenreList);
                     }
-                    catch (Exception exception)
+                    catch (System.Xml.XmlException exception)
                     {
                         exception.GetBaseException();
                         var msg = exception.Message;
+                        _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri +  " : " + msg);
+                    }
+                    catch (Exception e)
+                    {
+
                     }
                     finally
                     {
@@ -248,6 +298,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         updateFavoritesForGamesList();
 
                         updateSystemDatabases();
+                        
                     }
 
                     GamesList.CurrentChanged += GamesList_CurrentChanged;
@@ -293,8 +344,18 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 xmlsInDirectory.Add(item);
             }
 
-            SystemDatabases = new ListCollectionView(xmlsInDirectory);
-            SystemDatabases.Refresh();
+            SystemDatabases = new ListCollectionView(xmlsInDirectory);         
+        }
+
+        private void updateGenres()
+        {            
+            if (_genreRepo.GenreList.Count != 0 && _genreRepo.GenreList != null)
+            {                
+                _genreRepo.PopulateGenres(_selectedService.CurrentSystem);
+                GenreDatabases = new ListCollectionView(_genreRepo.GenreList);
+                
+            }
+        
         }
 
         private void EnableDbItems(string enabled)
@@ -310,6 +371,31 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         _gameRepo.GamesList[gameIndex].Enabled = enableItems;                        
                     }
                                                                
+                    GamesList.Refresh();
+                }
+                catch (Exception) { }
+            }
+        }
+
+        private void EnableFaveItems(string enabled)
+        {
+            var enableItems = false;
+
+            if (enabled == "0")
+                enableItems = false;
+            else
+                enableItems = true;
+
+            if (SelectedGames != null && SelectedGames.Count > 0)
+            {
+                try
+                {
+                    foreach (var game in SelectedGames)
+                    {
+                        var gameIndex = _gameRepo.GamesList.IndexOf(game);
+                        _gameRepo.GamesList[gameIndex].IsFavorite = enableItems;
+                    }
+
                     GamesList.Refresh();
                 }
                 catch (Exception) { }
@@ -351,10 +437,64 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             try
             {
-                _xmlService.SerializeHyperspinXml(_gameRepo.GamesList, _selectedService.CurrentSystem,
-                _settingsRepo.HypermintSettings.HsPath, dbName);
+                if (dbName == "Favorites")
+                {
+                    //Boxing lists, why? Must be better way.
+                    var s = new List<Game>(_gameRepo.GamesList);
+                    var filterFavorites = s.FindAll(m => m.IsFavorite == true);
+                    var games = new Games();
+                    foreach (var item in filterFavorites)
+                    {
+                        games.Add(item);
+                    }
+
+                    if (SaveFavoritesXml)
+                    {
+                        _xmlService.SerializeHyperspinXml(games, _selectedService.CurrentSystem,
+                           _settingsRepo.HypermintSettings.HsPath, dbName);
+                    }
+
+                    //Save faves to text
+                    try
+                    {
+                        var favesTextPath = Path.Combine(
+                            _settingsRepo.HypermintSettings.HsPath,
+                            Root.Databases, _selectedService.CurrentSystem,
+                            "favorites.txt");
+
+                        if (!File.Exists(favesTextPath))
+                        {
+                            File.CreateText(favesTextPath);
+                        }
+
+                        using (StreamWriter writer =
+                            new StreamWriter(favesTextPath))
+                        {
+                            foreach (var favoriteGame in games)
+                            {                                
+                              writer.WriteLine(favoriteGame.RomName);
+                            }
+
+                            writer.Close();
+                        }                        
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
+                    finally { }
+
+                }
+                else {
+                    _xmlService.SerializeHyperspinXml(_gameRepo.GamesList, _selectedService.CurrentSystem,
+                    _settingsRepo.HypermintSettings.HsPath, dbName);
+                }
             }
-            catch (Exception e) { var m = e.Message; }
+            catch (Exception e)
+            {
+                _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(e.TargetSite + " : " + e.Message);
+            }
             
         }
 
@@ -363,6 +503,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #region Events
         private void GamesList_CurrentChanged(object sender, EventArgs e)
         {
+            
             if (GamesList != null)
             {
                 Game game = GamesList.CurrentItem as Game;
@@ -373,8 +514,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
+        protected override void OnPropertyChanged(string propertyName)
+        {            
             base.OnPropertyChanged(propertyName);
         }
         #endregion

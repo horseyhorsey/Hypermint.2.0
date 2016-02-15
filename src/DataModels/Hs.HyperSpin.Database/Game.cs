@@ -48,8 +48,14 @@ namespace Hs.HyperSpin.Database
         [XmlElement("rating")]
         public string Rating { get; set; }
 
+        private bool isFavorite;
         [XmlIgnore]
-        public bool IsFavorite { get; set; }        
+        public bool IsFavorite
+        {
+            get { return isFavorite; }
+            set { isFavorite = value; }
+        }
+        
         #endregion
 
         #region Constructors
