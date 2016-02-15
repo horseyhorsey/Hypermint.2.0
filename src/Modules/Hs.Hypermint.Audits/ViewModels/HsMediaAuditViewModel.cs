@@ -19,6 +19,8 @@ namespace Hs.Hypermint.Audits.ViewModels
         private IGameRepo _gameRepo;
         private IAuditer _auditer;
         public DelegateCommand RunScanCommand { get; private set; }
+        private ICollectionView _auditList;
+        private ISelectedService _selectedService;
         #endregion
 
         #region Properties
@@ -37,9 +39,6 @@ namespace Hs.Hypermint.Audits.ViewModels
                 SetProperty(ref message, value);
             }
         }
-
-        private ICollectionView _auditList;
-        private ISelectedService _selectedService;
 
         public ICollectionView AuditList
         {
@@ -93,26 +92,31 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
             var hsPath = _settings.HypermintSettings.HsPath;
 
-            if (AuditList !=null && Directory.Exists(hsPath))
+            try
             {
-                var systemName = _selectedService.CurrentSystem;
-
-                if (systemName.Contains("Main Menu"))
+                if (AuditList != null && Directory.Exists(hsPath))
                 {
-                    _auditer.ScanForMediaMainMenu(
-                        hsPath, _gameRepo.GamesList);
+                    var systemName = _selectedService.CurrentSystem;
 
-                    AuditList = new ListCollectionView(_auditer.AuditsMenuList);
-                }
-                else
-                {
-                    _auditer.ScanForMedia(
-                        hsPath, systemName, _gameRepo.GamesList
-                         );
+                    if (systemName.Contains("Main Menu"))
+                    {
+                        _auditer.ScanForMediaMainMenu(
+                            hsPath, _gameRepo.GamesList);
 
-                    AuditList = new ListCollectionView(_auditer.AuditsGameList);
+                        AuditList = new ListCollectionView(_auditer.AuditsMenuList);
+                    }
+                    else
+                    {
+                        _auditer.ScanForMedia(
+                            hsPath, systemName, _gameRepo.GamesList
+                             );
+
+                        AuditList = new ListCollectionView(_auditer.AuditsGameList);
+                    }
                 }
             }
+            catch (Exception) { }
+
         }
         
         private void SetMessage(string obj)

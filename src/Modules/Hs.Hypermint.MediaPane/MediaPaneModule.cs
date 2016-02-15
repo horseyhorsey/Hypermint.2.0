@@ -21,7 +21,7 @@ namespace Hs.Hypermint.MediaPane
 
         public override void Initialize()
         {
-            UnityContainer.RegisterType<ISelectedService, SelectedService>();
+            
         }
     }
 }

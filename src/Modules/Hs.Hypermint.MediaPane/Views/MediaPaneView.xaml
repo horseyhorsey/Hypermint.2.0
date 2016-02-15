@@ -14,7 +14,7 @@
         <local:MediaPaneControls></local:MediaPaneControls>
 
         <Grid Grid.Row="1">
-            <Image Stretch="Uniform"  Source="{Binding WheelSource}" AllowDrop="True"/>
+            <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
 
             <ContextMenuService.ContextMenu>
                 <ContextMenu>
