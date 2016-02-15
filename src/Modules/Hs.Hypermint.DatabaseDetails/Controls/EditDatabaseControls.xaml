@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls"             
+             xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls"     
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" >
     <DockPanel Height="90">
 
@@ -39,24 +40,10 @@
                         ToolTip="Disable selected items."/>
             </DockPanel>
         </GroupBox>
-
-        <GroupBox Header="Save">
+        
+        
+        <GroupBox Header="Favorites">
             <DockPanel>
-                <CheckBox Content="Favorites" IsChecked="{Binding SaveFavoritesTxt}"
-                          ToolTip="Save Hyperspin favorites.txt ?"/>
-                <!--Save hyperspin database xml-->
-                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
-                        Height="40" Width="40"
-                        Command="{Binding SaveXmlCommand}"
-                        CommandParameter=""
-                        IsEnabled="{Binding SaveEnabled}" HorizontalAlignment="Left" ToolTip="Save database">
-                    <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
                 <!--Save favorites to xml-->
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         IsEnabled="{Binding SaveEnabled}"
@@ -70,9 +57,31 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
+                <CheckBox Margin="5" Content="Add to genre" IsChecked="{Binding SaveFavoritesTxt}"
+                          ToolTip="Add favorites to genre.xml?"/>
             </DockPanel>
         </GroupBox>
+        
 
+        <GroupBox Header="Save">
+            <DockPanel>
+                <TextBox Margin="5" ToolTip="Leave empty to save as this system name" metro:TextBoxHelper.Watermark="Database Name"
+                         Height="25" Width="150"/>
+                <!--Save hyperspin database xml-->
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        Height="40" Width="40"
+                        Command="{Binding SaveXmlCommand}"
+                        CommandParameter=""
+                        IsEnabled="{Binding SaveEnabled}" HorizontalAlignment="Left" ToolTip="Save database">
+                    <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+        </GroupBox>
 
     </DockPanel>
 </UserControl>
