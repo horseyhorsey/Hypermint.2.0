@@ -23,6 +23,14 @@
 
         <GroupBox Header="Favorites">
             <DockPanel>
+                <Button Margin="5" Content="On " 
+                        Command="{Binding EnableFaveItemsCommand}"
+                        CommandParameter="1"
+                        ToolTip="Enable selected items."/>
+                <Button Margin="5" Content="Off" 
+                        Command="{Binding EnableFaveItemsCommand}"
+                        CommandParameter="0"
+                        ToolTip="Disable selected items."/>
                 <!--Save favorites to xml-->
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         IsEnabled="{Binding SaveEnabled}"
@@ -36,8 +44,10 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
-                <CheckBox Margin="5" Content="Add to genre" IsChecked="{Binding SaveFavoritesTxt}"
-                          ToolTip="Add favorites to genre.xml?"/>
+                <CheckBox Margin="5" Content="As Xml" IsChecked="{Binding SaveFavoritesXml}"
+                          ToolTip="Save favorites to favorites.xml?"/>
+                <CheckBox Margin="5" Content="Add to genre" IsChecked="{Binding FavesToGenre}"
+                          ToolTip="Add favorites to genre.xml? (Not implemented)"/>
             </DockPanel>
         </GroupBox>
         

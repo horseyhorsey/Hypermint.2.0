@@ -45,6 +45,20 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set { SetProperty(ref genreDatabases, value); }
         }
 
+        private bool saveFavoritesXml;
+        public bool SaveFavoritesXml
+        {
+            get { return saveFavoritesXml; }
+            set { SetProperty(ref saveFavoritesXml, value); }
+        }
+
+        private bool addToGenre;
+        public bool AddToGenre
+        {
+            get { return addToGenre; }
+            set { SetProperty(ref addToGenre, value); }
+        }
+
         public int SelectedItemsCount { get; private set; }
 
         private string databaseHeaderInfo = "Database Editor";
@@ -61,7 +75,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand<IList> SelectionChanged { get; set; }
         public DelegateCommand<string> EnableDbItemsCommand { get; set; }
         public DelegateCommand<string> OpenFolderCommand { get; set; }
-        public DelegateCommand<string> SaveXmlCommand { get; set; }        
+        public DelegateCommand<string> SaveXmlCommand { get; set; }
+        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
         #endregion
 
         #region Constructors
@@ -97,6 +112,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
             SaveXmlCommand = new DelegateCommand<string>(SaveXml);
+            EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -361,6 +377,31 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
         }
 
+        private void EnableFaveItems(string enabled)
+        {
+            var enableItems = false;
+
+            if (enabled == "0")
+                enableItems = false;
+            else
+                enableItems = true;
+
+            if (SelectedGames != null && SelectedGames.Count > 0)
+            {
+                try
+                {
+                    foreach (var game in SelectedGames)
+                    {
+                        var gameIndex = _gameRepo.GamesList.IndexOf(game);
+                        _gameRepo.GamesList[gameIndex].IsFavorite = enableItems;
+                    }
+
+                    GamesList.Refresh();
+                }
+                catch (Exception) { }
+            }
+        }
+
         private void SetUpGamesListFromMainMenuDb()
         {
             if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
@@ -398,19 +439,51 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 if (dbName == "Favorites")
                 {
+                    //Boxing lists, why? Must be better way.
                     var s = new List<Game>(_gameRepo.GamesList);
-
                     var filterFavorites = s.FindAll(m => m.IsFavorite == true);
-
                     var games = new Games();
-
                     foreach (var item in filterFavorites)
                     {
                         games.Add(item);
                     }
 
-                    _xmlService.SerializeHyperspinXml(games, _selectedService.CurrentSystem,
-                       _settingsRepo.HypermintSettings.HsPath, dbName);
+                    if (SaveFavoritesXml)
+                    {
+                        _xmlService.SerializeHyperspinXml(games, _selectedService.CurrentSystem,
+                           _settingsRepo.HypermintSettings.HsPath, dbName);
+                    }
+
+                    //Save faves to text
+                    try
+                    {
+                        var favesTextPath = Path.Combine(
+                            _settingsRepo.HypermintSettings.HsPath,
+                            Root.Databases, _selectedService.CurrentSystem,
+                            "favorites.txt");
+
+                        if (!File.Exists(favesTextPath))
+                        {
+                            File.CreateText(favesTextPath);
+                        }
+
+                        using (StreamWriter writer =
+                            new StreamWriter(favesTextPath))
+                        {
+                            foreach (var favoriteGame in games)
+                            {                                
+                              writer.WriteLine(favoriteGame.RomName);
+                            }
+
+                            writer.Close();
+                        }                        
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
+                    finally { }
 
                 }
                 else {
