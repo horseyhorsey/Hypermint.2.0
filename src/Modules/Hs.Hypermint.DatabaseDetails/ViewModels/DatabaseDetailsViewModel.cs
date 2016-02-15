@@ -395,11 +395,33 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private void SaveXml(string dbName)
         {
             try
-            {     
-                _xmlService.SerializeHyperspinXml(_gameRepo.GamesList, _selectedService.CurrentSystem,
-                _settingsRepo.HypermintSettings.HsPath, dbName);
+            {
+                if (dbName == "Favorites")
+                {
+                    var s = new List<Game>(_gameRepo.GamesList);
+
+                    var filterFavorites = s.FindAll(m => m.IsFavorite == true);
+
+                    var games = new Games();
+
+                    foreach (var item in filterFavorites)
+                    {
+                        games.Add(item);
+                    }
+
+                    _xmlService.SerializeHyperspinXml(games, _selectedService.CurrentSystem,
+                       _settingsRepo.HypermintSettings.HsPath, dbName);
+
+                }
+                else {
+                    _xmlService.SerializeHyperspinXml(_gameRepo.GamesList, _selectedService.CurrentSystem,
+                    _settingsRepo.HypermintSettings.HsPath, dbName);
+                }
             }
-            catch (Exception e) { var m = e.Message; }
+            catch (Exception e)
+            {
+                _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(e.TargetSite + " : " + e.Message);
+            }
             
         }
 
