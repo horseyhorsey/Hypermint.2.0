@@ -2,6 +2,7 @@
 
 namespace Hs.HyperSpin.Database
 {
+    [XmlType(TypeName = "game")]
     public class Game
     {
         #region Properties

@@ -4,6 +4,8 @@ using System.Xml.Serialization;
 
 namespace Hs.HyperSpin.Database
 {
+    [Serializable]
+    [XmlType(TypeName = "game")]
     public class MainMenu
     {
         #region Properties
@@ -16,13 +18,16 @@ namespace Hs.HyperSpin.Database
         [XmlIgnore]
         public bool XmlExists { get; set; }
         [XmlIgnore]
-        public bool GenreExists { get; set; }        
+        public bool GenreExists { get; set; }
 
-        //[XmlIgnore]
-        //public List<Media.AuditMainMenu> AuditList { get; set; }
         #endregion
 
         #region Constructors
+        public MainMenu()
+        {
+
+        }
+
         public MainMenu(string _name)
         {
             Name = _name;

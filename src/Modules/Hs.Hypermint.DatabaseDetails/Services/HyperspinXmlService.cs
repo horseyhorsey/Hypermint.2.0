@@ -8,7 +8,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 {
     public class HyperspinXmlService : IHyperspinXmlService
     {
-        public bool SerializeHyperspinXml(IList<Game> gamesList, string systemName, 
+        public bool SerializeHyperspinXml(Games gamesList, string systemName, 
             string hyperspinPath, string dbName = "")
         {            
             // This is to allow setting the database name
@@ -16,27 +16,45 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             if (string.IsNullOrEmpty(dbName))
                 dbName = systemName;
 
-            var xmlNameSpace = new XmlSerializerNamespaces();
-            xmlNameSpace.Add("", "");
-
-            var xmlRootAttr = new XmlRootAttribute("menu");
-            XmlSerializer serializer = new XmlSerializer(typeof(Games), xmlRootAttr);
-
+            var dbXmlFileName = dbName + ".xml";
+            string finalPath = Path.Combine(hyperspinPath, Root.Databases, systemName, dbXmlFileName);
             var databasePath = Path.Combine(hyperspinPath, Root.Databases, systemName);
-            
+
+            TextWriter textWriter = new StreamWriter(finalPath);
+
             if (!Directory.Exists(databasePath))
                 Directory.CreateDirectory(databasePath);
 
-            var dbXmlFileName = dbName + ".xml";
+            XmlSerializer serializer;
 
-            string finalPath = Path.Combine(hyperspinPath, Root.Databases, systemName, dbXmlFileName);
+            var xmlNameSpace = new XmlSerializerNamespaces();
+            xmlNameSpace.Add("", "");            
 
-            TextWriter textWriter = new StreamWriter(finalPath);
-            serializer.Serialize(textWriter, gamesList, xmlNameSpace);
+            var xmlRootAttr = new XmlRootAttribute("menu");
+            
+            if (!systemName.Contains("Main Menu"))
+            {
+                serializer = new XmlSerializer(typeof(Games), xmlRootAttr);
+                serializer.Serialize(textWriter, gamesList, xmlNameSpace);
+            }
+            else
+            {
+                var menuItems = new List<MainMenu>();
+
+                foreach (var game in gamesList)
+                {
+                    menuItems.Add(new MainMenu(game.RomName, game.Enabled));
+                }
+
+                serializer = new XmlSerializer(typeof(List<MainMenu>), xmlRootAttr);
+                serializer.Serialize(textWriter, menuItems, xmlNameSpace);
+            }
+                                                                        
             textWriter.Close();
 
             return true;
 
         }
+
     }
 }

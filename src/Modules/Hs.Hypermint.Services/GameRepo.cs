@@ -34,7 +34,7 @@ namespace Hs.Hypermint.Services
             var i = 0;
             var lastRom = string.Empty;
 
-            GamesList.Add(new Game("_Default", "_Default"));
+            //GamesList.Add(new Game("_Default", "_Default"));
 
             foreach (XmlNode node in xdoc.SelectNodes("menu/game"))
             {
