@@ -11,6 +11,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
         public bool SerializeHyperspinXml(Games gamesList, string systemName, 
             string hyperspinPath, string dbName = "")
         {            
+            
             // This is to allow setting the database name
             // Used for favorites ..atm
             if (string.IsNullOrEmpty(dbName))

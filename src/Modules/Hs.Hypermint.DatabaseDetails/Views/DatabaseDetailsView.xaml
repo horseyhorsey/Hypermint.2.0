@@ -14,12 +14,14 @@
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="40" MaxHeight="90"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="90"></RowDefinition>
             </Grid.RowDefinitions>
 
+            <local:DatabasePickerCtrl Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <!--Games database datagrid-->
-            <DataGrid x:Name="DatabaseGrid" DockPanel.Dock="Top" BorderThickness="2"
+            <DataGrid x:Name="DatabaseGrid" Grid.Row="1" VerticalAlignment="Top" BorderThickness="2"
                           ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" 
                       CanUserAddRows="True" >
 
@@ -52,8 +54,9 @@
                 </DataGrid.Columns>
 
             </DataGrid>
-
-            <local:EditDatabaseControls  Grid.Row="1"/>
+            
+            
+            <local:EditDatabaseControls  Grid.Row="2" Grid.Column="1"/>
         </Grid>
     </GroupBox>
 </UserControl>

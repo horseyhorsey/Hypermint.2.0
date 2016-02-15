@@ -1,6 +1,11 @@
-﻿namespace Hs.HyperSpin.Database
+﻿using System.Xml.Serialization;
+
+namespace Hs.HyperSpin.Database
 {
-    class Genre
-    {
+    [XmlType(TypeName = "game")]
+    public class Genre
+    {        
+        [XmlAttribute("name")]
+        public string GenreName { get; set; }
     }
 }

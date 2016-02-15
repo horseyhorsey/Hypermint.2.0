@@ -93,6 +93,7 @@
     <Compile Include="Interfaces\IFolderExplore.cs" />
     <Compile Include="Interfaces\IFlyoutView.cs" />
     <Compile Include="Interfaces\IGameRepo.cs" />
+    <Compile Include="Interfaces\IGenreRepo.cs" />
     <Compile Include="Interfaces\IMainMenuRepo.cs" />
     <Compile Include="Interfaces\ISettingsRepo.cs" />
     <Compile Include="Interfaces\IStatsRepo.cs" />

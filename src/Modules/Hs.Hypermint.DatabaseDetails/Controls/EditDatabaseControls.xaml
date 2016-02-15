@@ -6,27 +6,7 @@
              xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls"     
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" >
-    <DockPanel Height="90">
-
-        <GroupBox Header="Databases" MinWidth="250">
-            <DockPanel>
-                <Button Style="{DynamicResource MetroCircleButtonStyle}"
-                        Command="{Binding OpenFolderCommand}"
-                        CommandParameter="Databases"
-                        ToolTip="Open system database directory."
-                Height="40" Width="40">
-                    <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-
-                <ComboBox Height="25" ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
-
-            </DockPanel>
-        </GroupBox>
+    <DockPanel MaxHeight="85">
 
         <GroupBox Header="Enable">
             <DockPanel>
@@ -40,8 +20,7 @@
                         ToolTip="Disable selected items."/>
             </DockPanel>
         </GroupBox>
-        
-        
+
         <GroupBox Header="Favorites">
             <DockPanel>
                 <!--Save favorites to xml-->
@@ -62,7 +41,6 @@
             </DockPanel>
         </GroupBox>
         
-
         <GroupBox Header="Save">
             <DockPanel>
                 <TextBox Margin="5" ToolTip="Leave empty to save as this system name" metro:TextBoxHelper.Watermark="Database Name"

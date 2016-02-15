@@ -73,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\GetGamesCommand.cs" />
+    <Compile Include="Controls\DatabasePickerCtrl.xaml.cs">
+      <DependentUpon>DatabasePickerCtrl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EditDatabaseControls.xaml.cs">
       <DependentUpon>EditDatabaseControls.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\DatabasePickerCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\EditDatabaseControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,0 +1,27 @@
+﻿<DockPanel x:Class="Hs.Hypermint.DatabaseDetails.Controls.DatabasePickerCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Button Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding OpenFolderCommand}"
+                        CommandParameter="Databases"
+                        ToolTip="Open system database directory."
+                Height="40" Width="40">
+        <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+
+    <ComboBox Margin="5" Height="25" Width="200" ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
+
+    <Label Content="Genres" Margin="5"></Label>
+
+    <ComboBox Margin="5" Height="25" Width="160" ItemsSource="{Binding GenreDatabases,UpdateSourceTrigger=PropertyChanged}"/>
+
+
+</DockPanel>

@@ -38,6 +38,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set { SetProperty(ref systemDatabases, value); }
         }
 
+        private ICollectionView genreDatabases;
+        public ICollectionView GenreDatabases
+        {
+            get { return genreDatabases; }
+            set { SetProperty(ref genreDatabases, value); }
+        }
+
         public int SelectedItemsCount { get; private set; }
 
         private string databaseHeaderInfo = "Database Editor";
@@ -60,7 +67,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #region Constructors
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
             IHyperspinXmlService xmlService, ISelectedService selectedService, 
-            IFavoriteService favoriteService, 
+            IFavoriteService favoriteService, IGenreRepo genreRepo,
             IEventAggregator eventAggregator, IFolderExplore folderService)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
@@ -71,6 +78,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _selectedService = selectedService;
             _folderExploreService = folderService;
             _xmlService = xmlService;
+            _genreRepo = genreRepo;
 
             SetUpGamesListFromMainMenuDb();
             SelectedGames = new List<Game>();
@@ -79,6 +87,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 GamesList = new ListCollectionView(_gameRepo.GamesList);
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
+            }
+
+            if (_genreRepo.GenreList != null)
+            {
+                GenreDatabases = new ListCollectionView(_genreRepo.GenreList);                
             }
 
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
@@ -137,6 +150,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private ISelectedService _selectedService;
         private IFolderExplore _folderExploreService;
         private IHyperspinXmlService _xmlService;
+        private IGenreRepo _genreRepo;
         #endregion
 
         #region Filter Methods
@@ -231,9 +245,18 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         if (systemName.Contains("Main Menu"))
                             _gameRepo.GetGames(hsPath + @"\Databases\Main Menu\" + systemName + ".xml", systemName);
                         else
+                        {
                             _gameRepo.GetGames(hsPath + @"\Databases\" + systemName + "\\" + systemName + ".xml", systemName);
+
+                            //Populate genres
+                            var genrePath = Path.Combine(hsPath, Root.Databases, systemName, "Genre.xml");
+                            if (File.Exists(genrePath)) { _genreRepo.PopulateGenres(genrePath); }
+                            else { _genreRepo.GenreList.Clear(); }
+                        }
                        
                         GamesList = new ListCollectionView(_gameRepo.GamesList);
+                        
+                        GenreDatabases = new ListCollectionView(_genreRepo.GenreList);
                     }
                     catch (Exception exception)
                     {
@@ -248,6 +271,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         updateFavoritesForGamesList();
 
                         updateSystemDatabases();
+
+                        updateGenres();
                     }
 
                     GamesList.CurrentChanged += GamesList_CurrentChanged;
@@ -293,8 +318,18 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 xmlsInDirectory.Add(item);
             }
 
-            SystemDatabases = new ListCollectionView(xmlsInDirectory);
-            SystemDatabases.Refresh();
+            SystemDatabases = new ListCollectionView(xmlsInDirectory);         
+        }
+
+
+        private void updateGenres()
+        {
+            if (_genreRepo.GenreList.Count != 0 && _genreRepo.GenreList != null)
+            {                
+                GenreDatabases = new ListCollectionView(_genreRepo.GenreList);
+                
+            }
+        
         }
 
         private void EnableDbItems(string enabled)
@@ -350,7 +385,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private void SaveXml(string dbName)
         {
             try
-            {
+            {     
                 _xmlService.SerializeHyperspinXml(_gameRepo.GamesList, _selectedService.CurrentSystem,
                 _settingsRepo.HypermintSettings.HsPath, dbName);
             }
