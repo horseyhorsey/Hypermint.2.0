@@ -9,6 +9,8 @@ using Hypermint.Base.Constants;
 using Hypermint.Base.Base;
 using System.Diagnostics;
 using Hypermint.Base.Services;
+using System.Windows.Media.Imaging;
+using System;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
@@ -123,9 +125,31 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             if (system != null)
             {
                 _selectedService.CurrentSystem = system.Name;
-                this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);
-                
+                SetSystemImage();
+                this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);                
             }
         }
-    }
+
+        /// <summary>
+        /// Set wheel image for the system
+        /// </summary>
+        /// <param name="path"></param>
+        private void SetSystemImage()
+        {
+            var imagePath = _settingsRepo.HypermintSettings.HsPath +
+                "\\Media\\Main Menu\\Images\\Wheel\\" +
+                _selectedService.CurrentSystem + ".png";
+
+            if (File.Exists(imagePath))
+                _selectedService.SystemImage = setImage(imagePath);       
+
+        }
+
+        private BitmapImage setImage(string imagePath)
+        {
+            Uri uriSource;
+            uriSource = new Uri(imagePath);
+            return new BitmapImage(uriSource);                    
+        }
+}
 }

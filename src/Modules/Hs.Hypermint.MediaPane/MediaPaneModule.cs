@@ -1,5 +1,6 @@
 ﻿using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
+using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
@@ -20,7 +21,7 @@ namespace Hs.Hypermint.MediaPane
 
         public override void Initialize()
         {
-            
+            UnityContainer.RegisterType<ISelectedService, SelectedService>();
         }
     }
 }

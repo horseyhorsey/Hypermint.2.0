@@ -5,50 +5,53 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Hs.Hypermint.MediaPane.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <DockPanel>
-
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="85"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
         
-        <local:MediaPaneControls DockPanel.Dock="Top"></local:MediaPaneControls>
-        <Image Stretch="Fill"  Source="{Binding WheelSource}" AllowDrop="True" 
-               VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <local:MediaPaneControls></local:MediaPaneControls>
 
-        <ContextMenuService.ContextMenu>
-            <ContextMenu>
+        <Grid Grid.Row="1">
+            <Image Stretch="Uniform"  Source="{Binding WheelSource}" AllowDrop="True"/>
 
-                <MenuItem Header="Open with >">
-                    <MenuItem Header="External Edit"></MenuItem>
-                    <MenuItem Header="Default.."></MenuItem>
-                </MenuItem>
-
-                <MenuItem Header="BezelEdit"  ToolTip="Send this image to the bezel editor."></MenuItem>
-                <MenuItem Header="Image Edit" ToolTip="Sends to image editing"></MenuItem>
-                <MenuItem Header="Copy">
-                    <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
-                    <ComboBox></ComboBox>
-                </MenuItem>
-                <MenuItem Header="Preset job" IsEnabled="True">
-                    <MenuItem Header="Instruction Card" ToolTip="Send this file to Instruction cards">
-                        <ComboBox Width="100">
-                        </ComboBox>
-                        <Button Content="Create" ToolTip="Convert and send to cards."></Button>
+            <ContextMenuService.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open with >">
+                        <MenuItem Header="External Edit"></MenuItem>
+                        <MenuItem Header="Default.."></MenuItem>
                     </MenuItem>
-                    <MenuItem Header="Image Presets" >
-                        <ComboBox ToolTip="Select preset"
+
+                    <MenuItem Header="BezelEdit"  ToolTip="Send this image to the bezel editor."></MenuItem>
+                    <MenuItem Header="Image Edit" ToolTip="Sends to image editing"></MenuItem>
+                    <MenuItem Header="Copy">
+                        <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
+                        <ComboBox></ComboBox>
+                    </MenuItem>
+                    <MenuItem Header="Preset job" IsEnabled="True">
+                        <MenuItem Header="Instruction Card" ToolTip="Send this file to Instruction cards">
+                            <ComboBox Width="100">
+                            </ComboBox>
+                            <Button Content="Create" ToolTip="Convert and send to cards."></Button>
+                        </MenuItem>
+                        <MenuItem Header="Image Presets" >
+                            <ComboBox ToolTip="Select preset"
                                       Width="100" ItemsSource="{Binding ElementName=presetListBoxCards3,Path=Items}"></ComboBox>
-                        <MenuItem Header="Media Type" IsEnabled="True">
-                            <MenuItem Header="Layer 1" ></MenuItem>
-                            <MenuItem Header="Layer 2" ></MenuItem>
-                            <MenuItem Header="Layer 3" ></MenuItem>
-                            <MenuItem Header="Layer -1" ></MenuItem>
-                            <MenuItem Header="Background" ></MenuItem>
-                            <MenuItem Header="Background HS" ></MenuItem>
-                            <MenuItem Header="Bezel Background" ></MenuItem>
+                            <MenuItem Header="Media Type" IsEnabled="True">
+                                <MenuItem Header="Layer 1" ></MenuItem>
+                                <MenuItem Header="Layer 2" ></MenuItem>
+                                <MenuItem Header="Layer 3" ></MenuItem>
+                                <MenuItem Header="Layer -1" ></MenuItem>
+                                <MenuItem Header="Background" ></MenuItem>
+                                <MenuItem Header="Background HS" ></MenuItem>
+                                <MenuItem Header="Bezel Background" ></MenuItem>
+                            </MenuItem>
                         </MenuItem>
                     </MenuItem>
-                </MenuItem>
-            </ContextMenu>
-        </ContextMenuService.ContextMenu>
-
-
-    </DockPanel>
+                </ContextMenu>
+            </ContextMenuService.ContextMenu>
+        </Grid>
+        <!--Context menu--> 
+    </Grid>
 </UserControl>
