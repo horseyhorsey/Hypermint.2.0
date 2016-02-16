@@ -1,5 +1,8 @@
-﻿using Hypermint.Base.Base;
+﻿using System;
+using Hypermint.Base;
+using Hypermint.Base.Base;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 
 namespace Hs.Hypermint.NavBar.ViewModels
@@ -14,23 +17,30 @@ namespace Hs.Hypermint.NavBar.ViewModels
         }
 
         private IRegionManager _regionManager;
+        private IEventAggregator _eventAggregator;
 
         /// <summary>
         /// Navigate command for the navbar
         /// </summary>
         public DelegateCommand<string> NavigateCommand { get; set; }
 
-        public NavBarViewModel(IRegionManager manager)
+        public NavBarViewModel(IRegionManager manager, IEventAggregator eventAggregator)
         {
             _regionManager = manager;
-
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetToDbView);
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
-        private void Navigate(string uri)
+        private void SetToDbView(string obj)
+        {
+            _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
+        }
+
+        private void Navigate(string uri = "")
         {
             CurrentView = "Views: ";
-
+                            
             switch (uri)
             {
                 case "DatabaseDetailsView":
@@ -48,7 +58,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 case "SimpleWheelView":
                     CurrentView += "Simple wheel creator";
                     break;
-                default:
+                default:                    
                     break;
             }
             _regionManager.RequestNavigate("ContentRegion",uri);
