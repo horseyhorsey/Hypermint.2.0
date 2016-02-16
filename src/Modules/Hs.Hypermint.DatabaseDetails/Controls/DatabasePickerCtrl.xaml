@@ -17,13 +17,21 @@
         </Rectangle>
     </Button>
 
-    <ComboBox Margin="5" Height="25" Width="200"
+    <ComboBox Margin="5" Height="25" Width="250"
               IsSynchronizedWithCurrentItem ="True"
               ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
 
     <Label Content="Genres" Margin="5"></Label>
 
+    <!--Genres-->
     <ComboBox Margin="5" Height="25" Width="160" ItemsSource="{Binding GenreDatabases,UpdateSourceTrigger=Default}"/>
 
-
+    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"                    
+                ToolTip="Add selected to multi system list." Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
+        <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
 </DockPanel>

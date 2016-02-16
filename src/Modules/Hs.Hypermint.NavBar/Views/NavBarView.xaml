@@ -23,6 +23,18 @@
                     </Rectangle>
                 </Button>
 
+                <!--MultiSystem-->
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                    Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView"
+                ToolTip="Multi system." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+                    <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <!--Hyper Audits-->
                 <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
                 ToolTip="Hyperspin audit." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}"
                 Command="{Binding NavigateCommand}" CommandParameter="HsMediaAuditView">
@@ -33,6 +45,7 @@
                     </Rectangle>
                 </Button>
 
+                <!--Rocketlaunch audits-->
                 <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
                 ToolTip="RocketLaunch audit." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
@@ -49,17 +62,6 @@
                     <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_bike}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-
-                <!--MultiSystem-->
-                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
-                    Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView"
-                ToolTip="Multi system." Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
-                    <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
