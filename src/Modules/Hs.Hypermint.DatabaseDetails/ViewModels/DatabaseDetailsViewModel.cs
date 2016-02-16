@@ -305,8 +305,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
 
                     }
-
-                    GamesList.CurrentChanged += GamesList_CurrentChanged;
                     
                 }
             }
@@ -323,6 +321,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
 
             GamesList = new ListCollectionView(_gameRepo.GamesList);
+
+            GamesList.CurrentChanged += GamesList_CurrentChanged;
+
+            GamesList.MoveCurrentToPrevious();
+
+            GamesList.MoveCurrentToFirst();
+            
         }
 
         private void updateFavoritesForGamesList()
