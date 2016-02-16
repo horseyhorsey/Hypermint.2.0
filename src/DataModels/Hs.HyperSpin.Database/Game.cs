@@ -18,7 +18,7 @@ namespace Hs.HyperSpin.Database
         [XmlAttribute("enabled")]
         public int Enabled { get; set; }
 
-        [XmlElement]
+        [XmlIgnore]
         public string System { get; set; }
 
         [XmlAttribute("index")]
@@ -110,4 +110,5 @@ namespace Hs.HyperSpin.Database
         #endregion
 
     }
+
 }
