@@ -51,9 +51,11 @@
             </DockPanel>
         </GroupBox>
         
-        <GroupBox Header="Save">
+        <GroupBox Header="Save" ToolTip="Save database xml">
             <DockPanel>
-                <TextBox Margin="5" ToolTip="Leave empty to save as this system name" metro:TextBoxHelper.Watermark="Database Name"
+                <TextBox Margin="5" ToolTip="Leave empty to save as this system name" 
+                         metro:TextBoxHelper.Watermark="Database Name"
+                         Text="{Binding DbName,UpdateSourceTrigger=PropertyChanged}"
                          Height="25" Width="150"/>
                 <!--Save hyperspin database xml-->
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 

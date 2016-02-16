@@ -67,6 +67,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             get { return databaseHeaderInfo; }
             set { SetProperty(ref databaseHeaderInfo, value); }
         }
+
+        private string dbName;
+        public string DbName
+        {
+            get { return dbName; }
+            set { SetProperty(ref dbName, value); }
+        }
         #endregion
 
         #region Commands & Event
@@ -490,7 +497,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
                 else {
                     _xmlService.SerializeHyperspinXml(_gameRepo.GamesList, _selectedService.CurrentSystem,
-                    _settingsRepo.HypermintSettings.HsPath, dbName);
+                    _settingsRepo.HypermintSettings.HsPath, DbName);
                 }
             }
             catch (Exception e)
