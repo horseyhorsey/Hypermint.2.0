@@ -95,6 +95,7 @@
     <Compile Include="Interfaces\IGameRepo.cs" />
     <Compile Include="Interfaces\IGenreRepo.cs" />
     <Compile Include="Interfaces\IMainMenuRepo.cs" />
+    <Compile Include="Interfaces\IMultiSystemRepo.cs" />
     <Compile Include="Interfaces\ISettingsRepo.cs" />
     <Compile Include="Interfaces\IStatsRepo.cs" />
     <Compile Include="Paths\Installation.cs" />
