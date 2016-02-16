@@ -42,6 +42,11 @@ namespace Hypermint.Base
     {
 
     }
-    
+
+    public class AddToMultiSystemEvent : PubSubEvent<object>
+    {
+
+    }
+
 
 }
