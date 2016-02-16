@@ -95,6 +95,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _xmlService = xmlService;
             _genreRepo = genreRepo;
 
+            _selectedService.CurrentSystem = "Main Menu";
+
             SetUpGamesListFromMainMenuDb();
             SelectedGames = new List<Game>();
 
