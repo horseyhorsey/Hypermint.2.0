@@ -3,6 +3,7 @@ using System;
 using Hs.HyperSpin.Database;
 using System.Xml;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Hs.Hypermint.Services
 {
@@ -22,7 +23,9 @@ namespace Hs.Hypermint.Services
         {
             if (!File.Exists(systemXml)) return;
 
-            GamesList = new Games();
+            var tempGamesList = new List<Game>();
+
+            
             XmlDocument xdoc = new XmlDocument();
             xdoc.Load(systemXml);
 
@@ -91,11 +94,24 @@ namespace Hs.Hypermint.Services
 
                     }
 
-                    GamesList.Add(new Game(name, index, image, desc, cloneof, crc, manu, year, genre, rating, enabled));
+                    tempGamesList.Add(new Game(name, index, image, desc, cloneof, crc, manu, year, genre, rating, enabled));
 
                     lastRom = name;
                     i++;
                 }
+
+                //Only sort by romname if it isn't main menu
+                if(!systemName.Contains("Main Menu"))
+                    tempGamesList.Sort((x, y) => x.RomName.CompareTo(y.RomName));
+
+                GamesList = new Games();
+
+                foreach (var item in tempGamesList)
+                {
+                    GamesList.Add(item);
+                }
+                      
+
             }
             catch (Exception e) { var msg = e.Message; }
 

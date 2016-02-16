@@ -17,7 +17,9 @@
         </Rectangle>
     </Button>
 
-    <ComboBox Margin="5" Height="25" Width="200" ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
+    <ComboBox Margin="5" Height="25" Width="200"
+              IsSynchronizedWithCurrentItem ="True"
+              ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
 
     <Label Content="Genres" Margin="5"></Label>
 
