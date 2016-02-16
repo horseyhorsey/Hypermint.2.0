@@ -1,4 +1,5 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Hypermint.Base.Services
 {
@@ -9,5 +10,6 @@ namespace Hypermint.Base.Services
         bool IsMainMenu();
 
         BitmapImage SystemImage { get; set; }
+        ImageSource GameImage { get; set; }
     }
 }

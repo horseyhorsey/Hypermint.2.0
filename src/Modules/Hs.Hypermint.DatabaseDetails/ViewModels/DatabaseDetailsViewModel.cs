@@ -509,7 +509,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 Game game = GamesList.CurrentItem as Game;
                 if (game != null)
                 {
-                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.Description);
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.RomName);
                 }
             }
         }

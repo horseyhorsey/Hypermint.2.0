@@ -6,6 +6,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System;
 using Hypermint.Base.Services;
+using Hypermint.Base.Interfaces;
+using Hypermint.Base.Constants;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
 {
@@ -14,6 +16,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         private ImageSource wheelSource;
         private IEventAggregator _eventAggregator;
         private ISelectedService _selectedService;
+        private ISettingsRepo _settingsRepo;
 
         public ImageSource WheelSource
         {
@@ -21,18 +24,34 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             set { SetProperty(ref wheelSource, value); }
         }
 
-        public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService)
+        public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService,
+            ISettingsRepo settingsRepo)
         {
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
-
-            var tempWheel = @"I:\HyperSpin\Media\Amstrad CPC\Images\Wheel\1st Division Manager (Europe).png";
-
-            if (Directory.Exists(tempWheel))
-                WheelSource = BitmapFromUri(new System.Uri(tempWheel));
+            _settingsRepo = settingsRepo;  
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
+            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetImageGame);
             //
+        }
+
+        private void SetImageGame(string selectedRom)
+        {
+            var imagePath = Path.Combine(
+                _settingsRepo.HypermintSettings.HsPath,                
+                Root.Media, _selectedService.CurrentSystem, 
+                Images.Wheels, selectedRom + ".png");
+
+            if (!File.Exists(imagePath))
+                WheelSource = _selectedService.SystemImage;
+            else
+            {                
+                _selectedService.GameImage =
+                    SelectedService.SetBitmapFromUri(new Uri(imagePath));
+                WheelSource = _selectedService.GameImage;
+            }
+                        
         }
 
         private void SetImage(string obj)
@@ -40,28 +59,5 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             WheelSource = _selectedService.SystemImage;
         }
 
-        /// <summary>
-        /// Get imagesource from URI file link
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static ImageSource BitmapFromUri(System.Uri source)
-        {
-            try
-            {
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = source;
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                bitmap.EndInit();
-                return bitmap;
-            }
-            catch (System.Exception)
-            {
-                return null;
-            }
-
-        }
     }
 }
