@@ -15,6 +15,7 @@ using Hs.Hypermint.DatabaseDetails.Services;
 using Hypermint.Base.Services;
 using System.Collections;
 using Hypermint.Base.Constants;
+using System.Xml;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -313,20 +314,32 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         private void PopulateGamesList(string systemName, string hsPath, string dbName)
         {
-            if (systemName.Contains("Main Menu"))
-                _gameRepo.GetGames(hsPath + @"\Databases\Main Menu\" + dbName + ".xml", systemName);
-            else
+            try
             {
-                _gameRepo.GetGames(hsPath + @"\Databases\" + systemName + "\\" + dbName + ".xml", systemName);
+                if (systemName.Contains("Main Menu"))
+                    _gameRepo.GetGames(hsPath + @"\Databases\Main Menu\" + dbName + ".xml", systemName);
+                else
+                {
+                    _gameRepo.GetGames(hsPath + @"\Databases\" + systemName + "\\" + dbName + ".xml", systemName);
+                }
+
+                GamesList = new ListCollectionView(_gameRepo.GamesList);
+
+                GamesList.CurrentChanged += GamesList_CurrentChanged;
+
+                GamesList.MoveCurrentToPrevious();
+
+                GamesList.MoveCurrentToFirst();
             }
+            catch (XmlException exception)
+            {
+                exception.GetBaseException();
+                var msg = exception.Message;
+                _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri + " : " + msg);
 
-            GamesList = new ListCollectionView(_gameRepo.GamesList);
-
-            GamesList.CurrentChanged += GamesList_CurrentChanged;
-
-            GamesList.MoveCurrentToPrevious();
-
-            GamesList.MoveCurrentToFirst();
+                _gameRepo.GamesList.Clear();
+            }
+            
             
         }
 
