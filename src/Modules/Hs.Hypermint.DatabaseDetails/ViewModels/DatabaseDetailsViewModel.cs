@@ -307,9 +307,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     finally
                     {
                         //Publish after the gameslist is updated here
-                        _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
-
-                        updateFavoritesForGamesList();
+                        _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);                        
 
                         updateSystemDatabases();
 
@@ -350,8 +348,10 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 _gameRepo.GamesList.Clear();
             }
-            
-            
+
+            updateFavoritesForGamesList();
+
+
         }
 
         private void updateFavoritesForGamesList()
