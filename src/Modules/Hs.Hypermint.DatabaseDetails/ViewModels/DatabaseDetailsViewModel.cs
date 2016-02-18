@@ -85,6 +85,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand<string> OpenFolderCommand { get; set; }
         public DelegateCommand<string> SaveXmlCommand { get; set; }
         public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
+        public DelegateCommand AddMultiSystemCommand { get; private set; } 
         #endregion
 
         #region Constructors
@@ -102,7 +103,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _folderExploreService = folderService;
             _xmlService = xmlService;
             _genreRepo = genreRepo;
-
+            
             _selectedService.CurrentSystem = "Main Menu";
 
             SetUpGamesListFromMainMenuDb();
@@ -123,6 +124,10 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
             SaveXmlCommand = new DelegateCommand<string>(SaveXml);
             EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
+            AddMultiSystemCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(SelectedGames);
+            });
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -134,13 +139,19 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         SelectedGames.Clear();
                         return;
                     }
+                    else
+                    {
+                        SelectedItemsCount = items.Count;
+                    }
 
                     try
                     {
                         SelectedGames.Clear();
                         foreach (var item in items)
                         {
-                            SelectedGames.Add(item as Game);
+                            var game = item as Game;
+                            if (game.RomName != null)
+                                SelectedGames.Add(item as Game);
                         }
 
                         if (SelectedItemsCount > 1)
@@ -294,16 +305,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                     }
                     finally
-                    {
-                        //Publish after the gameslist is updated here
-                        _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
-
-                        updateFavoritesForGamesList();
+                    {                                          
 
                         updateSystemDatabases();
 
                         updateGenres();
-
 
                     }
                     
@@ -339,8 +345,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 _gameRepo.GamesList.Clear();
             }
-            
-            
+
+            updateFavoritesForGamesList();
+
+            //Publish after the gameslist is updated here
+            _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
+
+
         }
 
         private void updateFavoritesForGamesList()
@@ -575,7 +586,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 Game game = GamesList.CurrentItem as Game;
                 if (game != null)
                 {
-                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.RomName);
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { game.RomName, "" });
                 }
             }
         }

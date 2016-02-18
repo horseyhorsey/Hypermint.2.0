@@ -94,7 +94,7 @@ namespace Hs.Hypermint.Services
 
                     }
 
-                    tempGamesList.Add(new Game(name, index, image, desc, cloneof, crc, manu, year, genre, rating, enabled));
+                    tempGamesList.Add(new Game(name, index, image, desc, cloneof, crc, manu, year, genre, rating, enabled,systemName));
 
                     lastRom = name;
                     i++;

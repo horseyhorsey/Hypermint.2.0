@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auditer.cs" />
+    <Compile Include="MultiSystemRepo.cs" />
     <Compile Include="FileFolderService.cs" />
     <Compile Include="GameRepo.cs" />
     <Compile Include="GenreRepo.cs" />

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"       
              xmlns:local="clr-namespace:Hs.Hypermint.Audits.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"  
              mc:Ignorable="d" 
@@ -25,31 +26,41 @@
         </Style>
     </UserControl.Resources>
 
-    <GroupBox Header="Hyperspin Media Audit" >
+    <GroupBox Header="{Binding MediaAuditHeaderInfo}" >
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="55"></RowDefinition>
             </Grid.RowDefinitions>
-            <DataGrid Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False"
-                      IsReadOnly="True" SelectionMode="Extended"
+            <DataGrid x:Name="DatabaseGrid" Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False"
+                      IsReadOnly="True" SelectionMode="Single"
                       BorderThickness="2" AutoGenerateColumns="False"  Grid.Row="0">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="CurrentCellChanged">
+                        <prism:InvokeCommandAction 
+                            Command="{Binding CurrentCellChanged}" 
+                            CommandParameter="{Binding CurrentColumn,
+                            ElementName=DatabaseGrid,UpdateSourceTrigger=PropertyChanged}">
+                        </prism:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
                 <DataGrid.Columns>
                     
                      <DataGridTextColumn Header="Romname" Binding="{Binding RomName}"/>
                         <!--<DataGridTextColumn Header="Description" Binding="{Binding Description}"/>-->
                         <!--<DataGridTextColumn Header="RomNam" Binding="{Binding RomName}"/>-->
                     <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
-                    <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
-                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
-                    <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
-
                     <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
                     <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
                     <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
                     <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
-                    
+                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
+                    <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
                     <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackground}"/>
+                    <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
+                   
                     <DataGridTextColumn Header="Sound Start" Binding="{Binding HaveS_Start}"/>
                     <DataGridTextColumn Header="Sound End" Binding="{Binding HaveS_Exit}"/>
 
