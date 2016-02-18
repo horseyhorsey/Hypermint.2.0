@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"       
              xmlns:local="clr-namespace:Hs.Hypermint.Audits.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"  
              mc:Ignorable="d" 
@@ -25,15 +26,26 @@
         </Style>
     </UserControl.Resources>
 
-    <GroupBox Header="Hyperspin Media Audit" >
+    <GroupBox Header="{Binding MediaAuditHeaderInfo}" >
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="55"></RowDefinition>
             </Grid.RowDefinitions>
-            <DataGrid Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False"
-                      IsReadOnly="True" SelectionMode="Extended"
+            <DataGrid x:Name="DatabaseGrid" Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False"
+                      IsReadOnly="True" SelectionMode="Single"
                       BorderThickness="2" AutoGenerateColumns="False"  Grid.Row="0">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="CurrentCellChanged">
+                        <prism:InvokeCommandAction 
+                            Command="{Binding CurrentCellChanged}" 
+                            CommandParameter="{Binding CurrentColumn,
+                            ElementName=DatabaseGrid,UpdateSourceTrigger=PropertyChanged}">
+                        </prism:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
                 <DataGrid.Columns>
                     
                      <DataGridTextColumn Header="Romname" Binding="{Binding RomName}"/>
