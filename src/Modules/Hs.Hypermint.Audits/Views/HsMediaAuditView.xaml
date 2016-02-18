@@ -52,16 +52,15 @@
                         <!--<DataGridTextColumn Header="Description" Binding="{Binding Description}"/>-->
                         <!--<DataGridTextColumn Header="RomNam" Binding="{Binding RomName}"/>-->
                     <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
-                    <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
-                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
-                    <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
-
                     <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
                     <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
                     <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
                     <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
-                    
+                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
+                    <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
                     <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackground}"/>
+                    <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
+                   
                     <DataGridTextColumn Header="Sound Start" Binding="{Binding HaveS_Start}"/>
                     <DataGridTextColumn Header="Sound End" Binding="{Binding HaveS_Exit}"/>
 
