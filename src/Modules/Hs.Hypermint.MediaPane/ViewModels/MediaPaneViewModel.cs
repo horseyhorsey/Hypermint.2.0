@@ -36,12 +36,20 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             //
         }
 
-        private void SetImageGame(string selectedRom)
+        private void SetImageGame(string[] selectedOptions)
         {
+            var hsPath = _settingsRepo.HypermintSettings.HsPath;
+            var romName = selectedOptions[0];
+            var mediaTypePath = Images.Wheels;
+
+            if (!string.IsNullOrEmpty(selectedOptions[1]))
+            {
+                mediaTypePath = getImagePath(selectedOptions[1]);
+            }
+
             var imagePath = Path.Combine(
-                _settingsRepo.HypermintSettings.HsPath,                
-                Root.Media, _selectedService.CurrentSystem, 
-                Images.Wheels, selectedRom + ".png");
+                hsPath, Root.Media, _selectedService.CurrentSystem,
+                mediaTypePath, romName + ".png");
 
             if (!File.Exists(imagePath))
                 WheelSource = _selectedService.SystemImage;
@@ -52,6 +60,34 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 WheelSource = _selectedService.GameImage;
             }
                         
+        }
+
+        private string getImagePath (string mediaType)
+        {
+            var imagePath = "";
+
+            switch (mediaType)
+            {
+                case "Wheel":
+                    imagePath = Images.Wheels;
+                    break;
+                case "Artwork1":
+                    imagePath = Images.Artwork1;
+                    break;
+                case "Artwork2":
+                    imagePath = Images.Artwork2;
+                    break;
+                case "Artwork3":
+                    imagePath = Images.Artwork3;
+                    break;
+                case "Artwork4":
+                    imagePath = Images.Artwork4;
+                    break;                    
+                default:
+                    break;
+            }
+
+            return imagePath;
         }
 
         private void SetImage(string obj)

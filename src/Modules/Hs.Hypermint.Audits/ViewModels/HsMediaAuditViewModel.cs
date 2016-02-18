@@ -69,7 +69,9 @@ namespace Hs.Hypermint.Audits.ViewModels
             set { SetProperty(ref currentColumnType, value); }
         }
 
-        public AuditGame SelectedGame { get; set; }        
+        public AuditGame SelectedGame { get; set; }
+
+        public AuditMenu SelectedMenu { get; set; }
 
         public ICollectionView AuditList
         {
@@ -107,7 +109,14 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                         var dg = datagridProperties as DataGrid;
                         SelectedGame = dg.CurrentItem as AuditGame;
-                        romName = SelectedGame.RomName;
+
+                        if (SelectedGame == null)
+                        {
+                            SelectedMenu = dg.CurrentItem as AuditMenu;
+                            romName = SelectedMenu.RomName;
+                        }
+                        else { romName = SelectedGame.RomName; }
+                        
                     }
                     catch (Exception) { }
 
@@ -120,6 +129,10 @@ namespace Hs.Hypermint.Audits.ViewModels
                         MediaAuditHeaderInfo = "Hyperspin Media Audit : " +
                         romName + " : " +
                         CurrentColumnHeader;
+
+                        _eventAggregator.GetEvent<GameSelectedEvent>().Publish(
+                            new string[] { romName, CurrentColumnHeader }
+                            );
                     }
                     catch (Exception e) { }
                     

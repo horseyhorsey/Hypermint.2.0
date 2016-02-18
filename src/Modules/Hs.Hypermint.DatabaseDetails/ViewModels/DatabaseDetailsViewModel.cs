@@ -305,14 +305,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                     }
                     finally
-                    {
-                        //Publish after the gameslist is updated here
-                        _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);                        
+                    {                                          
 
                         updateSystemDatabases();
 
                         updateGenres();
-
 
                     }
                     
@@ -350,6 +347,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
 
             updateFavoritesForGamesList();
+
+            //Publish after the gameslist is updated here
+            _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
 
 
         }
@@ -586,7 +586,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 Game game = GamesList.CurrentItem as Game;
                 if (game != null)
                 {
-                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.RomName);
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { game.RomName, "" });
                 }
             }
         }
