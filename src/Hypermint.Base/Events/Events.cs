@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Hypermint.Base
 {
-    public class GameSelectedEvent : PubSubEvent<string>
+    public class GameSelectedEvent : PubSubEvent<string[]>
     {
     }
 
