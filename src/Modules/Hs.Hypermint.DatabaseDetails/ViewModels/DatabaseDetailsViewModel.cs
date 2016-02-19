@@ -16,6 +16,7 @@ using Hypermint.Base.Services;
 using System.Collections;
 using Hypermint.Base.Constants;
 using System.Xml;
+using Hypermint.Base.Models;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -195,7 +196,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// Filter the current GamesList with textbox from filter controls
         /// </summary>
         /// <param name="obj"></param>
-        private void FilterGamesByText(Dictionary<string, bool> options)
+        private void FilterGamesByText(GameFilter gameFilter)
         {
             if (GamesList != null)
             {
@@ -203,14 +204,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 cv = CollectionViewSource.GetDefaultView(GamesList);
 
-                var filter = "";
-                var showClones = false;
-
-                foreach (var item in options)
-                {
-                    filter = item.Key;
-                    showClones = item.Value;
-                }
+                var filter = gameFilter.FilterText;
+                var showClones = gameFilter.ShowClones;
+                var favesOnly = gameFilter.ShowFavoritesOnly;
 
                 cv.Filter = o =>
                 {
@@ -218,14 +214,51 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     var textFiltered = false;
                     var flag = false;
 
-                    if (showClones)
+                    if (string.IsNullOrEmpty(filter))
                     {
-                        textFiltered = g.Description.ToUpper().Contains(filter.ToUpper());
-                                
+                        if (favesOnly && showClones)
+                        {
+                            textFiltered = g.IsFavorite.Equals(favesOnly)
+                            && g.CloneOf.Length >= 0;
+                        }
+                        else if (favesOnly && !showClones)
+                        {
+                            textFiltered = g.IsFavorite.Equals(favesOnly)
+                            && g.CloneOf.Equals(string.Empty);
+                        }
+                        else if (!favesOnly && !showClones)
+                        {                            
+                            textFiltered = g.CloneOf.Equals(string.Empty);
+                        }
+                        else if (!favesOnly && showClones)
+                        {
+                            textFiltered = g.CloneOf.Length >= 0;
+                        }
                     }
-                    else
-                        textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                        && g.CloneOf.Equals(string.Empty);
+                    else // Text is used as filter
+                    {
+                        if (showClones && favesOnly)
+                        {
+                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                            && g.IsFavorite.Equals(favesOnly)
+                            && g.CloneOf.Length >= 0;
+                        }
+                        else if (showClones && !favesOnly)
+                        {
+                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                            && g.CloneOf.Length >= 0;
+                        }
+                        else if (!showClones && favesOnly)
+                        {
+                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                            && g.IsFavorite.Equals(favesOnly) && g.CloneOf.Equals(string.Empty);
+                        }
+                        else if (!showClones && !favesOnly)
+                        {
+                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                            && g.CloneOf.Equals(string.Empty);
+                        }
+                    }
 
                     return textFiltered;
                 };
