@@ -98,6 +98,7 @@
     <Compile Include="Interfaces\IMultiSystemRepo.cs" />
     <Compile Include="Interfaces\ISettingsRepo.cs" />
     <Compile Include="Interfaces\IStatsRepo.cs" />
+    <Compile Include="Models\GameFilter.cs" />
     <Compile Include="Paths\Installation.cs" />
     <Compile Include="Constants\Paths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

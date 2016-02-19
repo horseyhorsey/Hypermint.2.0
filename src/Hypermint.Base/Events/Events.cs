@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using Hypermint.Base.Models;
+using Prism.Events;
 using System.Collections.Generic;
 
 namespace Hypermint.Base
@@ -17,7 +18,7 @@ namespace Hypermint.Base
 
     }
 
-    public class GameFilteredEvent : PubSubEvent<Dictionary<string,bool>>
+    public class GameFilteredEvent : PubSubEvent<GameFilter>
     {
 
     }
