@@ -29,7 +29,7 @@
     <!--Stop processing wheels-->
     <Button DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" Background="{DynamicResource ValidationBrush5}"
                 Height="32" Width="32" Style="{DynamicResource AccentedSquareButtonStyle}"
-                ToolTip="Open current systems export folder">
+                ToolTip="Stop running processes">
         <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
             <Rectangle.OpacityMask>
                 <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_stop}"/>

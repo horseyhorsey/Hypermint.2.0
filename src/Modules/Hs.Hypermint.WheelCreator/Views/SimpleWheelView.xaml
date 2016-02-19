@@ -9,107 +9,124 @@
              xmlns:local="clr-namespace:Hs.Hypermint.WheelCreator.Controls"
              mc:Ignorable="d" Width="Auto">
     <GroupBox Header="Simple wheel creator">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
+        <Grid>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
-            <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="Mario Bros." Width="318" Height="26" VerticalAlignment="Top"/>
-            <TextBox  HorizontalAlignment="Left" TextWrapping="Wrap" Text="Current Genre" Width="303" Height="26" VerticalAlignment="Top"/>
-        </StackPanel>
-        
-        <!--Top Dock Panel Process Tools-->           
-        <local:ProcessTools VerticalAlignment="Bottom" Grid.Row="0"></local:ProcessTools>
-            
-            <GroupBox Grid.Row="1" Header="Font &amp; Wheel Type">
-            <Grid VerticalAlignment="Top" Margin="0,0,-2,-1">
-                <StackPanel Margin="228,7,157,22" Orientation="Horizontal">
-                    <RadioButton Content="Wheels" HorizontalAlignment="Left" Width="69" ToolTip="Wheels for hyperspin" IsChecked="True" Height="26" VerticalAlignment="Top" />
-                    <RadioButton Content="Letters" HorizontalAlignment="Left" ToolTip="Letters for hyperspin" VerticalAlignment="Top" Width="77" Margin="0,4,0,0" />
-                    <RadioButton Content="Genre" HorizontalAlignment="Left" ToolTip="Genres for hyperspin" VerticalAlignment="Top" Width="77" Margin="0,4,0,0" />
-                    <RadioButton Content="Special Art 3" ToolTip="Special Art for hyperspin" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Margin="0,4,0,0" />
+            <StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <Label Content="Test string"></Label>
+                    <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="Mario Bros." Width="318" Height="26" VerticalAlignment="Top"/>
+                    <Label Content="Genre"></Label>
+                    <TextBox  HorizontalAlignment="Left" TextWrapping="Wrap" Text="Current Genre" Width="303" Height="26" VerticalAlignment="Top"/>
                 </StackPanel>
-                <TextBox x:Name="fontTextBox" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Arial" VerticalAlignment="Top" Width="161" Margin="62,7,0,0"/>
-                <Button x:Name="fontSelect" Content="Select" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" 
-                        ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name"
-                        Margin="7,7,0,0"/>
-                <StackPanel Margin="568,10,103,20" Orientation="Horizontal">
-                    <RadioButton x:Name="CaptionCheckBox" Content="Caption"
+
+                <!--Top Dock Panel Process Tools-->
+                <local:ProcessTools Margin="5" VerticalAlignment="Bottom" ></local:ProcessTools>
+
+
+
+                <!--Font Options-->
+                <GroupBox Height="70" Grid.Row="1" Header="Font &amp; Wheel Type">
+                    <Grid>
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBox HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" 
+                                 Text="Arial" VerticalAlignment="Center" Width="161"/>
+                            <Button Content="Select" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" 
+                        ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name"/>
+                            <RadioButton Margin="25,0" Content="Wheels" HorizontalAlignment="Left" Width="69" 
+                                         ToolTip="Wheels for hyperspin" IsChecked="True" Height="26" VerticalAlignment="Center" />
+                            <RadioButton Content="Letters" HorizontalAlignment="Left" 
+                                         ToolTip="Letters for hyperspin" VerticalAlignment="Center" Width="77" />
+                            <RadioButton Content="Genre" HorizontalAlignment="Left" ToolTip="Genres for hyperspin"
+                                         VerticalAlignment="Center" Width="77"/>
+                            <RadioButton Content="Special Art 3" ToolTip="Special Art for hyperspin"
+                                         HorizontalAlignment="Left" VerticalAlignment="Center" Width="95" />
+                        </StackPanel>
+
+                        <StackPanel Margin="568,10,103,20" Orientation="Horizontal">
+                            <RadioButton x:Name="CaptionCheckBox" Content="Caption"
                                  ToolTip="Type of wheel text style, caption or label." HorizontalAlignment="Left" 
                                  Width="69" IsChecked="True" Height="22" VerticalAlignment="Top" RenderTransformOrigin="1.304,4.8"/>
-                    <RadioButton x:Name="labelRadioButton" Content="Label" 
+                            <RadioButton x:Name="labelRadioButton" Content="Label" 
                                  HorizontalAlignment="Left" VerticalAlignment="Top" Width="57" Height="22"/>
-                </StackPanel>
-            </Grid>
-        </GroupBox>
-        <GroupBox Header="Options" Grid.Row="2">
-            <Grid>
-                <StackPanel  Orientation="Horizontal" VerticalAlignment="Bottom">
-                <CheckBox Content="Border" HorizontalAlignment="Left"/>
-                <Label Content="Fill" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top"/>
-                <Button Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="25" Background="#FFF9F937" Height="26" />
-                <Label Content="Stroke" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Button Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="25" Background="Black" Height="26" />
-                <Controls:NumericUpDown Margin="10,0" HorizontalAlignment="Left" Minimum="0" Maximum="100" Value="100"/>
-                <Label Content="BG" HorizontalAlignment="Left" Margin="9,3,0,0" VerticalAlignment="Top"/>
-                <Button Content=""  HorizontalAlignment="Left" VerticalAlignment="Top" Width="23" Background="White" Height="26"  />
-                <CheckBox Content="Transparent" HorizontalAlignment="Left"  VerticalAlignment="Top" IsChecked="True"/>
-                <CheckBox Content="Shade" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="69"/>
-                <Controls:NumericUpDown HorizontalAlignment="Left" Width="72" Minimum="0" Maximum="100" Value="100"/>
-                <Controls:NumericUpDown HorizontalAlignment="Left" Width="72" Minimum="0" Maximum="100" Value="100"/>
-                <CheckBox  Content="Gravity" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True"/>
-                <ComboBox  VerticalAlignment="Top" Height="20" HorizontalAlignment="Left" Width="77" >
-                    <ComboBoxItem  Content="NorthWest"/>
-                    <ComboBoxItem  Content="North"/>
-                    <ComboBoxItem  Content="NorthEast"/>
-                    <ComboBoxItem Content="West"/>
-                    <ComboBoxItem  Content="Center"/>
-                    <ComboBoxItem Content="East"/>
-                    <ComboBoxItem  Content="SouthWest"/>
-                    <ComboBoxItem  Content="South"/>
-                    <ComboBoxItem  Content="SouthEast"/>
-                </ComboBox>
-            </StackPanel>
-            </Grid>
-        </GroupBox>
-        
-        <GroupBox Header="Size" Grid.Row="3" HorizontalAlignment="Right" Width="372">
-            <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                <Controls:NumericUpDown HorizontalAlignment="Left" Width="82" Minimum="0" Maximum="4096" Value="400" ToolTip="Width of output wheel. May not be exact size you specify on some parameters"/>
-                <Controls:NumericUpDown Minimum="0" Maximum="2160" Value="175" VerticalAlignment="Center" HorizontalAlignment="Left" Width="76" ToolTip="Wheel height"/>
-                <CheckBox ToolTip="Trim the final image" Content="Trim" HorizontalAlignment="Left" IsChecked="True" Height="32" VerticalAlignment="Center" Width="59" Margin="10,0,0,0"/>
-                <Controls:NumericUpDown ToolTip="Arch the text." HorizontalAlignment="Left" Width="71" Minimum="0" Maximum="200" Value="10" VerticalAlignment="Center" Margin="0,0,0,-2"/>
-                <Label Content="Arc" Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Header="Shadow" Grid.Row="3" RenderTransformOrigin="0.636,0.553" HorizontalAlignment="Left" Width="372">
-            <StackPanel Margin="10,10,-47,6" Orientation="Horizontal" Height="26">
-                <CheckBox Content="On" HorizontalAlignment="Left" Margin="0,5,0,0" ToolTip="Enabled shadow" VerticalAlignment="Center" IsChecked="True"/>
-                <Button  ToolTip="Shadow color" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="25" Margin="10,1,0,0" Background="Black" Height="12" />
-                <Controls:NumericUpDown ToolTip="Shadow amount" HorizontalAlignment="Left" Width="72" Minimum="0" Maximum="100" Value="100" Margin="5,0,0,0"/>
-                <Controls:NumericUpDown   ToolTip="Shadow distance" HorizontalAlignment="Left" Width="72" Minimum="0" Maximum="199" Value="1"/>
-                <CheckBox  Content="Swap" ToolTip="Swap the shadow" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" IsChecked="True" Width="57"/>
-                <CheckBox Content="Repage" ToolTip="Repage shadow" HorizontalAlignment="Left" Margin="0,4" VerticalAlignment="Center" IsChecked="True"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Header="Presets" Grid.Row="4" Grid.RowSpan="2">
-                <StackPanel Margin="0,0,0,197">
-                    <DockPanel Margin="0,0,0,93">
-                        <TextBox x:Name="presetTextBox" Margin="5,0,0,0" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="Preset" VerticalAlignment="Center" Width="214"/>
-                        <Button x:Name="savePreset" Content="Save" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" Height="25" Margin="10,0,0,0" ToolTip="Save Preset" />
-                        <Button x:Name="delPreset" Content="Del" VerticalAlignment="Center" HorizontalAlignment="Left" Width="32" Height="25" Margin="10,0,0,0" ToolTip="Delete Selected Preset"/>
-                    </DockPanel>
-                </StackPanel>
-            </GroupBox>
-            <ListBox x:Name="presetListBox" Margin="10,58,10,10"  />
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
 
-        <Label Content="Distance" HorizontalAlignment="Left" Margin="184,343,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-    </Grid>
+
+                <GroupBox Header="Options" Margin="5">
+                    <Grid>
+                        <StackPanel  Orientation="Horizontal" VerticalAlignment="Bottom">
+                            <CheckBox Content="Border" HorizontalAlignment="Left"/>
+                            <Label Content="Fill" Margin="5" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top"/>
+                            <Button Content="" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="25" Background="#FFF9F937" Height="26" />
+                            <Label Content="Stroke" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Button Content="" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="25" Background="Black" Height="26" />
+                            <Controls:NumericUpDown Margin="5" HorizontalAlignment="Left" Minimum="0" Maximum="100" Value="100"/>
+                            <Label Content="BG" Margin="5" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                            <Button Content="" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="23" Background="White" Height="26"  />
+                            <CheckBox Content="Transparent" Margin="10" HorizontalAlignment="Left"  VerticalAlignment="Top" IsChecked="True"/>
+                            <CheckBox Content="Shade" Margin="10" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="69"/>
+                            <Controls:NumericUpDown HorizontalAlignment="Left" Margin="5" Minimum="0" Maximum="100" Value="100"/>
+                            <Controls:NumericUpDown HorizontalAlignment="Left" Margin="5" Minimum="0" Maximum="100" Value="100"/>
+                            <CheckBox  Content="Gravity" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" IsChecked="True"/>
+                            <ComboBox  VerticalAlignment="Top" Height="20" HorizontalAlignment="Left" Margin="5" Width="75" >
+                                <ComboBoxItem  Content="NorthWest"/>
+                                <ComboBoxItem  Content="North"/>
+                                <ComboBoxItem  Content="NorthEast"/>
+                                <ComboBoxItem Content="West"/>
+                                <ComboBoxItem  Content="Center"/>
+                                <ComboBoxItem Content="East"/>
+                                <ComboBoxItem  Content="SouthWest"/>
+                                <ComboBoxItem  Content="South"/>
+                                <ComboBoxItem  Content="SouthEast"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+
+                <StackPanel Orientation="Horizontal">
+                    <GroupBox Header="Size" Grid.Row="3" HorizontalAlignment="Right" Width="372">
+                        <StackPanel  Orientation="Horizontal">
+                            <Controls:NumericUpDown HorizontalAlignment="Left" Minimum="0" Maximum="4096" Value="400"
+                                            Margin="5"
+                                            ToolTip="Width of output wheel. May not be exact size you specify on some parameters"/>
+                            <Controls:NumericUpDown Minimum="0" Maximum="2160" Value="175" Margin="5"
+                                            VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Wheel height"/>
+                            <CheckBox ToolTip="Trim the final image" Content="Trim" HorizontalAlignment="Left" 
+                              IsChecked="True" Height="32" VerticalAlignment="Center"/>
+                            <Label Content="Arc" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
+                            <Controls:NumericUpDown ToolTip="Arch the text." HorizontalAlignment="Left" Margin="5"
+                                            Minimum="0" Maximum="200" Value="10" VerticalAlignment="Center"/>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Shadow" HorizontalAlignment="Left">
+                        <StackPanel  Orientation="Horizontal">
+                            <CheckBox Content="On" Margin="5" HorizontalAlignment="Left" ToolTip="Enabled shadow" VerticalAlignment="Center" IsChecked="True"/>
+                            <Button  ToolTip="Shadow color" Margin="5" Width="26"  Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Black" Height="25" />
+                            <Controls:NumericUpDown  ToolTip="Shadow amount" Margin="5" HorizontalAlignment="Left"  Minimum="0" Maximum="100" Value="100"/>
+                            <Controls:NumericUpDown   ToolTip="Shadow distance" Margin="5" HorizontalAlignment="Left"  Minimum="0" Maximum="199" Value="1"/>
+                            <CheckBox  Content="Swap" ToolTip="Swap the shadow" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" IsChecked="True"/>
+                            <CheckBox Content="Repage" ToolTip="Repage shadow" HorizontalAlignment="Left" Margin="5"  VerticalAlignment="Center" IsChecked="True"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+
+                <GroupBox Header="Presets" Grid.Row="4" Grid.RowSpan="2">
+                    <StackPanel Margin="0,0,0,197">
+                        <DockPanel Margin="0,0,0,93">
+                            <TextBox x:Name="presetTextBox" Margin="5,0,0,0" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="Preset" VerticalAlignment="Center" Width="214"/>
+                            <Button x:Name="savePreset" Content="Save" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" Height="25" Margin="10,0,0,0" ToolTip="Save Preset" />
+                            <Button x:Name="delPreset" Content="Del" VerticalAlignment="Center" HorizontalAlignment="Left" Width="32" Height="25" Margin="10,0,0,0" ToolTip="Delete Selected Preset"/>
+                        </DockPanel>
+                    </StackPanel>
+                </GroupBox>
+                <ListBox x:Name="presetListBox" Margin="10,58,10,10"  />
+
+                <Label Content="Distance" HorizontalAlignment="Left" Margin="184,343,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+            </StackPanel>
+        </Grid>
     </GroupBox>
 </UserControl>
