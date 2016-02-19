@@ -11,7 +11,11 @@
                        Width="200"
                        Height="25"
                  Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
+        
         <CheckBox Margin="5" Content="Clones"
                   IsChecked="{Binding ShowClones,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+        <CheckBox Margin="5" Content="Favorites"
+                  IsChecked="{Binding ShowFavoritesOnly,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
     </DockPanel>
 </UserControl>
