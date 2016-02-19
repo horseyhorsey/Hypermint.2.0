@@ -1,5 +1,6 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Base;
+using Hypermint.Base.Models;
 using Prism.Events;
 using System.Collections.Generic;
 
@@ -31,6 +32,13 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 OnPropertyChanged(() => ShowClones);
             }
         }
+
+        private bool showFavoritesOnly;
+        public bool ShowFavoritesOnly
+        {
+            get { return showFavoritesOnly; }
+            set { SetProperty(ref showFavoritesOnly, value); }
+        }
         #endregion
 
         public FilterControlViewModel(IEventAggregator eventAggregator)
@@ -45,13 +53,17 @@ namespace Hs.Hypermint.NavBar.ViewModels
         protected override void OnPropertyChanged(string propertyName)
         {
             //base.OnPropertyChanged(propertyName);
-
             //Add the options to a dictionary passed to the filter
-            var filterOptions = new Dictionary<string, bool>();
-            filterOptions.Add(FilterText, ShowClones);
+            var filterOptions = new GameFilter
+            {
+                FilterText = FilterText,
+                ShowClones = ShowClones,
+                ShowFavoritesOnly = ShowFavoritesOnly
+            };            
 
             _eventAggregator.GetEvent<GameFilteredEvent>().Publish(filterOptions);            
                         
         }
     }
+    
 }
