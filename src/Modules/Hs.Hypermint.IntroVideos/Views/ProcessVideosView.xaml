@@ -26,20 +26,8 @@
                         </Rectangle>
                     </Button>
 
-                    <DockPanel HorizontalAlignment="Right">
-                    <!--Scan list for video format-->
-                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
-                    Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
-                    ToolTip="Scan video format" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
-                        <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_video}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>
-                    
                     <!--Clear the list & reset-->
-                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
                     Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
                     ToolTip="Clear list" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
                         <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
@@ -48,6 +36,22 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </Button>
+
+                    <!--Scan list for video format-->
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
+                    Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
+                    ToolTip="Scan video format" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
+                        <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_video}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <DockPanel HorizontalAlignment="Right">
+                  
+                    
+
 
                     <!--Save to avisynth-->
                     <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
