@@ -82,7 +82,25 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                     break;
                 case "Artwork4":
                     imagePath = Images.Artwork4;
-                    break;                    
+                    break;
+                case "Backgrounds":
+                    imagePath = Images.Backgrounds;
+                    break;
+                case "GenreBG":
+                    imagePath = Images.GenreBackgrounds;
+                    break;
+                case "GenreWheel":
+                    imagePath = Images.GenreWheel;
+                    break;
+                case "Letters":
+                    imagePath = Images.Letters;
+                    break;
+                case "Pointer":
+                    imagePath = Images.Pointer;
+                    break;
+                case "Special":
+                    imagePath = Images.Special;
+                    break;
                 default:
                     break;
             }
