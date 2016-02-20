@@ -141,27 +141,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             RunScanCommand = new DelegateCommand(RunScan);
 
         }
-
-        private void gamesUpdated(string systemName)
-        {            
-
-            if (_gameRepo.GamesList != null)
-            {              
-
-                _auditer.AuditsGameList.Clear();
-
-                foreach (var item in _gameRepo.GamesList)
-                {
-                    _auditer.AuditsGameList.Add(new HyperSpin.Database.Audit.AuditGame
-                    {
-                        RomName = item.RomName
-                    });
-                }
-
-                AuditList = new ListCollectionView(_auditer.AuditsGameList);
-                
-            }
-        }
+        
         #endregion        
 
         private void RunScan()
@@ -197,9 +177,24 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         }
 
-        private void test()
+        private void gamesUpdated(string systemName)
         {
-            
+
+            if (_gameRepo.GamesList != null)
+            {
+                _auditer.AuditsGameList.Clear();
+
+                foreach (var item in _gameRepo.GamesList)
+                {
+                    _auditer.AuditsGameList.Add(new AuditGame
+                    {
+                        RomName = item.RomName
+                    });
+                }
+
+                AuditList = new ListCollectionView(_auditer.AuditsGameList);
+
+            }
         }
 
         private void SetMessage(string obj)
