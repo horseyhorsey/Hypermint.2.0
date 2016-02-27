@@ -17,5 +17,8 @@
 
         <CheckBox Margin="5" Content="Favorites"
                   IsChecked="{Binding ShowFavoritesOnly,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+        <CheckBox Margin="5" Content="Enabled"
+                  IsChecked="{Binding ShowEnabledOnly,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
     </DockPanel>
 </UserControl>

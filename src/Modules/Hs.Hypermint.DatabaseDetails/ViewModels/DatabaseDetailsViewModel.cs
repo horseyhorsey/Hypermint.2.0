@@ -207,6 +207,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 var filter = gameFilter.FilterText;
                 var showClones = gameFilter.ShowClones;
                 var favesOnly = gameFilter.ShowFavoritesOnly;
+                var enabledFilter = gameFilter.ShowEnabledOnly;
+
+                int enabled = 0;
+
+                if (enabledFilter) { enabled = 1; }
 
                 cv.Filter = o =>
                 {
@@ -216,31 +221,64 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                     if (string.IsNullOrEmpty(filter))
                     {
-                        if (favesOnly && showClones)
+                        if (favesOnly && showClones && enabledFilter)
                         {
-                            textFiltered = g.IsFavorite.Equals(favesOnly)
+                            textFiltered =
+                            g.Enabled.Equals(enabled)
+                            && g.IsFavorite.Equals(favesOnly)
                             && g.CloneOf.Length >= 0;
+                        }
+                        else if (favesOnly && showClones)
+                        {
+                            textFiltered =
+                            g.IsFavorite.Equals(favesOnly)
+                            && g.CloneOf.Length >= 0;
+                        }
+                        else if (favesOnly && !showClones && enabledFilter)
+                        {
+                            textFiltered =
+                            g.Enabled.Equals(enabled)
+                            && g.IsFavorite.Equals(favesOnly)
+                            && g.CloneOf.Equals(string.Empty);
                         }
                         else if (favesOnly && !showClones)
                         {
-                            textFiltered = g.IsFavorite.Equals(favesOnly)
+                            textFiltered =
+                            g.IsFavorite.Equals(favesOnly)
                             && g.CloneOf.Equals(string.Empty);
                         }
-                        else if (!favesOnly && !showClones)
-                        {                            
-                            textFiltered = g.CloneOf.Equals(string.Empty);
-                        }
-                        else if (!favesOnly && showClones)
+                        else if (!favesOnly && !showClones && enabledFilter)
                         {
-                            textFiltered = g.CloneOf.Length >= 0;
+                            textFiltered = g.CloneOf.Equals(string.Empty)
+                              && g.Enabled.Equals(enabled);
                         }
+                        else if (!favesOnly && showClones && enabledFilter)
+                        {
+                            textFiltered = g.CloneOf.Length >= 0
+                            && g.Enabled.Equals(enabled);
+                        }
+                        else if (!favesOnly && !showClones) { textFiltered = g.CloneOf.Equals(string.Empty); }
+                        else if (!favesOnly && showClones) { textFiltered = g.CloneOf.Length >= 0; }
                     }
                     else // Text is used as filter
                     {
-                        if (showClones && favesOnly)
+                        if (showClones && favesOnly && enabledFilter)
+                        {
+                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                            && g.Enabled.Equals(enabled)
+                            && g.IsFavorite.Equals(favesOnly)
+                            && g.CloneOf.Length >= 0;
+                        }
+                        else if (showClones && favesOnly)
                         {
                             textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
                             && g.IsFavorite.Equals(favesOnly)
+                            && g.CloneOf.Length >= 0;
+                        }
+                        else if (showClones && !favesOnly && enabledFilter)
+                        {
+                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                            && g.Enabled.Equals(enabled)
                             && g.CloneOf.Length >= 0;
                         }
                         else if (showClones && !favesOnly)
@@ -248,10 +286,22 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                             textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
                             && g.CloneOf.Length >= 0;
                         }
+                        else if (!showClones && favesOnly && enabledFilter)
+                        {
+                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                            && g.Enabled.Equals(enabled)
+                            && g.IsFavorite.Equals(favesOnly) && g.CloneOf.Equals(string.Empty);
+                        }
                         else if (!showClones && favesOnly)
                         {
                             textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
                             && g.IsFavorite.Equals(favesOnly) && g.CloneOf.Equals(string.Empty);
+                        }
+                        else if (!showClones && !favesOnly && enabledFilter)
+                        {
+                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                            && g.Enabled.Equals(enabled)
+                            && g.CloneOf.Equals(string.Empty);
                         }
                         else if (!showClones && !favesOnly)
                         {

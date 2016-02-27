@@ -7,5 +7,7 @@
         public bool ShowClones { get; set; }
 
         public bool ShowFavoritesOnly { get; set; }
+
+        public bool ShowEnabledOnly { get; set; }
     }
 }

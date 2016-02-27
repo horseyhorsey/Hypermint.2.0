@@ -39,6 +39,13 @@ namespace Hs.Hypermint.NavBar.ViewModels
             get { return showFavoritesOnly; }
             set { SetProperty(ref showFavoritesOnly, value); }
         }
+
+        private bool showEnabledOnly;
+        public bool ShowEnabledOnly
+        {
+            get { return showEnabledOnly; }
+            set { SetProperty(ref showEnabledOnly, value); }
+        }
         #endregion
 
         public FilterControlViewModel(IEventAggregator eventAggregator)
@@ -52,13 +59,13 @@ namespace Hs.Hypermint.NavBar.ViewModels
         /// <param name="propertyName"></param>
         protected override void OnPropertyChanged(string propertyName)
         {
-            //base.OnPropertyChanged(propertyName);
             //Add the options to a dictionary passed to the filter
             var filterOptions = new GameFilter
             {
                 FilterText = FilterText,
                 ShowClones = ShowClones,
-                ShowFavoritesOnly = ShowFavoritesOnly
+                ShowFavoritesOnly = ShowFavoritesOnly,
+                ShowEnabledOnly = ShowEnabledOnly
             };            
 
             _eventAggregator.GetEvent<GameFilteredEvent>().Publish(filterOptions);            
