@@ -214,6 +214,10 @@
       <Project>{8a62e2d1-32e9-4fee-9781-d397b73c80c4}</Project>
       <Name>Hs.Hypermint.FilesViewer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.GameLaunch\Hs.Hypermint.GameLaunch.csproj">
+      <Project>{5bb9c221-f83b-40bc-a322-99e537ac07e2}</Project>
+      <Name>Hs.Hypermint.GameLaunch</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.IntroVideos\Hs.Hypermint.IntroVideos.csproj">
       <Project>{2d1e1886-ec6c-4401-8775-0c2ff030cfa3}</Project>
       <Name>Hs.Hypermint.IntroVideos</Name>

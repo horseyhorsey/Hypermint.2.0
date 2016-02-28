@@ -36,4 +36,15 @@
             </Rectangle.OpacityMask>
         </Rectangle>
     </Button>
+    <!--GAME LAUNCHING-->
+    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
+                Command="{Binding LaunchGameCommand}"
+                ToolTip="Launch selected game." Height="28" Width="28"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+        <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
 </DockPanel>

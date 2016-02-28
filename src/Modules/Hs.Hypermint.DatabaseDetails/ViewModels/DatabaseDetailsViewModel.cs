@@ -86,14 +86,16 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand<string> OpenFolderCommand { get; set; }
         public DelegateCommand<string> SaveXmlCommand { get; set; }
         public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
-        public DelegateCommand AddMultiSystemCommand { get; private set; } 
+        public DelegateCommand AddMultiSystemCommand { get; private set; }
+        public DelegateCommand LaunchGameCommand { get; private set; }
         #endregion
 
         #region Constructors
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
             IHyperspinXmlService xmlService, ISelectedService selectedService, 
             IFavoriteService favoriteService, IGenreRepo genreRepo,
-            IEventAggregator eventAggregator, IFolderExplore folderService)
+            IEventAggregator eventAggregator, IFolderExplore folderService,
+            IGameLaunch gameLaunch)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
             _settingsRepo = settings;
@@ -104,6 +106,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _folderExploreService = folderService;
             _xmlService = xmlService;
             _genreRepo = genreRepo;
+            _gameLaunch = gameLaunch;
             
             _selectedService.CurrentSystem = "Main Menu";
 
@@ -129,6 +132,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(SelectedGames);
             });
+
+            LaunchGameCommand = new DelegateCommand(LaunchGame);
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -189,6 +194,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private IFolderExplore _folderExploreService;
         private IHyperspinXmlService _xmlService;
         private IGenreRepo _genreRepo;
+        private IGameLaunch _gameLaunch;
         #endregion
 
         #region Filter Methods
@@ -656,6 +662,19 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(e.TargetSite + " : " + e.Message);
             }
             
+        }
+
+        private void LaunchGame()
+        {
+            if (SelectedGames[0] != null)
+            {
+                var rlPath = _settingsRepo.HypermintSettings.RlPath;
+                var hsPath = _settingsRepo.HypermintSettings.HsPath;
+                var sysName = SelectedGames[0].System;
+                var romName = SelectedGames[0].RomName;
+
+                _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);            
+            }
         }
 
         #endregion

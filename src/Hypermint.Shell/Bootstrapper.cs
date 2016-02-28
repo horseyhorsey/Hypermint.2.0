@@ -14,6 +14,7 @@ using Hs.Hypermint.IntroVideos.Views;
 using Hs.Hypermint.Audits.Views;
 using Hs.Hypermint.DatabaseDetails.Views;
 using Hs.Hypermint.WheelCreator.Views;
+using Hs.Hypermint.GameLaunch;
 
 namespace Hypermint.Shell
 {
@@ -42,7 +43,7 @@ namespace Hypermint.Shell
         protected override void ConfigureModuleCatalog()
         {
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
-            
+
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Services.ServicesModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.SidebarSystems.SidebarSystemsModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.DatabaseDetails.ModuleInit));
@@ -53,7 +54,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MediaPane.MediaPaneModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.IntroVideos.IntroVideosModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Audits.AuditsModule));
-
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.GameLaunch.GameLaunchModule));
         }
 
         protected override void ConfigureContainer()
@@ -67,6 +68,7 @@ namespace Hypermint.Shell
             Container.RegisterInstance<IFindDirectoryService>(Container.Resolve<FindDirectoryService>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
             Container.RegisterInstance<IGenreRepo>(Container.Resolve<GenreRepo>());
+            Container.RegisterInstance<IGameLaunch>(Container.Resolve<GameLaunch>());
 
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
