@@ -88,7 +88,14 @@ namespace Hs.Hypermint.Services
                                 Int32.TryParse(node.SelectSingleNode("year").InnerText, out year);
 
                         if (node.SelectSingleNode("genre") != null)
-                            genre = node.SelectSingleNode("genre").InnerText;
+                        {
+                            var genreName = node.SelectSingleNode("genre").InnerText;
+
+                            genreName = genreName.Replace(@"\", "-");
+                            genreName = genreName.Replace(@"/", "-");
+
+                            genre = genreName;
+                        }
                         if (node.SelectSingleNode("rating") != null)
                             rating = node.SelectSingleNode("rating").InnerText;
 
