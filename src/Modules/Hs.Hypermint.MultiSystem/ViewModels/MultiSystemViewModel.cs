@@ -2,6 +2,7 @@
 using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
+using Prism.Commands;
 using Prism.Events;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,8 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private string message = "Test Message";
         private IEventAggregator _eventAggregator;
         private IMultiSystemRepo _multiSystemRepo;
+        public DelegateCommand<Game> RemoveGameCommand { get; set; }
+        public DelegateCommand ClearListCommand { get; private set; }
 
         //private IEventAggregator _eventAggregator;
 
@@ -39,9 +42,26 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             _multiSystemRepo = multiSystem;
 
             _eventAggregator.GetEvent<AddToMultiSystemEvent>().Subscribe(AddToMultiSystem);
-            //this._eventAggregator.GetEvent<GameSelectedEvent>().Publish(game.Description);
-        }
 
+            RemoveGameCommand = new DelegateCommand<Game>(RemoveFromMultisystemList);
+
+            ClearListCommand = new DelegateCommand(() =>
+            {
+                _multiSystemRepo.MultiSystemList.Clear();
+            });
+        }
+        /// <summary>
+        /// Remove a single item when X is clicked for a game
+        /// </summary>
+        /// <param name="game"></param>
+        private void RemoveFromMultisystemList(Game game)
+        {            
+            _multiSystemRepo.MultiSystemList.Remove(game);
+        }
+        /// <summary>
+        /// Add to a multisystem list from the main database menu event
+        /// </summary>
+        /// <param name="games"></param>
         private void AddToMultiSystem(object games)
         {            
             if (_multiSystemRepo.MultiSystemList == null)
