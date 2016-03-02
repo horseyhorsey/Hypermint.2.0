@@ -33,7 +33,7 @@
                 <!--Clears the list-->
                 <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
                         Command="{Binding ClearListCommand}"
-                VerticalAlignment="Top" ToolTip="Clear this preperation list. (Not Implemented)" 
+                VerticalAlignment="Top" ToolTip="Clear this preperation list." 
                 Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="16"
                        Height="16"
