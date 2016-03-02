@@ -47,7 +47,8 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             ClearListCommand = new DelegateCommand(() =>
             {
-                _multiSystemRepo.MultiSystemList.Clear();
+                if (_multiSystemRepo.MultiSystemList != null)
+                    _multiSystemRepo.MultiSystemList.Clear();
             });
         }
         /// <summary>
