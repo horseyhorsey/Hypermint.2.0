@@ -85,6 +85,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand<string> EnableDbItemsCommand { get; set; }
         public DelegateCommand<string> OpenFolderCommand { get; set; }
         public DelegateCommand<string> SaveXmlCommand { get; set; }
+        public DelegateCommand SaveGenresCommand { get; private set; } 
         public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
         public DelegateCommand AddMultiSystemCommand { get; private set; }
         public DelegateCommand LaunchGameCommand { get; private set; }
@@ -127,6 +128,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
             SaveXmlCommand = new DelegateCommand<string>(SaveXml);
+            SaveGenresCommand = new DelegateCommand(SaveGenres);
             EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
             AddMultiSystemCommand = new DelegateCommand(() =>
             {
@@ -491,7 +493,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {            
             if (_genreRepo.GenreList != null)
             {                                
-
                 var updatedGameDbs = new List<string>();
 
                 //Add the system database that was clicked
@@ -499,11 +500,20 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 foreach (var item in SystemDatabases)
                 {
-                    if (!GenreDatabases.Contains(item as string))
+                    try
                     {
-                        if ((string)item != _selectedService.CurrentSystem)
-                            updatedGameDbs.Add(item as string);
-                    }                    
+                        if (!GenreDatabases.Contains(item as string))
+                        {
+                            if ((string)item != _selectedService.CurrentSystem)
+                                updatedGameDbs.Add(item as string);
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
+            
                 }
 
                 SystemDatabases = new ListCollectionView(updatedGameDbs);
@@ -662,6 +672,14 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(e.TargetSite + " : " + e.Message);
             }
             
+        }
+
+        private void SaveGenres()
+        {
+
+            _xmlService.SerializeGenreXml(_gameRepo.GamesList,
+                _selectedService.CurrentSystem,
+                _settingsRepo.HypermintSettings.HsPath);
         }
 
         private void LaunchGame()

@@ -87,7 +87,25 @@
                           ToolTip="Add favorites to genre.xml? (Not implemented)"/>
             </DockPanel>
         </GroupBox>
-        
+
+        <GroupBox Header="Genres" ToolTip="Save genre databases">
+            <DockPanel>
+                <!--Save hyperspin database xml-->
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        Height="40" Width="40"
+                        Command="{Binding SaveGenresCommand}"
+                        CommandParameter=""
+                        IsEnabled="{Binding SaveEnabled}" HorizontalAlignment="Left" ToolTip="Save genres">
+                    <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+        </GroupBox>
+
         <GroupBox Header="Save" ToolTip="Save database xml">
             <DockPanel>
                 <!--Save hyperspin database xml-->
@@ -107,7 +125,6 @@
                          metro:TextBoxHelper.Watermark="Database Name" Width="Auto"
                          Text="{Binding DbName,UpdateSourceTrigger=PropertyChanged}"
                          Height="25"/>
-                
             </DockPanel>
         </GroupBox>
 
