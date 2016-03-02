@@ -7,5 +7,6 @@ namespace Hypermint.Base.Interfaces
         List<string> GenreList { get; set; }
 
         void PopulateGenres(string systemName);
+
     }
 }

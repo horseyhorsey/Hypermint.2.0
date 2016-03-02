@@ -7,6 +7,8 @@ namespace Hs.Hypermint.DatabaseDetails.Services
     {
         bool SerializeHyperspinXml(Games gamesList, string systemName,
             string hyperspinPath, string dbName = "");
-        
+
+        bool SerializeGenreXml(Games gamesList, string systemName, string hyperspinPath);
+
     }
 }

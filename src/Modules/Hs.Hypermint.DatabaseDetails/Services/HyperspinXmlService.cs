@@ -3,11 +3,92 @@ using System.Xml.Serialization;
 using System.IO;
 using Hypermint.Base.Constants;
 using System.Collections.Generic;
+using System;
 
 namespace Hs.Hypermint.DatabaseDetails.Services
 {
     public class HyperspinXmlService : IHyperspinXmlService
     {
+        public bool SerializeGenreXml(Games gamesList, string systemName, string hyperspinPath)
+        {
+            var genreNames = GetGenreNames(ref gamesList);
+
+            SerializeGenreMainMenu(genreNames, hyperspinPath,systemName);
+            
+            foreach (var item in genreNames)
+            {
+                var tempGamesBuilder = new Games();
+
+                if (item.Contains("//"))
+                    ;
+
+                foreach (var game in gamesList)
+                {
+                    if (game.Genre == item)
+                        tempGamesBuilder.Add(game);
+                }
+
+                SerializeHyperspinXml(tempGamesBuilder, systemName, hyperspinPath, item);                             
+            }
+
+            return true;
+        }
+
+        private void SerializeGenreMainMenu(List<string> genres, string hyperspinPath,
+             string systemName)
+        {
+            var genreXml = "genre.xml";
+            var finalPath = Path.Combine(hyperspinPath, Root.Databases, systemName, genreXml);
+            var databasePath = Path.Combine(hyperspinPath, Root.Databases, systemName);
+            TextWriter textWriter = new StreamWriter(finalPath);
+
+            if (!Directory.Exists(databasePath))
+                Directory.CreateDirectory(databasePath);
+
+            XmlSerializer serializer;
+
+            var xmlNameSpace = new XmlSerializerNamespaces();
+            xmlNameSpace.Add("", "");
+
+            var xmlRootAttr = new XmlRootAttribute("menu");
+
+            var menuItems = new List<MainMenu>();
+            foreach (var item in genres)
+            {
+                menuItems.Add(new MainMenu(item, 1));
+            }
+
+            try
+            {
+                serializer = new XmlSerializer(typeof(List<MainMenu>), xmlRootAttr);
+                serializer.Serialize(textWriter, menuItems, xmlNameSpace);
+            }
+            catch (Exception) { }
+
+            textWriter.Close();
+        }
+
+        /// <summary>
+        /// Pull all genre names from the incoming gamesList
+        /// </summary>
+        /// <param name="gamesList"></param>
+        /// <returns></returns>
+        private List<string> GetGenreNames(ref Games gamesList)
+        {
+            var genreNames = new List<string>();
+
+            foreach (var game in gamesList)
+            {
+            
+                if (!genreNames.Contains(game.Genre))
+                    genreNames.Add(game.Genre);
+            }
+
+            genreNames.Sort();
+
+            return genreNames;
+        }
+
         public bool SerializeHyperspinXml(Games gamesList, string systemName, 
             string hyperspinPath, string dbName = "")
         {            
