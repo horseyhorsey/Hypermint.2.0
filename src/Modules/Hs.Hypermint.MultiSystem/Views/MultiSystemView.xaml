@@ -51,8 +51,9 @@
                 <TextBox metro:TextBoxHelper.ClearTextButton="True" 
                  ToolTip="Specify name for multi system"
                  metro:TextBoxHelper.Watermark="New system name"
+                 Text="{Binding MultiSystemName,UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
-                 Width="206" Height="25" VerticalAlignment="Top" IsEnabled="False"/>
+                 Width="206" Height="25" VerticalAlignment="Top" IsEnabled="True"/>
 
                 <TextBlock TextWrapping="Wrap" Margin="5"
                    Text="Default HS Settings"/>

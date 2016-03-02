@@ -29,6 +29,14 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             }
         }
 
+        private string multiSystemName;
+        public string MultiSystemName
+        {
+            get { return multiSystemName; }
+            set { multiSystemName = value; }
+        }
+
+
         private ICollectionView multiSystemList;
         public ICollectionView MultiSystemList
         {
