@@ -104,9 +104,9 @@
     <Compile Include="Constants\Paths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\RegionNames.cs" />
-    <Compile Include="Services\FindDirectoryService.cs" />
+    <Compile Include="Services\FileFolderService.cs" />
     <Compile Include="Services\FlyoutService.cs" />
-    <Compile Include="Services\IFindDirectoryService.cs" />
+    <Compile Include="Services\IFileFolderService.cs" />
     <Compile Include="Services\IFlyoutService.cs" />
     <Compile Include="Services\ISelectedService.cs" />
     <Compile Include="Services\SelectedService.cs" />

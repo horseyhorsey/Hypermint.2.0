@@ -21,7 +21,7 @@ namespace Hypermint.Shell.ViewModels
             set { _hyperMintSettings.HypermintSettings = value; }
         }
 
-        private IFindDirectoryService _findDirectoryService;
+        private IFileFolderService _fileFolderService;
 
         public ObservableCollection<string> GuiThemes { get; set; }        
 
@@ -32,13 +32,13 @@ namespace Hypermint.Shell.ViewModels
         #endregion
 
         #region Ctors
-        public SettingsFlyoutViewModel( IFindDirectoryService findDir, ISettingsRepo settings)
+        public SettingsFlyoutViewModel(IFileFolderService findDir, ISettingsRepo settings)
         {
            // if (settings == null) throw new ArgumentNullException("settings");
             //_eventAggregator = eventAggregator;     
             _hyperMintSettings = settings;
             
-            _findDirectoryService = findDir;
+            _fileFolderService = findDir;
             
             //Loading this through other module. 
             getSavedHypermintSettings();
@@ -65,11 +65,11 @@ namespace Hypermint.Shell.ViewModels
         {
             var userPath = "";
 
-            _findDirectoryService.setFolderDialog();
+            _fileFolderService.setFolderDialog();
 
-            if (!string.IsNullOrEmpty(_findDirectoryService.SelectedFolder))
+            if (!string.IsNullOrEmpty(_fileFolderService.SelectedFolder))
             {
-                userPath = _findDirectoryService.SelectedFolder;
+                userPath = _fileFolderService.SelectedFolder;
 
                 UpdatePath(pathName, userPath);
             }

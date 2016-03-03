@@ -1,9 +1,11 @@
 ﻿namespace Hypermint.Base.Services
 {
-    public interface IFindDirectoryService
+    public interface IFileFolderService
     {        
         string SelectedFolder { get; set; }
 
         void setFolderDialog();
+
+        string setFileDialog(string initialDirectory = "");
     }
 }

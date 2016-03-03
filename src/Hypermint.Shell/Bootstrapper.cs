@@ -65,7 +65,7 @@ namespace Hypermint.Shell
 
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
-            Container.RegisterInstance<IFindDirectoryService>(Container.Resolve<FindDirectoryService>());
+            Container.RegisterInstance<IFileFolderService>(Container.Resolve<Base.Services.FileFolderService>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
             Container.RegisterInstance<IGenreRepo>(Container.Resolve<GenreRepo>());
             Container.RegisterInstance<IGameLaunch>(Container.Resolve<GameLaunch>());

@@ -7,6 +7,8 @@ using Prism.Events;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
+using System;
+using Hypermint.Base.Services;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -17,6 +19,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private IMultiSystemRepo _multiSystemRepo;
         public DelegateCommand<Game> RemoveGameCommand { get; set; }
         public DelegateCommand ClearListCommand { get; private set; }
+        public DelegateCommand SelectSettingsCommand { get; private set; } 
 
         //private IEventAggregator _eventAggregator;
 
@@ -36,18 +39,30 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { multiSystemName = value; }
         }
 
+        private string settingsTemplate;
+        public string SettingsTemplate
+        {
+            get { return settingsTemplate; }
+            set { SetProperty(ref settingsTemplate, value); }
+        }
 
         private ICollectionView multiSystemList;
+        private IFileFolderService _fileFolderService;
+        private ISettingsRepo _settingsService;
+
         public ICollectionView MultiSystemList
         {
             get { return multiSystemList; }
             set { SetProperty(ref multiSystemList, value); }
         }
 
-        public MultiSystemViewModel(IEventAggregator ea,IMultiSystemRepo multiSystem)
+        public MultiSystemViewModel(IEventAggregator ea,IMultiSystemRepo multiSystem, IFileFolderService fileService,
+            ISettingsRepo settings)
         {
             _eventAggregator = ea;
             _multiSystemRepo = multiSystem;
+            _fileFolderService = fileService;
+            _settingsService = settings;
 
             _eventAggregator.GetEvent<AddToMultiSystemEvent>().Subscribe(AddToMultiSystem);
 
@@ -58,7 +73,16 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 if (_multiSystemRepo.MultiSystemList != null)
                     _multiSystemRepo.MultiSystemList.Clear();
             });
+
+            SelectSettingsCommand = new DelegateCommand(SelectSettings);
         }
+
+        private void SelectSettings()
+        {
+            var hsPath = _settingsService.HypermintSettings.HsPath;
+            SettingsTemplate = _fileFolderService.setFileDialog(hsPath);
+        }
+
         /// <summary>
         /// Remove a single item when X is clicked for a game
         /// </summary>

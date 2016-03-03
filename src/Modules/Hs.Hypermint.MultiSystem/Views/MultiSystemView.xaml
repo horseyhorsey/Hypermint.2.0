@@ -61,9 +61,11 @@
                 <TextBox metro:TextBoxHelper.Watermark="Choose settings file" 
                  ToolTip="Pick an existing settings file for template for this system" 
                  Height="25" Margin="5" TextWrapping="Wrap" 
-                 VerticalAlignment="Top" HorizontalAlignment="Left" Width="278" IsEnabled="False"/>
+                Text="{Binding SettingsTemplate}"
+                 VerticalAlignment="Top" HorizontalAlignment="Left" Width="278" IsEnabled="True"/>
 
                 <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
+                Command="{Binding SelectSettingsCommand}"
                 VerticalAlignment="Top" ToolTip="Pick an existing settings file for template for this system" 
                 Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="20"
