@@ -47,6 +47,41 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { SetProperty(ref settingsTemplate, value); }
         }
 
+        private bool createLinks;
+        public bool CreateLinks
+        {
+            get { return createLinks; }
+            set { SetProperty(ref createLinks, value); }
+        }
+
+        private bool createGenres;
+        public bool CreateGenres
+        {
+            get { return createGenres; }
+            set { SetProperty(ref createGenres, value); }
+        }
+
+        private bool createRomMap;
+        public bool CreateRomMap
+        {
+            get { return createRomMap; }
+            set { SetProperty(ref createRomMap, value); }
+        }
+
+        private bool defaultTheme;
+        public bool DefaultTheme
+        {
+            get { return defaultTheme; }
+            set { SetProperty(ref defaultTheme, value); }
+        }
+
+        private bool createSymbolicLinks;
+        public bool CreateSymbolicLinks
+        {
+            get { return createSymbolicLinks; }
+            set { SetProperty(ref createSymbolicLinks, value); }
+        }
+
         #endregion
 
         #region Constructors
