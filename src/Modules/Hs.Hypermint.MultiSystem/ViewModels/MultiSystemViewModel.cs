@@ -47,13 +47,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { SetProperty(ref settingsTemplate, value); }
         }
 
-        private bool createLinks;
-        public bool CreateLinks
-        {
-            get { return createLinks; }
-            set { SetProperty(ref createLinks, value); }
-        }
-
         private bool createGenres;
         public bool CreateGenres
         {
