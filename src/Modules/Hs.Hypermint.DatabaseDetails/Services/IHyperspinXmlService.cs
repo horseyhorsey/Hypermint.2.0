@@ -10,5 +10,8 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
         bool SerializeGenreXml(Games gamesList, string systemName, string hyperspinPath);
 
+        bool SerializeMainMenuXml(Systems systemList, string hyperspinPath,
+            string mainMenuName = "Main Menu");
+
     }
 }

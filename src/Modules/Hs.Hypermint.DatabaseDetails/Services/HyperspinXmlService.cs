@@ -102,6 +102,18 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             string finalPath = Path.Combine(hyperspinPath, Root.Databases, systemName, dbXmlFileName);
             var databasePath = Path.Combine(hyperspinPath, Root.Databases, systemName);
 
+            if (!File.Exists(finalPath))
+            {
+                Directory.CreateDirectory(databasePath);
+
+                using (var file = File.Create(finalPath))
+                {
+                    file.Close();
+                }
+                
+            }
+                
+
             TextWriter textWriter = new StreamWriter(finalPath);
 
             if (!Directory.Exists(databasePath))
@@ -138,5 +150,41 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
         }
 
+        public bool SerializeMainMenuXml(Systems systemList, string hyperspinPath, string mainMenuName = "Main Menu")
+        {            
+            var finalPath = Path.Combine(hyperspinPath, Root.Databases, "Main Menu", mainMenuName + ".xml");
+            var databasePath = Path.Combine(hyperspinPath, Root.Databases, "Main Menu");
+            TextWriter textWriter = new StreamWriter(finalPath);
+
+            if (!Directory.Exists(databasePath))
+                Directory.CreateDirectory(databasePath);
+
+            XmlSerializer serializer;
+
+            if (File.Exists(finalPath))
+                File.Copy(finalPath, finalPath + "BACKUP");
+
+            var xmlNameSpace = new XmlSerializerNamespaces();
+            xmlNameSpace.Add("", "");
+
+            var xmlRootAttr = new XmlRootAttribute("menu");
+
+            var menuItems = new List<MainMenu>();
+            foreach (var item in systemList)
+            {
+                menuItems.Add(new MainMenu(item.Name, item.Enabled));
+            }            
+
+            try
+            {
+                serializer = new XmlSerializer(typeof(List<MainMenu>), xmlRootAttr);
+                serializer.Serialize(textWriter, menuItems, xmlNameSpace);
+            }
+            catch (Exception) { }
+
+            textWriter.Close();
+
+            return true;
+        }
     }
 }
