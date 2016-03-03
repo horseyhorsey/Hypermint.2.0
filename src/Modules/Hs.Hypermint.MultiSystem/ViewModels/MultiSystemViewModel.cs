@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System;
 using Hypermint.Base.Services;
+using Hs.Hypermint.DatabaseDetails.Services;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -79,12 +80,14 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
         #region Constructors
         public MultiSystemViewModel(IEventAggregator ea, IMultiSystemRepo multiSystem, IFileFolderService fileService,
-          ISettingsRepo settings)
+          ISettingsRepo settings, IHyperspinXmlService xmlService, IMainMenuRepo mainMenuRepo)
         {
             _eventAggregator = ea;
             _multiSystemRepo = multiSystem;
             _fileFolderService = fileService;
             _settingsService = settings;
+            _xmlService = xmlService;
+            _mainmenuRepo = mainMenuRepo;
 
             _eventAggregator.GetEvent<AddToMultiSystemEvent>().Subscribe(AddToMultiSystem);
 
@@ -97,7 +100,10 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             });
 
             SelectSettingsCommand = new DelegateCommand(SelectSettings);
+
+            BuildMultiSystemCommand = new DelegateCommand(BuildMultiSystem);            
         }
+
         #endregion
 
         #region Commands
@@ -105,12 +111,16 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         public DelegateCommand<Game> RemoveGameCommand { get; set; }
         public DelegateCommand ClearListCommand { get; private set; }
         public DelegateCommand SelectSettingsCommand { get; private set; }
+        public DelegateCommand BuildMultiSystemCommand { get; private set; } 
+
         #endregion
 
         #region Services
         private IFileFolderService _fileFolderService;
         private ISettingsRepo _settingsService;
         private IMultiSystemRepo _multiSystemRepo;
+        private IHyperspinXmlService _xmlService;
+        private IMainMenuRepo _mainmenuRepo;
         #endregion
 
         #region Methods
@@ -141,10 +151,25 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             foreach (var game in (List<Game>)games)
             {
-                _multiSystemRepo.MultiSystemList.Add(game);
+                //Only add the game if it doesn't already exits
+                if (!_multiSystemRepo.MultiSystemList.Contains(game))
+                    _multiSystemRepo.MultiSystemList.Add(game);
             }
 
+        }
 
+        private void BuildMultiSystem()
+        {
+            var hsPath = _settingsService.HypermintSettings.HsPath;
+            //Create the multisystem XML
+            _xmlService.SerializeHyperspinXml(
+                _multiSystemRepo.MultiSystemList, MultiSystemName,
+                hsPath);
+
+            _mainmenuRepo.Systems.Add(new MainMenu(MultiSystemName));
+
+            _xmlService.SerializeMainMenuXml(_mainmenuRepo.Systems, hsPath);
+            
         }
         #endregion
 
