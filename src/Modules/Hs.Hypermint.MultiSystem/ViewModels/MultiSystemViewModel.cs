@@ -14,15 +14,9 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 {
     public class MultiSystemViewModel : ViewModelBase
     {
+
+        #region Properties
         private string message = "Test Message";
-        private IEventAggregator _eventAggregator;
-        private IMultiSystemRepo _multiSystemRepo;
-        public DelegateCommand<Game> RemoveGameCommand { get; set; }
-        public DelegateCommand ClearListCommand { get; private set; }
-        public DelegateCommand SelectSettingsCommand { get; private set; } 
-
-        //private IEventAggregator _eventAggregator;
-
         public string Message
         {
             get { return message; }
@@ -30,6 +24,13 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             {
                 SetProperty(ref message, value);
             }
+        }
+
+        private ICollectionView multiSystemList;
+        public ICollectionView MultiSystemList
+        {
+            get { return multiSystemList; }
+            set { SetProperty(ref multiSystemList, value); }
         }
 
         private string multiSystemName;
@@ -46,18 +47,11 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { SetProperty(ref settingsTemplate, value); }
         }
 
-        private ICollectionView multiSystemList;
-        private IFileFolderService _fileFolderService;
-        private ISettingsRepo _settingsService;
+        #endregion
 
-        public ICollectionView MultiSystemList
-        {
-            get { return multiSystemList; }
-            set { SetProperty(ref multiSystemList, value); }
-        }
-
-        public MultiSystemViewModel(IEventAggregator ea,IMultiSystemRepo multiSystem, IFileFolderService fileService,
-            ISettingsRepo settings)
+        #region Constructors
+        public MultiSystemViewModel(IEventAggregator ea, IMultiSystemRepo multiSystem, IFileFolderService fileService,
+          ISettingsRepo settings)
         {
             _eventAggregator = ea;
             _multiSystemRepo = multiSystem;
@@ -76,19 +70,33 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             SelectSettingsCommand = new DelegateCommand(SelectSettings);
         }
+        #endregion
 
+        #region Commands
+        private IEventAggregator _eventAggregator;
+        public DelegateCommand<Game> RemoveGameCommand { get; set; }
+        public DelegateCommand ClearListCommand { get; private set; }
+        public DelegateCommand SelectSettingsCommand { get; private set; }
+        #endregion
+
+        #region Services
+        private IFileFolderService _fileFolderService;
+        private ISettingsRepo _settingsService;
+        private IMultiSystemRepo _multiSystemRepo;
+        #endregion
+
+        #region Methods
         private void SelectSettings()
         {
             var hsPath = _settingsService.HypermintSettings.HsPath;
             SettingsTemplate = _fileFolderService.setFileDialog(hsPath);
         }
-
         /// <summary>
         /// Remove a single item when X is clicked for a game
         /// </summary>
         /// <param name="game"></param>
         private void RemoveFromMultisystemList(Game game)
-        {            
+        {
             _multiSystemRepo.MultiSystemList.Remove(game);
         }
         /// <summary>
@@ -96,19 +104,21 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         /// </summary>
         /// <param name="games"></param>
         private void AddToMultiSystem(object games)
-        {            
+        {
             if (_multiSystemRepo.MultiSystemList == null)
             {
                 _multiSystemRepo.MultiSystemList = new Games();
                 MultiSystemList = new ListCollectionView(_multiSystemRepo.MultiSystemList);
-            }                                    
+            }
 
             foreach (var game in (List<Game>)games)
             {
-                _multiSystemRepo.MultiSystemList.Add(game);                
+                _multiSystemRepo.MultiSystemList.Add(game);
             }
-            
 
-         }
+
+        }
+        #endregion
+
     }
 }
