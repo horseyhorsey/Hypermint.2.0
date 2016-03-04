@@ -229,6 +229,28 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             if (CreateSymbolicLinks)
                 GenerateMediaItems(hsPath);
+
+            if (CreateRomMap)
+            {
+                try
+                {
+                    var rlPath = _settingsService.HypermintSettings.RlPath;
+                    if (!Directory.Exists(rlPath)) { return; }
+
+                    var iniPath = rlPath + "\\Settings\\" + MultiSystemName;
+
+                    if (!Directory.Exists(iniPath))
+                        Directory.CreateDirectory(iniPath);
+
+                    RocketlaunchRomMap.CreateGamesIni(
+                            _multiSystemRepo.MultiSystemList, iniPath);
+                }
+                catch (Exception)
+                {
+
+                }
+                   
+            }
         }
 
         private void GenerateMediaItems(string hsPath)
