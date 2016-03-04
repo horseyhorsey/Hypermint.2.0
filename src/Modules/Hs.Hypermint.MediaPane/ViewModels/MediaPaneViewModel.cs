@@ -76,6 +76,12 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 return;
             }
 
+            if (selectedOptions[1].Contains("Sound") || selectedOptions[1] == "MusicBg")
+            {
+                SetSound(imagePath);
+                return;
+            }
+
             if (!File.Exists(imagePath))
                 WheelSource = _selectedService.SystemImage;
             else
@@ -85,6 +91,16 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 WheelSource = _selectedService.GameImage;
             }
 
+        }
+
+        private void SetSound(string soundPath)
+        {
+            var soundsPath = soundPath.Replace(".png", ".mp3");
+
+            if (File.Exists(soundsPath))
+            {
+                VideoSource = new Uri(soundsPath);                
+            }
         }
 
         private void SetVideo(string pathToImage)
@@ -99,15 +115,13 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 if (!File.Exists(videoPath))
                 {
                     _selectedService.GameImage =
-                    SelectedService.SetBitmapFromUri(new Uri(pathToImage));
-                    VideoSource = null;
+                    SelectedService.SetBitmapFromUri(new Uri(pathToImage));                    
                     WheelSource = _selectedService.GameImage;
                 }
 
             }
             else
-            {
-                WheelSource = null;
+            {                
                 VideoSource = new Uri(videoPath);
             }
                         
@@ -154,6 +168,15 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                     break;
                 case "Videos":
                     imagePath = Root.Video;
+                    break;
+                case "MusicBg":
+                    imagePath = Sound.BackgroundMusic;
+                    break;
+                case "Sound Start":
+                    imagePath = Sound.SystemStart;
+                    break;
+                case "Sound End":
+                    imagePath = Sound.SystemExit;
                     break;
                 default:
                     break;
