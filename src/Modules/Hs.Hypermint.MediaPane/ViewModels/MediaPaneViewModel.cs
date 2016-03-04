@@ -13,29 +13,46 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 {
     public class MediaPaneViewModel : ViewModelBase
     {
-        private ImageSource wheelSource;
         private IEventAggregator _eventAggregator;
-        private ISelectedService _selectedService;
-        private ISettingsRepo _settingsRepo;
 
+        #region Properties
+        private ImageSource wheelSource;
         public ImageSource WheelSource
         {
             get { return wheelSource; }
             set { SetProperty(ref wheelSource, value); }
         }
 
+        private Uri videoSource;
+        public Uri VideoSource
+        {
+            get { return videoSource; }
+            set { SetProperty(ref videoSource, value); }
+        }
+
+        #endregion
+
+        #region Constructors
         public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService,
             ISettingsRepo settingsRepo)
         {
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
-            _settingsRepo = settingsRepo;  
+            _settingsRepo = settingsRepo;
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetImageGame);
             //
         }
 
+        #endregion
+
+        #region Services
+        private ISelectedService _selectedService;
+        private ISettingsRepo _settingsRepo;
+        #endregion        
+
+        #region Methods
         private void SetImageGame(string[] selectedOptions)
         {
             var hsPath = _settingsRepo.HypermintSettings.HsPath;
@@ -51,18 +68,50 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 hsPath, Root.Media, _selectedService.CurrentSystem,
                 mediaTypePath, romName + ".png");
 
+            if (selectedOptions[1] == "Videos")
+            {
+                SetVideo(imagePath);
+                return;
+            }
+
             if (!File.Exists(imagePath))
                 WheelSource = _selectedService.SystemImage;
             else
-            {                
+            {
                 _selectedService.GameImage =
                     SelectedService.SetBitmapFromUri(new Uri(imagePath));
                 WheelSource = _selectedService.GameImage;
             }
+
+        }
+
+        private void SetVideo(string pathToImage)
+        {
+            // Check if there is an mp4 or Flv.
+            // If none exists then use the original image path instead.
+            var videoPath = pathToImage.Replace(".png", ".mp4");
+            if (!File.Exists(videoPath))
+            {
+                videoPath = videoPath.Replace(".mp4", ".flv");
+
+                if (!File.Exists(videoPath))
+                {
+                    _selectedService.GameImage =
+                    SelectedService.SetBitmapFromUri(new Uri(pathToImage));
+                    VideoSource = null;
+                    WheelSource = _selectedService.GameImage;
+                }
+
+            }
+            else
+            {
+                WheelSource = null;
+                VideoSource = new Uri(videoPath);
+            }
                         
         }
 
-        private string getImagePath (string mediaType)
+        private string getImagePath(string mediaType)
         {
             var imagePath = "";
 
@@ -101,6 +150,9 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 case "Special":
                     imagePath = Images.Special;
                     break;
+                case "Videos":
+                    imagePath = Root.Video;
+                    break;
                 default:
                     break;
             }
@@ -112,6 +164,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             WheelSource = _selectedService.SystemImage;
         }
+
+        #endregion
 
     }
 }
