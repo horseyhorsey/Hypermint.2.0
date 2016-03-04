@@ -3,7 +3,6 @@ using Hypermint.Base.Base;
 using Prism.Events;
 using System.IO;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System;
 using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
@@ -55,13 +54,16 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         #region Methods
         private void SetImageGame(string[] selectedOptions)
         {
+            WheelSource = null;
+            VideoSource = null;
+
             var hsPath = _settingsRepo.HypermintSettings.HsPath;
             var romName = selectedOptions[0];
             var mediaTypePath = Images.Wheels;
 
             if (!string.IsNullOrEmpty(selectedOptions[1]))
             {
-                mediaTypePath = getImagePath(selectedOptions[1]);
+                mediaTypePath = getMediaPath(selectedOptions[1]);
             }
 
             var imagePath = Path.Combine(
@@ -111,7 +113,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                         
         }
 
-        private string getImagePath(string mediaType)
+        private string getMediaPath(string mediaType)
         {
             var imagePath = "";
 
