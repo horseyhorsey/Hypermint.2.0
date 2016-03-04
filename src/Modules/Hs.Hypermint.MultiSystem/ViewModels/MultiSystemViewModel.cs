@@ -10,6 +10,10 @@ using System.Windows.Data;
 using System;
 using Hypermint.Base.Services;
 using Hs.Hypermint.DatabaseDetails.Services;
+using System.IO;
+using Hypermint.Base.Constants;
+using Hs.Hypermint.MultiSystem.Services;
+using System.Runtime.CompilerServices;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -38,7 +42,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         public string MultiSystemName
         {
             get { return multiSystemName; }
-            set { multiSystemName = value; }
+            set { SetProperty(ref multiSystemName, value); }
         }
 
         private string settingsTemplate;
@@ -101,7 +105,25 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             SelectSettingsCommand = new DelegateCommand(SelectSettings);
 
-            BuildMultiSystemCommand = new DelegateCommand(BuildMultiSystem);            
+            BuildMultiSystemCommand = new DelegateCommand(BuildMultiSystem);                
+        }
+
+        private bool CanBuildSystem()
+        {
+            if (!string.IsNullOrEmpty(MultiSystemName))
+            {
+                if (_multiSystemRepo.MultiSystemList.Count > 0)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+                
         }
 
         #endregion
@@ -158,18 +180,149 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
         }
 
+        /// <summary>
+        /// Builds a database from the list.
+        /// Creates all media folders and options to create symbolic links rather than duplicate media
+        /// </summary>
         private void BuildMultiSystem()
         {
+            if (!CanBuildSystem()) return;
+
             var hsPath = _settingsService.HypermintSettings.HsPath;
             //Create the multisystem XML
             _xmlService.SerializeHyperspinXml(
                 _multiSystemRepo.MultiSystemList, MultiSystemName,
                 hsPath);
 
-            _mainmenuRepo.Systems.Add(new MainMenu(MultiSystemName));
-
-            _xmlService.SerializeMainMenuXml(_mainmenuRepo.Systems, hsPath);
+            // Add the new system to the main menu if it doesn't already exist
+            // then serialize.
+            bool nameExists = false;
+            foreach (var item in _mainmenuRepo.Systems)
+            {
+                if (item.Name == MultiSystemName)
+                    nameExists = true;
+            }
+            var newMenuItem = new MainMenu(MultiSystemName,1);
+            if (!nameExists)
+            {
+                _mainmenuRepo.Systems.Add(newMenuItem);
+                _xmlService.SerializeMainMenuXml(_mainmenuRepo.Systems, hsPath);
+            }
+            // Generate the genre database for this new system
+            if (CreateGenres)
+            {
+                _xmlService.SerializeGenreXml(_multiSystemRepo.MultiSystemList, MultiSystemName, hsPath);
+            }
             
+            // Copy the settings template
+            if (File.Exists(SettingsTemplate))
+            {
+                var settingsIniPath = Path.Combine(hsPath, Root.Settings, MultiSystemName + ".ini");
+
+                if (File.Exists(settingsIniPath))
+                    File.Delete(settingsIniPath);
+
+                File.Copy(settingsTemplate, settingsIniPath);
+            }
+
+            CreateMediaDirectorysForNewSystem(hsPath);
+
+            if (CreateSymbolicLinks)
+                GenerateMediaItems(hsPath);
+        }
+
+        private void GenerateMediaItems(string hsPath)
+        {
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            foreach (var game in _multiSystemRepo.MultiSystemList)
+            {
+                CreateSymbolicArtworks(ref hsPath, game);
+                CreateSymbolicTheme(ref hsPath, game);
+                CreateSymbolicVideos(ref hsPath, game);
+                CreateSymbolicWheels(ref hsPath, game);
+            }
+        }
+
+        private void CreateSymbolicVideos(ref string hsPath, Game game)
+        {
+            var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Video, game.RomName + ".mp4");
+            var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Video, game.RomName + ".mp4");
+
+            if (File.Exists(FileToLink))
+            {
+                SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+                return;
+            }
+
+            FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Video, game.RomName + ".flv");
+            tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Video, game.RomName + ".flv");
+
+            if (File.Exists(FileToLink))
+            {
+                SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);                
+            }
+        }
+
+        private void CreateSymbolicArtworks(ref string hsPath, Game game)
+        {
+            for (int i = 1; i < 5; i++)
+            {
+                var FileToLink = Path.Combine(hsPath, Root.Media, game.System, "Images\\Artwork" + i, game.RomName + ".png");
+                var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, "Images\\Artwork" + i, game.RomName + ".png");
+
+                if (File.Exists(FileToLink))
+                    SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+            }
+        }
+
+        private void CreateSymbolicWheels(ref string hsPath, Game game)
+        {
+            var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Images.Wheels, game.RomName + ".png");            
+            var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Images.Wheels, game.RomName + ".png");
+
+            if (File.Exists(FileToLink))
+                SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+        }                   
+
+        private void CreateSymbolicTheme(ref string hsPath, Game game)
+        {
+            var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Themes, game.RomName + ".zip");
+            var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Themes, game.RomName + ".zip");
+
+            if (DefaultTheme)
+            {
+                if (!File.Exists(FileToLink))
+                    FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Themes, "default.zip");
+            }
+
+            SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+        }
+
+        private void CreateMediaDirectorysForNewSystem(string hsPath)
+        {
+            var newSystemMediaPath = Path.Combine(hsPath, Root.Media, MultiSystemName);
+            
+            for (int i = 1; i < 5; i++)
+            {
+                Directory.CreateDirectory(newSystemMediaPath + "\\Images\\Artwork" + i);
+            }
+
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Backgrounds);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.GenreBackgrounds);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.GenreWheel);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Letters);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Pointer);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Special);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Wheels);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Root.Themes);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.BackgroundMusic);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.SystemExit);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.SystemStart);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.WheelSounds);
+            Directory.CreateDirectory(newSystemMediaPath + "\\" + Root.Video);
+
+
         }
         #endregion
 

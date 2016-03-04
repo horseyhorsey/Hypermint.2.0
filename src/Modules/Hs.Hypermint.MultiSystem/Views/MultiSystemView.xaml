@@ -15,7 +15,7 @@
 
             <!--Top tools-->
             <DockPanel>
-                
+
                 <!--Add all favorites-->
                 <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
                 VerticalAlignment="Top" ToolTip="Scan all favorites.txt and build one list. (Not Implemented)" 
@@ -103,23 +103,24 @@
             <DockPanel Grid.Row="2">
                 <!--Toggle Switches-->
                 <DockPanel>
-                 <metro:ToggleSwitch Width="90" Header="Theme" OnLabel="Yes" OffLabel="No" Margin="5"
+                    <metro:ToggleSwitch Header="Create links" OnLabel="Yes"
+                                        IsChecked="{Binding CreateSymbolicLinks}" OffLabel="No" Width="90" Margin="5"
+                                        ToolTip="Create symbolic links for media. (Run app as administrator"/>
+                    <metro:ToggleSwitch Width="90" Header="Theme" OnLabel="Yes" OffLabel="No" Margin="5"
                   ToolTip="Make links to the current systems default.zip theme if game theme doesn't exist"                   
-                  IsChecked="{Binding DefaultTheme}"/>
+                  IsChecked="{Binding DefaultTheme}" IsEnabled="{Binding CreateSymbolicLinks}"/>
                     <metro:ToggleSwitch Header="Rom Map" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
                   ToolTip="Creates a Games.ini for Rocketlauncher rom mapping"
                   IsChecked="{Binding CreateRomMap}"/>
-                    <metro:ToggleSwitch Header="Create links" OnLabel="Yes"
-                                        IsChecked="{Binding CreateSymbolicLinks}" OffLabel="No" Width="90" Margin="5"
-                                        ToolTip="Create symbolic links for media."/>
+
                     <metro:ToggleSwitch Header="Genre lists" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
                                         ToolTip="Create genre lists for this system."
                   IsChecked="{Binding CreateGenres}"/>
 
                     <!--Build Multi System-->
-                    <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
+                    <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3"
                             Command="{Binding BuildMultiSystemCommand}"
-                VerticalAlignment="Bottom" ToolTip="Build multi-system (Not Implemented)" 
+                VerticalAlignment="Bottom" ToolTip="Build multi-system" 
                 Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
                         <Rectangle Width="16"
                        Height="16"

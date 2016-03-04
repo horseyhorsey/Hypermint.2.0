@@ -19,9 +19,6 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             {
                 var tempGamesBuilder = new Games();
 
-                if (item.Contains("//"))
-                    ;
-
                 foreach (var game in gamesList)
                 {
                     if (game.Genre == item)
@@ -113,7 +110,6 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                 
             }
                 
-
             TextWriter textWriter = new StreamWriter(finalPath);
 
             if (!Directory.Exists(databasePath))
@@ -127,7 +123,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             var xmlRootAttr = new XmlRootAttribute("menu");
             
             if (!systemName.Contains("Main Menu"))
-            {
+            {                
                 serializer = new XmlSerializer(typeof(Games), xmlRootAttr);
                 serializer.Serialize(textWriter, gamesList, xmlNameSpace);
             }
@@ -156,13 +152,20 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             var databasePath = Path.Combine(hyperspinPath, Root.Databases, "Main Menu");
             TextWriter textWriter = new StreamWriter(finalPath);
 
+            systemList.Remove(new MainMenu("Main Menu"));
+
             if (!Directory.Exists(databasePath))
                 Directory.CreateDirectory(databasePath);
 
             XmlSerializer serializer;
 
             if (File.Exists(finalPath))
+            {
+                if (File.Exists(finalPath + "BACKUP"))
+                    File.Delete(finalPath + "BACKUP");
+
                 File.Copy(finalPath, finalPath + "BACKUP");
+            }
 
             var xmlNameSpace = new XmlSerializerNamespaces();
             xmlNameSpace.Add("", "");
@@ -172,7 +175,8 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             var menuItems = new List<MainMenu>();
             foreach (var item in systemList)
             {
-                menuItems.Add(new MainMenu(item.Name, item.Enabled));
+                if (!item.Name.Contains("Main Menu"))
+                    menuItems.Add(new MainMenu(item.Name, item.Enabled));
             }            
 
             try

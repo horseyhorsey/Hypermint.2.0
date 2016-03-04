@@ -98,6 +98,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\SymbolicLinkService.cs" />
     <Compile Include="ViewModels\MultiSystemViewModel.cs" />
     <Compile Include="Views\MultiSystemView.xaml.cs">
       <DependentUpon>MultiSystemView.xaml</DependentUpon>
