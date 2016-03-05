@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Hs.HyperSpin.Database;
 
 namespace Hypermint.Base.Services
 {
@@ -11,6 +13,8 @@ namespace Hypermint.Base.Services
         public ImageSource GameImage { get; set; }
 
         public BitmapImage SystemImage { get; set; }
+
+        public List<Game> SelectedGames { get; set; }
 
         public bool IsMainMenu()
         {

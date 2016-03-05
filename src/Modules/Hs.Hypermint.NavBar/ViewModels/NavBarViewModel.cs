@@ -4,6 +4,7 @@ using Hypermint.Base.Base;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
+using Hypermint.Base.Constants;
 
 namespace Hs.Hypermint.NavBar.ViewModels
 {
@@ -39,15 +40,17 @@ namespace Hs.Hypermint.NavBar.ViewModels
 
         private void Navigate(string uri = "")
         {
-            CurrentView = "Views: ";
-                            
+            CurrentView = "Views: ";            
+
             switch (uri)
             {
                 case "DatabaseDetailsView":
-                    CurrentView += "Database editor";
+                    CurrentView += "Database editor";                    
+                    _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
                     break;
                 case "HsMediaAuditView":
                     CurrentView += "Hyperspin media audit";
+                    _regionManager.RequestNavigate("FilesRegion", "FilesView");
                     break;
                 case "IntroVideosView":
                     CurrentView += "Hyperspin video intros";
@@ -61,7 +64,10 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 default:                    
                     break;
             }
+
             _regionManager.RequestNavigate("ContentRegion",uri);
         }
+
+
     }
 }

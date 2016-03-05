@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Hs.Hypermint.DatabaseDetails.Views.DatabaseOptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    
+        <GroupBox Header="Database Options">
+        <Grid>
+            <StackPanel>
+            <Label Content="Edit selected rows"/>
+            <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+                <ComboBox Margin="10" MaxWidth="100" SelectedItem="{Binding SelectedItem}">
+                    <ComboBoxItem Content="Genre" IsSelected="True"/>
+                    <ComboBoxItem Content="Manufacturer"/>
+                    <ComboBoxItem Content="Rating"/>
+                    <ComboBoxItem Content="Year"/>
+                </ComboBox>
+                <TextBox Margin="10" Width="400" ToolTip="Select rows and apply this text" 
+                         metro:TextBoxHelper.Watermark="Text to apply"
+                         Text="{Binding ApplyString,UpdateSourceTrigger=PropertyChanged}"
+                         />
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        Height="40" Width="40"
+                        Command="{Binding ApplyToCellsCommand}"
+                        CommandParameter=""
+                        HorizontalAlignment="Left" ToolTip="Apply">
+                    <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+
+                <StackPanel>
+                    <Label Content="Clean descriptions"/>
+                    <TextBox Text="RegExFilter (Not Implemented)"></TextBox>
+                </StackPanel>
+                
+            </StackPanel>
+
+        </Grid>
+    </GroupBox>
+    
+</UserControl>

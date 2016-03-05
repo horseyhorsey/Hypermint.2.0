@@ -49,5 +49,10 @@ namespace Hypermint.Base
 
     }
 
+    public class MultipleCellsUpdated : PubSubEvent<string>
+    {
+
+    }
+
 
 }

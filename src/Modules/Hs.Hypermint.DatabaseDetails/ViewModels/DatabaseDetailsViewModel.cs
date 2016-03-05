@@ -29,9 +29,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             get { return _gameList; }
             set { SetProperty(ref _gameList, value); }
-        }        
-
-        public List<Game> SelectedGames { get; set; }
+        }                
 
         private ICollectionView systemDatabases;
         public ICollectionView SystemDatabases
@@ -112,7 +110,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _selectedService.CurrentSystem = "Main Menu";
 
             SetUpGamesListFromMainMenuDb();
-            SelectedGames = new List<Game>();
+            _selectedService.SelectedGames = new List<Game>();
 
             if (_gameRepo.GamesList != null)
             {
@@ -132,7 +130,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
             AddMultiSystemCommand = new DelegateCommand(() =>
             {
-                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(SelectedGames);
+                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedService.SelectedGames);
             });
 
             LaunchGameCommand = new DelegateCommand(LaunchGame);
@@ -144,7 +142,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     if (items == null)
                     {
                         SelectedItemsCount = 0;
-                        SelectedGames.Clear();
+                        _selectedService.SelectedGames.Clear();                        
                         return;
                     }
                     else
@@ -154,12 +152,12 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                     try
                     {
-                        SelectedGames.Clear();
+                        _selectedService.SelectedGames.Clear();
                         foreach (var item in items)
                         {
                             var game = item as Game;
                             if (game.RomName != null)
-                                SelectedGames.Add(item as Game);
+                                _selectedService.SelectedGames.Add(item as Game);
                         }
 
                         if (SelectedItemsCount > 1)
@@ -183,6 +181,10 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
             _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);
+            _eventAggregator.GetEvent<MultipleCellsUpdated>().Subscribe((x) =>
+            {
+                GamesList.Refresh();
+            });
 
         }
 
@@ -537,11 +539,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private void EnableDbItems(string enabled)
         {
             var enableItems = Convert.ToInt32(enabled);
-            if (SelectedGames != null && SelectedGames.Count > 0)
+            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
             {
                 try
                 {
-                    foreach (var game in SelectedGames)
+                    foreach (var game in _selectedService.SelectedGames)
                     {
                         var gameIndex = _gameRepo.GamesList.IndexOf(game);
                         _gameRepo.GamesList[gameIndex].Enabled = enableItems;                        
@@ -562,11 +564,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             else
                 enableItems = true;
 
-            if (SelectedGames != null && SelectedGames.Count > 0)
+            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
             {
                 try
                 {
-                    foreach (var game in SelectedGames)
+                    foreach (var game in _selectedService.SelectedGames)
                     {
                         var gameIndex = _gameRepo.GamesList.IndexOf(game);
                         _gameRepo.GamesList[gameIndex].IsFavorite = enableItems;
@@ -684,12 +686,12 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         private void LaunchGame()
         {
-            if (SelectedGames[0] != null)
+            if (_selectedService.SelectedGames[0] != null)
             {
                 var rlPath = _settingsRepo.HypermintSettings.RlPath;
                 var hsPath = _settingsRepo.HypermintSettings.HsPath;
-                var sysName = SelectedGames[0].System;
-                var romName = SelectedGames[0].RomName;
+                var sysName = _selectedService.SelectedGames[0].System;
+                var romName = _selectedService.SelectedGames[0].RomName;
 
                 _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);            
             }

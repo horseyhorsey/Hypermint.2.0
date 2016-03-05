@@ -1,4 +1,6 @@
-﻿using System.Windows.Media;
+﻿using Hs.HyperSpin.Database;
+using System.Collections.Generic;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Hypermint.Base.Services
@@ -11,5 +13,7 @@ namespace Hypermint.Base.Services
 
         BitmapImage SystemImage { get; set; }
         ImageSource GameImage { get; set; }
+
+        List<Game> SelectedGames { get; set; }
     }
 }

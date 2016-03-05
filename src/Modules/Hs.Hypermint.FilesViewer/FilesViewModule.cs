@@ -10,12 +10,12 @@ namespace Hs.Hypermint.FilesViewer
     {
         public FilesViewModule(IUnityContainer container, IRegionManager manager) : base(container, manager)
         {            
-            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(FilesView));            
+          // RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(FilesView));            
         }
 
         public override void Initialize()
-        {
-            //UnityContainer.RegisterType<IMainMenuRepo>();
+        {            
+            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(FilesView));
         }
 
     }

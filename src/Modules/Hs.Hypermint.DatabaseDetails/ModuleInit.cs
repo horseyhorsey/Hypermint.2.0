@@ -23,7 +23,8 @@ namespace Hs.Hypermint.DatabaseDetails
             UnityContainer.RegisterType<IFolderExplore, FileFolderService>();
             UnityContainer.RegisterType<IHyperspinXmlService, HyperspinXmlService>();
 
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DatabaseDetailsView));                                    
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DatabaseDetailsView));
+            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(DatabaseOptionsView));                            
             
         }
 
