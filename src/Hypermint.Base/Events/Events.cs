@@ -54,5 +54,10 @@ namespace Hypermint.Base
 
     }
 
+    public class SaveMainMenuEvent : PubSubEvent<string>
+    {
+
+    }
+
 
 }

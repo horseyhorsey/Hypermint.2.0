@@ -31,7 +31,8 @@
         </Grid.ColumnDefinitions>
         <!--MahApps THemes list-->
         <!--Theme Selector-->
-       <TextBlock Grid.Row="0" HorizontalAlignment="Left" Text="Gui Style"  Margin="10" TextWrapping="Wrap" VerticalAlignment="Top"/>
+       <TextBlock Grid.Row="0" HorizontalAlignment="Left" 
+                  Text="Gui Style"  Margin="10" TextWrapping="Wrap" VerticalAlignment="Top"/>
        <ComboBox Grid.Column="1" ItemsSource="{Binding GuiThemes}" SelectedItem="{Binding CurrentThemeColor}"
                  HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Width="120" />
         <CheckBox Grid.Column="1" IsChecked="{Binding IsDarkTheme}" Content="Dark"

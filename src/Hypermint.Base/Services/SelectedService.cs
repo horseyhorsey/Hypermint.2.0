@@ -16,6 +16,8 @@ namespace Hypermint.Base.Services
 
         public List<Game> SelectedGames { get; set; }
 
+        public string CurrentMainMenu { get; set; }
+
         public bool IsMainMenu()
         {
             if (CurrentSystem.Contains("Main Menu"))

@@ -10,6 +10,7 @@ using Prism.Events;
 using Hypermint.Base;
 using System;
 using System.Runtime.CompilerServices;
+using Hypermint.Base.Services;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
@@ -54,6 +55,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         #endregion
 
         private IEventAggregator _eventAggregator;
+        private ISelectedService _selectedService;
 
         protected override void OnPropertyChanged(string propertyName)
         {
@@ -65,12 +67,14 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             }
         }
 
-        public SidebarSystemsViewModel(IEventAggregator eventAggregator, IMainMenuRepo main, ISettingsRepo settings)
+        public SidebarSystemsViewModel(IEventAggregator eventAggregator, IMainMenuRepo main, ISettingsRepo settings,
+            ISelectedService selectedService)
         {
             _mainMenuRepo = main;            
             _settingsRepo = settings;
             _settingsRepo.LoadHypermintSettings();
-            _eventAggregator = eventAggregator; 
+            _eventAggregator = eventAggregator;
+            _selectedService = selectedService;
 
             //SelectedMainMenu
             var mainMenuDatabasePath = Path.Combine(    
@@ -111,7 +115,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 @"Main Menu\", SelectedMainMenu + ".xml");
 
                _mainMenuRepo.BuildMainMenuItems(mainMenuXml);
-
+                _selectedService.CurrentMainMenu = SelectedMainMenu;
                _eventAggregator.GetEvent<MainMenuSelectedEvent>().Publish(mainMenuXml);
 
         }
