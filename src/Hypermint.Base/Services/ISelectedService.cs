@@ -9,6 +9,8 @@ namespace Hypermint.Base.Services
     {
         string CurrentSystem { get; set; }
 
+        string CurrentMainMenu { get; set;}
+
         bool IsMainMenu();
 
         BitmapImage SystemImage { get; set; }

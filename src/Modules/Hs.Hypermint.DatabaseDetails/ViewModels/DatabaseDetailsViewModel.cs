@@ -94,7 +94,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             IHyperspinXmlService xmlService, ISelectedService selectedService, 
             IFavoriteService favoriteService, IGenreRepo genreRepo,
             IEventAggregator eventAggregator, IFolderExplore folderService,
-            IGameLaunch gameLaunch)
+            IGameLaunch gameLaunch,
+            IMainMenuRepo memuRepo)
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
             _settingsRepo = settings;
@@ -106,7 +107,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _xmlService = xmlService;
             _genreRepo = genreRepo;
             _gameLaunch = gameLaunch;
-            
+            _menuRepo = memuRepo;
+
+
             _selectedService.CurrentSystem = "Main Menu";
 
             SetUpGamesListFromMainMenuDb();
@@ -186,6 +189,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList.Refresh();
             });
 
+            _eventAggregator.GetEvent<SaveMainMenuEvent>().Subscribe(SaveMainMenu);
+
+        }
+
+        private void SaveMainMenu(string xml)
+        {
+            _xmlService.SerializeMainMenuXml(_menuRepo.Systems, _settingsRepo.HypermintSettings.HsPath, xml);
         }
 
         #endregion
@@ -199,6 +209,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private IHyperspinXmlService _xmlService;
         private IGenreRepo _genreRepo;
         private IGameLaunch _gameLaunch;
+        private IMainMenuRepo _menuRepo;
         #endregion
 
         #region Filter Methods
