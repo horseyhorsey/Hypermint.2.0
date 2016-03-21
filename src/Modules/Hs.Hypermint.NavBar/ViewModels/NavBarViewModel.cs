@@ -17,6 +17,8 @@ namespace Hs.Hypermint.NavBar.ViewModels
             set { SetProperty(ref currentView, value); }
         }
 
+        private string _systemName = "";
+
         private IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
 
@@ -33,9 +35,14 @@ namespace Hs.Hypermint.NavBar.ViewModels
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
-        private void SetToDbView(string obj)
+        private void SetToDbView(string systemName)
         {
-            _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
+            _systemName = systemName;
+
+            if (systemName.Contains("Main Menu"))
+                _regionManager.RequestNavigate("ContentRegion", "MainMenuView");
+            else
+                _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
         }
 
         private void Navigate(string uri = "")
@@ -65,7 +72,11 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
             }
 
-            _regionManager.RequestNavigate("ContentRegion",uri);
+            if (_systemName.Contains("Main Menu") && uri == "DatabaseDetailsView")
+                _regionManager.RequestNavigate("ContentRegion", "MainMenuView");
+            else
+                _regionManager.RequestNavigate("ContentRegion", uri);
+
         }
 
 
