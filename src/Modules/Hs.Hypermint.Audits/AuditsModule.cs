@@ -23,6 +23,8 @@ namespace Hs.Hypermint.Audits
             UnityContainer.RegisterType<IAuditer, Auditer>();
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.HsMediaAuditView));
+
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.RlMediaAuditView));
         }
     }
 }

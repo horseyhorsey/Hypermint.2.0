@@ -24,8 +24,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-
-
     </UserControl.Resources>
 
     <Grid x:Name="root">
@@ -89,28 +87,27 @@
                             </prism:InvokeCommandAction>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    
-                <DataGrid.Columns>
+
+                    <DataGrid.Columns>
                         <DataGridTextColumn  Header="Romname" Binding="{Binding RomName}"/>
                         <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
                         <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
                         <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
                         <DataGridTextColumn Header="Sound Click" Binding="{Binding HaveS_Click}"/>
-                    <DataGridTextColumn Header="Wheel Sounds" Binding="{Binding HaveS_Wheel}"/>
-                    <DataGridTextColumn Header="Letters" Binding="{Binding HaveLetters}"/>
-                    <DataGridTextColumn Header="Special" Binding="{Binding HaveSpecial}"/>
-                    <DataGridTextColumn Header="GenreBg" Binding="{Binding HaveGenreBG}"/>
-                    <DataGridTextColumn Header="GenreWheel" Binding="{Binding HaveGenreWheel}"/>
-                    <DataGridTextColumn Header="Pointer" Binding="{Binding HavePointer}"/>
-                </DataGrid.Columns>
-                    </DataGrid>
+                        <DataGridTextColumn Header="Wheel Sounds" Binding="{Binding HaveS_Wheel}"/>
+                        <DataGridTextColumn Header="Letters" Binding="{Binding HaveLetters}"/>
+                        <DataGridTextColumn Header="Special" Binding="{Binding HaveSpecial}"/>
+                        <DataGridTextColumn Header="GenreBg" Binding="{Binding HaveGenreBG}"/>
+                        <DataGridTextColumn Header="GenreWheel" Binding="{Binding HaveGenreWheel}"/>
+                        <DataGridTextColumn Header="Pointer" Binding="{Binding HavePointer}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
 
                 <DockPanel Grid.Row="1">
-                    <local:AuditControls Grid.Row="1" MaxHeight="55"></local:AuditControls>
+                    <local:AuditControls Grid.Row="1" MaxHeight="55"/>
                 </DockPanel>
-                    
+
             </Grid>
         </GroupBox>
-
     </Grid>
 </UserControl>
