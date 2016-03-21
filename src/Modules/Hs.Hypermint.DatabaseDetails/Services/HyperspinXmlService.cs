@@ -15,17 +15,22 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
             SerializeGenreMainMenu(genreNames, hyperspinPath,systemName);
             
-            foreach (var item in genreNames)
+            foreach (var dbName in genreNames)
             {
                 var tempGamesBuilder = new Games();
 
-                foreach (var game in gamesList)
-                {
-                    if (game.Genre == item)
-                        tempGamesBuilder.Add(game);
-                }
+                if (dbName == systemName) return false;
 
-                SerializeHyperspinXml(tempGamesBuilder, systemName, hyperspinPath, item);                             
+                if (dbName != "")
+                {
+                    foreach (var game in gamesList)
+                    {
+                        if (game.Genre == dbName)
+                            tempGamesBuilder.Add(game);
+                    }
+
+                    SerializeHyperspinXml(tempGamesBuilder, systemName, hyperspinPath, dbName);
+                }                
             }
 
             return true;
@@ -52,7 +57,8 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             var menuItems = new List<MainMenu>();
             foreach (var item in genres)
             {
-                menuItems.Add(new MainMenu(item, 1));
+                if (item != "")
+                    menuItems.Add(new MainMenu(item, 1));
             }
 
             try
