@@ -2,6 +2,7 @@
 using System;
 using Hs.RocketLauncher.Statistics;
 using System.IO;
+using Hs.Hypermint.Services.Helpers;
 
 namespace Hs.Hypermint.Services
 {

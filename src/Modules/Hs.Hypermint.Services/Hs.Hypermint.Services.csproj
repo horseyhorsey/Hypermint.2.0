@@ -82,7 +82,7 @@
     <Compile Include="FileFolderService.cs" />
     <Compile Include="GameRepo.cs" />
     <Compile Include="GenreRepo.cs" />
-    <Compile Include="IniFile.cs" />
+    <Compile Include="Helpers\IniFile.cs" />
     <Compile Include="MainMenuRepo.cs" />
     <Compile Include="ServicesModule.cs" />
     <Compile Include="SettingsRepo.cs" />
