@@ -24,66 +24,93 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+
     </UserControl.Resources>
 
-    <GroupBox Header="{Binding MediaAuditHeaderInfo}" >
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="55"></RowDefinition>
-            </Grid.RowDefinitions>
-            <DataGrid x:Name="DatabaseGrid" Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False"
+    <Grid x:Name="root">
+        <GroupBox Header="{Binding MediaAuditHeaderInfo}" >
+
+            <Grid >
+                <Grid.Resources>
+                    <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+                </Grid.Resources>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="55"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <DataGrid x:Name="DatabaseGrid"
+                          Visibility="{Binding ElementName=root,
+                    Path=DataContext.IsntMainMenu,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisConverter}}"
+                          Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False" 
                       IsReadOnly="True" SelectionMode="Single"
                       BorderThickness="2" AutoGenerateColumns="False"  Grid.Row="0">
 
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="CurrentCellChanged">
-                        <prism:InvokeCommandAction 
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CurrentCellChanged">
+                            <prism:InvokeCommandAction 
                             Command="{Binding CurrentCellChanged}" 
                             CommandParameter="{Binding CurrentColumn,
                             ElementName=DatabaseGrid,UpdateSourceTrigger=PropertyChanged}">
-                        </prism:InvokeCommandAction>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                
-                <DataGrid.Columns>
-                    
-                     <DataGridTextColumn Header="Romname" Binding="{Binding RomName}"/>
-                        <!--<DataGridTextColumn Header="Description" Binding="{Binding Description}"/>-->
-                        <!--<DataGridTextColumn Header="RomNam" Binding="{Binding RomName}"/>-->
-                    <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
-                    <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
-                    <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
-                    <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
-                    <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
-                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
-                    <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
-                    <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackground}"/>
-                    <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
-                   
-                    <DataGridTextColumn Header="Sound Start" Binding="{Binding HaveS_Start}"/>
-                    <DataGridTextColumn Header="Sound End" Binding="{Binding HaveS_Exit}"/>
+                            </prism:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
 
-                    <DataGridTextColumn Header="Sound Click" Binding="{Binding HaveS_Click}"/>
+                    <DataGrid.Columns >
+                        <DataGridTextColumn  Header="Romname" Binding="{Binding RomName}"/>
+                        <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
+                        <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
+                        <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
+                        <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
+                        <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
+                        <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
+                        <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
+                        <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackground}"/>
+                        <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
+                        <DataGridTextColumn Header="Sound Start" Binding="{Binding HaveS_Start}"/>
+                        <DataGridTextColumn Header="Sound End" Binding="{Binding HaveS_Exit}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <DataGrid x:Name="DatabaseGridMainMenu" Visibility="{Binding ElementName=root,Path=DataContext.IsMainMenu,
+                    UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVisConverter}}"
+                    Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False" 
+                      IsReadOnly="True" SelectionMode="Single"
+                      BorderThickness="2" AutoGenerateColumns="False" Grid.Row="0">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CurrentCellChanged">
+                            <prism:InvokeCommandAction 
+                            Command="{Binding CurrentCellChanged}" 
+                            CommandParameter="{Binding CurrentColumn,
+                            ElementName=DatabaseGridMainMenu,UpdateSourceTrigger=PropertyChanged}">
+                            </prism:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                <DataGrid.Columns>
+                        <DataGridTextColumn  Header="Romname" Binding="{Binding RomName}"/>
+                        <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
+                        <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
+                        <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
+                        <DataGridTextColumn Header="Sound Click" Binding="{Binding HaveS_Click}"/>
                     <DataGridTextColumn Header="Wheel Sounds" Binding="{Binding HaveS_Wheel}"/>
-                                            
                     <DataGridTextColumn Header="Letters" Binding="{Binding HaveLetters}"/>
                     <DataGridTextColumn Header="Special" Binding="{Binding HaveSpecial}"/>
                     <DataGridTextColumn Header="GenreBg" Binding="{Binding HaveGenreBG}"/>
                     <DataGridTextColumn Header="GenreWheel" Binding="{Binding HaveGenreWheel}"/>
                     <DataGridTextColumn Header="Pointer" Binding="{Binding HavePointer}"/>
-
-                    </DataGrid.Columns>
-                </DataGrid>
+                </DataGrid.Columns>
+                    </DataGrid>
 
                 <DockPanel Grid.Row="1">
                     <local:AuditControls Grid.Row="1" MaxHeight="55"></local:AuditControls>
                 </DockPanel>
-            
+                    
+            </Grid>
+        </GroupBox>
 
-
-        </Grid>
-    </GroupBox>
-
-
+    </Grid>
 </UserControl>

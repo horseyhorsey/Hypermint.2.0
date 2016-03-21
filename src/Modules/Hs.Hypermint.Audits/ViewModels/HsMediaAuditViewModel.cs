@@ -14,6 +14,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Runtime.CompilerServices;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -69,6 +70,27 @@ namespace Hs.Hypermint.Audits.ViewModels
             set { SetProperty(ref currentColumnType, value); }
         }
 
+        private bool isMainMenu = false;
+        public bool IsMainMenu
+        {
+            get { return isMainMenu; }
+            set
+            {
+                SetProperty(ref isMainMenu, value);
+
+            }
+        }
+
+        private bool isntMainMenu = true;
+        public bool IsntMainMenu
+        {
+            get { return isntMainMenu; }
+            set
+            {
+                SetProperty(ref isntMainMenu, value);
+            }
+        }
+
         public AuditGame SelectedGame { get; set; }
 
         public AuditMenu SelectedMenu { get; set; }
@@ -116,14 +138,14 @@ namespace Hs.Hypermint.Audits.ViewModels
                             romName = SelectedMenu.RomName;
                         }
                         else { romName = SelectedGame.RomName; }
-                        
+
                     }
                     catch (Exception) { }
 
                     try
-                    {                        
+                    {
                         var column = selectedGameCell as DataGridTextColumn;
-                        
+
                         CurrentColumnType = column.SortMemberPath;
                         CurrentColumnHeader = column.Header.ToString();
                         MediaAuditHeaderInfo = "Hyperspin Media Audit : " +
@@ -135,17 +157,17 @@ namespace Hs.Hypermint.Audits.ViewModels
                             );
                     }
                     catch (Exception e) { }
-                    
+
                 });
 
             RunScanCommand = new DelegateCommand(RunScan);
 
         }
-        
-        #endregion        
+
+        #endregion
 
         private void RunScan()
-        {            
+        {
             var hsPath = _settings.HypermintSettings.HsPath;
 
             try
@@ -168,10 +190,10 @@ namespace Hs.Hypermint.Audits.ViewModels
                              );
 
                         AuditList = new ListCollectionView(_auditer.AuditsGameList);
-                    }                    
+                    }
 
                 }
-                
+
             }
             catch (Exception) { }
 
@@ -179,6 +201,16 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private void gamesUpdated(string systemName)
         {
+            if (systemName.Contains("Main Menu"))
+            {
+                IsMainMenu = true;
+                IsntMainMenu = false;
+            }
+            else
+            {
+                IsMainMenu = false;
+                IsntMainMenu = true;
+            }
 
             if (_gameRepo.GamesList != null)
             {
@@ -194,6 +226,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                 AuditList = new ListCollectionView(_auditer.AuditsGameList);
 
+
             }
         }
 
@@ -201,5 +234,6 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
             Message = obj;
         }
+
     }
 }
