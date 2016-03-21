@@ -225,8 +225,6 @@ namespace Hs.Hypermint.Audits.ViewModels
                 }
 
                 AuditList = new ListCollectionView(_auditer.AuditsGameList);
-
-
             }
         }
 

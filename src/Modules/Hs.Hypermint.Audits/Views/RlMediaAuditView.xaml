@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hs.Hypermint.Audits.Views"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"               
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -22,29 +24,41 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
-    <Grid>
-        <DataGrid CanUserAddRows="False" AutoGenerateColumns="False" Margin="10" IsReadOnly="True" Grid.Column="1" >
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="RomName" Header="Name" Binding="{Binding RomName}"/>
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}"/>
-                <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}" SortDirection="Ascending" />
-                <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}" SortDirection="Ascending" />
-                <DataGridTextColumn Header="Bezels" Binding="{Binding HaveBezels}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Cards" Binding="{Binding HaveCards}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
-                <DataGridTextColumn Header="Cards" Binding="{Binding HaveCards}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Fade" Binding="{Binding HaveFade}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Guide" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Manual" Binding="{Binding HaveManual}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Saves" Binding="{Binding HaveSaves}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideoXTd}" SortDirection="Ascending"/>
-            </DataGrid.Columns>
-        </DataGrid>
 
+    <Grid x:Name="root">
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="55"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="RocketLaunch Audit">
+            <DataGrid CanUserAddRows="False" ItemsSource="{Binding AuditList}" AutoGenerateColumns="False" Margin="10" IsReadOnly="True" SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="RomName" Binding="{Binding RomName}"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="Publisher" Binding="{Binding Publisher}"/>
+                    
+                    <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}" SortDirection="Ascending" />
+                    <DataGridTextColumn Header="Bezels" Binding="{Binding HaveBezels}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Cards" Binding="{Binding HaveCards}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
+                    <DataGridTextColumn Header="Cards" Binding="{Binding HaveCards}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Developer" Binding="{Binding Developer}"/>
+                    <DataGridTextColumn Header="Fade" Binding="{Binding HaveFade}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Genre" Binding="{Binding HaveGenre}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Guide" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Manual" Binding="{Binding HaveManual}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Rating" Binding="{Binding HaveRating}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Year" Binding="{Binding HaveYear}" SortDirection="Ascending"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
     </Grid>
 </UserControl>

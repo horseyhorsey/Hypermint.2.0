@@ -133,6 +133,10 @@
       <Project>{6108DDA5-DDA5-4254-B62D-6CDFB049FA8B}</Project>
       <Name>Hs.HyperSpin.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DataModels\Hs.RocketLauncher.AuditBase\Hs.RocketLauncher.AuditBase.csproj">
+      <Project>{58B8C436-93DE-4025-8DBB-430E86F6296E}</Project>
+      <Name>Hs.RocketLauncher.AuditBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>

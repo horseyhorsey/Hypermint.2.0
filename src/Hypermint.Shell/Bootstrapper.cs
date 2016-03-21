@@ -74,6 +74,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
             Container.RegisterTypeForNavigation<IntroVideosView>("IntroVideosView");
             Container.RegisterTypeForNavigation<HsMediaAuditView>("HsMediaAuditView");
+            Container.RegisterTypeForNavigation<RlMediaAuditView>("RlMediaAuditView");
             Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");
             //Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");

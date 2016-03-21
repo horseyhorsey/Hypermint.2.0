@@ -90,6 +90,7 @@
     <Compile Include="Events\Events.cs" />
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Interfaces\IAuditer.cs" />
+    <Compile Include="Interfaces\IAuditerRl.cs" />
     <Compile Include="Interfaces\IFolderExplore.cs" />
     <Compile Include="Interfaces\IFlyoutView.cs" />
     <Compile Include="Interfaces\IGameLaunch.cs" />
@@ -119,6 +120,10 @@
     <ProjectReference Include="..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
       <Project>{6108dda5-dda5-4254-b62d-6cdfb049fa8b}</Project>
       <Name>Hs.HyperSpin.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModels\Hs.RocketLauncher.AuditBase\Hs.RocketLauncher.AuditBase.csproj">
+      <Project>{58b8c436-93de-4025-8dbb-430e86f6296e}</Project>
+      <Name>Hs.RocketLauncher.AuditBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataModels\Hs.RocketLauncher.Statistics\Hs.RocketLauncher.Statistics.csproj">
       <Project>{370bbd46-b3b4-4f90-addd-291225a24bf0}</Project>

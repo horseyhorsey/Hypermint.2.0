@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandardTests", "src\Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.GameLaunch", "src\Modules\Hs.Hypermint.GameLaunch\Hs.Hypermint.GameLaunch.csproj", "{5BB9C221-F83B-40BC-A322-99E537AC07E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.RocketLauncher.AuditBase", "src\DataModels\Hs.RocketLauncher.AuditBase\Hs.RocketLauncher.AuditBase.csproj", "{58B8C436-93DE-4025-8DBB-430E86F6296E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{5BB9C221-F83B-40BC-A322-99E537AC07E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BB9C221-F83B-40BC-A322-99E537AC07E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BB9C221-F83B-40BC-A322-99E537AC07E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58B8C436-93DE-4025-8DBB-430E86F6296E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58B8C436-93DE-4025-8DBB-430E86F6296E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58B8C436-93DE-4025-8DBB-430E86F6296E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58B8C436-93DE-4025-8DBB-430E86F6296E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,5 +164,6 @@ Global
 		{4DF6B19A-6129-46F7-8020-9F24E5D2584B} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{A39705A5-7C1D-4CC7-9659-467C983D4B45} = {BEA36734-9F9E-40BE-92D0-E2F6F3B1A6CE}
 		{5BB9C221-F83B-40BC-A322-99E537AC07E2} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
+		{58B8C436-93DE-4025-8DBB-430E86F6296E} = {93FF07FF-821C-48FF-AC5F-EB934D6B0A6B}
 	EndGlobalSection
 EndGlobal
