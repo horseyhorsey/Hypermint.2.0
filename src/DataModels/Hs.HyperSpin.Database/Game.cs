@@ -1,9 +1,10 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace Hs.HyperSpin.Database
 {
     [XmlType(TypeName = "game")]
-    public class Game
+    public class Game : IComparable<Game>
     {
         #region Properties
         [XmlAttribute("name")]
@@ -55,7 +56,7 @@ namespace Hs.HyperSpin.Database
             get { return isFavorite; }
             set { isFavorite = value; }
         }
-        
+
         #endregion
 
         #region Constructors
@@ -107,6 +108,16 @@ namespace Hs.HyperSpin.Database
             Enabled = enabled;
             System = system;            
         }
+
+        public int CompareTo(Game otherGame)
+        {
+            if (otherGame == null)
+                throw new ArgumentException("Game is not a game");
+
+            return this.Description.CompareTo(otherGame.Description);
+        }
+
+
         #endregion
 
     }
