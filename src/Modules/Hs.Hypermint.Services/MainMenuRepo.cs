@@ -15,28 +15,51 @@ namespace Hs.Hypermint.Services
         {
             if (!File.Exists(mainMenuXml))
                 return;
+            
+            Systems = new Systems();  
+                      
+            string[,] systems = GetSystems(mainMenuXml);
 
-            Systems = new Systems();
-            //Create a databaseMenu object to reference
-            foreach (string system in GetSystems(mainMenuXml))
+            try
             {
-                if (iconsPath != string.Empty && Directory.Exists(iconsPath))
+                systems[0, 0] = "Main Menu";
+                systems[0, 1] = "0";
+                Systems.Add(new MainMenu(systems[0, 0], Convert.ToInt32(systems[0, 1])));
+
+                for (int i = 1; i < systems.GetLength(0); i++)
                 {
-                    Uri iconImage = new Uri(Path.Combine(iconsPath, system + ".png"));
-                    Systems.Add(new MainMenu(system, iconImage));
+                    try
+                    {
+                        if (systems[i,1] == null) { systems[i, 1] = "1"; }
+
+                        if (iconsPath != string.Empty && Directory.Exists(iconsPath))
+                        {
+                            Uri iconImage = new Uri(Path.Combine(iconsPath, systems[i, 0] + ".png"));
+                            Systems.Add(new MainMenu(systems[i, 0], iconImage, Convert.ToInt32(systems[i, 1])));
+                        }
+                        else
+                            Systems.Add(new MainMenu(systems[i, 0], Convert.ToInt32(systems[i, 1])));
+                        
+                    }
+                    catch (Exception e) { }
+                   
                 }
-                else
-                    Systems.Add(new MainMenu(system, 1));
             }
+            catch (Exception e)
+            {
+
+                
+            }
+           
      
         }
 
-        private string[] GetSystems(string MainMenuXml)
+        private string[,] GetSystems(string MainMenuXml)
         {
             if (!File.Exists(MainMenuXml))
-                return new string[0];
+                return new string[0,0];
 
-            string[] sysName;
+            string[,] systemsArray;
 
             using (XmlTextReader reader = new XmlTextReader(MainMenuXml))
             {
@@ -44,21 +67,26 @@ namespace Hs.Hypermint.Services
                 XmlDocument xdoc = new XmlDocument();
                 xdoc.Load(MainMenuXml);
                 int sysCount = xdoc.SelectNodes("menu/game").Count + 1;
-                sysName = new string[sysCount];
+                systemsArray = new string[sysCount,2];
                 int i = 0;
-                sysName[i] = menuName;
+                systemsArray[i,0] = menuName;
+                systemsArray[i, 1] = "0";
+
                 i++;
                 while (reader.Read())
                 {
                     if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "game"))
                         if (reader.HasAttributes)
                         {
-                            sysName[i] = reader.GetAttribute("name");
+                            systemsArray[i, 0] = reader.GetAttribute("name");
+                            systemsArray[i, 1] = reader.GetAttribute("enabled");
+                            
                             i++;
                         }
                 }
             }
-            return sysName;
+
+            return systemsArray;
         }
 
         public string[] GetMainMenuDatabases(string MainMenuFolder)
