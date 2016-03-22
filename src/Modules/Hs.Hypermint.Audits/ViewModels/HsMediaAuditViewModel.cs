@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Runtime.CompilerServices;
+using Hypermint.Base.Events;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -155,18 +156,19 @@ namespace Hs.Hypermint.Audits.ViewModels
                         _eventAggregator.GetEvent<GameSelectedEvent>().Publish(
                             new string[] { romName, CurrentColumnHeader }
                             );
+
                     }
                     catch (Exception e) { }
 
                 });
 
-            RunScanCommand = new DelegateCommand(RunScan);
+            _eventAggregator.GetEvent<AuditHyperSpinEvent>().Subscribe(RunScan);            
 
         }
 
         #endregion
 
-        private void RunScan()
+        private void RunScan(string option="")
         {
             var hsPath = _settings.HypermintSettings.HsPath;
 
@@ -193,6 +195,8 @@ namespace Hs.Hypermint.Audits.ViewModels
                     }
 
                 }
+
+                _eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Publish("");
 
             }
             catch (Exception) { }

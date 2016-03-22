@@ -55,6 +55,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.IntroVideos.IntroVideosModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Audits.AuditsModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.GameLaunch.GameLaunchModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.HyperspinFile.HyperspinFileModule));
         }
 
         protected override void ConfigureContainer()
@@ -62,6 +63,8 @@ namespace Hypermint.Shell
             base.ConfigureContainer();
 
             Container.RegisterType<IApplicationCommands, ApplicationCommandsProxy>();
+                        
+            Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
 
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());

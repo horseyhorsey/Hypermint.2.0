@@ -36,7 +36,7 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="55"></RowDefinition>
+                    
                 </Grid.RowDefinitions>
 
                 <DataGrid x:Name="DatabaseGrid"
@@ -102,10 +102,6 @@
                         <DataGridTextColumn Header="Pointer" Binding="{Binding HavePointer}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-
-                <DockPanel Grid.Row="1">
-                    <local:AuditControls Grid.Row="1" MaxHeight="55"/>
-                </DockPanel>
 
             </Grid>
         </GroupBox>
