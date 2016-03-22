@@ -91,6 +91,7 @@
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Interfaces\IAuditer.cs" />
     <Compile Include="Interfaces\IAuditerRl.cs" />
+    <Compile Include="Interfaces\IFileFolderChecker.cs" />
     <Compile Include="Interfaces\IFolderExplore.cs" />
     <Compile Include="Interfaces\IFlyoutView.cs" />
     <Compile Include="Interfaces\IGameLaunch.cs" />
