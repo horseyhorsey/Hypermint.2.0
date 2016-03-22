@@ -68,9 +68,9 @@
                     <ColumnDefinition Width="175*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel>
-                    <ContentControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
-                </StackPanel>
+                
+              <ContentControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
+                
                 
                 <!--Media Pane-->
                 <ContentControl Grid.Column="1" Grid.Row="4"
