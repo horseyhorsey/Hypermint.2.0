@@ -9,6 +9,12 @@ namespace Hypermint.Base.Interfaces
 {
     public interface IAuditerRl
     {
+        RocketLauncherAudits RlAuditsDefault { get; set; }
+
         RocketLauncherAudits RlAudits { get; set; }
+
+        void ScanRocketLaunchMedia(string systemName, string rlMediaPath);
+
+        
     }
 }
