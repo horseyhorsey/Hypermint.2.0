@@ -19,8 +19,7 @@ namespace Hs.Hypermint.Audits
         }
 
         public override void Initialize()
-        {
-            UnityContainer.RegisterType<IAuditer, Auditer>();
+        {            
 
             UnityContainer.RegisterType<IAuditerRl, AuditerRlRepo>();
 
