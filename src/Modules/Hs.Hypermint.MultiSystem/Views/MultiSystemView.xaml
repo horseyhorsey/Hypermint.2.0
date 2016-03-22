@@ -18,6 +18,7 @@
 
                 <!--Add all favorites-->
                 <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
+                        Command="{Binding ScanFavoritesCommand}"
                 VerticalAlignment="Top" ToolTip="Scan all favorites.txt and build one list. (Not Implemented)" 
                 Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="16"
