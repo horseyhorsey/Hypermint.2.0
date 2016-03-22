@@ -130,6 +130,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\WindowCommands.xaml.cs">
+      <DependentUpon>WindowCommands.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\MahAppTheme.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -138,6 +141,10 @@
     </Compile>
     <Compile Include="ViewModels\SettingsFlyoutViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Page Include="Controls\WindowCommands.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -259,6 +266,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -24,6 +24,13 @@
             CommandParameter="{x:Static constants:FlyoutNames.SettingsFlyout}"></Button>
         </metro:WindowCommands>
     </metro:MetroWindow.LeftWindowCommands>
+    
+    <metro:MetroWindow.RightWindowCommands>
+        <metro:WindowCommands>
+            <!--ToolBar Regions-->
+            <ContentControl prism:RegionManager.RegionName="ToolBarRegion"/>
+        </metro:WindowCommands>
+    </metro:MetroWindow.RightWindowCommands>
 
     <!--Flyouts-->
     <metro:MetroWindow.Flyouts>
@@ -49,14 +56,8 @@
             <ContentControl Grid.RowSpan="6" Grid.Row="0" 
             prism:RegionManager.RegionName="SidebarRegion"/>
 
-                <!--ToolBar Regions-->
-                <ContentControl Grid.Row="0" Grid.Column="1"  prism:RegionManager.RegionName="ToolBarRegion"/>
-
-            <ContentControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
+            <ContentControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
                 prism:RegionManager.RegionName="ContentRegion" />
-
-
-
 
             <!--Bottom panes-->
             <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
@@ -70,7 +71,7 @@
                 <StackPanel>
                     <ContentControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
                 </StackPanel>
-
+                
                 <!--Media Pane-->
                 <ContentControl Grid.Column="1" Grid.Row="4"
                         Background="{DynamicResource AccentColorBrush}" 
