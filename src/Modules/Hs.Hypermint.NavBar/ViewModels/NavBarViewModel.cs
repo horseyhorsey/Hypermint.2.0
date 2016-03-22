@@ -57,7 +57,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
                 case "HsMediaAuditView":
                     CurrentView += "Hyperspin media audit";
-                    _regionManager.RequestNavigate("FilesRegion", "FilesView");
+                    _regionManager.RequestNavigate("FilesRegion", "HyperspinFilesView");
                     break;
                 case "RlMediaAuditView":
                     CurrentView += "RocketLaunch media audit";

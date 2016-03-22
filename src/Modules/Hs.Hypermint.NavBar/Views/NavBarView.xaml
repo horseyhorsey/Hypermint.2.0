@@ -33,7 +33,7 @@
             </Rectangle>
         </Button>
         
-        <!--Hyper Audits-->
+        <!--Hyperspin Audits-->
         <Button Command="{Binding NavigateCommand}" CommandParameter="HsMediaAuditView"
                 ToolTip="Hyperspin audit">
             <Rectangle Width="20" Height="20" 
