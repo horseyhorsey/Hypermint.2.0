@@ -85,6 +85,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditsModule.cs" />
+    <Compile Include="DataGrids\DataGridFade.xaml.cs">
+      <DependentUpon>DataGridFade.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataGrids\DataGridBezel.xaml.cs">
+      <DependentUpon>DataGridBezel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataGrids\DataGridFadeInfo.xaml.cs">
+      <DependentUpon>DataGridFadeInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataGrids\DataGridPause.xaml.cs">
+      <DependentUpon>DataGridPause.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -147,6 +159,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DataGrids\DataGridFade.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataGrids\DataGridBezel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DataGrids\DataGridFadeInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataGrids\DataGridPause.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
