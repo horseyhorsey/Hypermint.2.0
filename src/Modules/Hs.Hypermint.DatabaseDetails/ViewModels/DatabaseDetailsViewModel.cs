@@ -208,13 +208,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList.Refresh();
             });
 
-            _eventAggregator.GetEvent<SaveMainMenuEvent>().Subscribe(SaveMainMenu);
+            _eventAggregator.GetEvent<SaveMainMenuEvent>().Subscribe(SaveCurrentMainMenuItems);
 
         }
 
-        private void SaveMainMenu(string xml)
+        private void SaveCurrentMainMenuItems(string xml)
         {
-            _xmlService.SerializeMainMenuXml(_menuRepo.Systems, _settingsRepo.HypermintSettings.HsPath, xml);
+            if (_menuRepo.Systems != null || _menuRepo.Systems.Count > 0)
+                _xmlService.SerializeMainMenuXml(
+                    _menuRepo.Systems, _settingsRepo.HypermintSettings.HsPath, xml);
         }
 
         #endregion

@@ -98,7 +98,15 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
         private void SaveMainMenu()
         {
-            _eventAggregator.GetEvent<SaveMainMenuEvent>().Publish(_selectedService.CurrentMainMenu);
+            if (_selectedService.CurrentMainMenu == null) return;
+
+            try
+            {
+                _eventAggregator.GetEvent<SaveMainMenuEvent>()
+                    .Publish(_selectedService.CurrentMainMenu);
+            }
+            catch (Exception) { }
+
         }
 
         private void UpdateSystems(string mainMenuXml)
