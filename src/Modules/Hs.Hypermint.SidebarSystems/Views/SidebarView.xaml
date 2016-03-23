@@ -17,9 +17,9 @@
     </Grid.RowDefinitions>
 
     <views:MainMenuView Grid.Row="0"/>
-    <GroupBox Header="Systems" Grid.Row="1" MinHeight="500" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <views:SystemsView Grid.Row="1"/>
-    </GroupBox>
+    
+    <views:SystemsView Grid.Row="1"/>
+
 
     <GroupBox Header="System Filter" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
         <TextBox Text="{Binding SystemTextFilter,UpdateSourceTrigger=PropertyChanged}"
