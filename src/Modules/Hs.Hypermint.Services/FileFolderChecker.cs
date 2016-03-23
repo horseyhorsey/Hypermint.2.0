@@ -40,5 +40,17 @@ namespace Hs.Hypermint.Services
                 return true;
             else return false;
         }
+
+        public string CombinePath(string[] paths)
+        {
+            if (paths == null) return "";
+
+            return Path.Combine(paths);
+        }
+
+        public bool DirectoryExists(string directoryPath)
+        {
+            return Directory.Exists(directoryPath);            
+        }
     }
 }

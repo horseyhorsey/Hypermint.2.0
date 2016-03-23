@@ -6,5 +6,9 @@
 
         bool CheckForFile(string filenamePath);
 
+        bool DirectoryExists(string directoryPath);
+
+        string CombinePath(string[] paths);
+
     }
 }
