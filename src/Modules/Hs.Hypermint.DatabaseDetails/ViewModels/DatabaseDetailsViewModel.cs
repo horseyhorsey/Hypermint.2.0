@@ -17,6 +17,7 @@ using System.Collections;
 using Hypermint.Base.Constants;
 using System.Xml;
 using Hypermint.Base.Models;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -95,7 +96,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             IFavoriteService favoriteService, IGenreRepo genreRepo,
             IEventAggregator eventAggregator, IFolderExplore folderService,
             IGameLaunch gameLaunch,
-            IMainMenuRepo memuRepo)
+            IMainMenuRepo memuRepo, IDialogCoordinator dialogService
+            )
         {
             if (gameRepo == null) throw new ArgumentNullException("gameRepo");
             _settingsRepo = settings;
@@ -108,6 +110,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _genreRepo = genreRepo;
             _gameLaunch = gameLaunch;
             _menuRepo = memuRepo;
+            _dialogService = dialogService;
 
 
             _selectedService.CurrentSystem = "Main Menu";
@@ -128,7 +131,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
-            SaveXmlCommand = new DelegateCommand<string>(SaveXml);
+            
             SaveGenresCommand = new DelegateCommand(SaveGenres);
             EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
             AddMultiSystemCommand = new DelegateCommand(() =>
@@ -181,6 +184,22 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 });
 
+            SaveXmlCommand = new DelegateCommand<string>(async x =>
+            {
+                var mahSettings = new MetroDialogSettings()
+                {
+                    AffirmativeButtonText = "Save",
+                    NegativeButtonText = "Cancel"
+                };
+
+                var result = await _dialogService.ShowMessageAsync(this, "Save database", "Do you want to save? " + dbName,
+                    MessageDialogStyle.AffirmativeAndNegative, mahSettings);
+
+                if (result == MessageDialogResult.Affirmative)
+                    SaveXml(x);
+
+            });
+
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
             _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);
@@ -210,6 +229,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private IGenreRepo _genreRepo;
         private IGameLaunch _gameLaunch;
         private IMainMenuRepo _menuRepo;
+        private IDialogCoordinator _dialogService;
         #endregion
 
         #region Filter Methods

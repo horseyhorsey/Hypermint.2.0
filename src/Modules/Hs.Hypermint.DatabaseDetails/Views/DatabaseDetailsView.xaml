@@ -9,6 +9,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True"  
              xmlns:sss="clr-namespace:Hs.Hypermint.DatabaseDetails"
+          xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+            dialog:DialogParticipation.Register="{Binding}"              
              mc:Ignorable="d" >
 
     <GroupBox Header="{Binding DatabaseHeaderInfo}">

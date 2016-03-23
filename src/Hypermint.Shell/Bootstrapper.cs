@@ -16,6 +16,7 @@ using Hs.Hypermint.DatabaseDetails.Views;
 using Hs.Hypermint.WheelCreator.Views;
 using Hs.Hypermint.GameLaunch;
 using Hs.Hypermint.SidebarSystems.Views;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Hypermint.Shell
 {
@@ -64,7 +65,7 @@ namespace Hypermint.Shell
             base.ConfigureContainer();
 
             Container.RegisterType<IApplicationCommands, ApplicationCommandsProxy>();
-                       
+            Container.RegisterType<IDialogCoordinator, DialogCoordinator>();
             Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
 
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
