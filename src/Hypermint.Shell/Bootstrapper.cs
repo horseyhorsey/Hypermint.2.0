@@ -15,6 +15,7 @@ using Hs.Hypermint.Audits.Views;
 using Hs.Hypermint.DatabaseDetails.Views;
 using Hs.Hypermint.WheelCreator.Views;
 using Hs.Hypermint.GameLaunch;
+using Hs.Hypermint.SidebarSystems.Views;
 
 namespace Hypermint.Shell
 {
@@ -45,7 +46,7 @@ namespace Hypermint.Shell
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
 
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Services.ServicesModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.SidebarSystems.SidebarSystemsModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.SidebarSystems.SidebarSystemsModule));            
             moduleCatalog.AddModule(typeof(Hs.Hypermint.DatabaseDetails.ModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.NavBar.NavBarModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MultiSystem.MultiSystemModule));
@@ -63,10 +64,12 @@ namespace Hypermint.Shell
             base.ConfigureContainer();
 
             Container.RegisterType<IApplicationCommands, ApplicationCommandsProxy>();
-                        
+                       
             Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
 
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
+            Container.RegisterInstance<IFileFolderChecker>(Container.Resolve<FileFolderChecker>());
+            
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
             Container.RegisterInstance<IFileFolderService>(Container.Resolve<Base.Services.FileFolderService>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
@@ -78,10 +81,12 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<IntroVideosView>("IntroVideosView");
             Container.RegisterTypeForNavigation<HsMediaAuditView>("HsMediaAuditView");
             Container.RegisterTypeForNavigation<RlMediaAuditView>("RlMediaAuditView");
-            Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");
+            Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");                        
+
+            //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");
             //Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");
-            
+
 
         }
 
