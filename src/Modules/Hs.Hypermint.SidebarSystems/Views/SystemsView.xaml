@@ -11,12 +11,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="28"/>
+            <RowDefinition Height="28"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <DockPanel>
-        <CheckBox Margin="5" Content="Re-order" IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <CheckBox Margin="5" Grid.Row="0" Content="Re-order" IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
         <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
                 Command="{Binding SaveMainMenuCommand}" CommandParameter=""
                 ToolTip="Save main menu" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
@@ -26,22 +25,22 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
-        </DockPanel>
-        
-        <ListBox BorderThickness="2" Grid.Row="1"  ItemsSource="{Binding SystemItems}" 
+
+        <ListBox BorderThickness="2" Grid.Row="1"  ItemsSource="{Binding SystemItems}"  
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              ddrop:DragDrop.IsDropTarget="True" ddrop:DragDrop.IsDragSource="True"
              ddrop:DragDrop.DropHandler="{Binding}"
          SelectionMode="Single" IsEnabled="{Binding SystemListEnabled}"  
               >
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <DockPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
                         <CheckBox IsChecked="{Binding Enabled}"/>
                         <Image Source="{Binding SysIcon}"></Image>
-                    <TextBlock Text="{Binding Name}"></TextBlock>
-                </DockPanel>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>
