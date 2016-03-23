@@ -20,15 +20,14 @@
 
     <metro:MetroWindow.LeftWindowCommands>
         <metro:WindowCommands>
-            <Button Content="Settings" Command="{x:Static base:ApplicationCommands.ShowFlyoutCommand}"
-            CommandParameter="{x:Static constants:FlyoutNames.SettingsFlyout}"></Button>
+            <ContentControl prism:RegionManager.RegionName="ToolBarRegion"/>
         </metro:WindowCommands>
     </metro:MetroWindow.LeftWindowCommands>
-    
+
     <metro:MetroWindow.RightWindowCommands>
         <metro:WindowCommands>
-            <!--ToolBar Regions-->
-            <ContentControl prism:RegionManager.RegionName="ToolBarRegion"/>
+            <Button Content="Settings" Command="{x:Static base:ApplicationCommands.ShowFlyoutCommand}"
+            CommandParameter="{x:Static constants:FlyoutNames.SettingsFlyout}"></Button>
         </metro:WindowCommands>
     </metro:MetroWindow.RightWindowCommands>
 
@@ -37,56 +36,52 @@
         <metro:FlyoutsControl x:Name="flyoutsControlRegion"/>
     </metro:MetroWindow.Flyouts>
 
-    <metro:MetroContentControl>
-        <Grid Margin="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="71*"/>
-                <RowDefinition Height="383*"/>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="204*"/>
-                <RowDefinition Height="30*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="71*"/>
+            <RowDefinition Height="383*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="204*"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <!--SystemsSidebarRegion : Systems MainMenu Dbs-->
-            <ContentControl Grid.RowSpan="6" Grid.Row="0" 
-            prism:RegionManager.RegionName="SidebarRegion"/>
+        <!--SystemsSidebarRegion : Systems MainMenu Dbs-->
 
-            <ContentControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
+        <ContentControl  prism:RegionManager.RegionName="SidebarRegion" Grid.RowSpan="6" Grid.Row="0"/>
+
+        <ContentControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
                 prism:RegionManager.RegionName="ContentRegion" />
 
-            <!--Bottom panes-->
-            <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
+        <!--Bottom panes-->
+        <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
             x:Name="ViewerGrid" Grid.Row="4" Grid.RowSpan="1" 
             Margin="5,0" Grid.Column="1" VerticalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="223*"/>
-                    <ColumnDefinition Width="175*"/>
-                </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="223*"/>
+                <ColumnDefinition Width="175*"/>
+            </Grid.ColumnDefinitions>
 
-                
-              <ContentControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
-                
-                
-                <!--Media Pane-->
-                <ContentControl Grid.Column="1" Grid.Row="4"
+            <ContentControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
+
+            <!--Media Pane-->
+            <ContentControl Grid.Column="1" Grid.Row="4"
                         Background="{DynamicResource AccentColorBrush}" 
                         prism:RegionManager.RegionName="MediaPaneRegion"/>
 
-                <GridSplitter  ResizeDirection="Columns" HorizontalAlignment="Left" Width="6" Grid.Column="1"/>
-            </Grid>
-
-            <GridSplitter Grid.Column="1" Grid.Row="3" ResizeDirection="Rows" Cursor="SizeNS" HorizontalAlignment="Stretch" Margin="5,0,5,0"/>
-
-            <StatusBar  Grid.Row="5" Grid.Column="1" Margin="2" Grid.ColumnSpan="2"
-                   BorderThickness="2">
-                <StatusBarItem Content="{Binding ErrorMessage}"></StatusBarItem>
-            </StatusBar>
-
+            <GridSplitter  ResizeDirection="Columns" HorizontalAlignment="Left" Width="6" Grid.Column="1"/>
         </Grid>
-    </metro:MetroContentControl>
+
+        <GridSplitter Grid.Column="1" Grid.Row="3" ResizeDirection="Rows" Cursor="SizeNS" HorizontalAlignment="Stretch" Margin="5,0,5,0"/>
+
+        <StatusBar  Grid.Row="5" Grid.Column="1" Margin="2" Grid.ColumnSpan="2"
+                   BorderThickness="2">
+            <StatusBarItem Content="{Binding ErrorMessage}"></StatusBarItem>
+        </StatusBar>
+    </Grid>
+
 </metro:MetroWindow>
