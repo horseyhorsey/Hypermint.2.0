@@ -42,13 +42,26 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             set { SetProperty(ref reOrderSystems, value); }
         }
 
+        private string systemsHeader = "Systems";
+        public string SystemsHeader
+        {
+            get { return systemsHeader; }
+            set { SetProperty(ref systemsHeader, value); }
+        }
+
+        private int systemCount;
+        public int SystemsCount
+        {
+            get { return systemCount; }
+            set { SetProperty(ref systemCount, value); }
+        }
+
         IMainMenuRepo _mainMenuRepo;
         ISettingsRepo _settingsRepo;
-
         IEventAggregator _eventAggregator;
         ISelectedService _selectedService;
 
-        public DelegateCommand SaveMainMenuCommand { get; private set; } 
+        public DelegateCommand SaveMainMenuCommand { get; private set; }
 
         public SystemsViewModel()
         {
@@ -74,19 +87,12 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                     _settingsRepo.HypermintSettings.HsPath, Root.Databases,
                     @"Main Menu\Main Menu.xml");
 
-            if (File.Exists(_mainMenuXmlPath))
-            {
-                _mainMenuRepo.BuildMainMenuItems(_mainMenuXmlPath, _settingsRepo.HypermintSettings.RlMediaPath + @"\Icons\");
-                SystemItems = new ListCollectionView(_mainMenuRepo.Systems);
-                SystemItems.CurrentChanged += SystemItems_CurrentChanged;
-            }
-            else
-                SystemItems = null;
+            UpdateSystems(_mainMenuXmlPath);
 
             _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
             _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterSystemsByText);
 
-            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);      
+            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);
 
         }
 
@@ -96,7 +102,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         }
 
         private void UpdateSystems(string mainMenuXml)
-        {
+        {            
             if (File.Exists(mainMenuXml))
             {
                 _mainMenuXmlPath = mainMenuXml;
@@ -106,6 +112,9 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 //Subscribe here again?? 
                 //##    Existing unsubscribes when the system list is changed.
                 SystemItems.CurrentChanged += SystemItems_CurrentChanged;
+
+                SystemsCount = _mainMenuRepo.Systems.Count - 1;
+                SystemsHeader = "Systems: " + SystemsCount;
             }
         }
 
@@ -156,55 +165,55 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                     this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);
                 }
             }
-        }    
-
-    /// <summary>
-    /// Set wheel image for the system
-    /// </summary>
-    /// <param name="path"></param>
-    private void SetSystemImage()
-    {
-        var imagePath = _settingsRepo.HypermintSettings.HsPath +
-            "\\Media\\Main Menu\\Images\\Wheel\\" +
-            _selectedService.CurrentSystem + ".png";
-
-        if (File.Exists(imagePath))
-            _selectedService.SystemImage = setImage(imagePath);
-
-    }
-
-    private BitmapImage setImage(string imagePath)
-    {
-        Uri uriSource;
-        uriSource = new Uri(imagePath);
-        return new BitmapImage(uriSource);
-    }
-
-    public void DragOver(IDropInfo dropInfo)
-    {
-        var sourceItem = dropInfo.Data as MainMenu;
-        var targetItem = dropInfo.TargetItem as MainMenu;
-
-        if (sourceItem != null && targetItem != null)
-        {
-            dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-            dropInfo.Effects = DragDropEffects.Copy;
         }
 
+        /// <summary>
+        /// Set wheel image for the system
+        /// </summary>
+        /// <param name="path"></param>
+        private void SetSystemImage()
+        {
+            var imagePath = _settingsRepo.HypermintSettings.HsPath +
+                "\\Media\\Main Menu\\Images\\Wheel\\" +
+                _selectedService.CurrentSystem + ".png";
+
+            if (File.Exists(imagePath))
+                _selectedService.SystemImage = setImage(imagePath);
+
+        }
+
+        private BitmapImage setImage(string imagePath)
+        {
+            Uri uriSource;
+            uriSource = new Uri(imagePath);
+            return new BitmapImage(uriSource);
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            var sourceItem = dropInfo.Data as MainMenu;
+            var targetItem = dropInfo.TargetItem as MainMenu;
+
+            if (sourceItem != null && targetItem != null)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                dropInfo.Effects = DragDropEffects.Copy;
+            }
+
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+            var sourceItem = dropInfo.Data as MainMenu;
+            var targetItem = dropInfo.TargetItem as MainMenu;
+
+            var AddInIndex = _mainMenuRepo.Systems.IndexOf(targetItem);
+
+            if (AddInIndex == 0)
+                AddInIndex = 1;
+
+            _mainMenuRepo.Systems.Remove(sourceItem);
+            _mainMenuRepo.Systems.Insert(AddInIndex, sourceItem);
+        }
     }
-
-    public void Drop(IDropInfo dropInfo)
-    {
-        var sourceItem = dropInfo.Data as MainMenu;
-        var targetItem = dropInfo.TargetItem as MainMenu;
-
-        var AddInIndex = _mainMenuRepo.Systems.IndexOf(targetItem);
-
-        if (AddInIndex == 0)
-            AddInIndex = 1;
-
-        _mainMenuRepo.Systems.Remove(sourceItem);
-        _mainMenuRepo.Systems.Insert(AddInIndex, sourceItem);
-    }
-}
 }

@@ -8,39 +8,44 @@
              xmlns:ddrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:prism="http://prismlibrary.com/"
             prism:ViewModelLocator.AutoWireViewModel="True">
-
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="28"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <CheckBox Margin="5" Grid.Row="0" Content="Re-order" IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
-        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
+
+        <GroupBox Header="{Binding SystemsHeader}" Grid.Row="1" MinHeight="500" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <CheckBox Margin="5" Grid.Row="0" Content="Re-order" IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
                 Command="{Binding SaveMainMenuCommand}" CommandParameter=""
                 ToolTip="Save main menu" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
-            <Rectangle Width="10" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
+                    <Rectangle Width="10" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
 
-        <ListBox BorderThickness="2" Grid.Row="1"  ItemsSource="{Binding SystemItems}"  
+                <ListBox BorderThickness="2" Grid.Row="1"  ItemsSource="{Binding SystemItems}"  
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              ddrop:DragDrop.IsDropTarget="True" ddrop:DragDrop.IsDragSource="True"
              ddrop:DragDrop.DropHandler="{Binding}"
          SelectionMode="Single" IsEnabled="{Binding SystemListEnabled}"  
               >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel>
-                        <CheckBox IsChecked="{Binding Enabled}"/>
-                        <Image Source="{Binding SysIcon}"></Image>
-                        <TextBlock Text="{Binding Name}"></TextBlock>
-                    </DockPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <CheckBox IsChecked="{Binding Enabled}"/>
+                                <Image Source="{Binding SysIcon}"></Image>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>
