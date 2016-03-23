@@ -14,7 +14,7 @@ using Hypermint.Base.Services;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
-    public class SidebarSystemsViewModel : ViewModelBase
+    public class SidebarViewModel : ViewModelBase
     {
         #region Properties
 
@@ -43,9 +43,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             }
         }
 
-        public string SelectedMainMenu { get; set; }
-
-        public ICollectionView MainMenuDatabases { get; private set; }
+        public string SelectedMainMenu { get; set; }        
               
         #endregion
 
@@ -67,7 +65,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             }
         }
 
-        public SidebarSystemsViewModel(IEventAggregator eventAggregator, IMainMenuRepo main, ISettingsRepo settings,
+        public SidebarViewModel(IEventAggregator eventAggregator, IMainMenuRepo main, ISettingsRepo settings,
             ISelectedService selectedService)
         {
             _mainMenuRepo = main;            
@@ -76,48 +74,9 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
 
-            //SelectedMainMenu
-            var mainMenuDatabasePath = Path.Combine(    
-                _settingsRepo.HypermintSettings.HsPath,
-                Root.Databases, @"Main Menu");
-
-            var databases = new List<string>();
-
-            if (Directory.Exists(mainMenuDatabasePath))
-            {
-                foreach (var item in _mainMenuRepo.GetMainMenuDatabases(mainMenuDatabasePath))
-                {
-                    databases.Add(item);
-                }
-
-                if (databases.Count != 0)
-                {
-                    SelectedMainMenu = "Main Menu";
-                    MainMenuDataBaseCount = "Main Menus: " + databases.Count;
-                    MainMenuDatabases = new ListCollectionView(databases);
-
-                    MainMenuDatabases.CurrentChanged += MainMenuDatabases_CurrentChanged;
-                }
-            }
+            //SelectedMainMenu            
 
         }
 
-        /// <summary>
-        /// Combo box event of main menu xmls changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainMenuDatabases_CurrentChanged(object sender, System.EventArgs e)
-        {
-            var mainMenuXml = Path.Combine(
-                _settingsRepo.HypermintSettings.HsPath,
-                Root.Databases,
-                @"Main Menu\", SelectedMainMenu + ".xml");
-
-               _mainMenuRepo.BuildMainMenuItems(mainMenuXml);
-                _selectedService.CurrentMainMenu = SelectedMainMenu;
-               _eventAggregator.GetEvent<MainMenuSelectedEvent>().Publish(mainMenuXml);
-
-        }
     }
 }
