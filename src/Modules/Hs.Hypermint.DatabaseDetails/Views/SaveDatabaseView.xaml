@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Hs.Hypermint.DatabaseDetails.Views.SaveDatabaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    
+    <UserControl.Resources>
+        <Thickness x:Key="ControlMargin">0 1</Thickness>
+    </UserControl.Resources>
+    <Grid>
+        <GroupBox Header="Save database options">
+            
+            <StackPanel Orientation="Horizontal">
+                
+                <StackPanel.Resources>
+                    <Style x:Key="CustomMetroToggleSwitchButton"
+                       TargetType="{x:Type metro:ToggleSwitchButton}"
+                       BasedOn="{StaticResource MetroToggleSwitchButton}">
+                        <Setter Property="SwitchForeground"
+                            Value="YellowGreen" />
+                    </Style>
+                </StackPanel.Resources>
+                
+                <metro:ToggleSwitch IsChecked="True"
+                                   ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
+                                   Margin="{StaticResource ControlMargin}"
+                                   Header="Database"/>
+                <metro:ToggleSwitch IsChecked="True"
+                                   ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
+                                   Margin="{StaticResource ControlMargin}"
+                                   Header="Genres"/>
+                <metro:ToggleSwitch IsChecked="True"
+                                   ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
+                                   Margin="{StaticResource ControlMargin}"
+                                   Header="Favorites"/>
+
+                <Button Width="50" Height="50" VerticalAlignment="Bottom" Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_save}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </StackPanel>
+            
+        </GroupBox>
+    </Grid>
+</UserControl>

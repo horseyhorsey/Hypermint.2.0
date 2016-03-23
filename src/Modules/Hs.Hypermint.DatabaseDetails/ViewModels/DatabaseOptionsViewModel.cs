@@ -6,9 +6,12 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -20,19 +23,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #endregion
 
         #region Commands
-        public DelegateCommand ApplyToCellsCommand { get; private set; } 
+        public DelegateCommand ApplyToCellsCommand { get; private set; }
 
         #endregion
 
         private string applyString;
-        
         public string ApplyString
         {
             get { return applyString; }
             set { SetProperty(ref applyString, value); }
         }
 
-        
         private IEventAggregator _eventAggregator;
 
         private ComboBoxItem selectedItem;
@@ -42,7 +43,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set { SetProperty(ref selectedItem, value); }
         }
 
-        public DatabaseOptionsViewModel(ISelectedService selectedService, 
+        public DatabaseOptionsViewModel(ISelectedService selectedService,
             IGameRepo gameRepo, IEventAggregator ea)
         {
             _selectedService = selectedService;
@@ -76,14 +77,14 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                             _gameRepo.GamesList.ElementAt(index).Rating = ApplyString;
                             break;
                         case "Year":
-                            try { _gameRepo.GamesList.ElementAt(index).Year = Convert.ToInt32(ApplyString);}
-                            catch (Exception) { }                            
+                            try { _gameRepo.GamesList.ElementAt(index).Year = Convert.ToInt32(ApplyString); }
+                            catch (Exception) { }
                             break;
                         default:
                             break;
                     }
-                    
-                }                
+
+                }
             }
 
             //Tell the main viewmodel we're done
