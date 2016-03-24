@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace Hs.Hypermint.DatabaseDetails.Controls
+namespace Hs.Hypermint.DatabaseDetails.Views
 {
     /// <summary>
     /// Interaction logic for DatabasePickerCtrl
     /// </summary>
-    public partial class DatabasePickerCtrl : DockPanel
+    public partial class DatabaseControlsView : UserControl
     {
-        public DatabasePickerCtrl()
+        public DatabaseControlsView()
         {
             InitializeComponent();
         }

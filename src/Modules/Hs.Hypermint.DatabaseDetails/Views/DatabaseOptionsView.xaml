@@ -18,18 +18,14 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Databases" Grid.Row="0" Grid.ColumnSpan="2" >
-            <views:DatabasePickerView />
-        </GroupBox>
-
         <Grid Grid.Row="1">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            
-            <GroupBox Header="Edit"  Grid.Column="0" >
+
+            <!--<GroupBox Header="Edit"  Grid.Column="0" >
                 <DockPanel>
                 <Label Content="Enabled" Margin="5"/>
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
@@ -90,7 +86,7 @@
             </GroupBox>
             
             <GroupBox Header="Save" Grid.Column="1" HorizontalAlignment="Right">
-                <views:SaveDatabaseView/>
+                
             </GroupBox>
         </Grid>
 
@@ -126,8 +122,8 @@
                          Text="{Binding ApplyString,UpdateSourceTrigger=PropertyChanged}"
                          />
             </DockPanel>
-        </GroupBox>
-
+        </GroupBox>-->
+        </Grid>
     </Grid>
 
 </UserControl>

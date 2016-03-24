@@ -1,38 +1,64 @@
 ﻿<UserControl x:Class="Hs.Hypermint.DatabaseDetails.Views.DatabasePickerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"    
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        
-        <Button Grid.Column="0" Style="{DynamicResource MetroCircleButtonStyle}"
+
+        <StackPanel>
+
+            <metro:SplitButton Height="68"
+                                  Name="SplitButton1"
+                                  Width="70"
+                           
+                                  HorizontalAlignment="Center"
+                                  Orientation="Vertical"
+                                  DisplayMemberPath="{Binding ElementName=SplitButton0, Path=DisplayMemberPath}"
+                                  SelectedIndex="{Binding SelectedIndex, ElementName=SplitButton0, Mode=TwoWay}"
+                                  ItemsSource="{Binding SystemDatabases, UpdateSourceTrigger=PropertyChanged}">
+                <metro:SplitButton.Icon>
+                    <Viewbox Width="32"
+                             Height="32"
+                             Stretch="Uniform">
+                        <ContentControl Focusable="False"
+                                        Content="{DynamicResource appbar_archive}" />
+                    </Viewbox>
+                </metro:SplitButton.Icon>
+            </metro:SplitButton>
+
+            <metro:SplitButton Height="68"
+                                  Name="SplitButton2"
+                                  Width="70"
+                           
+                                  HorizontalAlignment="Center"
+                                  Orientation="Vertical"
+                                  DisplayMemberPath="{Binding ElementName=SplitButton0, Path=DisplayMemberPath}"
+                                  SelectedIndex="{Binding SelectedIndex, ElementName=SplitButton0, Mode=TwoWay}"
+                                  ItemsSource="{Binding GenreDatabases, UpdateSourceTrigger=PropertyChanged}">
+            <metro:SplitButton.Icon>
+                <Viewbox Width="32"
+                             Height="32"
+                             Stretch="Uniform">
+                    <ContentControl Focusable="False"
+                                        Content="{DynamicResource appbar_alien}" />
+                </Viewbox>
+            </metro:SplitButton.Icon>
+        </metro:SplitButton>
+
+            <Button Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
                         Command="{Binding OpenFolderCommand}"
                         CommandParameter="Databases"
                         ToolTip="Open system database directory."
-                Height="40" Width="40">
-            <Rectangle Width="15" Height="15"
+                Height="35" Width="35">
+                <Rectangle Width="12" Height="12"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
 
-        <ComboBox Grid.Column="1" Margin="5" Height="25" MinWidth="140"
-              IsSynchronizedWithCurrentItem ="True"
-              ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
-        
-        <Label Content="Genres" Grid.Column="2" Margin="5"/>
-
-        <!--Genres-->
-        <ComboBox Margin="5" Height="25" Width="160"
-                  Grid.Column="3"
-                  ItemsSource="{Binding GenreDatabases,UpdateSourceTrigger=Default}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

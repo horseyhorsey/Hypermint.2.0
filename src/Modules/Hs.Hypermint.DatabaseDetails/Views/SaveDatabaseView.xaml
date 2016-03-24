@@ -8,28 +8,18 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="42"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-    <Button Width="40" Height="40" VerticalAlignment="Center" 
-                        Command="{Binding OpenSaveOptionsCommand}"
-                        CommandParameter=""
-                        Style="{DynamicResource MetroCircleButtonStyle}">
-        <Rectangle Width="20"
-                               Height="20"
-                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-            <Rectangle.OpacityMask>
-                <VisualBrush Stretch="Fill"
-                                         Visual="{DynamicResource appbar_save}" />
-            </Rectangle.OpacityMask>
-        </Rectangle>
-    </Button>
 
-    <!--<TextBox Grid.Column="1" ToolTip="Database to save to."
-                         metro:TextBoxHelper.Watermark="Database Name"
-                         Text="{Binding DbName,UpdateSourceTrigger=PropertyChanged}"
-                         Height="25"/>-->
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
+                Command="{Binding OpenSaveOptionsCommand}"
+                ToolTip="Add selected to multi system list." Height="35" Width="35"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="22" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+
+        </Button>
     </Grid>
 
 </UserControl>

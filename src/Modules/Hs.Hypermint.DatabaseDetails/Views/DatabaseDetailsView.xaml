@@ -17,17 +17,29 @@
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="32" MaxHeight="90"></RowDefinition>
+                <RowDefinition MaxHeight="32"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="90"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <!--<local:DatabasePickerCtrl Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <views:FilterControlView Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <Border Grid.RowSpan="4">
+                <Rectangle Fill="{DynamicResource AccentColorBrush}"
+                   Grid.RowSpan="2" MinHeight="500" VerticalAlignment="Stretch"/>
+            </Border>
+            <!--<local:DatabasePickerCtrl Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>-->
+            <views:DatabaseControlsView Grid.Row="0" Margin="5" Grid.Column="0" Grid.RowSpan="4"
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+            <views:FilterControlView Grid.Row="0" Grid.Column="1"/>
 
             <!--Games database datagrid-->
-            <DataGrid x:Name="DatabaseGrid" Grid.Row="1" Grid.RowSpan="2" BorderThickness="2"
+            <DataGrid x:Name="DatabaseGrid" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" BorderThickness="2"
                           ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" 
                       CanUserAddRows="True" >
 

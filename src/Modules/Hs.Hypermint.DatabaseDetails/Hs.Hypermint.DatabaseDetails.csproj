@@ -73,8 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\GetGamesCommand.cs" />
-    <Compile Include="Controls\DatabasePickerCtrl.xaml.cs">
-      <DependentUpon>DatabasePickerCtrl.xaml</DependentUpon>
+    <Compile Include="Views\DatabaseControlsView.xaml.cs">
+      <DependentUpon>DatabaseControlsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EditDatabaseControls.xaml.cs">
       <DependentUpon>EditDatabaseControls.xaml</DependentUpon>
@@ -137,7 +137,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\DatabasePickerCtrl.xaml">
+    <Page Include="Views\DatabaseControlsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

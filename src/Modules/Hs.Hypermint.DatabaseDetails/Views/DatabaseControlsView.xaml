@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="Hs.Hypermint.DatabaseDetails.Views.DatabaseControlsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+           xmlns:views="clr-namespace:Hs.Hypermint.DatabaseDetails.Views"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <views:DatabasePickerView Grid.RowSpan="2"/>
+
+            <Label Content="Favorite" HorizontalAlignment="Center"></Label>
+            <DockPanel HorizontalAlignment="Center">
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        IsEnabled="{Binding SaveEnabled}"
+                        Command="{Binding EnableFaveItemsCommand}"
+                        CommandParameter="1"
+                        ToolTip="Enable selected items."
+                        Height="30" Width="30" HorizontalAlignment="Left">
+                    <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        IsEnabled="{Binding SaveEnabled}"
+                        Command="{Binding EnableFaveItemsCommand}"
+                        CommandParameter="0"
+                        ToolTip="Disable selected items."
+                        Height="30" Width="30" HorizontalAlignment="Left">
+                    <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_noentry}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+
+            <Label Content="Enabled" HorizontalAlignment="Center"></Label>
+            <DockPanel HorizontalAlignment="Center">
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        IsEnabled="{Binding SaveEnabled}"
+                        Command="{Binding EnableDbItemsCommand}"
+                        CommandParameter="1"
+                        ToolTip="Enable selected items."
+                        Height="30" Width="30" HorizontalAlignment="Left">
+                    <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        IsEnabled="{Binding SaveEnabled}"
+                        Command="{Binding EnableDbItemsCommand}"
+                        CommandParameter="0"
+                        ToolTip="Disable selected items."
+                        Height="30" Width="30" HorizontalAlignment="Left">
+                    <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_noentry}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </DockPanel>
+
+            <DockPanel HorizontalAlignment="Center">
+                
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
+                Command="{Binding AddMultiSystemCommand}"
+                ToolTip="Add selected to multi system list." Height="35" Width="35"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="25" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+            </Button>
+            <!--GAME LAUNCHING-->
+            <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
+                Command="{Binding LaunchGameCommand}"
+                ToolTip="Launch selected game." Height="35" Width="35"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            </DockPanel>
+
+            <views:SaveDatabaseView VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+
+        </StackPanel>
+
+
+    </Grid>
+</UserControl>

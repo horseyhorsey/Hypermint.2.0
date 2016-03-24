@@ -9,64 +9,11 @@
     <DockPanel MaxHeight="85">
 
         <GroupBox Header="Enable">
-            <DockPanel>
-                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
-                        IsEnabled="{Binding SaveEnabled}"
-                        Command="{Binding EnableDbItemsCommand}"
-                        CommandParameter="1"
-                        ToolTip="Enable selected items."
-                        Height="40" Width="40" HorizontalAlignment="Left">
-                    <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
-                        IsEnabled="{Binding SaveEnabled}"
-                        Command="{Binding EnableDbItemsCommand}"
-                        CommandParameter="0"
-                        ToolTip="Disable selected items."
-                        Height="40" Width="40" HorizontalAlignment="Left">
-                    <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_noentry}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-            </DockPanel>
+           
         </GroupBox>
 
         <GroupBox Header="Favorites">
             <DockPanel>
-                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
-                        IsEnabled="{Binding SaveEnabled}"
-                        Command="{Binding EnableFaveItemsCommand}"
-                        CommandParameter="1"
-                        ToolTip="Enable selected items."
-                        Height="40" Width="40" HorizontalAlignment="Left">
-                    <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
-                        IsEnabled="{Binding SaveEnabled}"
-                        Command="{Binding EnableFaveItemsCommand}"
-                        CommandParameter="0"
-                        ToolTip="Disable selected items."
-                        Height="40" Width="40" HorizontalAlignment="Left">
-                    <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_noentry}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
                 <Label Content="Save" Margin="5"></Label>
                 <!--Save favorites-->
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
