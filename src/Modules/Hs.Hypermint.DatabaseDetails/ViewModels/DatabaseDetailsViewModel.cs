@@ -214,7 +214,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         if (favesOnly && showClones && enabledFilter)
                         {
                             textFiltered =
-                            g.Enabled.Equals(enabled)
+                            g.GameEnabled.Equals(enabled)
                             && g.IsFavorite.Equals(favesOnly)
                             && g.CloneOf.Length >= 0;
                         }
@@ -227,7 +227,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         else if (favesOnly && !showClones && enabledFilter)
                         {
                             textFiltered =
-                            g.Enabled.Equals(enabled)
+                            g.GameEnabled.Equals(enabled)
                             && g.IsFavorite.Equals(favesOnly)
                             && g.CloneOf.Equals(string.Empty);
                         }
@@ -240,12 +240,12 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         else if (!favesOnly && !showClones && enabledFilter)
                         {
                             textFiltered = g.CloneOf.Equals(string.Empty)
-                              && g.Enabled.Equals(enabled);
+                              && g.GameEnabled.Equals(enabled);
                         }
                         else if (!favesOnly && showClones && enabledFilter)
                         {
                             textFiltered = g.CloneOf.Length >= 0
-                            && g.Enabled.Equals(enabled);
+                            && g.GameEnabled.Equals(enabled);
                         }
                         else if (!favesOnly && !showClones) { textFiltered = g.CloneOf.Equals(string.Empty); }
                         else if (!favesOnly && showClones) { textFiltered = g.CloneOf.Length >= 0; }
@@ -255,7 +255,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         if (showClones && favesOnly && enabledFilter)
                         {
                             textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.Enabled.Equals(enabled)
+                            && g.GameEnabled.Equals(enabled)
                             && g.IsFavorite.Equals(favesOnly)
                             && g.CloneOf.Length >= 0;
                         }
@@ -268,7 +268,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         else if (showClones && !favesOnly && enabledFilter)
                         {
                             textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.Enabled.Equals(enabled)
+                            && g.GameEnabled.Equals(enabled)
                             && g.CloneOf.Length >= 0;
                         }
                         else if (showClones && !favesOnly)
@@ -279,7 +279,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         else if (!showClones && favesOnly && enabledFilter)
                         {
                             textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.Enabled.Equals(enabled)
+                            && g.GameEnabled.Equals(enabled)
                             && g.IsFavorite.Equals(favesOnly) && g.CloneOf.Equals(string.Empty);
                         }
                         else if (!showClones && favesOnly)
@@ -290,7 +290,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         else if (!showClones && !favesOnly && enabledFilter)
                         {
                             textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.Enabled.Equals(enabled)
+                            && g.GameEnabled.Equals(enabled)
                             && g.CloneOf.Equals(string.Empty);
                         }
                         else if (!showClones && !favesOnly)
@@ -441,7 +441,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     foreach (var game in _selectedService.SelectedGames)
                     {
                         var gameIndex = _gameRepo.GamesList.IndexOf(game);
-                        _gameRepo.GamesList[gameIndex].Enabled = enableItems;                        
+                        _gameRepo.GamesList[gameIndex].GameEnabled = enableItems;                        
                     }
                                                                
                     GamesList.Refresh();

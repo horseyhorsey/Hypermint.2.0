@@ -52,12 +52,26 @@
                         </prism:InvokeCommandAction>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                
+
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                <Setter Property="Background" Value="#263DDE36"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding GameEnabled}"
+                             Value="0">
+                                <Setter Property="Background" Value="Red"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn ElementStyle="{DynamicResource MetroDataGridCheckBox}"
+                    <DataGridCheckBoxColumn  ElementStyle="{DynamicResource MetroDataGridCheckBox}" 
                         EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
-                        Header="On" MaxWidth="40" Binding="{Binding Enabled,UpdateSourceTrigger=PropertyChanged}"/>
-                    <DataGridCheckBoxColumn 
+                        Header="On" MaxWidth="40" Binding="{Binding GameEnabled,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridCheckBoxColumn x:Name="favoriteCheckbox"
                         ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                         Header="Fave" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                         MaxWidth="50" Binding="{Binding IsFavorite,UpdateSourceTrigger=PropertyChanged}"/>
