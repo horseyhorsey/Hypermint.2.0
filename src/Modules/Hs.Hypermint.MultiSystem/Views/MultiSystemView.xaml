@@ -7,7 +7,7 @@
               dialog:DialogParticipation.Register="{Binding}"  
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <GroupBox Header="Multi system generator">
+    <GroupBox Header="{Binding MultiSystemHeader,UpdateSourceTrigger=PropertyChanged}">
         <Grid x:Name="root">
             <Grid.RowDefinitions>
                 <RowDefinition Height="38"></RowDefinition>
@@ -58,7 +58,7 @@
                  Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
                  Width="206" Height="25" VerticalAlignment="Top" IsEnabled="True"/>
 
-                <TextBlock TextWrapping="Wrap" Margin="5"
+                <TextBlock TextWrapping="Wrap" Margin="5" VerticalAlignment="Center"
                    Text="Default HS Settings"/>
 
                 <TextBox metro:TextBoxHelper.Watermark="Choose settings file" 
@@ -85,19 +85,41 @@
             <!--Multi systems list-->
             <DataGrid Grid.Row="1" CanUserAddRows="False" IsReadOnly="True" ItemsSource="{Binding MultiSystemList}"
                       BorderThickness="2" AutoGenerateColumns="False">
+
+                <DataGrid.Resources>
+
+                </DataGrid.Resources>
+                
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="X">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <!--We have to give the grid name of root so it can call the command inside the view model-->
                                 <!--This datagrid is bound to the collection which knows nothing of the root-->
-                                <Button Content="X" Command="{Binding ElementName=root, Path=DataContext.RemoveGameCommand}" 
-                                        CommandParameter="{Binding}"></Button>
+                                <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3"
+                            Command="{Binding ElementName=root, Path=DataContext.RemoveGameCommand}" 
+                                        CommandParameter="{Binding}"
+                                        VerticalAlignment="Bottom" 
+                                        Height="25" Width="25" 
+                                        Style="{DynamicResource AccentedSquareButtonStyle}">
+                                    <Rectangle Width="13" Height="15"
+                                            Fill="{Binding Path=Foreground, 
+                                            RelativeSource={RelativeSource FindAncestor,
+                                            AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_delete}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Desc" Binding="{Binding Description}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Rom" Binding="{Binding RomName}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Clone" Binding="{Binding CloneOf}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Genre" Binding="{Binding Genre}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Manu" Binding="{Binding Manufacturer}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Year" Binding="{Binding Year}"></DataGridTextColumn>
                     <DataGridTextColumn Header="System" Binding="{Binding System}"></DataGridTextColumn>
                 </DataGrid.Columns>

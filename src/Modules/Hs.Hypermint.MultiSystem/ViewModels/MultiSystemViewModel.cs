@@ -82,6 +82,13 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { SetProperty(ref createSymbolicLinks, value); }
         }
 
+        private string multiSystemHeader = "Multi System Generator: 0";// Multi system generator;
+        public string MultiSystemHeader
+        {
+            get { return multiSystemHeader; }
+            set { SetProperty(ref multiSystemHeader, value); }
+        }
+
         #endregion
 
         #region Constructors
@@ -247,8 +254,10 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 await progressResult.CloseAsync();
             }
 
+            MultiSystemHeader = string.Format("Multi System Generator: {0} Pending",
+                _multiSystemRepo.MultiSystemList.Count);            
 
-            MultiSystemList = new ListCollectionView(_multiSystemRepo.MultiSystemList);
+            MultiSystemList = new ListCollectionView(_multiSystemRepo.MultiSystemList);            
 
         }
 
@@ -258,8 +267,16 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             {
                 if (!tempGames.Exists(x => x.RomName == game.RomName))
                 {
-                    tempGames.Add(game);
-                    _multiSystemRepo.MultiSystemList.Add(game);
+                    tempGames.Add(game);                                        
+                }
+
+                tempGames.Sort();
+
+                _multiSystemRepo.MultiSystemList.Clear();
+
+                foreach (Game sortedGame in tempGames)
+                {
+                    _multiSystemRepo.MultiSystemList.Add(sortedGame);
                 }
             });
         }
@@ -294,6 +311,9 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private void RemoveFromMultisystemList(Game game)
         {
             _multiSystemRepo.MultiSystemList.Remove(game);
+
+            MultiSystemHeader = string.Format("Multi System Generator: {0} Pending",
+                _multiSystemRepo.MultiSystemList.Count);
         }
         /// <summary>
         /// Add to a multisystem list from the main database menu event
@@ -314,7 +334,12 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                     _multiSystemRepo.MultiSystemList.Add(game);
             }
 
+            MultiSystemHeader = string.Format("Multi System Generator: {0} Pending",
+                _multiSystemRepo.MultiSystemList.Count);
+
         }
+
+        
         /// <summary>
         /// Builds a database from the list.
         /// Creates all media folders and options to create symbolic links rather than duplicate media
