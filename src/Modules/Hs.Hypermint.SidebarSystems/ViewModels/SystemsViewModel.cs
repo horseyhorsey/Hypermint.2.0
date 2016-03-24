@@ -14,6 +14,7 @@ using System;
 using GongSolutions.Wpf.DragDrop;
 using System.Windows;
 using Prism.Commands;
+using Hypermint.Base.Events;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {

@@ -46,6 +46,11 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         private string selectedMainMenu;
         private IEventAggregator _eventAggregator;
 
+        public MainMenuViewModel()
+        {
+                
+        }
+
         public MainMenuViewModel(IMainMenuRepo mainMenuRepo,
             IFileFolderChecker fileCheckService,
             ISettingsRepo settingsRepo,
@@ -134,7 +139,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             var mainMenuXml = _fileCheckService.CombinePath( new string[] {
                 mainMenuDatabasePath, selectedMainMenu  + ".xml" });
 
-            if (_fileCheckService.CheckForFile(mainMenuXml))
+            if (_fileCheckService.FileExists(mainMenuXml))
             {                
                 _eventAggregator.GetEvent<MainMenuSelectedEvent>().Publish(mainMenuXml);
             }
