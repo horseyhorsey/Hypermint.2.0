@@ -6,13 +6,15 @@
                             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
               xmlns:local="clr-namespace:Hypermint.Shell.Views"
+              
              xmlns:prism="http://prismlibrary.com/"             
 
               prism:ViewModelLocator.AutoWireViewModel="True"
               mc:Ignorable="d" 
               Theme="Accent"
+              Position="right"
               Header="Hypermint settings"
-              Width="460" d:DesignWidth="500" Height="435">
+              Width="Auto" d:DesignWidth="500" Height="Auto">
 
     <Grid Background="{DynamicResource AccentColorBrush}">
         <Grid.RowDefinitions>
