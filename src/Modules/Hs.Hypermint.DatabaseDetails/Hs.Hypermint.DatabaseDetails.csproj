@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="ViewModels\DatabaseOptionsViewModel.cs" />
     <Compile Include="ViewModels\DatabasePickerViewModel.cs" />
+    <Compile Include="ViewModels\FilterControlViewModel.cs" />
     <Compile Include="ViewModels\SaveDatabaseViewModel.cs" />
     <Compile Include="Views\DatabaseDetailsView.xaml.cs">
       <DependentUpon>DatabaseDetailsView.xaml</DependentUpon>
@@ -114,6 +115,9 @@
     </Compile>
     <Compile Include="Views\DatabasePickerView.xaml.cs">
       <DependentUpon>DatabasePickerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FilterControlView.xaml.cs">
+      <DependentUpon>FilterControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
@@ -156,6 +160,10 @@
     <Page Include="Views\DatabasePickerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FilterControlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainMenuView.xaml">
       <SubType>Designer</SubType>

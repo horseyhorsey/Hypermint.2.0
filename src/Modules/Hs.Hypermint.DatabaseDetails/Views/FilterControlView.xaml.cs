@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace Hs.Hypermint.NavBar.Views
+namespace Hs.Hypermint.DatabaseDetails.Views
 {
     /// <summary>
     /// Interaction logic for FilterControl
     /// </summary>
-    public partial class FilterControl : UserControl
+    public partial class FilterControlView : UserControl
     {
-        public FilterControl()
+        public FilterControlView()
         {
             InitializeComponent();
             

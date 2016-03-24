@@ -4,7 +4,7 @@ using Hypermint.Base.Models;
 using Prism.Events;
 using System.Collections.Generic;
 
-namespace Hs.Hypermint.NavBar.ViewModels
+namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class FilterControlViewModel : ViewModelBase
     {        
