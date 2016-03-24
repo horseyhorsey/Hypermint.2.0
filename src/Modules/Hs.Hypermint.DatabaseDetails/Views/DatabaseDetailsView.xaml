@@ -14,6 +14,8 @@
             dialog:DialogParticipation.Register="{Binding}"              
              mc:Ignorable="d" >
 
+
+    
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
             <Grid.RowDefinitions>

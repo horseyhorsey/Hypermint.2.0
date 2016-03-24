@@ -8,7 +8,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid Grid.Row="1">
+
             <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
+
             <MediaElement Stretch="Uniform" Margin="5"  Source="{Binding VideoSource}">
                 <ContextMenuService.ContextMenu>
                     <ContextMenu>

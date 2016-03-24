@@ -54,7 +54,9 @@
 
         <ContentControl  prism:RegionManager.RegionName="SidebarRegion" Grid.RowSpan="6" Grid.Row="0"/>
 
-        <ContentControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
+
+        <metro:TransitioningContentControl x:Name="transitioning" Transition="LeftReplace"
+            Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
                 prism:RegionManager.RegionName="ContentRegion" />
 
         <!--Bottom panes-->
@@ -69,7 +71,8 @@
             <ContentControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
 
             <!--Media Pane-->
-            <ContentControl Grid.Column="1" Grid.Row="4"
+            <metro:TransitioningContentControl Transition="RightReplace" 
+                                                  Grid.Column="1" Grid.Row="4"
                         Background="{DynamicResource AccentColorBrush}" 
                         prism:RegionManager.RegionName="MediaPaneRegion"/>
 
