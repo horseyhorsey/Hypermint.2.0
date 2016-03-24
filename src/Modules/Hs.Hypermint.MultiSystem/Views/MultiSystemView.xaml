@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+            xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+              dialog:DialogParticipation.Register="{Binding}"  
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <GroupBox Header="Multi system generator">

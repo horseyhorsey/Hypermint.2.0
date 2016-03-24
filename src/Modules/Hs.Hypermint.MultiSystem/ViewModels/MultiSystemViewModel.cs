@@ -14,6 +14,8 @@ using Hypermint.Base.Constants;
 using Hs.Hypermint.MultiSystem.Services;
 using System.Runtime.CompilerServices;
 using Hypermint.Base.Services;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -84,6 +86,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
         #region Constructors
         public MultiSystemViewModel(IEventAggregator ea, IMultiSystemRepo multiSystem, IFileFolderService fileService,
+            IDialogCoordinator dialogService,
           ISettingsRepo settings, IHyperspinXmlService xmlService, IMainMenuRepo mainMenuRepo, IFavoriteService favoritesService)
         {
             _eventAggregator = ea;
@@ -93,6 +96,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             _xmlService = xmlService;
             _mainmenuRepo = mainMenuRepo;
             _favoriteService = favoritesService;
+            _dialogService = dialogService;
 
             _eventAggregator.GetEvent<AddToMultiSystemEvent>().Subscribe(AddToMultiSystem);
 
@@ -108,7 +112,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             BuildMultiSystemCommand = new DelegateCommand(BuildMultiSystem);
 
-            ScanFavoritesCommand = new DelegateCommand(ScanFavorites);
+            ScanFavoritesCommand = new DelegateCommand(ScanFavoritesAsync);
         }
 
         #endregion
@@ -130,6 +134,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private IHyperspinXmlService _xmlService;
         private IMainMenuRepo _mainmenuRepo;
         private IFavoriteService _favoriteService;
+        private IDialogCoordinator _dialogService;
         #endregion
 
         #region Methods
@@ -187,6 +192,78 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             
         }
 
+        private async void ScanFavoritesAsync()
+        {
+            var mahSettings = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Save",
+                NegativeButtonText = "Cancel"
+            };
+
+            var msg = "Scans all your systems for favorites. If a system was built previosly as a multi system, it will be skipped.";
+            var result = await _dialogService.ShowMessageAsync(this, "Scan all favorites", msg,
+                MessageDialogStyle.AffirmativeAndNegative, mahSettings);
+
+            if (result == MessageDialogResult.Negative)
+                return;
+
+            var tempGames = new List<Game>();
+            _multiSystemRepo.MultiSystemList = new Games();
+
+            var progressResult = await _dialogService.ShowProgressAsync(this, "Scanning...", "Scan");
+            progressResult.SetCancelable(true);
+
+            try
+            {
+                var hsPath = _settingsService.HypermintSettings.HsPath;
+                var favoritesList = new List<string>();
+
+                foreach (MainMenu system in _mainmenuRepo.Systems)
+                {
+                    var isMultiSystem = File.Exists(Path.Combine(
+                        hsPath, Root.Databases, system.Name, "_multisystem")
+                        );
+
+                    // Dont want to be scanning the favorites of a multisystem
+                    if (system.Name != "Main Menu" && !isMultiSystem)
+                    {
+                        favoritesList = _favoriteService.GetFavoritesForSystem(system.Name, hsPath);
+
+                        var games = _xmlService.SearchRomStringsListFromXml(favoritesList, system.Name,
+                            hsPath);
+
+                        foreach (Game game in games)
+                        {
+                            progressResult.SetMessage("System : " + game.RomName);
+                            await ScanGames(game, tempGames);
+                        }
+
+                    }
+                }
+            }
+            catch { }
+            finally
+            {
+                await progressResult.CloseAsync();
+            }
+
+
+            MultiSystemList = new ListCollectionView(_multiSystemRepo.MultiSystemList);
+
+        }
+
+        private Task ScanGames(Game game, List<Game> tempGames)
+        {
+            return Task.Run(() =>
+            {
+                if (!tempGames.Exists(x => x.RomName == game.RomName))
+                {
+                    tempGames.Add(game);
+                    _multiSystemRepo.MultiSystemList.Add(game);
+                }
+            });
+        }
+
         private bool CanBuildSystem()
         {
             if (!string.IsNullOrEmpty(MultiSystemName))
@@ -238,7 +315,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             }
 
         }
-
         /// <summary>
         /// Builds a database from the list.
         /// Creates all media folders and options to create symbolic links rather than duplicate media
