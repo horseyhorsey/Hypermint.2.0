@@ -13,11 +13,6 @@ namespace Hypermint.Base
 
     }
 
-    public class SystemSelectedEvent : PubSubEvent<string>
-    {
-
-    }
-
     public class GameFilteredEvent : PubSubEvent<GameFilter>
     {
 
