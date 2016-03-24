@@ -4,28 +4,6 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <Button Style="{DynamicResource MetroCircleButtonStyle}"
-                        Command="{Binding OpenFolderCommand}"
-                        CommandParameter="Databases"
-                        ToolTip="Open system database directory."
-                Height="40" Width="40">
-        <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-            <Rectangle.OpacityMask>
-                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-    </Button>
-
-    <ComboBox Margin="5" Height="25" Width="250"
-              IsSynchronizedWithCurrentItem ="True"
-              ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
-
-    <Label Content="Genres" Margin="5"></Label>
-
-    <!--Genres-->
-    <ComboBox Margin="5" Height="25" Width="160" ItemsSource="{Binding GenreDatabases,UpdateSourceTrigger=Default}"/>
-
     <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
                 Command="{Binding AddMultiSystemCommand}"
                 ToolTip="Add selected to multi system list." Height="28" Width="28"

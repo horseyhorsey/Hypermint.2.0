@@ -7,13 +7,6 @@
              xmlns:local="clr-namespace:Hs.Hypermint.MediaPane.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="85"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <local:MediaPaneControls></local:MediaPaneControls>
-
         <Grid Grid.Row="1">
             <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
             <MediaElement Stretch="Uniform" Margin="5"  Source="{Binding VideoSource}">

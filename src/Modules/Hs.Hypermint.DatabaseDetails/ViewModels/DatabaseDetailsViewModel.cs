@@ -18,6 +18,7 @@ using Hypermint.Base.Constants;
 using System.Xml;
 using Hypermint.Base.Models;
 using MahApps.Metro.Controls.Dialogs;
+using Hypermint.Base.Events;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -32,34 +33,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set { SetProperty(ref _gameList, value); }
         }                
 
-        private ICollectionView systemDatabases;
-        public ICollectionView SystemDatabases
-        {
-            get { return systemDatabases; }
-            set { SetProperty(ref systemDatabases, value); }
-        }
-
-        private ICollectionView genreDatabases;
-        public ICollectionView GenreDatabases
-        {
-            get { return genreDatabases; }
-            set { SetProperty(ref genreDatabases, value); }
-        }
-
-        private bool saveFavoritesXml;
-        public bool SaveFavoritesXml
-        {
-            get { return saveFavoritesXml; }
-            set { SetProperty(ref saveFavoritesXml, value); }
-        }
-
-        private bool addToGenre;
-        public bool AddToGenre
-        {
-            get { return addToGenre; }
-            set { SetProperty(ref addToGenre, value); }
-        }
-
         public int SelectedItemsCount { get; private set; }
 
         private string databaseHeaderInfo = "Database Editor";
@@ -69,22 +42,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set { SetProperty(ref databaseHeaderInfo, value); }
         }
 
-        private string dbName;
-        public string DbName
-        {
-            get { return dbName; }
-            set { SetProperty(ref dbName, value); }
-        }
         #endregion
 
         #region Commands & Event
         private readonly IEventAggregator _eventAggregator;                        
         public DelegateCommand AuditScanStart { get; private set; }
         public DelegateCommand<IList> SelectionChanged { get; set; }
-        public DelegateCommand<string> EnableDbItemsCommand { get; set; }
-        public DelegateCommand<string> OpenFolderCommand { get; set; }
-        public DelegateCommand<string> SaveXmlCommand { get; set; }
-        public DelegateCommand SaveGenresCommand { get; private set; } 
+        public DelegateCommand<string> EnableDbItemsCommand { get; set; }        
         public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
         public DelegateCommand AddMultiSystemCommand { get; private set; }
         public DelegateCommand LaunchGameCommand { get; private set; }
@@ -94,7 +58,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
             IHyperspinXmlService xmlService, ISelectedService selectedService, 
             IFavoriteService favoriteService, IGenreRepo genreRepo,
-            IEventAggregator eventAggregator, IFolderExplore folderService,
+            IEventAggregator eventAggregator,
             IGameLaunch gameLaunch,
             IMainMenuRepo memuRepo, IDialogCoordinator dialogService
             )
@@ -104,18 +68,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;
             _favouriteService = favoriteService;
-            _selectedService = selectedService;
-            _folderExploreService = folderService;
+            _selectedService = selectedService;           
             _xmlService = xmlService;
             _genreRepo = genreRepo;
             _gameLaunch = gameLaunch;
             _menuRepo = memuRepo;
             _dialogService = dialogService;
 
-
             _selectedService.CurrentSystem = "Main Menu";
 
             SetUpGamesListFromMainMenuDb();
+
             _selectedService.SelectedGames = new List<Game>();
 
             if (_gameRepo.GamesList != null)
@@ -124,15 +87,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
             }
 
-            if (_genreRepo.GenreList != null)
-            {
-                GenreDatabases = new ListCollectionView(_genreRepo.GenreList);                
-            }
+            EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);            
 
-            EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
-            OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
-            
-            SaveGenresCommand = new DelegateCommand(SaveGenres);
             EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
             AddMultiSystemCommand = new DelegateCommand(() =>
             {
@@ -184,22 +140,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 });
 
-            SaveXmlCommand = new DelegateCommand<string>(async x =>
-            {
-                var mahSettings = new MetroDialogSettings()
-                {
-                    AffirmativeButtonText = "Save",
-                    NegativeButtonText = "Cancel"
-                };
-
-                var result = await _dialogService.ShowMessageAsync(this, "Save database", "Do you want to save? " + dbName,
-                    MessageDialogStyle.AffirmativeAndNegative, mahSettings);
-
-                if (result == MessageDialogResult.Affirmative)
-                    SaveXml(x);
-
-            });
-
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
             _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);
@@ -208,8 +148,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList.Refresh();
             });
 
+            _eventAggregator.GetEvent<SystemDatabaseChanged>().Subscribe(SystemDatabaseChangedHandler);
+
             _eventAggregator.GetEvent<SaveMainMenuEvent>().Subscribe(SaveCurrentMainMenuItems);
 
+        }
+
+        private void SystemDatabaseChangedHandler(string systemName)
+        {
+            UpdateGames(systemName);
         }
 
         private void SaveCurrentMainMenuItems(string xml)
@@ -396,47 +343,36 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// Published by selecting Systems in left system list
         /// </summary>
         /// <param name="systemName"></param>
-        private void UpdateGames(string systemName)
+        private void UpdateGames(string dbName)
         {
             _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Status: ");
+
+            var hsPath = _settingsRepo.HypermintSettings.HsPath;
+
             if (GamesList != null)
             {
                 _gameRepo.GamesList.Clear();
-                var hsPath = _settingsRepo.HypermintSettings.HsPath;
+                
                 if (Directory.Exists(hsPath))
                 {
                     try
                     {
-                        PopulateGamesList(systemName, hsPath,systemName);
+                        PopulateGamesList(_selectedService.CurrentSystem,  hsPath, dbName);
 
-                        //Populate genres
-                        var genrePath = Path.Combine(hsPath, Root.Databases, systemName, "Genre.xml");
-                        if (File.Exists(genrePath))
-                        {
-
-                            _genreRepo.PopulateGenres(genrePath);
-                        }
-                        else { _genreRepo.GenreList.Clear(); }                        
-
-                        GenreDatabases = new ListCollectionView(_genreRepo.GenreList);
+                        //Publish after the gameslist is updated here
+                        _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(dbName);
                     }
-                    catch (System.Xml.XmlException exception)
+                    catch (XmlException exception)
                     {
                         exception.GetBaseException();
                         var msg = exception.Message;
                         _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri +  " : " + msg);
                     }
-                    catch (Exception e)
-                    {
-
-                    }
+                    catch (Exception) { }
                     finally
                     {                                          
-
-                        updateSystemDatabases();
-
-                        updateGenres();
-
+                        //updateSystemDatabases();
+                        //updateGenres();
                     }
                     
                 }
@@ -473,11 +409,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
 
             updateFavoritesForGamesList();
-
-            //Publish after the gameslist is updated here
-            _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(systemName);
-
-
+            
         }
 
         private void updateFavoritesForGamesList()
@@ -497,77 +429,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
             
-        }
-
-        private void updateSystemDatabases()
-        {
-            
-            var pathToScan = _settingsRepo.HypermintSettings.HsPath +
-                "\\" +
-                Root.Databases + "\\" +
-                _selectedService.CurrentSystem;
-
-            if (!Directory.Exists(pathToScan)) return;
-
-            var xmlsInDirectory = new List<string>();
-
-            foreach (var xmlFile in Directory.GetFiles(pathToScan, "*.xml"))
-            {
-                var dbFileName = Path.GetFileNameWithoutExtension(xmlFile);
-
-                if (dbFileName.ToLower() != "genre")
-                {
-                   xmlsInDirectory.Add(dbFileName);                    
-                }
-            }
-
-            SystemDatabases = new ListCollectionView(xmlsInDirectory);            
-        }
-
-        private void updateGenres()
-        {            
-            if (_genreRepo.GenreList != null)
-            {                                
-                var updatedGameDbs = new List<string>();
-
-                //Add the system database that was clicked
-                updatedGameDbs.Add(_selectedService.CurrentSystem);
-
-                foreach (var item in SystemDatabases)
-                {
-                    try
-                    {
-                        if (!GenreDatabases.Contains(item as string))
-                        {
-                            if ((string)item != _selectedService.CurrentSystem)
-                                updatedGameDbs.Add(item as string);
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                        
-                    }
-            
-                }
-
-                SystemDatabases = new ListCollectionView(updatedGameDbs);
-
-                DbName = _selectedService.CurrentSystem;
-
-                SystemDatabases.CurrentChanged += SystemDatabases_CurrentChanged;                           
-            }
-        
-        }
-
-        private void SystemDatabases_CurrentChanged(object sender, EventArgs e)
-        {
-            var hsPath = _settingsRepo.HypermintSettings.HsPath;
-
-            PopulateGamesList(_selectedService.CurrentSystem, hsPath, (string)SystemDatabases.CurrentItem);
-
-            DbName = (string)SystemDatabases.CurrentItem;
-        }
+        }        
 
         private void EnableDbItems(string enabled)
         {
@@ -626,96 +488,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     //                
                 }
             }
-        }
-
-        private void OpenFolder(string hyperspinDirType)
-        {
-            switch (hyperspinDirType)
-            {
-                case "Databases":
-                    var pathToOpen = _settingsRepo.HypermintSettings.HsPath;
-                    _folderExploreService.OpenFolder(pathToOpen + "\\" +
-                        Root.Databases + "\\" +
-                        _selectedService.CurrentSystem);
-                        break;
-                default:
-                    break;
-            }
-                        
-        }
-
-        private void SaveXml(string dbName)
-        {
-            try
-            {
-                if (dbName == "Favorites")
-                {
-                    //Boxing lists, why? Must be better way.
-                    var s = new List<Game>(_gameRepo.GamesList);
-                    var filterFavorites = s.FindAll(m => m.IsFavorite == true);
-                    var games = new Games();
-                    foreach (var item in filterFavorites)
-                    {
-                        games.Add(item);
-                    }
-
-                    if (SaveFavoritesXml)
-                    {
-                        _xmlService.SerializeHyperspinXml(games, _selectedService.CurrentSystem,
-                           _settingsRepo.HypermintSettings.HsPath, dbName);
-                    }
-
-                    //Save faves to text
-                    try
-                    {
-                        var favesTextPath = Path.Combine(
-                            _settingsRepo.HypermintSettings.HsPath,
-                            Root.Databases, _selectedService.CurrentSystem,
-                            "favorites.txt");
-
-                        if (!File.Exists(favesTextPath))
-                        {
-                            File.CreateText(favesTextPath);
-                        }
-
-                        using (StreamWriter writer =
-                            new StreamWriter(favesTextPath))
-                        {
-                            foreach (var favoriteGame in games)
-                            {                                
-                              writer.WriteLine(favoriteGame.RomName);
-                            }
-
-                            writer.Close();
-                        }                        
-                    }
-                    catch (Exception)
-                    {
-
-                        
-                    }
-                    finally { }
-
-                }
-                else {
-                    _xmlService.SerializeHyperspinXml(_gameRepo.GamesList, _selectedService.CurrentSystem,
-                    _settingsRepo.HypermintSettings.HsPath, DbName);
-                }
-            }
-            catch (Exception e)
-            {
-                _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(e.TargetSite + " : " + e.Message);
-            }
-            
-        }
-
-        private void SaveGenres()
-        {
-
-            _xmlService.SerializeGenreXml(_gameRepo.GamesList,
-                _selectedService.CurrentSystem,
-                _settingsRepo.HypermintSettings.HsPath);
-        }
+        }        
 
         private void LaunchGame()
         {
