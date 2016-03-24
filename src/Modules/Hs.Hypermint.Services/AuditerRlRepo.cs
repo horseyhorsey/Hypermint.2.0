@@ -1,5 +1,6 @@
 ﻿using Hs.RocketLauncher.AuditBase;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

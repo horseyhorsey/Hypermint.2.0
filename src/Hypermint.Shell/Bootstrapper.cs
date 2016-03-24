@@ -24,20 +24,20 @@ namespace Hypermint.Shell
     {
         protected override DependencyObject CreateShell()
         {
-            return Container.Resolve<Views.Shell>();                        
+            return Container.Resolve<Views.Shell>();
         }
 
         protected override void InitializeShell()
         {
             base.InitializeShell();
-            
+
             // Register view
             var regionManager = this.Container.Resolve<IRegionManager>();
             if (regionManager != null)
             {
                 regionManager.RegisterViewWithRegion(RegionNames.FlyoutRegion, typeof(SettingsFlyout));
             }
-            
+
             Application.Current.MainWindow = (Views.Shell)this.Shell;
             Application.Current.MainWindow.Show();
         }
@@ -47,7 +47,7 @@ namespace Hypermint.Shell
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
 
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Services.ServicesModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.SidebarSystems.SidebarSystemsModule));            
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.SidebarSystems.SidebarSystemsModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.DatabaseDetails.ModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.NavBar.NavBarModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MultiSystem.MultiSystemModule));
@@ -70,7 +70,7 @@ namespace Hypermint.Shell
 
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFileFolderChecker>(Container.Resolve<FileFolderChecker>());
-            
+
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
             Container.RegisterInstance<IFileFolderService>(Container.Resolve<Base.Services.FileFolderService>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
@@ -82,7 +82,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<IntroVideosView>("IntroVideosView");
             Container.RegisterTypeForNavigation<HsMediaAuditView>("HsMediaAuditView");
             Container.RegisterTypeForNavigation<RlMediaAuditView>("RlMediaAuditView");
-            Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");                        
+            Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");
 
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");

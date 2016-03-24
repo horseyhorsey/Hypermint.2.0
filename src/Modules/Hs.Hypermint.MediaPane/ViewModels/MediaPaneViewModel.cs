@@ -7,6 +7,7 @@ using System;
 using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Constants;
+using Hypermint.Base.Events;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
 {
