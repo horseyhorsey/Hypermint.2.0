@@ -1,5 +1,6 @@
 ﻿using Hs.HyperSpin.Database;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Hs.Hypermint.DatabaseDetails.Services
 {
@@ -17,5 +18,8 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
         List<Game> SearchRomStringsListFromXml(List<string> romsNamesList, string system, string hyperspinPath);
 
+        bool SaveFavoritesText(Games gamesList, string favoritesTextFile);
+
+        Task SerializeHyperspinXmlAsync(Games gamesList, string finalPath, string databasePath, bool isMultiSystem = false);
     }
 }

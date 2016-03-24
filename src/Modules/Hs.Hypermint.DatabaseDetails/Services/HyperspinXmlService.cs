@@ -7,6 +7,7 @@ using System;
 using System.Xml.Linq;
 using System.Xml;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Hs.Hypermint.DatabaseDetails.Services
 {
@@ -96,6 +97,38 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             genreNames.Sort();
 
             return genreNames;
+        }
+
+        public async Task SerializeHyperspinXmlAsync(Games gamesList,
+            string finalPath, string databasePath, bool isMultiSystem = false)
+        {
+           await Task.Run(() =>
+            {
+                if (isMultiSystem)
+                {
+                    File.Create(databasePath + "\\_multisystem");
+                }
+
+                var games = new List<Game>(gamesList);
+
+                games.Sort();
+
+                TextWriter textWriter = new StreamWriter(finalPath);
+
+                XmlSerializer serializer;
+                var xmlNameSpace = new XmlSerializerNamespaces();
+                var xmlRootAttr = new XmlRootAttribute("menu");
+                xmlNameSpace.Add("", "");
+
+                try
+                {
+                    serializer = new XmlSerializer(typeof(List<Game>), xmlRootAttr);
+                    serializer.Serialize(textWriter, games, xmlNameSpace);
+                }
+                catch (Exception) { }
+
+            });
+            
         }
 
         public bool SerializeHyperspinXml(Games gamesList, string systemName,
@@ -217,7 +250,6 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
             return true;
         }
-
 
         public Game SearchGameFromXml(string romName, string system, string hyperspinPath)
         {
@@ -360,5 +392,22 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
             return fetchedGames;
         }
+
+        public bool SaveFavoritesText(Games gamesList, string favoritesTextFile)
+        {
+            using (StreamWriter writer =
+                new StreamWriter(favoritesTextFile))
+            {
+                foreach (var favoriteGame in gamesList)
+                {
+                    writer.WriteLine(favoriteGame.RomName);
+                }
+
+                writer.Close();
+            }
+
+            return true;
+        }
+
     }
 }
