@@ -80,8 +80,8 @@
     <Compile Include="Auditer.cs" />
     <Compile Include="AuditerRlRepo.cs" />
     <Compile Include="FileFolderChecker.cs" />
-    <Compile Include="MultiSystemRepo.cs" />
     <Compile Include="FileFolderService.cs" />
+    <Compile Include="MultiSystemRepo.cs" />
     <Compile Include="GameRepo.cs" />
     <Compile Include="GenreRepo.cs" />
     <Compile Include="Helpers\IniFile.cs" />

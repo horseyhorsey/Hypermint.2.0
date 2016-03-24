@@ -15,7 +15,7 @@ namespace Hs.Hypermint.Services
         /// </summary>
         /// <param name="filenamePath"></param>
         /// <returns></returns>
-        public bool CheckForFile(string filenamePath)
+        public bool FileExists(string filenamePath)
         {
             if (File.Exists(filenamePath))
                 return true;
@@ -51,6 +51,26 @@ namespace Hs.Hypermint.Services
         public bool DirectoryExists(string directoryPath)
         {
             return Directory.Exists(directoryPath);            
+        }
+
+        public string[] GetFiles(string path, string filter = "")
+        {
+            return Directory.GetFiles(path, filter);            
+        }
+
+        public string GetFileNameNoExt(string file)
+        {
+            return Path.GetFileNameWithoutExtension(file);
+        }
+
+        public FileStream CreateFile(string path)
+        {
+           return File.Create(path);
+        }
+
+        public void CreateDirectory(string path)
+        {
+            Directory.CreateDirectory(path);
         }
     }
 }

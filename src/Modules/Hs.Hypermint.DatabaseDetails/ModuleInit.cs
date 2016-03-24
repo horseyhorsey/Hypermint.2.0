@@ -4,6 +4,7 @@ using Hs.Hypermint.Services;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 
@@ -20,7 +21,9 @@ namespace Hs.Hypermint.DatabaseDetails
         {
             UnityContainer.RegisterType<IGameRepo, GameRepo>();
             UnityContainer.RegisterType<IFavoriteService,FavoriteService>();
-            UnityContainer.RegisterType<IFolderExplore, FileFolderService>();
+
+            UnityContainer.RegisterType<IFolderExplore, FolderExplore>();
+
             UnityContainer.RegisterType<IHyperspinXmlService, HyperspinXmlService>();
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(MainMenuView));

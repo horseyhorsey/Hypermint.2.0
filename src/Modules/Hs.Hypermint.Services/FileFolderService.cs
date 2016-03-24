@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Hs.Hypermint.Services
 {
-    public class FileFolderService : IFolderExplore
+    public class FolderExplore : IFolderExplore
     {
         public bool OpenFolder(string path)
         {            
