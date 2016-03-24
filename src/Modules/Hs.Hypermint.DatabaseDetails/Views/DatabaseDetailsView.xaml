@@ -9,6 +9,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True"  
              xmlns:sss="clr-namespace:Hs.Hypermint.DatabaseDetails"
+             xmlns:views="clr-namespace:Hs.Hypermint.DatabaseDetails.Views"
           xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
             dialog:DialogParticipation.Register="{Binding}"              
              mc:Ignorable="d" >
@@ -16,13 +17,15 @@
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40" MaxHeight="90"></RowDefinition>
+                <RowDefinition Height="32" MaxHeight="90"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="90"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <local:DatabasePickerCtrl Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            
+            <!--<local:DatabasePickerCtrl Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>-->
+
+            <views:FilterControlView Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
             <!--Games database datagrid-->
             <DataGrid x:Name="DatabaseGrid" Grid.Row="1" Grid.RowSpan="2" BorderThickness="2"
                           ItemsSource="{Binding GamesList}" AutoGenerateColumns="False" 
