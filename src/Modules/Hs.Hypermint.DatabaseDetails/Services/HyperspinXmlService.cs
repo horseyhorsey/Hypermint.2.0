@@ -193,7 +193,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
                 foreach (var game in gamesList)
                 {
-                    menuItems.Add(new MainMenu(game.RomName, game.Enabled));
+                    menuItems.Add(new MainMenu(game.RomName, game.GameEnabled));
                 }
 
                 serializer = new XmlSerializer(typeof(List<MainMenu>), xmlRootAttr);
@@ -301,7 +301,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                                 Year = game.Year,
                                 Genre = game.Genre,
                                 Rating = game.Rating,
-                                Enabled = game.Enabled,
+                                GameEnabled = game.Enabled,
                                 System = game.System,
                                 IsFavorite = true
                             };
@@ -370,7 +370,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                                     Year = game.Year,
                                     Genre = game.Genre,
                                     Rating = game.Rating,
-                                    Enabled = game.Enabled,
+                                    GameEnabled = game.Enabled,
                                     System = game.System,
                                     IsFavorite = true
                                 };

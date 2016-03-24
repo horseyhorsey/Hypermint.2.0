@@ -17,7 +17,7 @@ namespace Hs.HyperSpin.Database
         }
               
         [XmlAttribute("enabled")]
-        public int Enabled { get; set; }
+        public int GameEnabled { get; set; }
 
         [XmlIgnore]
         public string System { get; set; }
@@ -89,7 +89,7 @@ namespace Hs.HyperSpin.Database
             Year = year;
             Genre = genre;
             Rating = rating;
-            Enabled = enabled;            
+            GameEnabled = enabled;            
         }
 
         public Game(string name, string index, string image, string desc, string cloneof,
@@ -105,7 +105,7 @@ namespace Hs.HyperSpin.Database
             Year = year;
             Genre = genre;
             Rating = rating;
-            Enabled = enabled;
+            GameEnabled = enabled;
             System = system;            
         }
 
