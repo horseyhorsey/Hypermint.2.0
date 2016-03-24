@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Hs.Hypermint.DatabaseDetails.Views.DatabasePickerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Column="0" Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding OpenFolderCommand}"
+                        CommandParameter="Databases"
+                        ToolTip="Open system database directory."
+                Height="40" Width="40">
+            <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <ComboBox Grid.Column="1" Margin="5" Height="25" MinWidth="140"
+              IsSynchronizedWithCurrentItem ="True"
+              ItemsSource="{Binding SystemDatabases,UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <Label Content="Genres" Grid.Column="2" Margin="5"/>
+
+        <!--Genres-->
+        <ComboBox Margin="5" Height="25" Width="160"
+                  Grid.Column="3"
+                  ItemsSource="{Binding GenreDatabases,UpdateSourceTrigger=Default}"/>
+    </Grid>
+</UserControl>
