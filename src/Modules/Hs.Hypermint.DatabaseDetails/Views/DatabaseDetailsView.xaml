@@ -59,11 +59,11 @@
                     <Style TargetType="{x:Type DataGridCell}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsFavorite}" Value="True">
-                                <Setter Property="Background" Value="#263DDE36"/>
+                                <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding GameEnabled}"
                              Value="0">
-                                <Setter Property="Background" Value="Red"/>
+                                <Setter Property="Background" Value="{DynamicResource ValidationSummaryColor5}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
