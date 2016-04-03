@@ -16,6 +16,7 @@ using System.Runtime.CompilerServices;
 using Hypermint.Base.Services;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
+using Hs.Hypermint.MultiSystem.Dialog;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -89,6 +90,40 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { SetProperty(ref multiSystemHeader, value); }
         }
 
+        private ICollectionView systems;
+        public ICollectionView  Systems
+        {
+            get { return systems; }
+            set { SetProperty(ref systems, value); }
+        }
+
+        private Systems _systems = new Systems();
+
+        #endregion
+
+        #region Commands
+        private IEventAggregator _eventAggregator;
+        public DelegateCommand<Game> RemoveGameCommand { get; set; }
+        public DelegateCommand ClearListCommand { get; private set; }
+        public DelegateCommand SelectSettingsCommand { get; private set; }
+        public DelegateCommand BuildMultiSystemCommand { get; private set; }
+        public DelegateCommand ScanFavoritesCommand { get; private set; }
+        public DelegateCommand<string> OpenSearchCommand { get; private set; }
+        public DelegateCommand CloseCommand { get; private set; }
+        public DelegateCommand<string> SearchGamesCommand { get; private set; }
+        public DelegateCommand<string> SelectSystemsCommand { get; private set; }
+        #endregion
+
+        #region Services
+        private IFileFolderService _fileFolderService;
+        private ISettingsRepo _settingsService;
+        private IMultiSystemRepo _multiSystemRepo;
+        private IHyperspinXmlService _xmlService;
+        private IMainMenuRepo _mainmenuRepo;
+        private IFavoriteService _favoriteService;
+        private IDialogCoordinator _dialogService;
+        private CustomDialog customDialog;
+
         #endregion
 
         #region Constructors
@@ -115,34 +150,52 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                     _multiSystemRepo.MultiSystemList.Clear();
             });
 
+            CloseCommand = new DelegateCommand(async () =>
+            {
+                await _dialogService.HideMetroDialogAsync(this, customDialog);
+            });
+
             SelectSettingsCommand = new DelegateCommand(SelectSettings);
 
             BuildMultiSystemCommand = new DelegateCommand(BuildMultiSystem);
 
             ScanFavoritesCommand = new DelegateCommand(ScanFavoritesAsync);
+
+            OpenSearchCommand = new DelegateCommand<string>(async x =>
+            {
+                await RunCustomDialog();
+            });
+
+            SearchGamesCommand = new DelegateCommand<string>(async x =>
+            {
+                await ScanForGamesAsync();
+            });
+
+            SelectSystemsCommand = new DelegateCommand<string>(x =>
+            {
+                try
+                {
+                    var sysEnabled = 0;
+
+                    if (x == "all")
+                        sysEnabled = 1;
+
+                    foreach (MainMenu item in _systems)
+                    {
+                        item.Enabled = sysEnabled;
+                    }
+
+                    Systems.Refresh();
+
+                }
+                catch (Exception) { }
+                
+            });
         }
 
         #endregion
 
-        #region Commands
-        private IEventAggregator _eventAggregator;
-        public DelegateCommand<Game> RemoveGameCommand { get; set; }
-        public DelegateCommand ClearListCommand { get; private set; }
-        public DelegateCommand SelectSettingsCommand { get; private set; }
-        public DelegateCommand BuildMultiSystemCommand { get; private set; }
-        public DelegateCommand ScanFavoritesCommand { get; private set; }
 
-        #endregion
-
-        #region Services
-        private IFileFolderService _fileFolderService;
-        private ISettingsRepo _settingsService;
-        private IMultiSystemRepo _multiSystemRepo;
-        private IHyperspinXmlService _xmlService;
-        private IMainMenuRepo _mainmenuRepo;
-        private IFavoriteService _favoriteService;
-        private IDialogCoordinator _dialogService;
-        #endregion
 
         #region Methods
 
@@ -190,24 +243,24 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                     }
                 }
 
-                
+
             }
-            catch {  }
-            
+            catch { }
+
 
             MultiSystemList = new ListCollectionView(_multiSystemRepo.MultiSystemList);
-            
+
         }
 
         private async void ScanFavoritesAsync()
         {
             var mahSettings = new MetroDialogSettings()
             {
-                AffirmativeButtonText = "Save",
+                AffirmativeButtonText = "Scan",
                 NegativeButtonText = "Cancel"
             };
 
-            var msg = "Scans all your systems for favorites. If a system was built previosly as a multi system, it will be skipped.";
+            var msg = "Search all systems for favorites. If a system was built previosly as a multi system it will be skipped.";
             var result = await _dialogService.ShowMessageAsync(this, "Scan all favorites", msg,
                 MessageDialogStyle.AffirmativeAndNegative, mahSettings);
 
@@ -217,7 +270,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             var tempGames = new List<Game>();
             _multiSystemRepo.MultiSystemList = new Games();
 
-            var progressResult = await _dialogService.ShowProgressAsync(this, "Scanning...", "Scan");
+            var progressResult = await _dialogService.ShowProgressAsync(this, "Favorite search", "Searching..");
             progressResult.SetCancelable(true);
 
             try
@@ -255,9 +308,9 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             }
 
             MultiSystemHeader = string.Format("Multi System Generator: {0} Pending",
-                _multiSystemRepo.MultiSystemList.Count);            
+                _multiSystemRepo.MultiSystemList.Count);
 
-            MultiSystemList = new ListCollectionView(_multiSystemRepo.MultiSystemList);            
+            MultiSystemList = new ListCollectionView(_multiSystemRepo.MultiSystemList);
 
         }
 
@@ -267,7 +320,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             {
                 if (!tempGames.Exists(x => x.RomName == game.RomName))
                 {
-                    tempGames.Add(game);                                        
+                    tempGames.Add(game);
                 }
 
                 tempGames.Sort();
@@ -338,8 +391,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 _multiSystemRepo.MultiSystemList.Count);
 
         }
-
-        
         /// <summary>
         /// Builds a database from the list.
         /// Creates all media folders and options to create symbolic links rather than duplicate media
@@ -359,12 +410,14 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             {
                 _xmlService.SerializeHyperspinXml(
                 _multiSystemRepo.MultiSystemList, MultiSystemName,
-                hsPath,"", true);
+                hsPath, "", true);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Saving xml: " + e.Message);
-                return; }
-            
+                return;
+            }
+
 
             // Add the new system to the main menu if it doesn't already exist
             // then serialize.
@@ -388,7 +441,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                     _xmlService.SerializeGenreXml(_multiSystemRepo.MultiSystemList, MultiSystemName, hsPath);
                 }
                 catch (Exception e) { _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Saving Genres: " + e.Message); };
-                
+
             }
 
             // Copy the settings template
@@ -536,6 +589,101 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
 
         }
+
+        private async Task RunCustomDialog()
+        {            
+
+            foreach (var item in _mainmenuRepo.Systems)
+            {
+                if (!item.Name.Contains("Main Menu"))
+                {
+                    _systems.Add(new MainMenu()
+                    {
+                        Name = item.Name,
+                        SysIcon = item.SysIcon,
+                        Enabled = 0
+                    });
+                }
+            }
+
+            Systems = new ListCollectionView(_systems);
+
+            customDialog = new CustomDialog() { Title = "Game Search" };
+
+            customDialog.Content = new SearchForGamesDialog { DataContext = this };
+
+            await _dialogService.ShowMetroDialogAsync(this, customDialog);
+
+        }
+
+        /// <summary>
+        /// Method to scan from button inside the custom search dialog
+        /// </summary>
+        /// <returns></returns>
+        private async Task ScanForGamesAsync()
+        {
+            //await _dialogService.HideMetroDialogAsync(this, customDialog);
+
+            try
+            {
+                if (_dialogService != null)
+                {
+                    var progressResult = await _dialogService.ShowProgressAsync(this, "Saving...", "");
+
+                    progressResult.SetCancelable(true);
+
+                    progressResult.SetMessage("Searching databases");
+
+                    foreach (MainMenu system in Systems)
+                    {
+                        if (system.Enabled == 1)
+                        {
+                            progressResult.SetMessage("System: " + system.Name);
+
+                            await Task.Delay(100);
+                        }
+
+                        if (progressResult.IsCanceled)
+                        {
+                            progressResult.SetTitle("Search cancelled");
+                            await progressResult.CloseAsync();
+
+                            await ShowCancelGamesSearch();
+                            
+                            break;
+                        }
+                    }
+
+                    progressResult.SetCancelable(false);
+
+                    if (!progressResult.IsCanceled)
+                        progressResult.SetTitle("Search complete.");
+
+                    await Task.Delay(2000);
+
+                    await progressResult.CloseAsync();
+                }
+                else
+                    await Task.Delay(500);
+            }
+            catch (Exception) { }
+            
+        }
+
+        private async Task ShowCancelGamesSearch()
+        {
+            var controller = await _dialogService.ShowMessageAsync(this, "Scan cancelled", "Add found games?", MessageDialogStyle.AffirmativeAndNegative);
+
+            if (controller == MessageDialogResult.Affirmative)
+            {
+                // Add all games that have been scanned
+            }
+            else
+            {
+                // Clear the list and return to scan dialog
+            }
+        }
+
         #endregion
 
     }
