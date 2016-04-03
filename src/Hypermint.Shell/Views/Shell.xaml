@@ -14,9 +14,7 @@
                      TitleCaps="False" ShowMaxRestoreButton="True"
                       ShowCloseButton="True" ShowMinButton="True"
                       ResizeMode="CanResizeWithGrip"
-                      BorderThickness="2"
-                      NonActiveBorderBrush="Red"
-                      NonActiveWindowTitleBrush="Aquamarine">
+                      BorderThickness="2">
 
     <metro:MetroWindow.LeftWindowCommands>
         <metro:WindowCommands>
