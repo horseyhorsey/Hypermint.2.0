@@ -41,9 +41,17 @@ namespace Hs.Hypermint.NavBar.ViewModels
             _systemName = systemName;
 
             if (systemName.Contains("Main Menu"))
-                _regionManager.RequestNavigate("ContentRegion", "MainMenuView");
+            {
+                _regionManager.Regions.Remove(RegionNames.FilesRegion);
+                _regionManager.RequestNavigate("ContentRegion", "MainMenuView");                
+            }
             else
+            {
+                if (!_regionManager.Regions.ContainsRegionWithName("FilesRegion"))
+                    _regionManager.Regions.Add(RegionNames.FilesRegion, _regionManager.Regions["FilesRegion"]);
+
                 _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
+            }
         }
 
         private void Navigate(string uri = "")

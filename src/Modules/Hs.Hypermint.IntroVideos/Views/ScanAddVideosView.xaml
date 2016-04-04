@@ -1,24 +1,30 @@
 ﻿<UserControl x:Class="Hs.Hypermint.IntroVideos.Views.ScanAddVideosView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"           
-             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"     
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
 
     <Grid>
-        <GroupBox Header="Available videos" Grid.Row="1">
+        <GroupBox Header="{Binding SelectedAvailableHeader}" Grid.Row="1">
             <!--List for videos-->
-            <DataGrid BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="3"
-                  ItemsSource="{Binding GameVideos}" VerticalAlignment="Stretch">
-                <DataGrid.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel>
-                            <TextBlock Text="{Binding FileName}" />
-                            <TextBlock Text="{Binding Format}"/>
-                            <TextBlock Text="{Binding FrameRate}"/>
-                        </DockPanel>
-                    </DataTemplate>
-                </DataGrid.ItemTemplate>
+            <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                      BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="3"
+                  ItemsSource="{Binding VideoList}" VerticalAlignment="Stretch">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction 
+                            Command="{Binding SelectionAvailableChanged}" 
+                            CommandParameter="{Binding SelectedItems,
+                            ElementName=DatabaseGrid}">
+                        </prism:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="File" Binding="{Binding FileName}"/>
+                </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
     </Grid>
