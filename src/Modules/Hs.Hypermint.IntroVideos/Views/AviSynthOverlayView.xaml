@@ -3,14 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             >
     <GroupBox Header="Overlay" ToolTip="Overlay a wheel image onto the video output">
         <!-- Overlay wheel images on video params-->
 
         <StackPanel >
             <StackPanel >
-                <CheckBox Content="Enabled" Margin="2" IsChecked="{Binding OverlayOn}"/>
-                <CheckBox Content="Resize" Margin="2" IsChecked="{Binding ResizeOn}" IsEnabled="{Binding OverlayOn}" ToolTip="Resize the wheel image"/>
+                <CheckBox Content="Enabled" Margin="2" IsChecked="{Binding Overlay}"/>
+                <CheckBox Content="Resize" Margin="2" IsChecked="{Binding ResizeOverlay}" 
+                          IsEnabled="{Binding Overlay}" ToolTip="Resize the wheel image"/>
             </StackPanel>
             
             <StackPanel IsEnabled="{Binding OverlayOn}" >
