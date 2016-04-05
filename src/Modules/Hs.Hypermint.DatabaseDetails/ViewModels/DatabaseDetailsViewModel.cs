@@ -340,12 +340,12 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #region Methods
         /// <summary>
         /// Update games list event handler
-        /// Published by selecting Systems in left system list
+        /// Published by selecting Systems in left system list        
         /// </summary>
         /// <param name="systemName"></param>
         private void UpdateGames(string dbName)
         {
-            _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Status: ");
+            _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Status: ");            
 
             var hsPath = _settingsRepo.HypermintSettings.HsPath;
 

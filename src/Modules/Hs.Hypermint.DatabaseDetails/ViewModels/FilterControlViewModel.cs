@@ -1,8 +1,10 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Base;
+using Hypermint.Base.Events;
 using Hypermint.Base.Models;
 using Prism.Events;
 using System.Collections.Generic;
+using System;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -10,6 +12,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
     {        
         private IEventAggregator _eventAggregator;
 
+        private bool systemChanging;
         #region Properties
         private string filterText;
         public string FilterText
@@ -51,6 +54,18 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public FilterControlViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(RemoveFilters);
+        }
+
+        private void RemoveFilters(string obj)
+        {
+            systemChanging = true;
+            FilterText = "";
+            ShowClones = true;
+            ShowFavoritesOnly = false;
+            ShowEnabledOnly = false;
+            systemChanging = false;
         }
 
         /// <summary>
@@ -59,16 +74,21 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// <param name="propertyName"></param>
         protected override void OnPropertyChanged(string propertyName)
         {
-            //Add the options to a dictionary passed to the filter
-            var filterOptions = new GameFilter
-            {
-                FilterText = FilterText,
-                ShowClones = ShowClones,
-                ShowFavoritesOnly = ShowFavoritesOnly,
-                ShowEnabledOnly = ShowEnabledOnly
-            };            
+            base.OnPropertyChanged(propertyName);
 
-            _eventAggregator.GetEvent<GameFilteredEvent>().Publish(filterOptions);            
+            if (!systemChanging)
+            {
+                //Add the options to a dictionary passed to the filter
+                var filterOptions = new GameFilter
+                {
+                    FilterText = FilterText,
+                    ShowClones = ShowClones,
+                    ShowFavoritesOnly = ShowFavoritesOnly,
+                    ShowEnabledOnly = ShowEnabledOnly
+                };
+
+                _eventAggregator.GetEvent<GameFilteredEvent>().Publish(filterOptions);
+            }         
                         
         }
     }
