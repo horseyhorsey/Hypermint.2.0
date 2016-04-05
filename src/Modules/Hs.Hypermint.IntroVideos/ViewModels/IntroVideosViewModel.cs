@@ -24,7 +24,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         public IntroVideosViewModel(IRegionManager manager, IFileFolderChecker fileChecker,
             IEventAggregator ea, ISettingsRepo settings, IAviSynthScripter aviSythnScripter,
-            ISelectedService selected)
+            ISelectedService selected, IFolderExplore folderexplorer)
         {
             _regionManager = manager;
             _fileFolderChecker = fileChecker;
@@ -32,6 +32,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             _settings = settings;
             _selectedService = selected;
             _avisynthScripter = aviSythnScripter;
+            _folderExplorer = folderexplorer;
 
             processVideos = new List<IntroVideo>();
             scannedVideos = new List<IntroVideo>();
@@ -45,6 +46,10 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             AddSelectedCommand = new DelegateCommand(AddVideos);
             ScanFormatCommand = new DelegateCommand(ScanFormat);
             SaveScriptCommand = new DelegateCommand(SaveScript);
+            OpenExportFolderCommand = new DelegateCommand(() =>
+            {
+                _folderExplorer.OpenFolder("exports");
+            });
 
             try
             {
@@ -149,6 +154,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         private ISettingsRepo _settings;
         private ISelectedService _selectedService;
         private IAviSynthScripter _avisynthScripter;
+        private IFolderExplore _folderExplorer;
         #endregion
 
         #region Collections
@@ -266,7 +272,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             get { return wheelPosX; }
             set { SetProperty(ref wheelPosX, value); }
         }
-        private int wheelPosY = 420;
+        private int wheelPosY = 420;        
         public int WheelPosY
         {
             get { return wheelPosY; }
@@ -281,7 +287,8 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         public DelegateCommand AddSelectedCommand { get; private set; }
         public DelegateCommand<string> RemoveVideosCommand { get; private set; }
         public DelegateCommand ScanFormatCommand { get; private set; }
-        public DelegateCommand SaveScriptCommand { get; private set; } 
+        public DelegateCommand SaveScriptCommand { get; private set; }
+        public DelegateCommand OpenExportFolderCommand { get; private set; }
         #endregion
 
         #region Methods

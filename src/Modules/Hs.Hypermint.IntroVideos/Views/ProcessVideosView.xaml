@@ -63,7 +63,7 @@
 
                     <!--Open scripts output folder-->
                     <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
-                    Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
+                    Command="{Binding OpenExportFolderCommand}"
                     ToolTip="Exports folder" Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}">
                         <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                             <Rectangle.OpacityMask>
