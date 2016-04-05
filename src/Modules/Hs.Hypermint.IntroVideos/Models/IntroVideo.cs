@@ -13,5 +13,7 @@ namespace Hs.Hypermint.IntroVideos.Models
         public string Format { get; set; }
 
         public double FrameRate { get; set; }
+
+        public TimeSpan Duration { get; set; }
     }
 }
