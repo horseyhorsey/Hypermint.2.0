@@ -8,7 +8,7 @@
         <DockPanel VerticalAlignment="Top">
 
             <Label Margin="5" Content="Random"></Label>
-            <metro:NumericUpDown Minimum="0" Maximum="2000" Height="20" Value="{Binding RandomCount}"/>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" Height="20" Value="{Binding RandomCount}"/>
 
                 <!--Grab random videos-->
                 <Button HorizontalAlignment="Center" VerticalAlignment="Top" Margin="2" 
