@@ -302,6 +302,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             try
             {
                 processVideos.Clear();
+                VideoToProcessList.Refresh();
                 scannedVideos.Clear();
 
                 var systemVideoPath = _settings.HypermintSettings.HsPath +
