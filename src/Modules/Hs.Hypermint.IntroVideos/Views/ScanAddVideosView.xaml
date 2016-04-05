@@ -24,6 +24,9 @@
                 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="File" Binding="{Binding FileName}"/>
+                    <DataGridTextColumn Header="Dimensions" Binding="{Binding Format}"/>
+                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}"/>
+                    <DataGridTextColumn Header="FrameRate" Binding="{Binding FrameRate}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
