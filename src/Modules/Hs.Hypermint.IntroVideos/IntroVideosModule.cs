@@ -1,5 +1,6 @@
 ﻿using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
+using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 
@@ -18,7 +19,10 @@ namespace Hs.Hypermint.IntroVideos
 
         public override void Initialize()
         {
+            UnityContainer.RegisterType<IAviSynthScripter, AviSynthScripter>();
+
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.IntroVideosView));
+            
         }
     }
 }
