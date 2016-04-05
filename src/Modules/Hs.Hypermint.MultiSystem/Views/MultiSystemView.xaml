@@ -145,10 +145,10 @@
                                         IsChecked="{Binding CreateSymbolicLinks}" OffLabel="No" Width="90" Margin="5"
                                         ToolTip="Create symbolic links for media. (Run app as administrator"/>
                     <metro:ToggleSwitch Width="90" Header="Theme" OnLabel="Yes" OffLabel="No" Margin="5"
-                  ToolTip="Make links to the current systems default.zip theme if game theme doesn't exist"                   
+                  ToolTip="If a theme.zip doesn't exist for a game, copy the systems default.zip theme in place, so you have a theme for each game"                   
                   IsChecked="{Binding DefaultTheme}" IsEnabled="{Binding CreateSymbolicLinks}"/>
                     <metro:ToggleSwitch Header="Rom Map" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
-                  ToolTip="Creates a Games.ini for Rocketlauncher rom mapping"
+                  ToolTip="Creates a Games.ini for Rocketlauncher rom mapping."
                   IsChecked="{Binding CreateRomMap}"/>
 
                     <metro:ToggleSwitch Header="Genre lists" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
@@ -158,7 +158,7 @@
                     <!--Build Multi System-->
                     <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3"
                             Command="{Binding BuildMultiSystemCommand}"
-                VerticalAlignment="Bottom" ToolTip="Build multi-system" 
+                VerticalAlignment="Bottom" ToolTip="Run builder" 
                 Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
                         <Rectangle Width="16"
                        Height="16"
