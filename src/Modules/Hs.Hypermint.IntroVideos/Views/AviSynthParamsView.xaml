@@ -9,11 +9,11 @@
             <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding StartFrame,UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="End" ToolTip="Frame number to end on each video"></Label>
             <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding EndFrame}"/>
-            <Label Content="Dissolve" ToolTip="Frame number to end on each video"></Label>
+            <Label Content="Dissolve" ToolTip="Frames to dissolve into each video"></Label>
             <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding DissolveAmount}"/>
-            <Label Content="Fade In" ToolTip="Frame number to end on each video"></Label>
+            <Label Content="Fade In" ToolTip="Output video fade in time (frames)"></Label>
             <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding FadeIn}"/>
-            <Label Content="Fade Out" ToolTip="Frame number to end on each video"></Label>
+            <Label Content="Fade Out" ToolTip="Output video fade out time (frames)"></Label>
             <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding FadeOut}"/>
         </StackPanel>
     </GroupBox>
