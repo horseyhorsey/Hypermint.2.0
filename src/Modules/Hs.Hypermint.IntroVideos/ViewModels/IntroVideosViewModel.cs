@@ -1,7 +1,11 @@
 ﻿using Hs.Hypermint.IntroVideos.Models;
+using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Models;
+using Hypermint.Base.Services;
+using MediaToolkit.Model;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -15,25 +19,43 @@ using System.Windows.Data;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
-    public class IntroVideosViewModel : BindableBase
+    public class IntroVideosViewModel : ViewModelBase
     {
 
         public IntroVideosViewModel(IRegionManager manager, IFileFolderChecker fileChecker,
-            IEventAggregator ea, ISettingsRepo settings)
+            IEventAggregator ea, ISettingsRepo settings, IAviSynthScripter aviSythnScripter,
+            ISelectedService selected)
         {
             _regionManager = manager;
             _fileFolderChecker = fileChecker;
             _eventAggregator = ea;
             _settings = settings;
+            _selectedService = selected;
+            _avisynthScripter = aviSythnScripter;
 
             processVideos = new List<IntroVideo>();
+            scannedVideos = new List<IntroVideo>();
             VideoToProcessList = new ListCollectionView(processVideos);
+
+            AviSynthOptions = new AviSynthOption();
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(x => SystemChanged(x));
 
             RandomVideoCommand = new DelegateCommand(GrabRandomVideos);
             AddSelectedCommand = new DelegateCommand(AddVideos);
-            RemoveVideosCommand = new DelegateCommand(RemoveVideos);
+            ScanFormatCommand = new DelegateCommand(ScanFormat);
+            SaveScriptCommand = new DelegateCommand(SaveScript);
+
+            try
+            {
+                RemoveVideosCommand = new DelegateCommand<string>(RemoveVideos);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message); 
+                throw;
+            }
+            
 
             SelectionAvailableChanged = new DelegateCommand<IList>(items =>
             {
@@ -125,9 +147,11 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         private IEventAggregator _eventAggregator;
         private IFileFolderChecker _fileFolderChecker;
         private ISettingsRepo _settings;
+        private ISelectedService _selectedService;
+        private IAviSynthScripter _avisynthScripter;
         #endregion
 
-        #region Properties
+        #region Collections
         private ICollectionView videoList;
         public ICollectionView VideoList
         {
@@ -144,6 +168,16 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         private List<IntroVideo> scannedVideos;
         private List<IntroVideo> processVideos;
+        #endregion
+
+        #region Properties      
+
+        private AviSynthOption aviSynthOptions;
+        public AviSynthOption AviSynthOptions
+        {
+            get { return aviSynthOptions; }
+            set { SetProperty(ref aviSynthOptions, value); }
+        }
 
         private string selectedAvailableHeader;
         public string SelectedAvailableHeader
@@ -168,7 +202,76 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         public int SelectedAvailableItemsCount { get; private set; }
         public int SelectedprocessItemsCount { get; private set; }
-        
+
+        #endregion
+
+        #region AviSynthProperties
+        private bool overlay;
+        public bool Overlay
+        {
+            get { return overlay; }
+            set { SetProperty(ref overlay, value); }
+        }
+        private bool resizeOverlay;
+        public bool ResizeOverlay
+        {
+            get { return resizeOverlay; }
+            set { SetProperty(ref resizeOverlay, value); }
+        }
+        private int startFrame = 60;
+        public int StartFrame
+        {
+            get { return startFrame; }
+            set { SetProperty(ref startFrame, value); }
+        }
+        private int endFrame = 300;
+        public int EndFrame
+        {
+            get { return endFrame; }
+            set { SetProperty(ref endFrame, value); }
+        }
+        private int dissolveAmount = 2;
+        public int DissolveAmount
+        {
+            get { return dissolveAmount; }
+            set { SetProperty(ref dissolveAmount, value); }
+        }
+        private int fadeIn = 2;
+        public int FadeIn
+        {
+            get { return fadeIn; }
+            set { SetProperty(ref fadeIn, value); }
+        }
+        private int fadeOut = 2;
+        public int FadeOut
+        {
+            get { return fadeOut; }
+            set { SetProperty(ref fadeOut, value); }
+        }
+        private int resizeWidth = 200;
+        public int ResizeWidth
+        {
+            get { return resizeWidth; }
+            set { SetProperty(ref resizeWidth, value); }
+        }
+        private int resizeHeight = 50;
+        public int ResizeHeight
+        {
+            get { return resizeHeight; }
+            set { SetProperty(ref resizeHeight, value); }
+        }
+        private int wheelPosX = 3;
+        public int WheelPosX
+        {
+            get { return wheelPosX; }
+            set { SetProperty(ref wheelPosX, value); }
+        }
+        private int wheelPosY = 420;
+        public int WheelPosY
+        {
+            get { return wheelPosY; }
+            set { SetProperty(ref wheelPosY, value); }
+        }
         #endregion
 
         #region Commands
@@ -176,7 +279,9 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         public DelegateCommand<IList> SelectionAvailableChanged { get; set; }
         public DelegateCommand<IList> SelectionProcessChanged { get; set; }        
         public DelegateCommand AddSelectedCommand { get; private set; }
-        public DelegateCommand RemoveVideosCommand { get; private set; }
+        public DelegateCommand<string> RemoveVideosCommand { get; private set; }
+        public DelegateCommand ScanFormatCommand { get; private set; }
+        public DelegateCommand SaveScriptCommand { get; private set; } 
         #endregion
 
         #region Methods
@@ -190,6 +295,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             try
             {
                 processVideos.Clear();
+                scannedVideos.Clear();
 
                 var systemVideoPath = _settings.HypermintSettings.HsPath +
                     "\\Media\\" + systemName + "\\" + Root.Video;
@@ -207,7 +313,6 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         {
             try
             {
-                scannedVideos = new List<IntroVideo>();
 
                 var videoFiles =
                     _fileFolderChecker.GetFiles(hyperSpinVideoPath + "\\", videoExtFilter);
@@ -231,22 +336,38 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         private void GrabRandomVideos()
         {
+            if (scannedVideos.Count <= 0) return;
+
+            if (randomCount > scannedVideos.Count) return;
+
             try
             {
-                var random = new Random(scannedVideos.Count);
-
-                for (int i = 0; i < randomCount; i++)
+                // Add all videos
+                if (randomCount == scannedVideos.Count)
                 {
-
-                    var randomVideo = scannedVideos[random.Next(scannedVideos.Count)];
-
-                    processVideos.Add(randomVideo);                    
-                    scannedVideos.Remove(randomVideo);
+                    foreach (var item in scannedVideos)
+                    {
+                        processVideos.Add(item);
+                        scannedVideos.Remove(item);
+                    }                                        
                 }
+                else
+                {
+                    // Add random
+                    var random = new Random(scannedVideos.Count);
 
-                VideoToProcessList.Refresh();
-                VideoList.Refresh();
+                    for (int i = 0; i < randomCount; i++)
+                    {
 
+                        var randomVideo = scannedVideos[random.Next(scannedVideos.Count)];
+
+                        processVideos.Add(randomVideo);
+                        scannedVideos.Remove(randomVideo);
+                    }
+
+                    VideoToProcessList.Refresh();
+                    VideoList.Refresh();
+                }
             }
             catch (Exception)
             {
@@ -269,18 +390,115 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             VideoToProcessList.Refresh();
         }
 
-        private void RemoveVideos()
+        /// <summary>
+        /// Remove selected or clears whole list
+        /// Note: using a string for delegate command?
+        /// </summary>
+        /// <param name="removeSelected"></param>
+        private void RemoveVideos(string removeSelected = "true")
         {
-            if (SelectedProcessVideos.Count <= 0) return;
+            if (processVideos.Count <= 0) return;
 
-            foreach (var item in SelectedProcessVideos)
+            if (removeSelected == "true")
             {
-                scannedVideos.Add(item);
-                processVideos.Remove(item);
+                if (SelectedProcessVideos.Count <= 0) return;
+
+                foreach (var video in SelectedProcessVideos)
+                {
+                    scannedVideos.Add(video);
+                    processVideos.Remove(video);
+                }
             }
+            else
+            {
+
+                foreach (IntroVideo video in VideoToProcessList)
+                {
+                    scannedVideos.Add(video);
+                }
+
+                processVideos.Clear();
+            }
+
 
             VideoList.Refresh();
             VideoToProcessList.Refresh();
+        }
+
+        private void SaveScript()
+        {
+            if (processVideos.Count < 2) return;            
+
+            aviSynthOptions = new AviSynthOption()
+            {
+               DissolveAmount = DissolveAmount,
+               StartFrame = StartFrame,
+               EndFrame = EndFrame,
+               FadeIn = FadeIn,
+               FadeOut = FadeOut,
+               ResizeHeight = ResizeHeight,
+               ResizeWidth = ResizeWidth,
+               WheelPosX = WheelPosX,
+               WheelPosY = WheelPosY,              
+                };
+
+            string[] videos = new string[processVideos.Count];
+            var i = 0;
+            foreach (var video in processVideos)
+            {
+                videos[i] = video.FileName;
+                i++;
+            }
+
+            var wheelPath = _settings.HypermintSettings.HsPath + "\\Media\\" + _selectedService.CurrentSystem + "\\" +
+                Images.Wheels + "\\";
+
+            _avisynthScripter.CreateScript(videos, aviSynthOptions, _selectedService.CurrentSystem, Overlay,ResizeOverlay, wheelPath);
+        }
+
+        private void ScanFormat()
+        {
+            foreach (var video in processVideos)
+            {
+                try
+                {
+                    if (video.FrameRate == 0)
+                    {
+                        if (_fileFolderChecker.FileExists(video.FileName))
+                        {
+                            var inputFile = new MediaFile { Filename = video.FileName };
+                            var GetFrameSize = "";
+
+                            try
+                            {
+                                using (var engine = new MediaToolkit.Engine())
+                                {
+                                    engine.GetMetadata(inputFile);
+                                    video.Format = inputFile.Metadata.VideoData.FrameSize;
+                                    video.FrameRate = inputFile.Metadata.VideoData.Fps;
+                                    video.Duration = inputFile.Metadata.Duration.Duration();
+                                    engine.Dispose();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    System.Windows.MessageBox.Show(ex.InnerException.Message);
+
+                }
+
+            }
+
+            VideoToProcessList.Refresh();
+
         }
         #endregion
     }
