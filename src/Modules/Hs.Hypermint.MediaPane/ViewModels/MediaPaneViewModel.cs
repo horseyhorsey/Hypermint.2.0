@@ -42,6 +42,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetImageGame);
+            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetImageWheelPreview);
             //
         }
 
@@ -92,6 +93,23 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 WheelSource = _selectedService.GameImage;
             }
 
+        }
+
+
+        private void SetImageWheelPreview(string imagePath)
+        {
+            WheelSource = null;
+            VideoSource = null;
+
+            if (!File.Exists(imagePath))
+                WheelSource = _selectedService.SystemImage;
+            else
+            {
+                var fullpath = Path.GetFullPath(imagePath);
+                _selectedService.GameImage =
+                    SelectedService.SetBitmapFromUri(new Uri(fullpath));
+                WheelSource = _selectedService.GameImage;
+            }
         }
 
         private void SetSound(string soundPath)

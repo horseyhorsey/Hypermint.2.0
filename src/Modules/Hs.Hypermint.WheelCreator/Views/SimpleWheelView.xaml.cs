@@ -11,6 +11,11 @@ namespace Hs.Hypermint.WheelCreator.Views
         {
             InitializeComponent();
         }
+
+        private void ColorPicker_SelectedColorChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
+        {
+            
+        }
     }
 
 }
