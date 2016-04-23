@@ -17,7 +17,7 @@ namespace Hs.Hypermint.Services
         public void LoadHypermintSettings()
         {
 
-            var settingsPath = Directory.GetCurrentDirectory() + "settings.bin";
+            var settingsPath = "settings.bin";
 
             if (!File.Exists(settingsPath))
             {
