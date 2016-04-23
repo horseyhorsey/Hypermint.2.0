@@ -112,6 +112,7 @@ namespace Hypermint.Shell.ViewModels
         private void saveHypermintSettings()
         {
             _hyperMintSettings.SaveHypermintSettings();
+            
         }
 
         #region Theme Properties            

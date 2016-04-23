@@ -70,7 +70,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         {
             _mainMenuRepo = main;            
             _settingsRepo = settings;
-            _settingsRepo.LoadHypermintSettings();
+            //_settingsRepo.LoadHypermintSettings();
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.Shell", "src\Hypermint.Shell\Hypermint.Shell.csproj", "{989C2D81-B19B-463C-BFFC-343087E7E5F9}"
 EndProject
@@ -42,10 +42,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.RocketLauncher.AuditBase", "src\DataModels\Hs.RocketLauncher.AuditBase\Hs.RocketLauncher.AuditBase.csproj", "{58B8C436-93DE-4025-8DBB-430E86F6296E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.HyperspinFile", "src\Modules\Hs.Hypermint.HyperspinFile\Hs.Hypermint.HyperspinFile.csproj", "{A95D1749-9183-4B23-81BC-253FEDA2CB58}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.WheelCreatorMagickNetGenImage", "Hs.Hypermint.WheelCreatorMagickNetGenImage\Hs.Hypermint.WheelCreatorMagickNetGenImage.csproj", "{FC794A9E-C48D-46B7-87B0-9D28C68FD7B4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.WheelCreatorTests", "Hs.Hypermint.WheelCreatorTests\Hs.Hypermint.WheelCreatorTests.csproj", "{8232CE56-742F-411E-8316-940295AA9322}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,14 +121,6 @@ Global
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC794A9E-C48D-46B7-87B0-9D28C68FD7B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC794A9E-C48D-46B7-87B0-9D28C68FD7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC794A9E-C48D-46B7-87B0-9D28C68FD7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC794A9E-C48D-46B7-87B0-9D28C68FD7B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8232CE56-742F-411E-8316-940295AA9322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8232CE56-742F-411E-8316-940295AA9322}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8232CE56-742F-411E-8316-940295AA9322}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8232CE56-742F-411E-8316-940295AA9322}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
