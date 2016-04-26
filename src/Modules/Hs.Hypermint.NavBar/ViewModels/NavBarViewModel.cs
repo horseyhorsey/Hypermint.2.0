@@ -70,16 +70,19 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
                 case "RlMediaAuditView":
                     CurrentView += "RocketLaunch media audit";
-                    _regionManager.RequestNavigate("FilesRegion", "FilesView");
+                    _regionManager.RequestNavigate("FilesRegion", "FilesView");                    
                     break;
                 case "IntroVideosView":
                     CurrentView += "Hyperspin video intros";
+                    RemoveAllFilesRegionViews();
                     break;
                 case "MultiSystemView":
                     CurrentView += "Hyperspin multiple system generator";
+                    RemoveAllFilesRegionViews();
                     break;
                 case "SimpleWheelView":
                     CurrentView += "Simple wheel creator";
+                    RemoveAllFilesRegionViews();
                     break;
                 default:                    
                     break;
@@ -90,6 +93,14 @@ namespace Hs.Hypermint.NavBar.ViewModels
             else
                 _regionManager.RequestNavigate("ContentRegion", uri);
 
+        }
+
+        private void RemoveAllFilesRegionViews()
+        {            
+            foreach (var view in _regionManager.Regions["FilesRegion"].Views)
+            {
+                _regionManager.Regions["FilesRegion"].Deactivate(view);
+            }
         }
 
 
