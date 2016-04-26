@@ -16,15 +16,15 @@
             
             <StackPanel IsEnabled="{Binding OverlayOn}" >
                 <Label Content="Pos X"></Label>
-                <metro:NumericUpDown Minimum="0" Maximum="2000" Value="{Binding WheelPosX}"/>
+                <metro:NumericUpDown Minimum="0" Maximum="2000" IsEnabled="{Binding Overlay}" Value="{Binding WheelPosX}"/>
                 <Label Content="Pos Y"></Label>
-                <metro:NumericUpDown Minimum="0" Maximum="2000" Value="{Binding WheelPosY}"/>
+                <metro:NumericUpDown Minimum="0" Maximum="2000" IsEnabled="{Binding Overlay}" Value="{Binding WheelPosY}"/>
 
                 <StackPanel IsEnabled="{Binding ResizeOn}">
                     <Label Content="Width"></Label>
-                    <metro:NumericUpDown Minimum="0" Maximum="2000" Value="{Binding ResizeWidth}"/>
+                    <metro:NumericUpDown Minimum="0" IsEnabled="{Binding ResizeOverlay}" Maximum="2000" Value="{Binding ResizeWidth}"/>
                     <Label Content="Height"></Label>
-                    <metro:NumericUpDown Minimum="0" Maximum="2000" Value="{Binding ResizeHeight}"/>
+                    <metro:NumericUpDown Minimum="0" IsEnabled="{Binding ResizeOverlay}" Maximum="2000" Value="{Binding ResizeHeight}"/>
                 </StackPanel>
             </StackPanel>
             
