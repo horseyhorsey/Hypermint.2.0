@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.RocketLauncher.AuditBase
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.HyperspinFile", "src\Modules\Hs.Hypermint.HyperspinFile\Hs.Hypermint.HyperspinFile.csproj", "{A95D1749-9183-4B23-81BC-253FEDA2CB58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Search", "src\Modules\Hs.Hypermint.Search\Hs.Hypermint.Search.csproj", "{035B43C5-944A-4EAC-88B8-BEC5FDD26846}"
+EndProject
 Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
@@ -124,6 +126,10 @@ Global
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{035B43C5-944A-4EAC-88B8-BEC5FDD26846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{035B43C5-944A-4EAC-88B8-BEC5FDD26846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{035B43C5-944A-4EAC-88B8-BEC5FDD26846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{035B43C5-944A-4EAC-88B8-BEC5FDD26846}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,5 +151,6 @@ Global
 		{5BB9C221-F83B-40BC-A322-99E537AC07E2} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{58B8C436-93DE-4025-8DBB-430E86F6296E} = {93FF07FF-821C-48FF-AC5F-EB934D6B0A6B}
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
+		{035B43C5-944A-4EAC-88B8-BEC5FDD26846} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 	EndGlobalSection
 EndGlobal

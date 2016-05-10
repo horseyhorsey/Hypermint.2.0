@@ -109,8 +109,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         public DelegateCommand BuildMultiSystemCommand { get; private set; }
         public DelegateCommand ScanFavoritesCommand { get; private set; }
         public DelegateCommand<string> OpenSearchCommand { get; private set; }
-        public DelegateCommand CloseCommand { get; private set; }
-        public DelegateCommand<string> SearchGamesCommand { get; private set; }
+        public DelegateCommand CloseCommand { get; private set; }        
         public DelegateCommand<string> SelectSystemsCommand { get; private set; }
         #endregion
 
@@ -166,11 +165,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 await RunCustomDialog();
             });
 
-            SearchGamesCommand = new DelegateCommand<string>(async x =>
-            {
-                await ScanForGamesAsync();
-            });
-
             SelectSystemsCommand = new DelegateCommand<string>(x =>
             {
                 try
@@ -194,8 +188,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         }
 
         #endregion
-
-
 
         #region Methods
 
@@ -614,60 +606,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
 
-        }
-
-        /// <summary>
-        /// Method to scan from button inside the custom search dialog
-        /// </summary>
-        /// <returns></returns>
-        private async Task ScanForGamesAsync()
-        {
-            //await _dialogService.HideMetroDialogAsync(this, customDialog);
-
-            try
-            {
-                if (_dialogService != null)
-                {
-                    var progressResult = await _dialogService.ShowProgressAsync(this, "Saving...", "");
-
-                    progressResult.SetCancelable(true);
-
-                    progressResult.SetMessage("Searching databases");
-
-                    foreach (MainMenu system in Systems)
-                    {
-                        if (system.Enabled == 1)
-                        {
-                            progressResult.SetMessage("System: " + system.Name);
-
-                            await Task.Delay(100);
-                        }
-
-                        if (progressResult.IsCanceled)
-                        {
-                            progressResult.SetTitle("Search cancelled");
-                            await progressResult.CloseAsync();
-
-                            await ShowCancelGamesSearch();
-                            
-                            break;
-                        }
-                    }
-
-                    progressResult.SetCancelable(false);
-
-                    if (!progressResult.IsCanceled)
-                        progressResult.SetTitle("Search complete.");
-
-                    await Task.Delay(2000);
-
-                    await progressResult.CloseAsync();
-                }
-                else
-                    await Task.Delay(500);
-            }
-            catch (Exception) { }
-            
         }
 
         private async Task ShowCancelGamesSearch()

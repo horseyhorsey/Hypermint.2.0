@@ -33,19 +33,6 @@
                     </Rectangle>
                 </Button>
 
-                <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
-                        Command="{Binding OpenSearchCommand}"
-                VerticalAlignment="Top" ToolTip="Search for games to add." 
-                Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
-                    <Rectangle Width="16"
-                       Height="16"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill"
-                                 Visual="{DynamicResource appbar_magnify}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
                 <!--Clears the list-->
                 <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
                         Command="{Binding ClearListCommand}"

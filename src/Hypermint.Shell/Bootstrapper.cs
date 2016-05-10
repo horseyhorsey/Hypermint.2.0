@@ -17,6 +17,7 @@ using Hs.Hypermint.WheelCreator.Views;
 using Hs.Hypermint.GameLaunch;
 using Hs.Hypermint.SidebarSystems.Views;
 using MahApps.Metro.Controls.Dialogs;
+using Hs.Hypermint.Search.Views;
 
 namespace Hypermint.Shell
 {
@@ -36,6 +37,7 @@ namespace Hypermint.Shell
             if (regionManager != null)
             {
                 regionManager.RegisterViewWithRegion(RegionNames.FlyoutRegion, typeof(SettingsFlyout));
+                regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
             }
 
             Application.Current.MainWindow = (Views.Shell)this.Shell;
@@ -58,6 +60,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Audits.AuditsModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.GameLaunch.GameLaunchModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.HyperspinFile.HyperspinFileModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.Search.SearchModule));
         }
 
         protected override void ConfigureContainer()
@@ -83,6 +86,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<HsMediaAuditView>("HsMediaAuditView");
             Container.RegisterTypeForNavigation<RlMediaAuditView>("RlMediaAuditView");
             Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");
+            Container.RegisterTypeForNavigation<SearchView>("SearchView");
 
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");
