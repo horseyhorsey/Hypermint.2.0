@@ -143,9 +143,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             if (romAndColumn[1] != columnHeader)
             {
                 columnHeader = romAndColumn[1];
-
-                GroupBoxHeader = "Unused Files: " + columnHeader;
-
+                
                 switch (columnHeader)
                 {
                     case "Wheel":
@@ -173,7 +171,8 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                         UnusedMediaFiles = null;
                         break;
                 }
-                
+
+                GroupBoxHeader = "Unused Files: " + columnHeader;
             }
         }
     }
