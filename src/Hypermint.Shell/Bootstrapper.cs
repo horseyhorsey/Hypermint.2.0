@@ -37,10 +37,11 @@ namespace Hypermint.Shell
             if (regionManager != null)
             {
                 regionManager.RegisterViewWithRegion(RegionNames.FlyoutRegion, typeof(SettingsFlyout));
-                regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
+                
             }
 
             Application.Current.MainWindow = (Views.Shell)this.Shell;
+            regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
             Application.Current.MainWindow.Show();
         }
 
@@ -80,6 +81,9 @@ namespace Hypermint.Shell
             Container.RegisterInstance<IGenreRepo>(Container.Resolve<GenreRepo>());
             Container.RegisterInstance<IGameLaunch>(Container.Resolve<GameLaunch>());
 
+            Container.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());
+
+            
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
             Container.RegisterTypeForNavigation<IntroVideosView>("IntroVideosView");

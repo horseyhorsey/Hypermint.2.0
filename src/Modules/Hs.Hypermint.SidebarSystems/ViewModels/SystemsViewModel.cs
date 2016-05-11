@@ -93,7 +93,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
             _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterSystemsByText);
 
-            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);
+            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);            
 
         }
 
@@ -124,6 +124,9 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
                 SystemsCount = _mainMenuRepo.Systems.Count - 1;
                 SystemsHeader = "Systems: " + SystemsCount;
+
+                _eventAggregator.GetEvent<SystemsGenerated>().Publish("");
+                
             }
         }
 

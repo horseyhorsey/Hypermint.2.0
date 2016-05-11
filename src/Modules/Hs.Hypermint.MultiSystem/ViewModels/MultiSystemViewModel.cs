@@ -90,15 +90,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { SetProperty(ref multiSystemHeader, value); }
         }
 
-        private ICollectionView systems;
-        public ICollectionView  Systems
-        {
-            get { return systems; }
-            set { SetProperty(ref systems, value); }
-        }
-
-        private Systems _systems = new Systems();
-
         #endregion
 
         #region Commands
@@ -109,8 +100,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         public DelegateCommand BuildMultiSystemCommand { get; private set; }
         public DelegateCommand ScanFavoritesCommand { get; private set; }
         public DelegateCommand<string> OpenSearchCommand { get; private set; }
-        public DelegateCommand CloseCommand { get; private set; }        
-        public DelegateCommand<string> SelectSystemsCommand { get; private set; }
+        public DelegateCommand CloseCommand { get; private set; }                
         #endregion
 
         #region Services
@@ -128,7 +118,8 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         #region Constructors
         public MultiSystemViewModel(IEventAggregator ea, IMultiSystemRepo multiSystem, IFileFolderService fileService,
             IDialogCoordinator dialogService,
-          ISettingsRepo settings, IHyperspinXmlService xmlService, IMainMenuRepo mainMenuRepo, IFavoriteService favoritesService)
+          ISettingsRepo settings, IHyperspinXmlService xmlService,
+          IMainMenuRepo mainMenuRepo, IFavoriteService favoritesService)
         {
             _eventAggregator = ea;
             _multiSystemRepo = multiSystem;
@@ -160,31 +151,11 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             ScanFavoritesCommand = new DelegateCommand(ScanFavoritesAsync);
 
-            OpenSearchCommand = new DelegateCommand<string>(async x =>
-            {
-                await RunCustomDialog();
-            });
+            //OpenSearchCommand = new DelegateCommand<string>(async x =>
+            //{
+            //    await RunCustomDialog();
+            //});
 
-            SelectSystemsCommand = new DelegateCommand<string>(x =>
-            {
-                try
-                {
-                    var sysEnabled = 0;
-
-                    if (x == "all")
-                        sysEnabled = 1;
-
-                    foreach (MainMenu item in _systems)
-                    {
-                        item.Enabled = sysEnabled;
-                    }
-
-                    Systems.Refresh();
-
-                }
-                catch (Exception) { }
-                
-            });
         }
 
         #endregion
@@ -579,32 +550,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.WheelSounds);
             Directory.CreateDirectory(newSystemMediaPath + "\\" + Root.Video);
 
-
-        }
-
-        private async Task RunCustomDialog()
-        {            
-
-            foreach (var item in _mainmenuRepo.Systems)
-            {
-                if (!item.Name.Contains("Main Menu"))
-                {
-                    _systems.Add(new MainMenu()
-                    {
-                        Name = item.Name,
-                        SysIcon = item.SysIcon,
-                        Enabled = 0
-                    });
-                }
-            }
-
-            Systems = new ListCollectionView(_systems);
-
-            customDialog = new CustomDialog() { Title = "Game Search" };
-
-            customDialog.Content = new SearchForGamesDialog { DataContext = this };
-
-            await _dialogService.ShowMetroDialogAsync(this, customDialog);
 
         }
 
