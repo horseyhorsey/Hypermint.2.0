@@ -4,11 +4,10 @@ using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
+using System.Reflection;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.Audits.ViewModels
@@ -19,7 +18,22 @@ namespace Hs.Hypermint.Audits.ViewModels
         private IGameRepo _gameRepo;
         private IAuditerRl _rocketAuditer;
 
-        
+        private string _selectedSystem;
+
+        private string currentColumnHeader;
+        public string CurrentColumnHeader
+        {
+            get { return currentColumnHeader; }
+            set { SetProperty(ref currentColumnHeader, value); }
+        }
+
+        private string currentColumnType;
+        public string CurrentColumnType
+        {
+            get { return currentColumnType; }
+            set { SetProperty(ref currentColumnType, value); }
+        }
+
         private ISettingsRepo _settingsRepo;
 
         private ICollectionView auditList;
@@ -36,8 +50,15 @@ namespace Hs.Hypermint.Audits.ViewModels
             set { SetProperty(ref auditListDefaults, value); }
         }
 
-        public RlMediaAuditViewModel(IEventAggregator eventAggregator,IGameRepo gameRepo
-            ,IAuditerRl rocketAuditer, ISettingsRepo settings)
+        public RocketLaunchAudit SelectedGame { get; set; }
+
+        public DelegateCommand BezelScanCommand { get; }
+        public DelegateCommand<object> CurrentCellChanged { get; set; }
+        public DelegateCommand PauseMediaScanCommand { get; private set; }
+        public DelegateCommand FadeScanCommand { get; private set; } 
+
+        public RlMediaAuditViewModel(IEventAggregator eventAggregator, IGameRepo gameRepo
+            , IAuditerRl rocketAuditer, ISettingsRepo settings)
         {
             _eventAggregator = eventAggregator;
             _gameRepo = gameRepo;
@@ -47,14 +68,111 @@ namespace Hs.Hypermint.Audits.ViewModels
             _rocketAuditer.RlAudits = new RocketLauncherAudits();
             _rocketAuditer.RlAuditsDefault = new RocketLauncherAudits();
 
+            CurrentCellChanged = new DelegateCommand<object>(
+             selectedGameCell =>
+             {
+                 CurrenCellChanged(selectedGameCell);
+             });
+
+            BezelScanCommand = new DelegateCommand(ScanBezel);
+            PauseMediaScanCommand = new DelegateCommand(ScanPauseMedia);
+            FadeScanCommand = new DelegateCommand(ScanFadeLayers);
+
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
 
+        }
+
+        private void CurrenCellChanged(object selectedGameCell)
+        {
+            try
+            {
+                //Using reflection to get the underlying DataGrid               
+                var datagridProperties =
+                     selectedGameCell.GetType().GetProperty("DataGridOwner",
+                     BindingFlags.Instance | BindingFlags.NonPublic).GetValue(selectedGameCell, null);
+
+                var dg = datagridProperties as DataGrid;
+                SelectedGame = dg.CurrentItem as RocketLaunchAudit;
+
+            }
+            catch (Exception) { return; }
+
+            try
+            {
+                var column = selectedGameCell as DataGridTextColumn;
+
+                CurrentColumnType = column.SortMemberPath;
+                CurrentColumnHeader = column.Header.ToString();
+
+            }
+            catch (Exception e) { }
+
+            _eventAggregator.GetEvent<UpdateFilesEvent>().Publish(
+                new string[] { currentColumnHeader, SelectedGame.RomName });
+
+        }
+
+        private void ScanPauseMedia()
+        {
+            if (!string.IsNullOrEmpty(_selectedSystem))
+            {                
+                _rocketAuditer.ScanForMultiGame(_selectedSystem,
+                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanForGuides(_selectedSystem,
+                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanForManuals(_selectedSystem,
+                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanForMusic(_selectedSystem,
+                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanSaves(_selectedSystem,
+                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanVideos(_selectedSystem,
+                _settingsRepo.HypermintSettings.RlMediaPath);
+
+                AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
+            }
+        }
+
+        private void ScanFadeLayers()
+        {
+            if (!string.IsNullOrEmpty(_selectedSystem))
+            {
+                _rocketAuditer.ScanFadeLayers(_selectedSystem,
+                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
+            }
+
+        }
+
+        /// <summary>
+        /// Scan the bezels folder for all cards, bezels & backgrounds.
+        /// </summary>
+        private void ScanBezel()
+        {
+            if (!string.IsNullOrEmpty(_selectedSystem))
+            {
+                _rocketAuditer.ScanForCards(_selectedSystem,
+                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanForBezels(_selectedSystem,
+                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
+            }
         }
 
         private void GamesUpdated(string systemName)
         {
             if (!systemName.Contains("Main Menu"))
             {
+                _selectedSystem = systemName;
+
                 if (_gameRepo.GamesList != null)
                 {
                     _rocketAuditer.RlAudits.Clear();
@@ -62,8 +180,8 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                     _rocketAuditer.RlAuditsDefault.Add(new RocketLaunchAudit()
                     {
-                        RomName = "_Default",   
-                        Description = ""                     
+                        RomName = "_Default",
+                        Description = ""
                     });
 
                     foreach (var game in _gameRepo.GamesList)
@@ -84,5 +202,6 @@ namespace Hs.Hypermint.Audits.ViewModels
             }
 
         }
+
     }
 }

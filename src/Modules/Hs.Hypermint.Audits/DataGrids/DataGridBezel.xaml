@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hs.Hypermint.Audits.DataGrids"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"   
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
 
@@ -22,11 +24,12 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
         <DataGrid Grid.Row="0" BorderThickness="4" AutoGenerateColumns="False"  IsSynchronizedWithCurrentItem="True" 
@@ -34,23 +37,45 @@
                   ItemsSource="{Binding AuditListDefaults}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="_Default Folder" Binding="{Binding RomName}"/>
-                <DataGridTextColumn Header="Bezel" Binding="{Binding HaveBezel}"/>
-                <DataGridTextColumn Header="Bg" Binding="{Binding HaveBezelBg}"/>
+                <DataGridTextColumn Header="Bezel" Binding="{Binding HaveBezels}"/>
+                <DataGridTextColumn Header="BezelBg" Binding="{Binding HaveBezelBg}"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
+        <DataGrid x:Name="DatabaseGridMainMenu"  Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
                    IsSynchronizedWithCurrentItem="True"
                    SelectionMode="Single" 
                   ItemsSource="{Binding AuditList}">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CurrentCellChanged">
+                    <prism:InvokeCommandAction 
+                            Command="{Binding CurrentCellChanged}" 
+                            CommandParameter="{Binding CurrentColumn,
+                            ElementName=DatabaseGridMainMenu,UpdateSourceTrigger=PropertyChanged}">
+                    </prism:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="RomName" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                <DataGridTextColumn Header="Bezel" Binding="{Binding HaveBezel}"/>
-                <DataGridTextColumn Header="Bg" Binding="{Binding HaveBezelBg}"/>
+                <DataGridTextColumn Header="Bezel" Binding="{Binding HaveBezels}"/>
+                <DataGridTextColumn Header="BezelBg" Binding="{Binding HaveBezelBg}"/>
                 <DataGridTextColumn Header="Cards" Binding="{Binding HaveCards}"/>
                 
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button Grid.Row="2" Command="{Binding BezelScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Scan bezels &amp; instruction cards" IsEnabled="{Binding ScanEnabled}">
+            <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
     </Grid>
 </UserControl>

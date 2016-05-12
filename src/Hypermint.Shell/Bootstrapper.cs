@@ -83,6 +83,9 @@ namespace Hypermint.Shell
 
             Container.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());
 
+            Container.RegisterType<IAuditerRl, AuditerRlRepo>(
+                new ContainerControlledLifetimeManager());
+
             
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");

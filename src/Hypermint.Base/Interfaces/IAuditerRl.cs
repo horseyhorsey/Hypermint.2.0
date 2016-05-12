@@ -15,6 +15,15 @@ namespace Hypermint.Base.Interfaces
 
         void ScanRocketLaunchMedia(string systemName, string rlMediaPath);
 
-        
+        void ScanForBezels(string systemName, string rlMediaPath);
+        void ScanForCards(string systemName, string rlMediaPath);
+        string[] GetFilesForMedia(string systemName, string romName, string rlMediaPath, string mediaType);
+        void ScanForMultiGame(string _selectedSystem, string rlMediaPath);
+        void ScanForGuides(string _selectedSystem, string rlMediaPath);
+        void ScanForManuals(string _selectedSystem, string rlMediaPath);
+        void ScanForMusic(string _selectedSystem, string rlMediaPath);
+        void ScanSaves(string _selectedSystem, string rlMediaPath);
+        void ScanVideos(string _selectedSystem, string rlMediaPath);
+        void ScanFadeLayers(string _selectedSystem, string rlMediaPath);
     }
 }

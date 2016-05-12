@@ -41,6 +41,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             _settingsRepo = settingsRepo;
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
+            _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe(SetMediaForRlAudit);
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetImageGame);
             _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetImageWheelPreview);
             //
@@ -95,15 +96,12 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
         }
 
-
         private void SetImageWheelPreview(string imagePath)
         {
             WheelSource = null;
             VideoSource = null;
 
-            if (!File.Exists(imagePath))
-                WheelSource = _selectedService.SystemImage;
-            else
+            if (File.Exists(imagePath))
             {
                 var fullpath = Path.GetFullPath(imagePath);
                 _selectedService.GameImage =
@@ -207,6 +205,32 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         private void SetImage(string obj)
         {
             WheelSource = _selectedService.SystemImage;
+        }
+
+        private void SetMediaForRlAudit(string file)
+        {
+            var extension = Path.GetExtension(file);
+
+            switch (extension)
+            {
+                case ".png":
+                case ".jpg":
+                    SetImageWheelPreview(file);
+                    break;
+                case ".avi":
+                case ".flv":
+                case ".mp4":
+                    SetVideo(file);
+                    break;
+                case ".mp3":
+                case ".wav":
+                    SetSound(file);
+                    break;
+                default:
+                    SetImageWheelPreview("");
+                    break;
+            }
+
         }
 
         #endregion

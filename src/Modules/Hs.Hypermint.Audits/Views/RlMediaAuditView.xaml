@@ -39,6 +39,7 @@
         <TabControl>
             <TabItem Header="Bezel-Cards">
                 <dataGrids:DataGridBezel/>
+                
             </TabItem>
             <TabItem Header="Pause">
                 <dataGrids:DataGridPause/>

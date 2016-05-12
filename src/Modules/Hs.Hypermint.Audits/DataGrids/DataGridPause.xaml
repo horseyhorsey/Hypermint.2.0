@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hs.Hypermint.Audits.DataGrids"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"  
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
 
@@ -27,36 +29,71 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0" BorderThickness="4" AutoGenerateColumns="False" 
+        <DataGrid  x:Name="DatabaseDefaultGridMainMenu"  Grid.Row="0" BorderThickness="4" AutoGenerateColumns="False" 
                    IsSynchronizedWithCurrentItem="True"
                   IsReadOnly="True" SelectionMode="Single" SelectionUnit="Cell"
                   ItemsSource="{Binding AuditListDefaults}">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CurrentCellChanged">
+                    <prism:InvokeCommandAction 
+                            Command="{Binding CurrentCellChanged}" 
+                            CommandParameter="{Binding CurrentColumn,
+                            ElementName=DatabaseDefaultGridMainMenu,UpdateSourceTrigger=PropertyChanged}">
+                    </prism:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="_Default Folder" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
                 <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
-                <DataGridTextColumn Header="MulitGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}"/>
                 <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
+        <DataGrid x:Name="DatabaseGridMainMenu"  Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
                    SelectionMode="Single"  IsSynchronizedWithCurrentItem="True"
                   ItemsSource="{Binding AuditList}">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CurrentCellChanged">
+                    <prism:InvokeCommandAction 
+                            Command="{Binding CurrentCellChanged}" 
+                            CommandParameter="{Binding CurrentColumn,
+                            ElementName=DatabaseGridMainMenu,UpdateSourceTrigger=PropertyChanged}">
+                    </prism:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="RomName" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                 <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
                 <DataGridTextColumn Header="Guide" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Manual" Binding="{Binding HaveManual}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="MulitGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}"/>
                 <DataGridTextColumn Header="Saved Game" Binding="{Binding HaveSaves}"/>
                 <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}" SortDirection="Ascending"/>
             </DataGrid.Columns>
         </DataGrid>
+
+
+        <Button Grid.Row="2" Command="{Binding PauseMediaScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Scan bezels &amp; instruction cards" IsEnabled="{Binding ScanEnabled}">
+            <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
     </Grid>
 </UserControl>

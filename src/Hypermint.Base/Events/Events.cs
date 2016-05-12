@@ -15,10 +15,14 @@ namespace Hypermint.Base
 
     public class SystemsGenerated : PubSubEvent<string> { }
 
+    public class UpdateFilesEvent : PubSubEvent<string[]> { }
+
     public class GameFilteredEvent : PubSubEvent<GameFilter>
     {
 
     }
+
+    public class SetMediaFileRlEvent : PubSubEvent<string> { }
 
     public class CloneFilterEvent : PubSubEvent<bool>
     {

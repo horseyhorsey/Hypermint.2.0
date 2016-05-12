@@ -9,12 +9,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <GroupBox Header="FilesView">
-            <TreeView >
-                <TreeViewItem Header="Item1">
-                    <TreeViewItem Header="ddd"></TreeViewItem>
-                </TreeViewItem>
-            </TreeView>
+        <GroupBox Header="{Binding SelectedGameName}">
+            <TreeView ItemsSource="{Binding Files}">
+
+                </TreeView>
         </GroupBox>
         
     </Grid>

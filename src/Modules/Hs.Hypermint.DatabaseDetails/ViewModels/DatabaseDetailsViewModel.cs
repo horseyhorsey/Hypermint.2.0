@@ -1,12 +1,10 @@
 ﻿using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
 using Hs.HyperSpin.Database;
-using System.Windows.Input;
 using Prism.Commands;
 using System;
 using System.ComponentModel;
 using System.Windows.Data;
-using System.Runtime.CompilerServices;
 using Prism.Events;
 using Hypermint.Base;
 using System.Collections.Generic;
@@ -14,7 +12,6 @@ using System.IO;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hypermint.Base.Services;
 using System.Collections;
-using Hypermint.Base.Constants;
 using System.Xml;
 using Hypermint.Base.Models;
 using MahApps.Metro.Controls.Dialogs;
@@ -63,7 +60,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             IMainMenuRepo memuRepo, IDialogCoordinator dialogService
             )
         {
-            if (gameRepo == null) throw new ArgumentNullException("gameRepo");
+            if (gameRepo == null) throw new ArgumentNullException(nameof(gameRepo));
             _settingsRepo = settings;
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;

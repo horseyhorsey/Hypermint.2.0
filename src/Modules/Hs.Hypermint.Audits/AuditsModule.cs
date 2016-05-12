@@ -19,9 +19,7 @@ namespace Hs.Hypermint.Audits
         }
 
         public override void Initialize()
-        {            
-
-            UnityContainer.RegisterType<IAuditerRl, AuditerRlRepo>();
+        {                        
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.HsMediaAuditView));
 

@@ -1,5 +1,4 @@
-﻿using Hs.HyperSpin.Database;
-using Hs.HyperSpin.Database.Audit;
+﻿using Hs.HyperSpin.Database.Audit;
 using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
@@ -7,14 +6,11 @@ using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Runtime.CompilerServices;
 using Hypermint.Base.Events;
 
 namespace Hs.Hypermint.Audits.ViewModels
