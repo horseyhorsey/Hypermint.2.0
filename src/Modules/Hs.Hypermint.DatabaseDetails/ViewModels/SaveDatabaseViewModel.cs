@@ -148,7 +148,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 NegativeButtonText = "Cancel",
             };
 
-            var result = await _dialogService.ShowMessageAsync(this, "Save database", "Do you want to save? ",
+            string saveInfoText = "Save ";
+            if (SaveToDatabase) saveInfoText += "|Database";
+            if (SaveFavoritesText) saveInfoText += "|Favorites text";
+            if (SaveFavoritesXml) saveInfoText += "|Favorites xml";
+            if (SaveGenres) saveInfoText += "|Genres";
+
+            var result = await _dialogService.ShowMessageAsync(this, saveInfoText, "Do you want to save? ",
                 MessageDialogStyle.AffirmativeAndNegative, mahSettings);
 
             if (result == MessageDialogResult.Affirmative)
@@ -171,9 +177,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 await SerializeXmlAsync(hsPath, system, dbName);
 
-                progressResult.SetMessage(dbName + " Database saved.");
-
-                await Sleep(2000);
+                progressResult.SetMessage(dbName + " Database saved.");                
 
             }
 
