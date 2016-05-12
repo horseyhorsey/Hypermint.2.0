@@ -18,9 +18,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
-            <RowDefinition Height="32" />
+            <RowDefinition Height="42" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="32" />
+            <RowDefinition Height="52" />
 
         </Grid.RowDefinitions>
 
@@ -47,60 +47,69 @@
         </ListView>
 
         <DockPanel Grid.Row="3">
-            <Label Content="System select"/>
-            <Button Content="None" Margin="5" 
+            <Label Content="System select" VerticalAlignment="Center"/>
+            <Button Content="None" Margin="5" Height="22" HorizontalAlignment="Right"
                     Command="{Binding SelectSystemsCommand}"
                     CommandParameter="none"
                     />
-            <Button Content="All" HorizontalAlignment="Left"
+            <Button Content="All" HorizontalAlignment="Right" Height="22"
                     Command="{Binding SelectSystemsCommand}"
                     CommandParameter="all" Width="50"
                     Margin="5"/>
         </DockPanel>
 
         <DockPanel  Margin="2" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
-            <TextBox x:Name="textField"  VerticalAlignment="Bottom" Width="300"
+            <TextBox Margin="5" x:Name="textField"  VerticalAlignment="Bottom" Width="300"
                    metro:TextBoxHelper.UseFloatingWatermark="False" MaxHeight="28"
                    metro:TextBoxHelper.Watermark="Search term"/>
 
-        <StackPanel  Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
-            <!--Search Button-->
-            <Button Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" 
+            <StackPanel  Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
+                <!--Search Button-->
+                <Button Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" 
                         Command="{Binding SearchGamesCommand}"
                         CommandParameter="{Binding ElementName=textField,Path=Text}"
                     Background="Green"
                         Style="{DynamicResource MetroCircleButtonStyle}">
-                <Rectangle Width="20"
+                    <Rectangle Width="20"
                                Height="20"
                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill"
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
                                          Visual="{DynamicResource appbar_magnify}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
-            <!--Cancel Search-->
-            <Button Width="30" Height="30" VerticalAlignment="Center" 
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+                <!--Cancel Search-->
+                <Button Width="30" Height="30" VerticalAlignment="Center" 
                         Command="{Binding CancelCommand}"                        
                     Background="{DynamicResource ValidationBrush5}"
                         Style="{DynamicResource MetroCircleButtonStyle}">
-                <Rectangle Width="20"
+                    <Rectangle Width="20"
                                Height="20"
                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill"
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
                                          Visual="{DynamicResource appbar_cancel}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
 
-        </StackPanel>
-
+            </StackPanel>
         </DockPanel>
 
-        <DataGrid Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Margin="10" ItemsSource="{Binding FoundGmes}">
-
-        </DataGrid>
-
+        <DataGrid Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Margin="10" ItemsSource="{Binding FoundGmes}"/>
+        
+        <!--GAME LAUNCHING-->
+        <Button HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" VerticalAlignment="Top" Margin="6"
+                Command="{Binding LaunchGameCommand}"
+                ToolTip="Launch selected game." Height="35" Width="35"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+        
     </Grid>
 </UserControl>

@@ -23,30 +23,29 @@ namespace Hs.Hypermint.Search.ViewModels
     {
         public DelegateCommand<string> SearchGamesCommand { get; }
         public DelegateCommand<string> SelectSystemsCommand { get; }
-        public DelegateCommand CancelCommand { get;} 
-
-        private IMainMenuRepo _mainmenuRepo;
+        public DelegateCommand CancelCommand { get;}
+        public DelegateCommand LaunchGameCommand { get; private set; }
 
         #region Properties
 
         CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-        private Systems _systems = new Systems();
-
+        private IMainMenuRepo _mainmenuRepo;
         private ICollectionView systems;
         private IEventAggregator _eventAggregator;
         private ISettingsRepo _settings;
+        private IGameLaunch _gameLaunch;
 
+        private bool canSearch = true;
+
+        private Systems _systems = new Systems();
         public ICollectionView Systems
         {
             get { return systems; }
             set { SetProperty(ref systems, value); }
         }
-
-        private List<object> searchedGames;
+        private List<SearchedGame> searchedGames;
         private ICollectionView foundGmes;
-        private bool canSearch = true;
-
         public ICollectionView FoundGmes
         {
             get { return foundGmes; }
@@ -54,11 +53,12 @@ namespace Hs.Hypermint.Search.ViewModels
         }
         #endregion
 
-        public SearchViewModel(IMainMenuRepo mainMenu, IEventAggregator eventAggregator, ISettingsRepo settings)
+        public SearchViewModel(IMainMenuRepo mainMenu, IEventAggregator eventAggregator, ISettingsRepo settings, IGameLaunch gameLaunch)
         {
             _mainmenuRepo = mainMenu;
             _eventAggregator = eventAggregator;
             _settings = settings;
+            _gameLaunch = gameLaunch;            
 
             SearchGamesCommand = new DelegateCommand<string>(async x =>
             {
@@ -93,7 +93,24 @@ namespace Hs.Hypermint.Search.ViewModels
 
             });
 
-            _eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => SystemsUpdated(x));
+            LaunchGameCommand = new DelegateCommand(LaunchGame);
+
+        _eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => SystemsUpdated(x));
+        }
+
+        private void LaunchGame()
+        {
+            if (FoundGmes != null)
+            {
+                var rlPath = _settings.HypermintSettings.RlPath;
+                var hsPath = _settings.HypermintSettings.HsPath;
+                var selectedGame = FoundGmes.CurrentItem as SearchedGame;
+                
+                var sysName = selectedGame.System;
+                var romName = selectedGame.RomName;
+
+                _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
+            }
         }
 
         private void SystemsUpdated(string system)
@@ -141,7 +158,7 @@ namespace Hs.Hypermint.Search.ViewModels
             canSearch = false;
             SearchGamesCommand.RaiseCanExecuteChanged();
 
-            searchedGames = new List<object>();
+            searchedGames = new List<SearchedGame>();
 
             await Task.Run(() =>
             {
@@ -161,11 +178,11 @@ namespace Hs.Hypermint.Search.ViewModels
                                 var query =
                                     from g in xdoc.Descendants("game")
                                     where g.Value.ToLower().Contains(searchTerm.ToLower())
-                                    select new
+                                    select new SearchedGame()
                                     {
                                         RomName = g.Attribute("name").Value,
                                         Description = g.Element("description").Value,
-                                        Year = g.Element("year").Value,
+                                        Year = Convert.ToInt32(g.Element("year").Value),
                                         System = system.Name,
                                         Genre = g.Element("genre").Value
                                     };
@@ -187,10 +204,18 @@ namespace Hs.Hypermint.Search.ViewModels
 
             }, tokenSource.Token);
 
-
             canSearch = true;
             SearchGamesCommand.RaiseCanExecuteChanged();
 
         }
+    }
+
+    public class SearchedGame
+    {
+        public string RomName { get; set; }
+        public string Description { get; set; }
+        public int Year { get; set; }
+        public string System { get; set; }
+        public string Genre { get; set; }
     }
 }
