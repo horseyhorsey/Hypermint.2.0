@@ -87,7 +87,7 @@
 
         <Button Grid.Row="2" Command="{Binding PauseMediaScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
-                ToolTip="Scan bezels &amp; instruction cards" IsEnabled="{Binding ScanEnabled}">
+                ToolTip="Scan for pause media" IsEnabled="{Binding ScanEnabled}">
             <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>

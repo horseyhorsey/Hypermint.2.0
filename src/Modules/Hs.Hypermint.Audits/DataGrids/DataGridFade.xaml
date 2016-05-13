@@ -69,7 +69,7 @@
 
         <Button Grid.Row="2" Command="{Binding FadeScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
-                ToolTip="Scan bezels &amp; instruction cards" IsEnabled="{Binding ScanEnabled}">
+                ToolTip="Scan fade layers" IsEnabled="{Binding ScanEnabled}">
             <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
