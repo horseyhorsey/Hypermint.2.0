@@ -33,9 +33,10 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="55"></RowDefinition>
+            
         </Grid.RowDefinitions>
 
+        <GroupBox Header="Rocketlaunch audit">
         <TabControl>
             <TabItem Header="Bezel-Cards">
                 <dataGrids:DataGridBezel/>
@@ -58,7 +59,7 @@
                 </TabControl>
             </TabItem>
         </TabControl>
-        
+        </GroupBox>
         
     </Grid>
 </UserControl>
