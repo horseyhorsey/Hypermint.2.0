@@ -8,12 +8,15 @@
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid x:Name="root">
+        <GroupBox Header="Media View">
         <Grid Grid.Row="1">
 
             <Grid.Resources>
                 <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
             </Grid.Resources>
 
+            
+            
             <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
 
             <MediaElement Stretch="Uniform" Margin="5"  Source="{Binding VideoSource}">
@@ -77,7 +80,10 @@
                     </MenuItem>
                 </ContextMenu>
             </ContextMenuService.ContextMenu>
+
+          
         </Grid>
+        </GroupBox>
         <!--Context menu-->
     </Grid>
 </UserControl>

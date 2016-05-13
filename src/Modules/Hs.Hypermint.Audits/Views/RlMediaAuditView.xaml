@@ -37,28 +37,31 @@
         </Grid.RowDefinitions>
 
         <GroupBox Header="Rocketlaunch audit">
-        <TabControl>
-            <TabItem Header="Bezel-Cards">
-                <dataGrids:DataGridBezel/>
-                
-            </TabItem>
-            <TabItem Header="Pause">
-                <dataGrids:DataGridPause/>
-            </TabItem>
-            <TabItem Header="Fade">
-                <dataGrids:DataGridFade/>
-            </TabItem>
+            <Grid>
+                <Rectangle Fill="{DynamicResource FlatButtonForegroundBrush}"/>
+                <TabControl >
+                    <TabItem Header="Bezel-Cards" >
+                        <dataGrids:DataGridBezel/>
 
-            <TabItem Header="FadeInfo">
-                <TabControl>
-                    <TabItem Header="Developer"></TabItem>
-                    <TabItem Header="Genre"></TabItem>
-                    <TabItem Header="Publisher"></TabItem>
-                    <TabItem Header="Rating"></TabItem>
-                    <TabItem Header="Year"></TabItem>
+                    </TabItem>
+                    <TabItem Header="Pause">
+                        <dataGrids:DataGridPause/>
+                    </TabItem>
+                    <TabItem Header="Fade">
+                        <dataGrids:DataGridFade/>
+                    </TabItem>
+
+                    <TabItem Header="FadeInfo">
+                        <TabControl>
+                            <TabItem Header="Developer"></TabItem>
+                            <TabItem Header="Genre"></TabItem>
+                            <TabItem Header="Publisher"></TabItem>
+                            <TabItem Header="Rating"></TabItem>
+                            <TabItem Header="Year"></TabItem>
+                        </TabControl>
+                    </TabItem>
                 </TabControl>
-            </TabItem>
-        </TabControl>
+            </Grid>
         </GroupBox>
         
     </Grid>

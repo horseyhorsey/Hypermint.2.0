@@ -234,10 +234,11 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             var extension = Path.GetExtension(file);
             IsTextSource = false;
-            switch (extension)
+            switch (extension.ToLower())
             {
                 case ".png":
                 case ".jpg":
+                case ".jpeg":
                     SetImageWheelPreview(file);
                     break;
                 case ".avi":
