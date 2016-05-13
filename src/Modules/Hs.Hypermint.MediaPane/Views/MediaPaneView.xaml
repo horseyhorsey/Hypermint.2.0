@@ -5,9 +5,14 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Hs.Hypermint.MediaPane.Controls"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
+    <Grid x:Name="root">
         <Grid Grid.Row="1">
+
+            <Grid.Resources>
+                <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+            </Grid.Resources>
 
             <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
 
@@ -24,6 +29,18 @@
                     </ContextMenu>
                 </ContextMenuService.ContextMenu>
             </MediaElement>
+
+            <!--TextBOXViewer-->
+            <toolkit:RichTextBox Grid.Row="1" BorderBrush="Gray" Padding="10"
+                                     Text="{Binding TextSource}" 
+                                     Visibility="{Binding ElementName=root,
+                                     Path=DataContext.IsTextSource,UpdateSourceTrigger=PropertyChanged,
+                                     Converter={StaticResource BoolToVisConverter}}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <toolkit:RichTextBox.TextFormatter>
+                    <toolkit:RtfFormatter />
+                </toolkit:RichTextBox.TextFormatter>
+            </toolkit:RichTextBox>
 
             <ContextMenuService.ContextMenu>
                 <ContextMenu>
@@ -61,6 +78,6 @@
                 </ContextMenu>
             </ContextMenuService.ContextMenu>
         </Grid>
-        <!--Context menu--> 
+        <!--Context menu-->
     </Grid>
 </UserControl>

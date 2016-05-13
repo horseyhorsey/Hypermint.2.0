@@ -30,6 +30,20 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             set { SetProperty(ref videoSource, value); }
         }
 
+        private string textSource;
+        public string TextSource
+        {
+            get { return textSource; }
+            set { SetProperty(ref textSource, value); }
+        }
+
+        private bool isTextSource;
+        public bool IsTextSource
+        {
+            get { return isTextSource; }
+            set { SetProperty(ref isTextSource, value); }
+        }
+
         #endregion
 
         #region Constructors
@@ -207,10 +221,19 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             WheelSource = _selectedService.SystemImage;
         }
 
+
+        private void SetText(string file)
+        {
+            using (var sr = new StreamReader(file))
+            {
+                TextSource = sr.ReadToEnd();
+            }
+        }
+
         private void SetMediaForRlAudit(string file)
         {
             var extension = Path.GetExtension(file);
-
+            IsTextSource = false;
             switch (extension)
             {
                 case ".png":
@@ -225,6 +248,10 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 case ".mp3":
                 case ".wav":
                     SetSound(file);
+                    break;
+                case ".txt":
+                    IsTextSource = true;
+                    SetText(file);
                     break;
                 default:
                     SetImageWheelPreview("");
