@@ -8,6 +8,7 @@ using Hypermint.Base.Services;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Data;
+using Prism.Commands;
 
 namespace Hs.Hypermint.FilesViewer
 {
@@ -64,14 +65,14 @@ namespace Hs.Hypermint.FilesViewer
                 foreach (var item in filesInFolder)
                 {
                     mediaFiles.Add(new MediaFile()
-                    { Name = Path.GetFileNameWithoutExtension(item), Extension = Path.GetExtension(item),FullPath = item });
+                    { Name = Path.GetFileNameWithoutExtension(item), Extension = Path.GetExtension(item), FullPath = item });
                 }
 
                 Files = new ListCollectionView(mediaFiles);
 
-                // Display media file
-                var fileToDisplay = Files.CurrentItem as MediaFile;
-                _eventAggregator.GetEvent<SetMediaFileRlEvent>().Publish(fileToDisplay.FullPath);
+                ShowMediaPaneSelectedFile();
+
+                Files.CurrentChanged += Files_CurrentChanged;
 
             }
             catch (Exception ex)
@@ -81,6 +82,27 @@ namespace Hs.Hypermint.FilesViewer
 
 
         }
+
+        private void ShowMediaPaneSelectedFile()
+        {
+            // Display media file
+            try
+            {
+                var fileToDisplay = Files.CurrentItem as MediaFile;
+                _eventAggregator.GetEvent<SetMediaFileRlEvent>().Publish(fileToDisplay.FullPath);
+            }
+            catch (NullReferenceException ex)
+            {
+                _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(ex.Message);
+            }
+            
+        }
+
+        private void Files_CurrentChanged(object sender, EventArgs e)
+        {
+            ShowMediaPaneSelectedFile();
+        }
+
 
         public class MediaFile
         {

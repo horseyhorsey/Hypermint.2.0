@@ -4,16 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Hs.Hypermint.FilesViewer"
-            xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"               
              prism:ViewModelLocator.AutoWireViewModel="True"  
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <GroupBox Header="{Binding SelectedGameName}">
-            <TreeView ItemsSource="{Binding Files}">
-
-                </TreeView>
+            <DataGrid Name="FilesDataGrid" ItemsSource="{Binding Files}"
+                      CanUserAddRows="False" IsReadOnly="True">
+            </DataGrid>
         </GroupBox>
-        
     </Grid>
 </UserControl>
