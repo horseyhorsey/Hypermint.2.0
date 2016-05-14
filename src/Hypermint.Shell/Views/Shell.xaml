@@ -54,7 +54,7 @@
 
 
         <metro:TransitioningContentControl x:Name="transitioning" Transition="LeftReplace"
-            Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
+            Grid.Row="0" Grid.Column="1" Margin="5,0" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"
                 prism:RegionManager.RegionName="ContentRegion" />
 
         <!--Bottom panes-->
