@@ -531,26 +531,28 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         {
             var newSystemMediaPath = Path.Combine(hsPath, Root.Media, MultiSystemName);
 
+            CreateDefaultHyperspinFolders(newSystemMediaPath);
+        }
+
+        private static void CreateDefaultHyperspinFolders(string hyperSpinSystemMediaDirectory)
+        {
             for (int i = 1; i < 5; i++)
             {
-                Directory.CreateDirectory(newSystemMediaPath + "\\Images\\Artwork" + i);
+                Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\Images\\Artwork" + i);
             }
-
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Backgrounds);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.GenreBackgrounds);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.GenreWheel);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Letters);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Pointer);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Special);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Images.Wheels);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Root.Themes);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.BackgroundMusic);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.SystemExit);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.SystemStart);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Sound.WheelSounds);
-            Directory.CreateDirectory(newSystemMediaPath + "\\" + Root.Video);
-
-
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Backgrounds);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.GenreBackgrounds);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.GenreWheel);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Letters);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Pointer);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Special);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Wheels);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Themes);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.BackgroundMusic);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.SystemExit);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.SystemStart);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.WheelSounds);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Video);
         }
 
         private async Task ShowCancelGamesSearch()
