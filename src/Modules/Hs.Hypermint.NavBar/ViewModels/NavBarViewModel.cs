@@ -86,6 +86,14 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     CurrentView += "Simple wheel creator";
                     RemoveAllFilesRegionViews();
                     break;
+                case "StatsView":
+                    CurrentView += "Rocketlaunch stats";
+                    RemoveAllFilesRegionViews();
+                    break;
+                case "WebBrowseView":
+                    CurrentView += "Web Browser";
+                    RemoveAllFilesRegionViews();
+                    break;
                 default:                    
                     break;
             }
@@ -93,7 +101,10 @@ namespace Hs.Hypermint.NavBar.ViewModels
             if (_systemName.Contains("Main Menu") && uri == "DatabaseDetailsView")
                 _regionManager.RequestNavigate("ContentRegion", "MainMenuView");
             else
+            {
+                if (uri != "WebBrowseView")
                 _regionManager.RequestNavigate("ContentRegion", uri);
+            }
 
         }
 

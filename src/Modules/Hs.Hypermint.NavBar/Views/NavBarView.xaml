@@ -78,7 +78,7 @@
         </Button>
 
         <!--Search-->
-        <Button ToolTip="Web Search">
+        <Button ToolTip="Web Search" Command="{Binding NavigateCommand}" CommandParameter="WebBrowseView">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -88,7 +88,8 @@
         </Button>
 
         <!--Rocketlaunch Stats-->
-        <Button ToolTip="RocketLaunch Stats">
+        <Button Command="{Binding NavigateCommand}" 
+                CommandParameter="StatsView" ToolTip="RocketLaunch Stats">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
