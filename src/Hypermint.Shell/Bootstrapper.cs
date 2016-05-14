@@ -21,6 +21,7 @@ using Hs.Hypermint.SidebarSystems;
 using Hs.Hypermint.DatabaseDetails;
 using Hs.Hypermint.RocklaunchStats.Views;
 using Hs.Hypermint.Browser.Views;
+using Hs.Hypermint.DatabaseDetails.Services;
 
 namespace Hypermint.Shell
 {
@@ -93,6 +94,9 @@ namespace Hypermint.Shell
 
             Container.RegisterType<ISearchYoutube, SearchYoutubeService>(
                 new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<IHyperspinXmlService, HyperspinXmlService>(
+                new ContainerControlledLifetimeManager());            
 
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");

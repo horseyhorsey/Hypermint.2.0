@@ -393,6 +393,50 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             return fetchedGames;
         }
 
+        /// <summary>
+        /// Search for all of the games element with seach term
+        /// </summary>
+        /// <param name="hsPath"></param>
+        /// <param name="systemName"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        public IEnumerable<Game> SearchGames(string hsPath, string systemName, string searchTerm)
+        {
+            var xmlName = systemName + ".xml";
+            var dbPath = Path.Combine(hsPath, "Databases", systemName);
+            var searchFoundGames = new List<Game>();
+
+            if (!File.Exists(dbPath + "\\_multisystem"))
+            {
+                var xmlPath = Path.Combine(dbPath, xmlName);
+
+                using (var xr = XmlReader.Create(xmlPath))
+                {
+                    var xdoc = XDocument.Load(xr);
+
+                    var query =
+                        from g in xdoc.Descendants("game")
+                        where g.Value.ToLower().Contains(searchTerm.ToLower())
+                        select new Game()
+                        {
+                            RomName = g.Attribute("name").Value,
+                            Description = g.Element("description").Value,
+                            Year = Convert.ToInt32(g.Element("year").Value),
+                            Manufacturer = g.Element("manufacturer").Value,
+                            System = systemName,
+                            CloneOf = g.Element("cloneof").Value,
+                            Crc = g.Element("crc").Value,
+                            Rating = g.Element("rating").Value,                            
+                            Genre = g.Element("genre").Value
+                        };
+
+                    searchFoundGames = query.AsEnumerable().ToList();
+                }
+            }
+
+            return searchFoundGames;
+        }
+
         public bool SaveFavoritesText(Games gamesList, string favoritesTextFile)
         {
             using (StreamWriter writer =

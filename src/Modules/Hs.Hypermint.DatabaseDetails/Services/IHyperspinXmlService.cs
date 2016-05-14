@@ -21,5 +21,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
         bool SaveFavoritesText(Games gamesList, string favoritesTextFile);
 
         Task SerializeHyperspinXmlAsync(Games gamesList, string finalPath, string databasePath, bool isMultiSystem = false);
+
+        IEnumerable<Game> SearchGames(string hsPath, string systemName, string searchTerm);
     }
 }

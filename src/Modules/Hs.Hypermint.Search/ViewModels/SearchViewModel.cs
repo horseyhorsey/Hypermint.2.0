@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using System.Xml;
 using System.IO;
 using System.Threading;
+using Hs.Hypermint.DatabaseDetails.Services;
 
 namespace Hs.Hypermint.Search.ViewModels
 {
@@ -25,6 +26,8 @@ namespace Hs.Hypermint.Search.ViewModels
         public DelegateCommand<string> SelectSystemsCommand { get; }
         public DelegateCommand CancelCommand { get;}
         public DelegateCommand LaunchGameCommand { get; private set; }
+        public DelegateCommand AddMultiSystemCommand { get; private set; } 
+
 
         #region Properties
 
@@ -44,8 +47,10 @@ namespace Hs.Hypermint.Search.ViewModels
             get { return systems; }
             set { SetProperty(ref systems, value); }
         }
-        private List<SearchedGame> searchedGames;
+        private List<Game> searchedGames;
         private ICollectionView foundGmes;
+        private IHyperspinXmlService _xmlService;
+
         public ICollectionView FoundGmes
         {
             get { return foundGmes; }
@@ -53,12 +58,17 @@ namespace Hs.Hypermint.Search.ViewModels
         }
         #endregion
 
-        public SearchViewModel(IMainMenuRepo mainMenu, IEventAggregator eventAggregator, ISettingsRepo settings, IGameLaunch gameLaunch)
+        public SearchViewModel(IMainMenuRepo mainMenu, 
+            IEventAggregator eventAggregator, 
+            ISettingsRepo settings,
+            IHyperspinXmlService xmlService,
+            IGameLaunch gameLaunch)
         {
             _mainmenuRepo = mainMenu;
             _eventAggregator = eventAggregator;
             _settings = settings;
-            _gameLaunch = gameLaunch;            
+            _gameLaunch = gameLaunch;
+            _xmlService = xmlService;
 
             SearchGamesCommand = new DelegateCommand<string>(async x =>
             {
@@ -71,6 +81,11 @@ namespace Hs.Hypermint.Search.ViewModels
                 canSearch = true;
                 SearchGamesCommand.RaiseCanExecuteChanged();
             });
+
+            //AddMultiSystemCommand = new DelegateCommand(() =>
+            //{
+            //    _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedService.SelectedGames);
+            //});
 
             SelectSystemsCommand = new DelegateCommand<string>(x =>
             {
@@ -104,7 +119,7 @@ namespace Hs.Hypermint.Search.ViewModels
             {
                 var rlPath = _settings.HypermintSettings.RlPath;
                 var hsPath = _settings.HypermintSettings.HsPath;
-                var selectedGame = FoundGmes.CurrentItem as SearchedGame;
+                var selectedGame = FoundGmes.CurrentItem as Game;                
                 
                 var sysName = selectedGame.System;
                 var romName = selectedGame.RomName;
@@ -153,57 +168,31 @@ namespace Hs.Hypermint.Search.ViewModels
 
             tokenSource = new CancellationTokenSource();
 
-            XDocument xdoc = null;
-
             canSearch = false;
             SearchGamesCommand.RaiseCanExecuteChanged();
 
-            searchedGames = new List<SearchedGame>();
+            searchedGames = new List<Game>();
 
             await Task.Run(() =>
             {
-
                 foreach (var system in _systems)
                 {
                     try
                     {
                         if (system.Enabled == 1)
                         {
-                            var xmlName = system.Name + ".xml";
-                            var dbPath = Path.Combine(_settings.HypermintSettings.HsPath, "Databases", system.Name);
+                            var games = _xmlService.SearchGames(
+                                _settings.HypermintSettings.HsPath,
+                                system.Name, searchTerm);
 
-                            if (!File.Exists(dbPath + "\\_multisystem"))
+                            foreach (var game in games)
                             {
-
-                                var xmlPath = Path.Combine(dbPath, xmlName);
-
-                                using (var xr = XmlReader.Create(xmlPath))
-                                {
-                                    xdoc = XDocument.Load(xr);
-
-                                    var query =
-                                        from g in xdoc.Descendants("game")
-                                        where g.Value.ToLower().Contains(searchTerm.ToLower())
-                                        select new SearchedGame()
-                                        {
-                                            RomName = g.Attribute("name").Value,
-                                            Description = g.Element("description").Value,
-                                            Year = Convert.ToInt32(g.Element("year").Value),
-                                            Manufacturer = g.Element("manufacturer").Value,
-                                            System = system.Name,
-                                            Genre = g.Element("genre").Value
-                                        };
-
-                                    foreach (var item in query)
-                                    {
-                                        searchedGames.Add(item);
-                                    }
-                                }
-                            }
+                                searchedGames.Add(game);
+                            } 
 
                         }
                     }
-                    catch (Exception) { }                    
+                    catch (Exception ex) { }                    
                 }
 
                 FoundGmes = new ListCollectionView(searchedGames);
@@ -214,16 +203,8 @@ namespace Hs.Hypermint.Search.ViewModels
             SearchGamesCommand.RaiseCanExecuteChanged();
 
         }
+        
     }
 
-    public class SearchedGame
-    {
-        public string RomName { get; set; }
-        public string Description { get; set; }
-        public int Year { get; set; }
-        public string System { get; set; }
-        public string Genre { get; set; }
-        public string Manufacturer { get; set; }
-}
 }
 

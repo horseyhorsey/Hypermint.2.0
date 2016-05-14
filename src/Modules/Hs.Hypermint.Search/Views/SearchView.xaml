@@ -20,7 +20,7 @@
             <RowDefinition Height="32" />
             <RowDefinition Height="42" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="52" />
+            <RowDefinition Height="42" />
 
         </Grid.RowDefinitions>
 
@@ -29,7 +29,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Hypermint: Main menu" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="28"/>
+        <TextBlock Text="Search"
+                   HorizontalAlignment="Center" Grid.Column="0" FontSize="28"/>
 
         <ListView Grid.RowSpan="1" Grid.Row="2" BorderThickness="1" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                   Grid.ColumnSpan="1" ItemsSource="{Binding Systems,UpdateSourceTrigger=PropertyChanged}"                   
@@ -46,19 +47,18 @@
 
         </ListView>
 
-        <DockPanel Grid.Row="3">
-            <Label Content="System select" VerticalAlignment="Center"/>
-            <Button Content="None" Margin="5" Height="22" HorizontalAlignment="Right"
+        <DockPanel Grid.Row="1">
+            <Label Content="System select" VerticalAlignment="Center" />
+            <Button Margin="2" Content="None" Height="22" HorizontalAlignment="Left"
                     Command="{Binding SelectSystemsCommand}"
-                    CommandParameter="none"
+                    CommandParameter="none"/>
+            <Button Margin="2" Content="All" Height="22" HorizontalAlignment="Left"
+                    Command="{Binding SelectSystemsCommand}"
+                    CommandParameter="all" Width="35"
                     />
-            <Button Content="All" HorizontalAlignment="Right" Height="22"
-                    Command="{Binding SelectSystemsCommand}"
-                    CommandParameter="all" Width="50"
-                    Margin="5"/>
         </DockPanel>
 
-        <DockPanel  Margin="2" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+        <DockPanel  Margin="2" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
             <TextBox Margin="5" x:Name="textField"  VerticalAlignment="Bottom" Width="300"
                    metro:TextBoxHelper.UseFloatingWatermark="False" MaxHeight="28"
                    metro:TextBoxHelper.Watermark="Search term"/>
@@ -70,8 +70,8 @@
                         CommandParameter="{Binding ElementName=textField,Path=Text}"
                     Background="Green"
                         Style="{DynamicResource MetroCircleButtonStyle}">
-                    <Rectangle Width="20"
-                               Height="20"
+                    <Rectangle Width="15"
+                               Height="15"
                                Fill="{Binding Path=Foreground,
                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                         <Rectangle.OpacityMask>
@@ -85,8 +85,8 @@
                         Command="{Binding CancelCommand}"                        
                     Background="{DynamicResource ValidationBrush5}"
                         Style="{DynamicResource MetroCircleButtonStyle}">
-                    <Rectangle Width="20"
-                               Height="20"
+                    <Rectangle Width="15"
+                               Height="15"
                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill"
@@ -98,19 +98,40 @@
             </StackPanel>
         </DockPanel>
 
-        <DataGrid Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Margin="10" ItemsSource="{Binding FoundGmes}"/>
+        <!--Search items display-->
+        <DataGrid Grid.Column="1" Grid.Row="2" IsReadOnly="True"
+                  CanUserAddRows="False"
+                  Grid.RowSpan="1" Margin="10"
+                  ItemsSource="{Binding FoundGmes}">
+        </DataGrid>
+
+        <DockPanel Grid.Row="3" Grid.Column="3">
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
+                Command="{Binding AddMultiSystemCommand}"
+                ToolTip="Add selected to multi system list." Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
         
         <!--GAME LAUNCHING-->
-        <Button HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" VerticalAlignment="Top" Margin="6"
+        <Button HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="6"
                 Command="{Binding LaunchGameCommand}"
-                ToolTip="Launch selected game." Height="35" Width="35"
+                ToolTip="Launch selected game." Height="30" Width="30"
                 Style="{DynamicResource AccentedSquareButtonStyle}">
-            <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+            <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
                     <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
-        
+
+        </DockPanel>
+
+
+
     </Grid>
 </UserControl>
