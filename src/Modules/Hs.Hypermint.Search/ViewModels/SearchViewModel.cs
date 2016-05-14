@@ -189,6 +189,7 @@ namespace Hs.Hypermint.Search.ViewModels
                                             RomName = g.Attribute("name").Value,
                                             Description = g.Element("description").Value,
                                             Year = Convert.ToInt32(g.Element("year").Value),
+                                            Manufacturer = g.Element("manufacturer").Value,
                                             System = system.Name,
                                             Genre = g.Element("genre").Value
                                         };
@@ -222,5 +223,7 @@ namespace Hs.Hypermint.Search.ViewModels
         public int Year { get; set; }
         public string System { get; set; }
         public string Genre { get; set; }
-    }
+        public string Manufacturer { get; set; }
 }
+}
+
