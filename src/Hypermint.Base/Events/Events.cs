@@ -1,6 +1,7 @@
 ﻿using Hypermint.Base.Models;
 using Prism.Events;
 using System.Collections.Generic;
+using System;
 
 namespace Hypermint.Base
 {
@@ -18,6 +19,11 @@ namespace Hypermint.Base
     public class UpdateFilesEvent : PubSubEvent<string[]> { }
 
     public class GameFilteredEvent : PubSubEvent<GameFilter>
+    {
+
+    }
+
+    public class OpenBezelEditEvent : PubSubEvent<string>
     {
 
     }

@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Hs.Hypermint.BezelEdit.Views.BezelEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"       
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"  
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Image x:Name="screenImage" Margin="6,10,10,88" Stretch="UniformToFill"/>
+        <!--MouseDown="bezelImage_MouseDown"-->
+        <Image x:Name="bezelImage" Stretch="Fill"
+               Margin="10,10,6,88"  />
+
+        <TextBlock HorizontalAlignment="Left" Margin="12,0,0,67" 
+                   TextWrapping="Wrap" Text="Bezel Screen Top Left Click X"
+                   Height="16" VerticalAlignment="Bottom"/>
+        <TextBlock HorizontalAlignment="Left" Margin="12,0,0,39"
+                   TextWrapping="Wrap" Text="Bezel Screen Top Left Click Y"
+                   VerticalAlignment="Bottom"/>
+        <TextBox x:Name="LeftClickX" HorizontalAlignment="Left"
+                 Margin="178,0,0,60" TextWrapping="Wrap" Text=""
+                 Width="41" Height="23" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="LeftClickY" HorizontalAlignment="Left" 
+                 Margin="178,0,0,32" TextWrapping="Wrap" Text=""
+                 Width="41" Height="23" VerticalAlignment="Bottom"/>
+        <TextBlock HorizontalAlignment="Left" Margin="224,0,0,67" 
+                   TextWrapping="Wrap" Text="Bezel Screen Bottom Right Click X" 
+                   Height="16" VerticalAlignment="Bottom"/>
+        <TextBlock Margin="224,0,0,39" TextWrapping="Wrap" 
+                   Text="Bezel Screen Bottom Right Click Y" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="179"/>
+        <TextBox x:Name="RightClickX" HorizontalAlignment="Left" 
+                 Margin="412,0,0,60" TextWrapping="Wrap" Text="" Width="41" Height="23" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="RightClickY" HorizontalAlignment="Left"
+                 Margin="412,0,0,32" TextWrapping="Wrap" Text="" Width="40" Height="23" VerticalAlignment="Bottom"/>
+
+        <!--Click="SaveBezel_Click"-->
+        <Button x:Name="SaveBezel" Content="Save ini" 
+                HorizontalAlignment="Left" Margin="473,0,0,5"
+                Width="75" Height="20" VerticalAlignment="Bottom"  />
+        
+        <TextBlock HorizontalAlignment="Left" Margin="298,0,0,10"
+                   TextWrapping="Wrap" Text="Author :" VerticalAlignment="Bottom"/>
+        
+        <TextBox x:Name="authorText" HorizontalAlignment="Left"
+                 Margin="345,0,0,4" TextWrapping="Wrap" Text="HyperMint"
+                 Width="108" Height="23" VerticalAlignment="Bottom"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="10,0,0,7" 
+                   TextWrapping="Wrap" Text="Ratio :" VerticalAlignment="Bottom" Width="37"/>
+        
+        <TextBlock HorizontalAlignment="Left" Margin="128,0,0,7" 
+                   TextWrapping="Wrap" Text="Description" VerticalAlignment="Bottom"/>
+        
+        <TextBox metro:TextBoxHelper.Watermark="Description"
+                 x:Name="descText" HorizontalAlignment="Left" 
+                 Margin="196,0,0,4" TextWrapping="Wrap" Width="97" 
+                 Height="23" VerticalAlignment="Bottom"/>
+        
+        <ComboBox x:Name="RatioComboBox" HorizontalAlignment="Left"
+                  Margin="52,0,0,4" Width="64" Height="22" 
+                  VerticalAlignment="Bottom" SelectedIndex="0">
+            <ComboBoxItem x:Name="Item01" Content="16x9"/>
+            <ComboBoxItem x:Name="Item02" Content="16x10"/>
+            <ComboBoxItem x:Name="Item03" Content="4x3"/>
+        </ComboBox>
+    </Grid>
+</UserControl>
