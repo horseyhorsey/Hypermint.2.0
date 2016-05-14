@@ -15,18 +15,18 @@ using Hs.Hypermint.Audits.Views;
 using Hs.Hypermint.DatabaseDetails.Views;
 using Hs.Hypermint.WheelCreator.Views;
 using Hs.Hypermint.GameLaunch;
-using Hs.Hypermint.SidebarSystems.Views;
 using MahApps.Metro.Controls.Dialogs;
 using Hs.Hypermint.Search.Views;
+using Hs.Hypermint.SidebarSystems;
+using Hs.Hypermint.DatabaseDetails;
+using Hs.Hypermint.RocklaunchStats.Views;
+using Hs.Hypermint.Browser.Views;
 
 namespace Hypermint.Shell
 {
     public class Bootstrapper : UnityBootstrapper
     {
-        protected override DependencyObject CreateShell()
-        {
-            return Container.Resolve<Views.Shell>();
-        }
+        protected override DependencyObject CreateShell() => Container.Resolve<Views.Shell>();
 
         protected override void InitializeShell()
         {
@@ -49,9 +49,9 @@ namespace Hypermint.Shell
         {
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
 
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.Services.ServicesModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.SidebarSystems.SidebarSystemsModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.DatabaseDetails.ModuleInit));
+            moduleCatalog.AddModule(typeof(ServicesModule));
+            moduleCatalog.AddModule(typeof(SidebarSystemsModule));
+            moduleCatalog.AddModule(typeof(ModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.NavBar.NavBarModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MultiSystem.MultiSystemModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.FilesViewer.FilesViewModule));
@@ -59,9 +59,11 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MediaPane.MediaPaneModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.IntroVideos.IntroVideosModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Audits.AuditsModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.GameLaunch.GameLaunchModule));
+            moduleCatalog.AddModule(typeof(GameLaunchModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.HyperspinFile.HyperspinFileModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Search.SearchModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.RocklaunchStats.RocklaunchStatsModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.Browser.BrowserModule));
         }
 
         protected override void ConfigureContainer()
@@ -86,7 +88,12 @@ namespace Hypermint.Shell
             Container.RegisterType<IAuditerRl, AuditerRlRepo>(
                 new ContainerControlledLifetimeManager());
 
-            
+            Container.RegisterType<IStatsRepo, StatRepo>(
+                new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<ISearchYoutube, SearchYoutubeService>(
+                new ContainerControlledLifetimeManager());
+
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
             Container.RegisterTypeForNavigation<IntroVideosView>("IntroVideosView");
@@ -94,11 +101,12 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<RlMediaAuditView>("RlMediaAuditView");
             Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");
             Container.RegisterTypeForNavigation<SearchView>("SearchView");
+            Container.RegisterTypeForNavigation<StatsView>("StatsView");
+            Container.RegisterTypeForNavigation<WebBrowseView>("WebBrowseView");
 
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");
             //Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");
-
 
         }
 

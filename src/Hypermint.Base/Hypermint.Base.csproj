@@ -67,6 +67,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -101,6 +102,7 @@
     <Compile Include="Interfaces\IGenreRepo.cs" />
     <Compile Include="Interfaces\IMainMenuRepo.cs" />
     <Compile Include="Interfaces\IMultiSystemRepo.cs" />
+    <Compile Include="Interfaces\ISearchYoutube.cs" />
     <Compile Include="Interfaces\ISettingsRepo.cs" />
     <Compile Include="Interfaces\IStatsRepo.cs" />
     <Compile Include="Models\AviSynthOption.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Services\IFileFolderService.cs" />
     <Compile Include="Services\IFlyoutService.cs" />
     <Compile Include="Services\ISelectedService.cs" />
+    <Compile Include="Services\SearchYoutubeService.cs" />
     <Compile Include="Services\SelectedService.cs" />
   </ItemGroup>
   <ItemGroup>

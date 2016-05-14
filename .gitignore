@@ -211,3 +211,5 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /src/Modules/Hs.Hypermint.SidebarSystems/Resources/Thumbs.db
+/src/Hypermint.Base/Services/SearchYoutubeService.cs
+/src/Hypermint.Base/Interfaces/ISearchYoutube.cs

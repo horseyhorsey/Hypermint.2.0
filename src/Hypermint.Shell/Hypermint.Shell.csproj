@@ -215,6 +215,10 @@
       <Project>{4df6b19a-6129-46f7-8020-9f24e5d2584b}</Project>
       <Name>Hs.Hypermint.Audits</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.Browser\Hs.Hypermint.Browser.csproj">
+      <Project>{eef87ef3-697a-43fa-9d93-cfbec59e3632}</Project>
+      <Name>Hs.Hypermint.Browser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.DatabaseDetails\Hs.Hypermint.DatabaseDetails.csproj">
       <Project>{0f4321e7-fa9a-4528-b7ca-8d0edec79bc3}</Project>
       <Name>Hs.Hypermint.DatabaseDetails</Name>
@@ -246,6 +250,10 @@
     <ProjectReference Include="..\Modules\Hs.Hypermint.NavBar\Hs.Hypermint.NavBar.csproj">
       <Project>{06f98afb-d675-479d-9608-97c287bb1317}</Project>
       <Name>Hs.Hypermint.NavBar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.RocklaunchStats\Hs.Hypermint.RocklaunchStats.csproj">
+      <Project>{e297d293-bef3-403f-9592-9a5dd648038c}</Project>
+      <Name>Hs.Hypermint.RocklaunchStats</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.Search\Hs.Hypermint.Search.csproj">
       <Project>{035b43c5-944a-4eac-88b8-bec5fdd26846}</Project>
