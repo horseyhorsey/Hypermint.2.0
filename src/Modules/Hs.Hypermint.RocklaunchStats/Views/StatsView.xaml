@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="Hs.Hypermint.RocklaunchStats.Views.StatsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:charts="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+
+        <GroupBox Header="Rocket launch stats">
+            <TabControl>
+                
+                <TabItem Header="TopTen">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <charts:StackedBarChart 
+                ChartTitle="Top Ten Times Played"
+                    IsRowColumnSwitched="True"
+                    ChartSubTitle=" "
+                >
+                            <charts:StackedBarChart.Series>
+                                <charts:ChartSeries SeriesTitle="Top ten: played"
+                                        ItemsSource="{Binding TopTen}"
+                                        DisplayMember="Rom"                                            
+                                        ValueMember="TimesPlayed">
+                                </charts:ChartSeries>
+                            </charts:StackedBarChart.Series>
+                        </charts:StackedBarChart>
+
+                        <charts:StackedBarChart Grid.Column="1"
+                ChartTitle="Top Ten: Time Played"
+                    IsRowColumnSwitched="True"
+                    ChartSubTitle=" "
+                >
+                            <charts:StackedBarChart.Series>
+                                <charts:ChartSeries SeriesTitle="Top ten: Time played"
+                                        ItemsSource="{Binding TopTentimePlayed}"
+                                        DisplayMember="Rom"                                            
+                                        ValueMember="TotalTimePlayed">
+                                </charts:ChartSeries>
+                            </charts:StackedBarChart.Series>
+                        </charts:StackedBarChart>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Full list">
+                    <DataGrid ItemsSource="{Binding Stats,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="True"></DataGrid>
+                </TabItem>
+            </TabControl>
+        </GroupBox>
+    </Grid>
+</UserControl>
