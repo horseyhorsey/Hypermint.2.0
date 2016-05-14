@@ -13,9 +13,6 @@
           xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
             dialog:DialogParticipation.Register="{Binding}"              
              mc:Ignorable="d" >
-
-
-    
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
             <Grid.RowDefinitions>
@@ -88,7 +85,7 @@
                 </DataGrid.Columns>
 
             </DataGrid>
-                                   
+
         </Grid>
     </GroupBox>
 </UserControl>

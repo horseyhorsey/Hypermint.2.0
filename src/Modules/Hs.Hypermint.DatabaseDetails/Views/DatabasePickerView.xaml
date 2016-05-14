@@ -5,13 +5,10 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-
         <StackPanel>
-
             <metro:SplitButton Height="68"
                                   Name="SplitButton1"
-                                  Width="70"
-                           
+                                  Width="70"                           
                                   HorizontalAlignment="Center"
                                   Orientation="Vertical"
                                   DisplayMemberPath="{Binding ElementName=SplitButton0, Path=DisplayMemberPath}"

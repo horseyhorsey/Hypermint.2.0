@@ -82,13 +82,12 @@
                 Command="{Binding AddMultiSystemCommand}"
                 ToolTip="Add selected to multi system list." Height="35" Width="35"
                 Style="{DynamicResource AccentedSquareButtonStyle}">
-                <Rectangle Width="25" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-
-            </Button>
+                    <Rectangle Width="25" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
             <!--GAME LAUNCHING-->
             <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
                 Command="{Binding LaunchGameCommand}"
