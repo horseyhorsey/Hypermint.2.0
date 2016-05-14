@@ -99,7 +99,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
             }
 
             if (_systemName.Contains("Main Menu") && uri == "DatabaseDetailsView")
-                _regionManager.RequestNavigate("ContentRegion", "MainMenuView");
+                _regionManager.RequestNavigate("ContentRegion", "SearchView");
             else
             {
                 if (uri != "WebBrowseView")
