@@ -7,6 +7,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"   
              mc:Ignorable="d" 
+                          xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}" 
              d:DesignHeight="300" d:DesignWidth="600">
 
     <UserControl.Resources>
@@ -42,7 +44,8 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid x:Name="DatabaseGridMainMenu"  Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
+        <DataGrid x:Name="DatabaseGridMainMenu"  Grid.Row="1" BorderThickness="2"
+                  AutoGenerateColumns="False" IsReadOnly="True" 
                    IsSynchronizedWithCurrentItem="True"
                    SelectionMode="Single" 
                   ItemsSource="{Binding AuditList}">
@@ -67,7 +70,8 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Grid.Row="2" Command="{Binding BezelScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
+        <DockPanel Grid.Row="2">
+        <Button  Command="{Binding BezelScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
                 ToolTip="Scan bezels &amp; instruction cards" IsEnabled="{Binding ScanEnabled}">
             <Rectangle Width="15" Height="15"
@@ -77,5 +81,17 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
+
+            <Button  Command="{Binding BezelEditCommand}" IsEnabled="False" Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Edit selected bezel">
+                <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_tv}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </DockPanel>
     </Grid>
 </UserControl>

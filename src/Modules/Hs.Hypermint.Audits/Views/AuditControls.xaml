@@ -19,4 +19,15 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
-    </DockPanel>
+
+    <Button Command="{Binding SearchYoutubeCommand}" IsEnabled="False" Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Scan Media" >
+        <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Fill"  Visual="{DynamicResource appbar_youtube}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+</DockPanel>
