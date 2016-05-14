@@ -5,7 +5,7 @@ namespace Hs.RocketLauncher.Statistics
 {
     public class Stat
     {
-        public static List<string> gameStatsList = new List<string>();
+        public string GlobalStatKey { get; set; }
         public static string StatsPath { get; set; }
         public int TimesPlayed { get; set; }
         public DateTime LastTimePlayed { get; set; }
