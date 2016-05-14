@@ -142,7 +142,7 @@ namespace Hs.Hypermint.Search.ViewModels
                             {
                                 Name = item.Name,
                                 SysIcon = item.SysIcon,
-                                Enabled = 0
+                                Enabled = 1
                             });
                         }
                     }
