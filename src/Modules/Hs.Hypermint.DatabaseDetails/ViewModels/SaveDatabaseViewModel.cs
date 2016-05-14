@@ -13,6 +13,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -114,6 +115,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
             OpenSaveOptionsCommand = new DelegateCommand<string>(async x =>
             {
+                if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
+
                 await RunCustomDialog();
             });
 
@@ -131,7 +134,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         #region Methods
         private async Task RunCustomDialog()
-        {
+        {                        
             customDialog = new CustomDialog() { Title = "" };
 
             customDialog.Content = new SaveDatabaseDialog { DataContext = this };

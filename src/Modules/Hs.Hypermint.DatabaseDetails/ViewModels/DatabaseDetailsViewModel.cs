@@ -489,7 +489,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         private void LaunchGame()
         {
-            if (_selectedService.SelectedGames[0] != null)
+            if (_selectedService.SelectedGames == null) return;
+
+            if (_selectedService.SelectedGames.Count != 0)
             {
                 var rlPath = _settingsRepo.HypermintSettings.RlPath;
                 var hsPath = _settingsRepo.HypermintSettings.HsPath;
