@@ -22,9 +22,7 @@ namespace Hs.Hypermint.DatabaseDetails
             UnityContainer.RegisterType<IGameRepo, GameRepo>();
             UnityContainer.RegisterType<IFavoriteService,FavoriteService>();
 
-            UnityContainer.RegisterType<IFolderExplore, FolderExplore>();
-
-            UnityContainer.RegisterType<IHyperspinXmlService, HyperspinXmlService>();
+            UnityContainer.RegisterType<IFolderExplore, FolderExplore>();            
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(MainMenuView));
 
