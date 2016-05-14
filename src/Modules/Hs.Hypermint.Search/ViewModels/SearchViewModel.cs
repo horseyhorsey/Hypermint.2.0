@@ -169,35 +169,40 @@ namespace Hs.Hypermint.Search.ViewModels
                     {
                         if (system.Enabled == 1)
                         {
-                            var xmlPath = Path.Combine(_settings.HypermintSettings.HsPath, "Databases", system.Name, system.Name + ".xml");
+                            var xmlName = system.Name + ".xml";
+                            var dbPath = Path.Combine(_settings.HypermintSettings.HsPath, "Databases", system.Name);
 
-                            using (var xr = XmlReader.Create(xmlPath))
+                            if (!File.Exists(dbPath + "\\_multisystem"))
                             {
-                                xdoc = XDocument.Load(xr);
 
-                                var query =
-                                    from g in xdoc.Descendants("game")
-                                    where g.Value.ToLower().Contains(searchTerm.ToLower())
-                                    select new SearchedGame()
-                                    {
-                                        RomName = g.Attribute("name").Value,
-                                        Description = g.Element("description").Value,
-                                        Year = Convert.ToInt32(g.Element("year").Value),
-                                        System = system.Name,
-                                        Genre = g.Element("genre").Value
-                                    };
+                                var xmlPath = Path.Combine(dbPath, xmlName);
 
-                                foreach (var item in query)
+                                using (var xr = XmlReader.Create(xmlPath))
                                 {
-                                    searchedGames.Add(item);
+                                    xdoc = XDocument.Load(xr);
+
+                                    var query =
+                                        from g in xdoc.Descendants("game")
+                                        where g.Value.ToLower().Contains(searchTerm.ToLower())
+                                        select new SearchedGame()
+                                        {
+                                            RomName = g.Attribute("name").Value,
+                                            Description = g.Element("description").Value,
+                                            Year = Convert.ToInt32(g.Element("year").Value),
+                                            System = system.Name,
+                                            Genre = g.Element("genre").Value
+                                        };
+
+                                    foreach (var item in query)
+                                    {
+                                        searchedGames.Add(item);
+                                    }
                                 }
                             }
 
                         }
-                        
                     }
-                    catch (Exception) { }
-                    
+                    catch (Exception) { }                    
                 }
 
                 FoundGmes = new ListCollectionView(searchedGames);
