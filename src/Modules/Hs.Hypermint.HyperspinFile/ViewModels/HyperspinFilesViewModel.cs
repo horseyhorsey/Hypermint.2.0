@@ -22,6 +22,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         
         private IEventAggregator _eventAggregator;
         public DelegateCommand RunAuditCommand { get; private set; }
+        public DelegateCommand SearchYoutubeCommand { get; private set; } 
 
         private string columnHeader = "";
         private string groupBoxHeader = "Unused Files: ";
@@ -50,6 +51,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         private ISettingsRepo _settingsRepo;
         private IAuditer _auditRepo;
         private ISelectedService _selectedService;
+        private ISearchYoutube _searchYoutube;
 
         public string MediaTypeName
         {
@@ -58,12 +60,13 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         }
 
         public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings, IAuditer auditRepo, 
-            ISelectedService selectedService)
+            ISelectedService selectedService, ISearchYoutube searchYoutube)
         {
             _eventAggregator = ea;
             _settingsRepo = settings;
             _auditRepo = auditRepo;
-            _selectedService = selectedService;            
+            _selectedService = selectedService;
+            _searchYoutube = searchYoutube;
 
             // Run the auditer for hyperspin
             RunAuditCommand = new DelegateCommand(() =>
@@ -71,9 +74,23 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                     _eventAggregator.GetEvent<AuditHyperSpinEvent>().Publish("");
                 });
 
+            SearchYoutubeCommand = new DelegateCommand(SearchYoutube);
+
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetCurrentName);
 
             _eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Subscribe(BuildUnusedMediaList);
+        }
+
+        private async void SearchYoutube()
+        {
+            var links = await _searchYoutube.SearchAsync("Amstrad");
+
+
+            for (int i = 0; i < links.Count; i++)
+            {
+                System.Windows.MessageBox.Show(links[i]);
+            }
+            //_selectedService.CurrentSystem;
         }
 
         private void BuildUnusedMediaList(string obj)

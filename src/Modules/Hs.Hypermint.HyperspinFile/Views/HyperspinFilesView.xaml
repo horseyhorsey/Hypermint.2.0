@@ -10,12 +10,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Header="{Binding MediaTypeName}">
-            <controls:HsControlsView/>
+        <GroupBox Header="{Binding MediaTypeName}">
+            <controls:HsControlsView />
         </GroupBox>
 
         <GroupBox Header="{Binding GroupBoxHeader}" Grid.Row="1">
-            <controls:FilesList Grid.Row="1"/>
+            <controls:FilesList/>
         </GroupBox>
         
 
