@@ -6,6 +6,7 @@ using Prism.Events;
 using Prism.Regions;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
+using Hypermint.Base.Services;
 
 namespace Hs.Hypermint.NavBar.ViewModels
 {
@@ -22,16 +23,18 @@ namespace Hs.Hypermint.NavBar.ViewModels
 
         private IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
+        private ISelectedService _selectedService;
 
         /// <summary>
         /// Navigate command for the navbar
         /// </summary>
         public DelegateCommand<string> NavigateCommand { get; set; }
 
-        public NavBarViewModel(IRegionManager manager, IEventAggregator eventAggregator)
+        public NavBarViewModel(IRegionManager manager, IEventAggregator eventAggregator, ISelectedService selectedService)
         {
             _regionManager = manager;
             _eventAggregator = eventAggregator;
+            _selectedService = selectedService;
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetToDbView);
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
@@ -58,13 +61,22 @@ namespace Hs.Hypermint.NavBar.ViewModels
 
         private void Navigate(string uri = "")
         {
-            CurrentView = "Views: ";            
+            CurrentView = "Views: ";
 
             switch (uri)
             {
                 case "DatabaseDetailsView":
-                    CurrentView += "Database editor";                    
-                    _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
+                    if (_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                    {
+                        CurrentView += "Search view";
+                        _regionManager.RequestNavigate("ContentRegion", "SearchView");
+                    }
+                    else
+                    {
+                        CurrentView += "Database editor";
+//                        _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
+                        _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
+                    }
                     break;
                 case "HsMediaAuditView":
                     CurrentView += "Hyperspin media audit";
@@ -72,7 +84,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
                 case "RlMediaAuditView":
                     CurrentView += "RocketLaunch media audit";
-                    _regionManager.RequestNavigate("FilesRegion", "FilesView");                    
+                    _regionManager.RequestNavigate("FilesRegion", "FilesView");
                     break;
                 case "IntroVideosView":
                     CurrentView += "Hyperspin video intros";
@@ -94,19 +106,14 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     CurrentView += "Web Browser";
                     RemoveAllFilesRegionViews();
                     break;
-                default:                    
+                default:
                     break;
             }
 
-            if (_systemName.Contains("Main Menu") && uri == "DatabaseDetailsView")
-                _regionManager.RequestNavigate("ContentRegion", "SearchView");
-            else
-            {
-                if (uri != "WebBrowseView")
+            if (uri != "WebBrowseView" && uri != "DatabaseDetailsView")
                 _regionManager.RequestNavigate("ContentRegion", uri);
-            }
-
-        }
+            
+        }    
 
         private void RemoveAllFilesRegionViews()
         {            
