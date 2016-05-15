@@ -6,7 +6,7 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
 
     <Grid>
-        <GroupBox Header="{Binding SelectedAvailableHeader}" Grid.Row="1">
+        <GroupBox Header="Videos available" Grid.Row="1">
             <!--List for videos-->
             <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" IsReadOnly="True"
                       BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="3"
