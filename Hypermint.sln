@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Browser", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.DatabaseDetailsSearchTests", "src\Modules\Hs.Hypermint.DatabaseDetailsSearchTests\Hs.Hypermint.DatabaseDetailsSearchTests.csproj", "{0430F08B-1F88-4B31-BA47-6B17BDD014CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.WheelCreatorTests", "src\Modules\Hs.Hypermint.WheelCreatorTests\Hs.Hypermint.WheelCreatorTests.csproj", "{451D55B4-C384-4D6A-A082-E96482D3BC92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,10 @@ Global
 		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{451D55B4-C384-4D6A-A082-E96482D3BC92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{451D55B4-C384-4D6A-A082-E96482D3BC92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{451D55B4-C384-4D6A-A082-E96482D3BC92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{451D55B4-C384-4D6A-A082-E96482D3BC92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
