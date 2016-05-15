@@ -17,6 +17,9 @@ using System.Xml;
 using System.IO;
 using System.Threading;
 using Hs.Hypermint.DatabaseDetails.Services;
+using Hypermint.Base.Constants;
+using System.Windows.Media.Imaging;
+using System.Collections;
 
 namespace Hs.Hypermint.Search.ViewModels
 {
@@ -26,8 +29,8 @@ namespace Hs.Hypermint.Search.ViewModels
         public DelegateCommand<string> SelectSystemsCommand { get; }
         public DelegateCommand CancelCommand { get;}
         public DelegateCommand LaunchGameCommand { get; private set; }
-        public DelegateCommand AddMultiSystemCommand { get; private set; } 
-
+        public DelegateCommand AddMultiSystemCommand { get; private set; }
+        public DelegateCommand<string> PageGamesCommand { get; private set; } 
 
         #region Properties
 
@@ -38,6 +41,7 @@ namespace Hs.Hypermint.Search.ViewModels
         private IEventAggregator _eventAggregator;
         private ISettingsRepo _settings;
         private IGameLaunch _gameLaunch;
+        private IHyperspinXmlService _xmlService;
 
         private bool canSearch = true;
 
@@ -47,21 +51,47 @@ namespace Hs.Hypermint.Search.ViewModels
             get { return systems; }
             set { SetProperty(ref systems, value); }
         }
-        private List<Game> searchedGames;
-        private ICollectionView foundGmes;
-        private IHyperspinXmlService _xmlService;
+        private List<GameSearch> searchedGames;
 
-        public ICollectionView FoundGmes
+        public int GamesFoundCount { get; set; }
+        private int pageCount;
+        private int currentPage;
+
+        private string pageInfo;
+        public string PageInfo
+        {
+            get { return pageInfo; }
+            set { SetProperty(ref pageInfo, value); }
+        }
+
+        /// <summary>
+        /// Full collection view list
+        /// </summary>
+        private ICollectionView foundGmes;
+        public ICollectionView FoundGames
         {
             get { return foundGmes; }
             set { SetProperty(ref foundGmes, value); }
         }
+
+        private ICollectionView filteredGames;
+        private ISelectedService _selectedSrv;
+
+        public ICollectionView FilteredGames
+        {
+            get { return filteredGames; }
+            set { SetProperty(ref filteredGames, value); }
+        }
+
+        public DelegateCommand<IList> SelectionChanged { get; set; }
+        public DelegateCommand<IList> ListBoxChanged { get; private set; } 
         #endregion
 
         public SearchViewModel(IMainMenuRepo mainMenu, 
             IEventAggregator eventAggregator, 
             ISettingsRepo settings,
             IHyperspinXmlService xmlService,
+            ISelectedService selectedSrv,
             IGameLaunch gameLaunch)
         {
             _mainmenuRepo = mainMenu;
@@ -69,10 +99,14 @@ namespace Hs.Hypermint.Search.ViewModels
             _settings = settings;
             _gameLaunch = gameLaunch;
             _xmlService = xmlService;
+            _selectedSrv = selectedSrv;
 
             SearchGamesCommand = new DelegateCommand<string>(async x =>
             {
-                await ScanForGamesAsync(x);
+                if (x.Length > 3)
+                {
+                    await ScanForGamesAsync(x);
+                }
             }, o => canSearch);            
 
             CancelCommand = new DelegateCommand(() =>
@@ -82,10 +116,12 @@ namespace Hs.Hypermint.Search.ViewModels
                 SearchGamesCommand.RaiseCanExecuteChanged();
             });
 
-            //AddMultiSystemCommand = new DelegateCommand(() =>
-            //{
-            //    _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedService.SelectedGames);
-            //});
+            PageGamesCommand = new DelegateCommand<string>(x => PageGames(x));
+
+            AddMultiSystemCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedSrv.SelectedGames);
+            });
 
             SelectSystemsCommand = new DelegateCommand<string>(x =>
             {
@@ -108,23 +144,109 @@ namespace Hs.Hypermint.Search.ViewModels
 
             });
 
+            // Command for datagrid selectedItems
+            SelectionChanged = new DelegateCommand<IList>(
+                items =>
+                {
+                    if (items == null)
+                    {
+                        _selectedSrv.SelectedGames.Clear();
+                        return;
+                    }
+
+                    try
+                    {
+                        _selectedSrv.SelectedGames.Clear();
+                        foreach (var item in items)
+                        {
+                            var game = item as GameSearch;
+
+                            if (game.Game.RomName != null)
+                                _selectedSrv.SelectedGames.Add(game.Game);
+                        };
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+
+                });            
+
             LaunchGameCommand = new DelegateCommand(LaunchGame);
 
-        _eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => SystemsUpdated(x));
+            _eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => SystemsUpdated(x));
         }
 
+        private void PageGames(string direction)
+        {
+            if (GamesFoundCount == 0) return;
+
+            if (direction == "forward")
+            {
+                if (currentPage < pageCount)
+                {
+                    FilteredGames = new ListCollectionView(
+                    searchedGames
+                    .Skip(5 * currentPage)
+                    .Take(5)
+                    .ToList());
+
+                    currentPage++;
+                }
+            }
+            else
+            {
+                if (currentPage > 1)
+                {
+                    currentPage--;
+
+                    if (currentPage == 1)
+                        FilteredGames =
+                            new ListCollectionView(
+                                searchedGames
+                                .Take(5).ToList());
+                    else
+                        FilteredGames = new ListCollectionView(
+                        searchedGames
+                        .Skip(5 * (currentPage-1))
+                        .Take(5)
+                        .ToList());
+                }
+            }
+
+            FilteredGames.CurrentChanged += FilteredGames_CurrentChanged;
+
+            PageInfo = currentPage + " | " + pageCount + "  Games found: " + GamesFoundCount;
+        }
+
+        private void FilteredGames_CurrentChanged(object sender, EventArgs e)
+        {
+            _selectedSrv.SelectedGames.Clear();
+
+            var game = FilteredGames.CurrentItem as GameSearch;
+
+            _selectedSrv.SelectedGames.Add(game.Game);
+                
+        }
+
+        #region Methods
         private void LaunchGame()
         {
-            if (FoundGmes != null)
+            if (FoundGames != null)
             {
-                var rlPath = _settings.HypermintSettings.RlPath;
-                var hsPath = _settings.HypermintSettings.HsPath;
-                var selectedGame = FoundGmes.CurrentItem as Game;                
-                
-                var sysName = selectedGame.System;
-                var romName = selectedGame.RomName;
+                var selectedGame = _selectedSrv.SelectedGames.FirstOrDefault();
 
-                _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
+                if (selectedGame != null)
+                {
+                    var rlPath = _settings.HypermintSettings.RlPath;
+                    var hsPath = _settings.HypermintSettings.HsPath;
+
+                    var sysName = selectedGame.System;
+                    var romName = selectedGame.RomName;
+
+                    _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
+                }
             }
         }
 
@@ -150,11 +272,7 @@ namespace Hs.Hypermint.Search.ViewModels
                     Systems = new ListCollectionView(_systems);
                 }
             }
-            catch (Exception)
-            {
-
-
-            }
+            catch (Exception) { }
 
         }
 
@@ -164,14 +282,14 @@ namespace Hs.Hypermint.Search.ViewModels
         /// <returns></returns>
         private async Task ScanForGamesAsync(string searchTerm)
         {
-            if (string.IsNullOrEmpty(searchTerm)) return;            
+            if (string.IsNullOrEmpty(searchTerm)) return;
 
             tokenSource = new CancellationTokenSource();
 
             canSearch = false;
             SearchGamesCommand.RaiseCanExecuteChanged();
 
-            searchedGames = new List<Game>();
+            searchedGames = new List<GameSearch>();
 
             await Task.Run(() =>
             {
@@ -187,15 +305,40 @@ namespace Hs.Hypermint.Search.ViewModels
 
                             foreach (var game in games)
                             {
-                                searchedGames.Add(game);
-                            } 
+                                var mediaPath = Path.Combine(_settings.HypermintSettings.HsPath, Root.Media);
+
+                                var systemImage = Path.Combine(mediaPath, "Main Menu",
+                                    Images.Wheels, system.Name + ".png");
+
+                                var wheelImage = Path.Combine(mediaPath, system.Name,
+                                    Images.Wheels, game.RomName + ".png");
+
+                                searchedGames.Add(new GameSearch()
+                                {
+                                    Game = game,
+                                    SystemImage = systemImage,
+                                    WheelImage = wheelImage
+                                });
+                            }
 
                         }
                     }
-                    catch (Exception ex) { }                    
+                    catch (Exception ex) { }
                 }
 
-                FoundGmes = new ListCollectionView(searchedGames);
+                FoundGames = new ListCollectionView(searchedGames);
+                GamesFoundCount = searchedGames.Count;
+                currentPage = 1;
+
+                pageCount =  GamesFoundCount / 5 ;
+                if (GamesFoundCount % 5 != 0)
+                    pageCount++;
+
+                PageInfo = currentPage + " | " + pageCount + "      Games found: " + GamesFoundCount;
+
+                FilteredGames = new ListCollectionView(searchedGames.Take(5).ToList());
+
+                FilteredGames.CurrentChanged += FilteredGames_CurrentChanged;
 
             }, tokenSource.Token);
 
@@ -203,7 +346,15 @@ namespace Hs.Hypermint.Search.ViewModels
             SearchGamesCommand.RaiseCanExecuteChanged();
 
         }
-        
+        #endregion
+    }
+
+    public class GameSearch
+    {        
+        public Game Game { get; set; }
+        public string WheelImage { get; set; }
+
+        public string SystemImage { get; set; }
     }
 
 }

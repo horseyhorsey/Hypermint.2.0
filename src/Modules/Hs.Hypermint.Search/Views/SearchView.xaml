@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"          
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <Thickness x:Key="ControlMargin">0 1</Thickness>
@@ -15,7 +16,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
             <RowDefinition Height="45" />
@@ -81,7 +82,7 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
-                  <!--add to multisystem-->
+                <!--add to multisystem-->
                 <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
                 Command="{Binding AddMultiSystemCommand}"
                 ToolTip="Add selected to multi system list." Height="30" Width="30"
@@ -109,7 +110,8 @@
         </DockPanel>
 
         <!--Systems list-->
-        <ListView Grid.RowSpan="1" Grid.Column="1" Grid.Row="2" BorderThickness="1" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+        <ListView Grid.RowSpan="1" Grid.Column="1" Grid.Row="2"
+                  BorderThickness="1" Margin="10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                   Grid.ColumnSpan="1" ItemsSource="{Binding Systems,UpdateSourceTrigger=PropertyChanged}"                   
          SelectionMode="Single">
             <ListView.ItemTemplate >
@@ -123,11 +125,116 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <!--Search items display-->
-        <DataGrid Grid.Column="0" Grid.Row="2" IsReadOnly="True"
+        <Canvas Grid.Row="2" Background="{DynamicResource GrayBrush10}"/>
+
+        <TabControl Grid.Row="2" >
+            <TabItem Header="Paged" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MaxHeight="42"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <DockPanel>
+                        <Button Grid.Column="0" HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Command="{Binding PageGamesCommand}"
+                                CommandParameter="back"                            
+                                Height="35" Width="35">
+                            <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_left}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                        <Button Grid.Column="0" HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Command="{Binding PageGamesCommand}"
+                                CommandParameter="forward"                            
+                                Height="35" Width="35">
+                            <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                        <Label Content="{Binding PageInfo}"/>
+                    </DockPanel>
+
+                    <!--games List View-->
+                    <ListBox Grid.Row="1" 
+                      ItemsSource="{Binding FilteredGames}">
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate >
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <StackPanel>
+                                    <Image Width="140" Height="120"
+                                       Source="{Binding SystemImage}"
+                                       HorizontalAlignment="Center">
+                                    </Image>
+                                    <Label Content="{Binding Game.System}"/>
+                                    </StackPanel>
+
+                                    <StackPanel>
+                                        <Image Width="140" Height="80"
+                                       Source="{Binding WheelImage}"
+                                       HorizontalAlignment="Left">
+                                        </Image>
+                                        <Label Content="{Binding Game.Description}"/>
+                                    </StackPanel>
+
+                                    <StackPanel>
+                                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
+                                           FontSize="32" FontWeight="Light" Text="{Binding Game.Year}"/>
+                                    <TextBlock HorizontalAlignment="Right" FontSize="24" FontWeight="Light" Text="{Binding Game.Genre}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                
+                </ItemsControl.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            
+            
+            <TabItem Header="Detailed">
+                <!--Search items display-->
+                <DataGrid x:Name="DataGridSearch"  Grid.Column="0" Grid.Row="2" 
+                          IsReadOnly="True"
                   CanUserAddRows="False"
+                          AutoGenerateColumns="False"
                   Grid.RowSpan="1" Margin="10"
-                  ItemsSource="{Binding FoundGmes}">
-        </DataGrid>
+                  ItemsSource="{Binding FoundGames}">
+
+                    <!--SelectionChanged-->
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <prism:InvokeCommandAction 
+                            Command="{Binding SelectionChanged}" 
+                            CommandParameter="{Binding SelectedItems,
+                            ElementName=DataGridSearch}">
+                            </prism:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Game" Binding="{Binding Game.Description}"/>
+                        <DataGridTextColumn Header="System" Binding="{Binding Game.System}"/>
+                        <DataGridTextColumn Header="Genre" Binding="{Binding Game.Genre}"/>
+                        <DataGridTextColumn Header="Year" Binding="{Binding Game.Year}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </UserControl>
