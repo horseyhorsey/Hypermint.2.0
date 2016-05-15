@@ -150,6 +150,9 @@ namespace Hs.Hypermint.Services
                 FullPath = Path.Combine(tempPath, Root.Themes, databaseGameList.ElementAt(i).RomName + ".zip");
                 AuditsMenuList[i].HaveTheme = CheckForFile(FullPath);
 
+                FullPath = Path.Combine(tempPath, Root.Video, databaseGameList.ElementAt(i).RomName + ".mp4");
+                AuditsMenuList[i].HaveVideo = CheckForFile(FullPath);
+
 
             }
         }
