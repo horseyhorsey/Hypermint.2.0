@@ -46,17 +46,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand AuditScanStart { get; private set; }
         public DelegateCommand<IList> SelectionChanged { get; set; }
         public DelegateCommand<string> EnableDbItemsCommand { get; set; }        
-        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
-        public DelegateCommand AddMultiSystemCommand { get; private set; }
-        public DelegateCommand LaunchGameCommand { get; private set; }
+        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }        
+
         #endregion
 
         #region Constructors
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
             IHyperspinXmlService xmlService, ISelectedService selectedService, 
             IFavoriteService favoriteService, IGenreRepo genreRepo,
-            IEventAggregator eventAggregator,
-            IGameLaunch gameLaunch,
+            IEventAggregator eventAggregator,            
             IMainMenuRepo memuRepo, IDialogCoordinator dialogService
             )
         {
@@ -67,8 +65,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _favouriteService = favoriteService;
             _selectedService = selectedService;           
             _xmlService = xmlService;
-            _genreRepo = genreRepo;
-            _gameLaunch = gameLaunch;
+            _genreRepo = genreRepo;            
             _menuRepo = memuRepo;
             _dialogService = dialogService;
 
@@ -87,12 +84,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);            
 
             EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
-            AddMultiSystemCommand = new DelegateCommand(() =>
-            {
-                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedService.SelectedGames);
-            });
-
-            LaunchGameCommand = new DelegateCommand(LaunchGame);
 
             // Command for datagrid selectedItems
             SelectionChanged = new DelegateCommand<IList>(
@@ -486,21 +477,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
         }        
-
-        private void LaunchGame()
-        {
-            if (_selectedService.SelectedGames == null) return;
-
-            if (_selectedService.SelectedGames.Count != 0)
-            {
-                var rlPath = _settingsRepo.HypermintSettings.RlPath;
-                var hsPath = _settingsRepo.HypermintSettings.HsPath;
-                var sysName = _selectedService.SelectedGames[0].System;
-                var romName = _selectedService.SelectedGames[0].RomName;
-
-                _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);            
-            }
-        }
 
         #endregion
 

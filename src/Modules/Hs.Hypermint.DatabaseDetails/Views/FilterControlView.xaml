@@ -20,5 +20,29 @@
 
         <CheckBox Margin="5" Content="Enabled"
                   IsChecked="{Binding ShowEnabledOnly,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+        <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                Command="{Binding AddMultiSystemCommand}"
+                ToolTip="Add selected to multi system list." Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="20" Height="18" 
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <!--GAME LAUNCHING-->
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                Command="{Binding LaunchGameCommand}"
+                ToolTip="Launch selected game." Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="20" Height="18" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        
     </DockPanel>
 </UserControl>
