@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <DockPanel>
-        <Button Command="{Binding SearchYoutubeCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
+        <Button Command="{Binding SearchYoutubeCommand}" IsEnabled="False" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
                 ToolTip="Scan Media" >
             <Rectangle Width="15" Height="15"
