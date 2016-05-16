@@ -32,6 +32,15 @@ namespace Hs.Hypermint.Services
             HypermintSettings.LaunchParams = binReader.ReadString();
             HypermintSettings.Author = binReader.ReadString();
 
+            try
+            {
+                HypermintSettings.GhostscriptPath = binReader.ReadString();
+            }
+            catch (EndOfStreamException e)
+            {
+                                
+            }
+
             binReader.Close();
 
         }
@@ -45,6 +54,7 @@ namespace Hs.Hypermint.Services
             binWriter.Write(@"C:\RocketLauncher\Media");
             binWriter.Write(@"");
             binWriter.Write(@"Hypermint");
+            binWriter.Write(@"C:\Program Files\gs\gs9.14\bin");
 
             binWriter.Close();
 
@@ -59,6 +69,7 @@ namespace Hs.Hypermint.Services
             binWriter.Write(HypermintSettings.RlMediaPath);
             binWriter.Write(HypermintSettings.LaunchParams);
             binWriter.Write(HypermintSettings.Author);
+            binWriter.Write(HypermintSettings.GhostscriptPath);
 
             binWriter.Close();
         }
