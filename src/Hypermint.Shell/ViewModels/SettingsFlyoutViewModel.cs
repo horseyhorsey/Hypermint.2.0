@@ -95,8 +95,8 @@ namespace Hypermint.Shell.ViewModels
                 case "RlMediaPath":
                     HyperMintSettings.RlMediaPath = FolderName;
                     break;
-                case "ImPath":
-                    HyperMintSettings.ImageMagickPath = FolderName;
+                case "GsPath":
+                    HyperMintSettings.GhostscriptPath = FolderName;
                     break;
                 default:
                     break;

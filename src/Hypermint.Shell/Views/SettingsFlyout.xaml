@@ -107,12 +107,12 @@
                               VerticalAlignment="Top" ToolTip="Specify launcher parameters."/>
 
         <!--ImageMagick-->
-        <TextBlock Grid.Row="5" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="ImageMagick" VerticalAlignment="Top"/>
-        <TextBox Grid.Row="5"   Text="{Binding HyperMintSettings.ImageMagickPath}"  Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" 
-                             Controls:TextBoxHelper.Watermark="ImageMagick not set..."
-                             Height="23" Margin="5" TextWrapping="Wrap" 
-                            VerticalAlignment="Top" ToolTip="Path to ImageMagick"/>
-        <Button Grid.Row="5" Grid.Column="2" Command="{Binding FindPath}" CommandParameter="ImPath" HorizontalAlignment="Left" Margin="5" 
+        <TextBlock Grid.Row="5" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="Ghostscript" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="5"   Text="{Binding HyperMintSettings.GhostscriptPath}"  Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" 
+                             Controls:TextBoxHelper.Watermark="Ghostscript path not set..."
+                             Height="23" Margin="5" TextWrapping="Wrap"                             
+                            VerticalAlignment="Top" ToolTip="Ghostscript path to file gsdll32.dll / gsdll64.dll"/>
+        <Button Grid.Row="5" Grid.Column="2" Command="{Binding FindPath}" CommandParameter="GsPath" HorizontalAlignment="Left" Margin="5" 
                 VerticalAlignment="Top"
                 Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
             <Rectangle Width="20"

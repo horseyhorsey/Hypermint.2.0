@@ -44,15 +44,15 @@ namespace Hs.Hypermint.Settings
             set { SetProperty(ref launchParams, value); }            
         }
 
-        private string imageMagickPath;
+        private string ghostscriptPath;
         /// <summary>
         /// Path for Imagemagick
         /// This should be removed and just use the IM libary instead
         /// </summary>
-        public string ImageMagickPath
+        public string GhostscriptPath
         {
-            get { return imageMagickPath; }            
-            set { SetProperty(ref imageMagickPath, value); }
+            get { return ghostscriptPath; }            
+            set { SetProperty(ref ghostscriptPath, value); }
 
         }
 
