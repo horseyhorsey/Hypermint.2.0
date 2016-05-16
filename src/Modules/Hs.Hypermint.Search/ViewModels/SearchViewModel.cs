@@ -178,58 +178,6 @@ namespace Hs.Hypermint.Search.ViewModels
             _eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => SystemsUpdated(x));
         }
 
-        private void PageGames(string direction)
-        {
-            if (GamesFoundCount == 0) return;
-
-            if (direction == "forward")
-            {
-                if (currentPage < pageCount)
-                {
-                    FilteredGames = new ListCollectionView(
-                    searchedGames
-                    .Skip(5 * currentPage)
-                    .Take(5)
-                    .ToList());
-
-                    currentPage++;
-                }
-            }
-            else
-            {
-                if (currentPage > 1)
-                {
-                    currentPage--;
-
-                    if (currentPage == 1)
-                        FilteredGames =
-                            new ListCollectionView(
-                                searchedGames
-                                .Take(5).ToList());
-                    else
-                        FilteredGames = new ListCollectionView(
-                        searchedGames
-                        .Skip(5 * (currentPage-1))
-                        .Take(5)
-                        .ToList());
-                }
-            }
-
-            FilteredGames.CurrentChanged += FilteredGames_CurrentChanged;
-
-            PageInfo = currentPage + " | " + pageCount + "  Games found: " + GamesFoundCount;
-        }
-
-        private void FilteredGames_CurrentChanged(object sender, EventArgs e)
-        {
-            _selectedSrv.SelectedGames.Clear();
-
-            var game = FilteredGames.CurrentItem as GameSearch;
-
-            _selectedSrv.SelectedGames.Add(game.Game);
-                
-        }
-
         #region Methods
         private void LaunchGame()
         {
@@ -282,7 +230,7 @@ namespace Hs.Hypermint.Search.ViewModels
         /// <returns></returns>
         private async Task ScanForGamesAsync(string searchTerm)
         {
-            if (string.IsNullOrEmpty(searchTerm)) return;
+            if (string.IsNullOrWhiteSpace(searchTerm)) return;
 
             tokenSource = new CancellationTokenSource();
 
@@ -346,6 +294,58 @@ namespace Hs.Hypermint.Search.ViewModels
 
             canSearch = true;
             SearchGamesCommand.RaiseCanExecuteChanged();
+
+        }
+
+        private void PageGames(string direction)
+        {
+            if (GamesFoundCount == 0) return;
+
+            if (direction == "forward")
+            {
+                if (currentPage < pageCount)
+                {
+                    FilteredGames = new ListCollectionView(
+                    searchedGames
+                    .Skip(5 * currentPage)
+                    .Take(5)
+                    .ToList());
+
+                    currentPage++;
+                }
+            }
+            else
+            {
+                if (currentPage > 1)
+                {
+                    currentPage--;
+
+                    if (currentPage == 1)
+                        FilteredGames =
+                            new ListCollectionView(
+                                searchedGames
+                                .Take(5).ToList());
+                    else
+                        FilteredGames = new ListCollectionView(
+                        searchedGames
+                        .Skip(5 * (currentPage - 1))
+                        .Take(5)
+                        .ToList());
+                }
+            }
+
+            FilteredGames.CurrentChanged += FilteredGames_CurrentChanged;
+
+            PageInfo = currentPage + " | " + pageCount + "  Games found: " + GamesFoundCount;
+        }
+
+        private void FilteredGames_CurrentChanged(object sender, EventArgs e)
+        {
+            _selectedSrv.SelectedGames.Clear();
+
+            var game = FilteredGames.CurrentItem as GameSearch;
+
+            _selectedSrv.SelectedGames.Add(game.Game);
 
         }
         #endregion
