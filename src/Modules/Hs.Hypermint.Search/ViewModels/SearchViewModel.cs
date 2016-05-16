@@ -307,6 +307,8 @@ namespace Hs.Hypermint.Search.ViewModels
                             {
                                 var mediaPath = Path.Combine(_settings.HypermintSettings.HsPath, Root.Media);
 
+                                game.GameEnabled = 1;
+
                                 var systemImage = Path.Combine(mediaPath, "Main Menu",
                                     Images.Wheels, system.Name + ".png");
 
