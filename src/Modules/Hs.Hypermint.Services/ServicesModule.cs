@@ -14,11 +14,9 @@ namespace Hs.Hypermint.Services
         }
 
         public override void Initialize()
-        {                        
+        {                                    
 
-            UnityContainer.RegisterType<ISettingsRepo, SettingsRepo>(new ContainerControlledLifetimeManager());
-
-            UnityContainer.RegisterType<IGameRepo, GameRepo>(new ContainerControlledLifetimeManager());
+            
             
         }
 
