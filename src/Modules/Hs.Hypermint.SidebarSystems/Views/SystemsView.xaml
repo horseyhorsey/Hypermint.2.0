@@ -18,7 +18,19 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+                <DockPanel>
                 <CheckBox Margin="5" Grid.Row="0" Content="Re-order" IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
+                Command="{Binding AddSystemCommand}" CommandParameter=""
+                ToolTip="Save main menu" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
+                    <Rectangle Width="10" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_add}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+                
                 <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
                 Command="{Binding SaveMainMenuCommand}" CommandParameter=""
                 ToolTip="Save main menu" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
@@ -28,6 +40,7 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
+                </DockPanel>
 
                 <ListBox BorderThickness="2" Grid.Row="1"  ItemsSource="{Binding SystemItems}"  
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
