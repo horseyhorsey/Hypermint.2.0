@@ -8,13 +8,14 @@ using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
+using System.Text.RegularExpressions;
+using System.Windows.Media.Imaging;
+using Prism.Commands;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
 {
     public class MediaPaneViewModel : ViewModelBase
     {
-        private IEventAggregator _eventAggregator;
-
         #region Properties
         private ImageSource wheelSource;
         public ImageSource WheelSource
@@ -44,29 +45,82 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             set { SetProperty(ref isTextSource, value); }
         }
 
-        #endregion
-
-        #region Constructors
-        public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService,
-            ISettingsRepo settingsRepo)
+        private bool isPdf;
+        public bool IsPdf
         {
-            _eventAggregator = eventAggregator;
-            _selectedService = selectedService;
-            _settingsRepo = settingsRepo;
+            get { return isPdf; }
+            set { SetProperty(ref isPdf, value); }
+        }
 
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
-            _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe(SetMediaForRlAudit);
-            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetImageGame);
-            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetImageWheelPreview);
-            //
+        private int pdfPageCount;
+        public int PdfPageCount
+        {
+            get { return pdfPageCount; }
+            set { SetProperty(ref pdfPageCount, value); }
+        }
+
+        private int currentPage;
+        public int CurrentPage
+        {
+            get { return currentPage; }
+            set { SetProperty(ref currentPage, value); }
         }
 
         #endregion
 
         #region Services
+        private IEventAggregator _eventAggregator;
         private ISelectedService _selectedService;
         private ISettingsRepo _settingsRepo;
-        #endregion        
+        private IPdfService _pdfService;
+        private string currentPdfFile;
+        #endregion
+
+        #region Commands
+        public DelegateCommand<string> PagePdfCommand { get; private set; } 
+        #endregion
+
+        #region Constructors
+        public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService,
+            ISettingsRepo settingsRepo, IPdfService pdfService)
+        {
+            _eventAggregator = eventAggregator;
+            _selectedService = selectedService;
+            _settingsRepo = settingsRepo;
+            _pdfService = pdfService;
+
+            PagePdfCommand = new DelegateCommand<string>((x) =>
+            {
+                PagePdf(x);
+            });
+
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
+            _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe(SetMediaForRlAudit);
+            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetImageGame);
+            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetImageWheelPreview);            
+        }
+
+        private void PagePdf(string direction)
+        {
+            if (direction == "forward")
+            {
+                if (CurrentPage < PdfPageCount)
+                {
+                    CurrentPage++;
+                }
+            }
+            else
+            {
+                if (CurrentPage > 1)
+                {
+                    CurrentPage--;
+                }
+            }
+
+            SetPdfImage(currentPdfFile, CurrentPage -1);
+        }
+
+        #endregion
 
         #region Methods
         private void SetImageGame(string[] selectedOptions)
@@ -221,7 +275,6 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             WheelSource = _selectedService.SystemImage;
         }
 
-
         private void SetText(string file)
         {
             using (var sr = new StreamReader(file))
@@ -230,10 +283,33 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             }
         }
 
+        private void SetPdfPageCount(string file)
+        {
+            if (!File.Exists(file)) return;
+
+            PdfPageCount = _pdfService.GetNumberOfPdfPages(file);
+        }
+
+        private void SetPdfImage(string file, int pageNumber = 0)
+        {
+            if (!File.Exists(file)) return;
+
+            currentPdfFile = file;
+
+            var gsPath = _settingsRepo.HypermintSettings.GhostscriptPath;
+
+            if (!Directory.Exists(gsPath)) return;
+
+            WheelSource = _pdfService.GetPage(gsPath, file, pageNumber);            
+
+        }
+
         private void SetMediaForRlAudit(string file)
         {
             var extension = Path.GetExtension(file);
-            IsTextSource = false;
+
+            IsTextSource = false;IsPdf = false;
+
             switch (extension.ToLower())
             {
                 case ".png":
@@ -253,6 +329,12 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 case ".txt":
                     IsTextSource = true;
                     SetText(file);
+                    break;
+                case ".pdf":
+                    IsPdf = true;
+                    CurrentPage = 1;
+                    SetPdfPageCount(file);
+                    SetPdfImage(file);
                     break;
                 default:
                     SetImageWheelPreview("");
