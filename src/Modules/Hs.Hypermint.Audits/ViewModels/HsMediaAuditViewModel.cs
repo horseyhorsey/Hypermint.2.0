@@ -158,8 +158,9 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                 });
 
-            _eventAggregator.GetEvent<AuditHyperSpinEvent>().Subscribe(RunScan);            
+            _eventAggregator.GetEvent<AuditHyperSpinEvent>().Subscribe(RunScan);
 
+            gamesUpdated("Main Menu");
         }
 
         #endregion
@@ -174,7 +175,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 {
                     var systemName = _selectedService.CurrentSystem;
 
-                    if (systemName.Contains("Main Menu"))
+                    if (systemName.ToLower().Contains("main menu"))
                     {
                         _auditer.ScanForMediaMainMenu(
                             hsPath, _gameRepo.GamesList);
@@ -201,7 +202,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private void gamesUpdated(string systemName)
         {
-            if (systemName.Contains("Main Menu"))
+            if (systemName.ToLower().Contains("main menu"))
             {
                 IsMainMenu = true;
                 IsntMainMenu = false;

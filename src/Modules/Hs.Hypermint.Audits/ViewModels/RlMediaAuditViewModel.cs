@@ -187,7 +187,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
             if (Directory.Exists(_settingsRepo.HypermintSettings.RlPath))
             {
-                if (!systemName.Contains("Main Menu"))
+                if (!systemName.ToLower().Contains("main menu"))
                 {
                     _selectedSystem = systemName;
 
