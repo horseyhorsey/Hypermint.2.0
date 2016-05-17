@@ -19,11 +19,14 @@
                 </Grid.RowDefinitions>
 
                 <DockPanel>
-                <CheckBox Margin="5" Grid.Row="0" Content="Re-order" IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
+                    <CheckBox Margin="5" Grid.Row="0" Content="Re-order"
+                              IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
 
-                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
-                Command="{Binding AddSystemCommand}" CommandParameter=""
-                ToolTip="Save main menu" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <DockPanel HorizontalAlignment="Right">
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
+                Command="{Binding AddSystemCommand}" IsEnabled="False"
+                ToolTip="Add new system" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="10" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_add}"/>
