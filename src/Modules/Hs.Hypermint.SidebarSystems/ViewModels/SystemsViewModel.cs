@@ -63,10 +63,12 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         ISelectedService _selectedService;
 
         public DelegateCommand SaveMainMenuCommand { get; private set; }
+        public DelegateCommand AddSystemCommand { get; private set; } 
+
 
         public SystemsViewModel()
         {
-
+            _eventAggregator.GetEvent<AddNewSystemEvent>().Publish("SystemsView");
         }
 
         public SystemsViewModel(IMainMenuRepo main, IEventAggregator eventAggregator,
@@ -93,8 +95,15 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
             _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterSystemsByText);
 
-            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);            
+            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);
 
+            AddSystemCommand = new DelegateCommand(AddSystem);
+
+        }
+
+        private void AddSystem()
+        {
+            
         }
 
         private void SaveMainMenu()

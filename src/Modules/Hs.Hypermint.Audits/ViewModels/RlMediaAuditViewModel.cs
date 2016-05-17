@@ -1,16 +1,16 @@
-﻿using Hs.Hypermint.BezelEdit.Views;
-using Hs.RocketLauncher.AuditBase;
+﻿using Hs.RocketLauncher.AuditBase;
 using Hypermint.Base;
 using Hypermint.Base.Base;
+using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -50,6 +50,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         private CustomDialog customDialog;
 
         private IDialogCoordinator _dialogService;
+        private IRegionManager _regionManager;
 
         public ICollectionView AuditListDefaults
         {
@@ -63,11 +64,9 @@ namespace Hs.Hypermint.Audits.ViewModels
         public DelegateCommand<object> CurrentCellChanged { get; set; }
         public DelegateCommand PauseMediaScanCommand { get; private set; }
         public DelegateCommand FadeScanCommand { get; private set; }
-        public DelegateCommand<string> BezelEditCommand { get; private set; }
-        public DelegateCommand CloseBezelEditCommand { get; private set; } 
+        public DelegateCommand BezelEditCommand { get; private set; } 
 
-
-        public RlMediaAuditViewModel(IEventAggregator eventAggregator, IGameRepo gameRepo
+        public RlMediaAuditViewModel(IEventAggregator eventAggregator,IRegionManager regionManager, IGameRepo gameRepo
             , IAuditerRl rocketAuditer, ISettingsRepo settings, IDialogCoordinator dialogService)
         {
             _eventAggregator = eventAggregator;
@@ -75,6 +74,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             _rocketAuditer = rocketAuditer;
             _settingsRepo = settings;
             _dialogService = dialogService;
+            _regionManager = regionManager;
 
             _rocketAuditer.RlAudits = new RocketLauncherAudits();
             _rocketAuditer.RlAuditsDefault = new RocketLauncherAudits();
@@ -88,28 +88,14 @@ namespace Hs.Hypermint.Audits.ViewModels
             BezelScanCommand = new DelegateCommand(ScanBezel);
             PauseMediaScanCommand = new DelegateCommand(ScanPauseMedia);
             FadeScanCommand = new DelegateCommand(ScanFadeLayers);
-            BezelEditCommand = new DelegateCommand<string>(async (x) => await OpenBezelEdit(x));
-            CloseBezelEditCommand = new DelegateCommand(CloseBezelEdit);
+
+            BezelEditCommand = new DelegateCommand(() =>
+            {
+                _regionManager.RequestNavigate(RegionNames.ContentRegion, "BezelEditView");
+            });
 
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
 
-        }
-
-
-        private async Task OpenBezelEdit(string file)
-        {
-
-            customDialog = new CustomDialog() { Title = "" };
-
-            customDialog.Content = new BezelEditView { DataContext = this };
-
-            await _dialogService.ShowMetroDialogAsync(this, customDialog);
-
-        }
-
-        private async void CloseBezelEdit()
-        {
-            await _dialogService.HideMetroDialogAsync(this,customDialog);
         }
 
         private void CurrenCellChanged(object selectedGameCell)

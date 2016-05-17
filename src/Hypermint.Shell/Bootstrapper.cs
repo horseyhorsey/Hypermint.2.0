@@ -22,6 +22,7 @@ using Hs.Hypermint.DatabaseDetails;
 using Hs.Hypermint.RocklaunchStats.Views;
 using Hs.Hypermint.Browser.Views;
 using Hs.Hypermint.DatabaseDetails.Services;
+using Hs.Hypermint.BezelEdit.Views;
 
 namespace Hypermint.Shell
 {
@@ -73,8 +74,8 @@ namespace Hypermint.Shell
 
             Container.RegisterType<IApplicationCommands, ApplicationCommandsProxy>();
             Container.RegisterType<IDialogCoordinator, DialogCoordinator>();
-            Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
 
+            Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFileFolderChecker>(Container.Resolve<FileFolderChecker>());
 
@@ -96,7 +97,13 @@ namespace Hypermint.Shell
                 new ContainerControlledLifetimeManager());
 
             Container.RegisterType<IHyperspinXmlService, HyperspinXmlService>(
-                new ContainerControlledLifetimeManager());            
+                new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<IGameRepo, GameRepo>(
+                new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<IPdfService, PdfService>(
+                new ContainerControlledLifetimeManager());
 
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
@@ -107,6 +114,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<SearchView>("SearchView");
             Container.RegisterTypeForNavigation<StatsView>("StatsView");
             Container.RegisterTypeForNavigation<WebBrowseView>("WebBrowseView");
+            Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");
 
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");

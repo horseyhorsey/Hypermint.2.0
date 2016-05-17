@@ -1,8 +1,11 @@
 ﻿using Hs.Hypermint.BezelEdit.Views;
 using Hypermint.Base;
 using Hypermint.Base.Base;
+using Hypermint.Base.Constants;
 using MahApps.Metro.Controls.Dialogs;
+using Prism.Commands;
 using Prism.Events;
+using Prism.Regions;
 using System.Threading.Tasks;
 
 namespace Hs.Hypermint.Audits.ViewModels
@@ -10,22 +13,21 @@ namespace Hs.Hypermint.Audits.ViewModels
     public class BezelEditViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
-        private Task _dialogService;
-        private CustomDialog customDialog;
+        private IRegionManager _regionManage;
 
-        public BezelEditViewModel(IEventAggregator eventAggregator)
+        public DelegateCommand CloseBezelEditCommand { get; private set; } 
+
+        public BezelEditViewModel(IEventAggregator eventAggregator, IRegionManager regionManage)
         {
             _eventAggregator = eventAggregator;
+            _regionManage = regionManage;
 
-            _eventAggregator.GetEvent<OpenBezelEditEvent>().Subscribe(x => ShowBezelEdit(x));
+            CloseBezelEditCommand = new DelegateCommand(() =>
+            {
+                _regionManage.RequestNavigate(RegionNames.ContentRegion, "");
+            });
 
         }
-
-        private void ShowBezelEdit(string fileName)
-        {
-            
-        }
-
 
     }
 }
