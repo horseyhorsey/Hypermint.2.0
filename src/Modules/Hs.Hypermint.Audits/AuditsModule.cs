@@ -24,6 +24,8 @@ namespace Hs.Hypermint.Audits
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.HsMediaAuditView));
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.RlMediaAuditView));
+
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(BezelEdit.Views.BezelEditView));
         }
     }
 }
