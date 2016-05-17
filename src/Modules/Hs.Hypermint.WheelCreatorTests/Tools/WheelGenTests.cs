@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using ImageMagick;
+using System;
 
 namespace Hs.Hypermint.WheelCreator.Tools.Tests
 {
@@ -27,6 +28,31 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
                 image.Settings.FillPattern = new MagickImage("pattern:checkerboard");
                 image.Annotate("Anthony\nis\ncheap", new MagickGeometry(400, 180));
                 image.Write(@"c:\users\admin\desktop\font_tile.png");
+            }
+        }
+
+        [Test()]
+        public void GetImageFromPdf()
+        {
+            MagickNET.SetGhostscriptDirectory(@"C:\Program Files (x86)\gs\gs9.19\bin");
+
+            using (MagickImageCollection collection = new MagickImageCollection())
+            {
+                MagickReadSettings settings = new MagickReadSettings();
+                settings.FrameIndex = 0; // First page
+                settings.FrameCount = 2; // Number of pages
+                // Read only the first page of the pdf file
+                
+                collection.Read(@"I:\RocketLauncher\Media\Manuals\Amstrad CPC\1st Division Manager (Europe)\Manual.pdf",settings);
+
+                Console.WriteLine("PDF page count: {0}", collection.Count);
+
+                var appendedImage = collection.AppendHorizontally();
+
+                //Crop pages, for SuperNES
+                //appendedImage.Crop()
+
+                appendedImage.Write(@"c:\users\admin\desktop\mergedPdf.png");                
             }
         }
 
