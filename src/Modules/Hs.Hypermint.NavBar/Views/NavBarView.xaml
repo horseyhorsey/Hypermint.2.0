@@ -46,7 +46,7 @@
 
         <!--Rocketlaunch audits-->
         <Button Command="{Binding NavigateCommand}" CommandParameter="RlMediaAuditView"
-                ToolTip="Rocketlaunch audit">
+                ToolTip="Rocketlaunch audit" IsEnabled="{Binding IsNotMainMenu}">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
