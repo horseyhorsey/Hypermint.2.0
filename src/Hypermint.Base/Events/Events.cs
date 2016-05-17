@@ -18,6 +18,8 @@ namespace Hypermint.Base
 
     public class UpdateFilesEvent : PubSubEvent<string[]> { }
 
+    public class AddNewSystemEvent : PubSubEvent<string> { }
+
     public class GameFilteredEvent : PubSubEvent<GameFilter>
     {
 
