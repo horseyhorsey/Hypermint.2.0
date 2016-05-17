@@ -2,9 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"       
-             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-             dialog:DialogParticipation.Register="{Binding}"  
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"                                       
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Image x:Name="screenImage" MinWidth="500" MinHeight="500" Stretch="UniformToFill"/>
@@ -15,6 +13,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="12,0,0,67" 
                    TextWrapping="Wrap" Text="Bezel Screen Top Left Click X"
                    Height="16" VerticalAlignment="Bottom"/>
+        
         <TextBlock HorizontalAlignment="Left" Margin="12,0,0,39"
                    TextWrapping="Wrap" Text="Bezel Screen Top Left Click Y"
                    VerticalAlignment="Bottom"/>
@@ -40,7 +39,7 @@
                 Width="75" Height="20" VerticalAlignment="Bottom"  />
 
         <Button Content="Close" Command="{Binding CloseBezelEditCommand}" 
-                HorizontalAlignment="Left" Margin="550,0,0,5"
+                HorizontalAlignment="Left" Margin="458,0,0,58"
                 Width="75" Height="20" VerticalAlignment="Bottom"  />
 
         <TextBlock HorizontalAlignment="Left" Margin="298,0,0,10"
