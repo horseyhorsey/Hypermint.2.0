@@ -1,11 +1,8 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Base;
-using Hypermint.Base.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
-using System.Collections.ObjectModel;
-using System;
 
 namespace Hypermint.Shell.ViewModels
 {
