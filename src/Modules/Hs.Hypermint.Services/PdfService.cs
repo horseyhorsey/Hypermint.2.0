@@ -6,22 +6,38 @@ using System;
 using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using iTextSharp.text.pdf;
 
 namespace Hs.Hypermint.Services
 {
     public class PdfService : IPdfService
     {
+        /// <summary>
+        /// This METHOD IS FLAKEY, NO GOOD!
+        /// </summary>
+        /// <param name="pdfFile"></param>
+        /// <returns></returns>        
+        //public int GetNumberOfPdfPages(string pdfFile)
+        //{
+        //    int pageCount = 0;
+
+        //    using (StreamReader sr = new StreamReader(File.OpenRead(pdfFile)))
+        //    {
+        //        Regex regex = new Regex(@"/Type\s*/Page[^s]");
+        //        MatchCollection matches = regex.Matches(sr.ReadToEnd());
+
+        //        pageCount = matches.Count;
+        //    }
+
+        //    return pageCount;
+        //}
+
         public int GetNumberOfPdfPages(string pdfFile)
         {
             int pageCount = 0;
+            var pdfReader = new PdfReader(pdfFile);
 
-            using (StreamReader sr = new StreamReader(File.OpenRead(pdfFile)))
-            {
-                Regex regex = new Regex(@"/Type\s*/Page[^s]");
-                MatchCollection matches = regex.Matches(sr.ReadToEnd());
-
-                pageCount = matches.Count;
-            }
+            pageCount = pdfReader.NumberOfPages;
 
             return pageCount;
         }
