@@ -7,7 +7,9 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:ddrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:prism="http://prismlibrary.com/"
-            prism:ViewModelLocator.AutoWireViewModel="True">
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"  
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
 
         <GroupBox Header="{Binding SystemsHeader}" Grid.Row="1" MinHeight="500" 
@@ -25,7 +27,7 @@
 
                 <DockPanel HorizontalAlignment="Right">
                     <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
-                Command="{Binding AddSystemCommand}" IsEnabled="False"
+                Command="{Binding AddSystemCommand}" IsEnabled="True"
                 ToolTip="Add new system" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="10" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                         <Rectangle.OpacityMask>

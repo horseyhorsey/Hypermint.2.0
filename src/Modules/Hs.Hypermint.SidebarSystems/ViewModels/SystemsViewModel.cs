@@ -15,11 +15,16 @@ using GongSolutions.Wpf.DragDrop;
 using System.Windows;
 using Prism.Commands;
 using Hypermint.Base.Events;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
+using Hs.Hypermint.SidebarSystems.Dialog;
+using System.Reflection;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
     public class SystemsViewModel : ViewModelBase, IDropTarget
     {
+        #region Properties
         private ICollectionView _systemItems;
         public ICollectionView SystemItems
         {
@@ -57,22 +62,59 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             set { SetProperty(ref systemCount, value); }
         }
 
+        private string pickedDatabaseXml;
+        public string PickedDatabaseXml
+        {
+            get { return pickedDatabaseXml; }
+            set { SetProperty(ref pickedDatabaseXml, value); }
+        }
+
+        private string shortDbName;
+        public string ShortDbName
+        {
+            get { return shortDbName; }
+            set { SetProperty(ref shortDbName, value); }
+        }
+
+        private string newSystemName;
+        public string NewSystemName
+        {
+            get { return newSystemName; }
+            set { SetProperty(ref newSystemName, value); }
+        }
+
+        #endregion
+
+        #region Services
         IMainMenuRepo _mainMenuRepo;
         ISettingsRepo _settingsRepo;
         IEventAggregator _eventAggregator;
         ISelectedService _selectedService;
+        IDialogCoordinator _dialogService;
+        CustomDialog customDialog;
+        private IFileFolderService _fileFolderService;
+        #endregion
 
+        #region Commands
         public DelegateCommand SaveMainMenuCommand { get; private set; }
-        public DelegateCommand AddSystemCommand { get; private set; } 
+        public DelegateCommand<string> AddSystemCommand { get; private set; }
+        public DelegateCommand CloseDialogCommand { get; private set; }
+        public DelegateCommand SelectDatabaseCommand { get; private set; }
+        public DelegateCommand SaveNewSystemCommand { get; private set; } 
 
+        #endregion
 
         public SystemsViewModel()
         {
             _eventAggregator.GetEvent<AddNewSystemEvent>().Publish("SystemsView");
         }
 
-        public SystemsViewModel(IMainMenuRepo main, IEventAggregator eventAggregator,
-            ISettingsRepo settings, ISelectedService selectedService)
+        public SystemsViewModel(IMainMenuRepo main, 
+            IEventAggregator eventAggregator,
+            ISettingsRepo settings,
+            IFileFolderService fileService,
+            IDialogCoordinator dialogService,
+            ISelectedService selectedService)
         {
             _mainMenuRepo = main;
             _eventAggregator = eventAggregator;
@@ -81,9 +123,10 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _settingsRepo.LoadHypermintSettings();
 
             _selectedService = selectedService;
+            _dialogService = dialogService;
+            _fileFolderService = fileService;            
 
             // Setup the main menu database to read in all systems
-
             _mainMenuXmlPath = "";
 
             _mainMenuXmlPath = Path.Combine(
@@ -95,15 +138,137 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
             _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterSystemsByText);
 
-            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);
+            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);            
 
-            AddSystemCommand = new DelegateCommand(AddSystem);
+            AddSystemCommand = new DelegateCommand<string>(async x =>
+            {
+                if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
+
+                await AddSystemAsync();
+            });
+
+            CloseDialogCommand = new DelegateCommand(async () =>
+            {
+                await _dialogService.HideMetroDialogAsync(this, customDialog);
+            });
+
+            SelectDatabaseCommand = new DelegateCommand(() =>
+            {
+                if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
+
+                PickedDatabaseXml = 
+                    _fileFolderService.setFileDialog(_settingsRepo.HypermintSettings.HsPath + "\\Databases");
+
+                ShortDbName = Path.GetFileNameWithoutExtension(PickedDatabaseXml);
+            });
+
+            SaveNewSystemCommand = new DelegateCommand(() => 
+            {
+                if (string.IsNullOrWhiteSpace(NewSystemName)) return;
+
+                bool createFromExisting = false;
+
+                if (!string.IsNullOrEmpty(PickedDatabaseXml))
+                    createFromExisting = true;
+
+                SaveNewSystem(createFromExisting);
+
+            });
 
         }
 
-        private void AddSystem()
+        private void SaveNewSystem(bool createFromExistingDb)
         {
-            
+            _mainMenuRepo.Systems.Add(new MainMenu()
+            {
+                Enabled = 1,
+                Name = NewSystemName
+            });
+
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "Hs.Hypermint.SidebarSystems.systemSettings.ini";
+
+            //Create settings file for system if not already existing.
+            var settingsFile = _settingsRepo.HypermintSettings.HsPath + "\\Settings\\" + NewSystemName + ".ini";
+            if (!File.Exists(settingsFile))
+            {
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                using (var reader = new StreamReader(stream))
+                using (var textFile = File.CreateText(settingsFile))
+                {
+                    string line = "";
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        textFile.WriteLine(line);
+                    }
+                }
+            }
+
+            //Create media dirs
+            CreateMediaDirectorysForNewSystem(_settingsRepo.HypermintSettings.HsPath, NewSystemName);
+
+            //Create Database file or directory
+            string dbDir = _settingsRepo.HypermintSettings.HsPath + "\\Databases\\";
+            if (!createFromExistingDb)
+            {
+                if (!Directory.Exists(dbDir + NewSystemName))
+                {
+                    Directory.CreateDirectory(dbDir + NewSystemName);
+                    File.Create(dbDir + NewSystemName + "\\" + NewSystemName + ".xml");
+                }
+            }
+            else
+            {
+                if (!Directory.Exists(dbDir + NewSystemName))
+                {
+                    Directory.CreateDirectory(dbDir + NewSystemName);                    
+                }
+
+                if (!File.Exists(dbDir + NewSystemName + "\\" + NewSystemName + ".xml"))
+                {
+                    File.Copy(PickedDatabaseXml, dbDir + NewSystemName + "\\" + NewSystemName + ".xml");
+                }               
+
+            }
+
+            _dialogService.HideMetroDialogAsync(this, customDialog);
+        }
+
+        private void CreateMediaDirectorysForNewSystem(string hsPath, string systemName)
+        {
+            var newSystemMediaPath = Path.Combine(hsPath, Root.Media, systemName);
+
+            CreateDefaultHyperspinFolders(newSystemMediaPath);
+        }
+
+        private void CreateDefaultHyperspinFolders(string hyperSpinSystemMediaDirectory)
+        {
+            for (int i = 1; i < 5; i++)
+            {
+                Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\Images\\Artwork" + i);
+            }
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Backgrounds);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.GenreBackgrounds);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.GenreWheel);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Letters);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Pointer);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Special);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Wheels);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Themes);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.BackgroundMusic);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.SystemExit);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.SystemStart);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.WheelSounds);
+            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Video);
+        }
+
+        private async Task AddSystemAsync()
+        {
+            customDialog = new CustomDialog() { Title = "Add new system" };
+
+            customDialog.Content = new AddSystemDialog { DataContext = this };
+
+            await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }
 
         private void SaveMainMenu()
