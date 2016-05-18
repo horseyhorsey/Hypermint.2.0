@@ -1,7 +1,6 @@
 ﻿using Hs.Hypermint.DatabaseDetails.Dialog;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.HyperSpin.Database;
-using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
@@ -10,9 +9,7 @@ using Hypermint.Base.Services;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
