@@ -23,8 +23,10 @@ namespace Hypermint.Base.Services
         {
             var fileBrowserDialog = new OpenFileDialog();
 
-            if (!string.IsNullOrEmpty(initialDirectory))
+            if (string.IsNullOrEmpty(initialDirectory))
                 fileBrowserDialog.InitialDirectory = initialDirectory + "\\Settings";
+            else
+                fileBrowserDialog.InitialDirectory = initialDirectory;
 
             var result = fileBrowserDialog.ShowDialog();
             
