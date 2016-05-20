@@ -230,6 +230,8 @@
                         <DataGridTextColumn Header="System" Binding="{Binding Game.System}"/>
                         <DataGridTextColumn Header="Genre" Binding="{Binding Game.Genre}"/>
                         <DataGridTextColumn Header="Year" Binding="{Binding Game.Year}"/>
+                        <DataGridTextColumn Header="Manufacturer" Binding="{Binding Game.Manufacturer}"/>
+                        <DataGridTextColumn Header="Clone" Binding="{Binding Game.CloneOf}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
