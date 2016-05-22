@@ -102,9 +102,12 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
             ProcessWheelsCommand = new DelegateCommand(async () =>
             {
-                Cancellable = true;
+                if (_gameRepo.GamesList != null)
+                {
+                    Cancellable = true;
 
-                await ProcessWheelsAsync();
+                    await ProcessWheelsAsync();
+                }
 
             });
 
