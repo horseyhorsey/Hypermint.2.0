@@ -144,9 +144,12 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             {
                 if (!ProcessCancel)
                 {
-                    var exportName = wheel.RomName + ".png";
+                    string exportName = wheel.RomName + ".png";
 
-                    ProcessWheelSetting.PreviewText = wheel.Description;
+                    if(_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                        ProcessWheelSetting.PreviewText = wheel.RomName;
+                    else
+                        ProcessWheelSetting.PreviewText = wheel.Description;
 
                     using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
                     {
