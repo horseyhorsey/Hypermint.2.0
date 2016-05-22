@@ -54,11 +54,15 @@ namespace Hs.Hypermint.NavBar.ViewModels
             {
                 IsNotMainMenu = false;
                 //_regionManager.Regions.Remove(RegionNames.FilesRegion);
-                _regionManager.RequestNavigate("ContentRegion", "SearchView");                
+                _regionManager.RequestNavigate("ContentRegion", "SearchView");
+
+                RemoveAllFilesRegionViews();
             }
             else
             {
                 IsNotMainMenu = true;
+
+                _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
 
                 if (!_regionManager.Regions.ContainsRegionWithName("FilesRegion"))
                 {
@@ -66,6 +70,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 }
 
                 _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
+                
             }
         }
 
@@ -84,7 +89,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     else
                     {
                         CurrentView += "Database editor";
-//                        _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
+                        _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
                         _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
                     }
                     break;
@@ -106,7 +111,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
                 case "SimpleWheelView":
                     CurrentView += "Simple wheel creator";
-                    RemoveAllFilesRegionViews();
+                    _regionManager.RequestNavigate("FilesRegion", "WheelProcessView");
                     break;
                 case "StatsView":
                     CurrentView += "Rocketlaunch stats";
