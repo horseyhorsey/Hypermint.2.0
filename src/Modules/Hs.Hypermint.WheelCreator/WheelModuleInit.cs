@@ -14,7 +14,9 @@ namespace Hs.Hypermint.WheelCreator
 
         public override void Initialize()
         {
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SimpleWheelView));                    
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SimpleWheelView));
+
+            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(WheelProcessView));
         }
 
     }
