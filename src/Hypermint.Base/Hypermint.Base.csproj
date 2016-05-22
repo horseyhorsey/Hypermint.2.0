@@ -91,6 +91,7 @@
     <Compile Include="Converters\ConvertTime.cs" />
     <Compile Include="Events\AuditingEvents.cs" />
     <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\PresetEvents.cs" />
     <Compile Include="Events\SelectedEvents.cs" />
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Interfaces\IAuditer.cs" />
