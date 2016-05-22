@@ -43,7 +43,7 @@ namespace Hypermint.Shell
             }
 
             Application.Current.MainWindow = (Views.Shell)this.Shell;
-            regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
+            regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));            
             Application.Current.MainWindow.Show();
         }
 
@@ -103,9 +103,10 @@ namespace Hypermint.Shell
                 new ContainerControlledLifetimeManager());
 
             Container.RegisterType<IPdfService, PdfService>(
-                new ContainerControlledLifetimeManager());
+                new ContainerControlledLifetimeManager());            
 
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
+            Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
             Container.RegisterTypeForNavigation<IntroVideosView>("IntroVideosView");
             Container.RegisterTypeForNavigation<HsMediaAuditView>("HsMediaAuditView");
@@ -114,7 +115,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<SearchView>("SearchView");
             Container.RegisterTypeForNavigation<StatsView>("StatsView");
             Container.RegisterTypeForNavigation<WebBrowseView>("WebBrowseView");
-            Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");
+            Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");            
 
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");
