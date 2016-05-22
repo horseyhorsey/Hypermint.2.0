@@ -29,7 +29,9 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
         public DelegateCommand ProcessWheelsCommand { get; private set; }
         public DelegateCommand GeneratePreviewCommand { get; private set; }
-        public DelegateCommand ProcessCancelCommand { get; private set; } 
+        public DelegateCommand ProcessCancelCommand { get; private set; }
+        public DelegateCommand OpenExportFolderCommand { get; private set; } 
+
         private IEventAggregator _eventAgg;
         private IGameRepo _gameRepo;
         private ISelectedService _selectedService;
@@ -77,12 +79,24 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             set { SetProperty(ref processWheelInfo, value); }
         }
 
-        public WheelProcessViewModel(IEventAggregator ea, IGameRepo gameRepo,
-            ISelectedService selectedService)
+        private bool overwriteImage = false;
+        private IFolderExplore _folderExplorer;
+
+        public bool OverwriteImage
+        {
+            get { return overwriteImage; }
+            set { SetProperty(ref overwriteImage, value); }
+        }
+
+        public WheelProcessViewModel(IEventAggregator ea,
+            IGameRepo gameRepo,
+            ISelectedService selectedService,
+            IFolderExplore folderExplore)
         {
             _eventAgg = ea;
             _gameRepo = gameRepo;
             _selectedService = selectedService;
+            _folderExplorer = folderExplore;
 
             ITextImageService srv = new TextImage();
 
@@ -101,10 +115,17 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             ProcessCancelCommand = new DelegateCommand(() =>
             {
                 Cancellable = false;
-                ProcessCancel = true;                
+                ProcessCancel = true;
             });
 
             GeneratePreviewCommand = new DelegateCommand(GeneratePreview);
+
+            OpenExportFolderCommand = new DelegateCommand(() =>
+            {
+                var exportPath = "Exports\\Wheels\\" + _selectedService.CurrentSystem + "\\";
+
+                _folderExplorer.OpenFolder(exportPath);
+            });
         }
 
         private void Presets_CurrentChanged(object sender, EventArgs e)
@@ -161,39 +182,60 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             int i = 1;
             foreach (var wheel in WheelNamesList)
             {
+                string exportName = wheel.RomName + ".png";
+                var imagePath = Path.Combine(exportPath, exportName);
+
                 if (!ProcessCancel)
-                {
+                {                    
                     ProcessWheelInfo = "Processing wheels : " + i + " of " + gameCount;
 
-                    string exportName = wheel.RomName + ".png";
-
-                    if(_selectedService.CurrentSystem.ToLower().Contains("main menu"))
-                        ProcessWheelSetting.PreviewText = wheel.RomName;
-                    else
-                        ProcessWheelSetting.PreviewText = wheel.Description;
-
-                    using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
+                    if (!File.Exists(imagePath))
                     {
-                        var imagePath = Path.Combine(exportPath, exportName);
+                        if (_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                            ProcessWheelSetting.PreviewText = wheel.RomName;
+                        else
+                            ProcessWheelSetting.PreviewText = wheel.Description;
 
-                        image.Write(imagePath);
+                        using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
+                        {
+                            image.Write(imagePath);
 
-                        if(PreviewCreated)
-                            _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
-                    }                    
+                            if (PreviewCreated)
+                                _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
+                        }                     
+                    }
+                    else
+                    {
+                        if (OverwriteImage)
+                        {
+                            if (_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                                ProcessWheelSetting.PreviewText = wheel.RomName;
+                            else
+                                ProcessWheelSetting.PreviewText = wheel.Description;
+
+                            using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
+                            {
+                                image.Write(imagePath);
+
+                                if (PreviewCreated)
+                                    _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
+                            }
+                        }
+                    }
 
                     i++;
-                    
                 }
+
                 else
                 {
-                    Cancellable = false;
-                    ProcessRunning = false;
-                    ProcessCancel = false;
                     break;
                 }
-                
+
             }
+
+            Cancellable = false;
+            ProcessRunning = false;
+            ProcessCancel = false;
         }
     }
 

@@ -40,14 +40,19 @@
             </Rectangle.OpacityMask>
         </Rectangle>
     </Button>
+    
+    <CheckBox DockPanel.Dock="Left" Content="Overwrite" HorizontalAlignment="Left" Margin="10"
+              VerticalAlignment="Center" IsChecked="{Binding OverwriteImage}" 
+              ToolTip="Overwrite existing wheel in export folder"/>
+    
     <CheckBox DockPanel.Dock="Left" Content="Missing Wheels" HorizontalAlignment="Left" Margin="10"
-              VerticalAlignment="Center" IsChecked="True" Height="18" Width="136" ToolTip="Only run batch on missing wheels in database"/>
+              VerticalAlignment="Center" IsChecked="True" ToolTip="Only run batch on missing wheels in database"/>
     <CheckBox DockPanel.Dock="Left" Content="Preview Created"
-              IsChecked="{Binding PreviewCreated,UpdateSourceTrigger=PropertyChanged}" Height="18" Margin="10"
-              VerticalAlignment="Center"  Width="132" HorizontalAlignment="Left"
+              IsChecked="{Binding PreviewCreated,UpdateSourceTrigger=PropertyChanged}" Margin="10"
+              VerticalAlignment="Center" HorizontalAlignment="Left"
               ToolTip="Preview the output of each image in batch run" />
     <!--Open wheel exports folder-->
-    <Button DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" 
+    <Button DockPanel.Dock="Top" Command="{Binding OpenExportFolderCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" 
                 Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
                 ToolTip="Open current systems export folder">
         <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
