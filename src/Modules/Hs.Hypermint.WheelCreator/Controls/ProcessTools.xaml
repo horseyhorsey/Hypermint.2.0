@@ -42,8 +42,10 @@
     </Button>
     <CheckBox DockPanel.Dock="Left" Content="Missing Wheels" HorizontalAlignment="Left" Margin="10"
               VerticalAlignment="Center" IsChecked="True" Height="18" Width="136" ToolTip="Only run batch on missing wheels in database"/>
-    <CheckBox DockPanel.Dock="Left" Content="Preview Created" IsChecked="True" Height="18" Margin="10"
-              VerticalAlignment="Center" ToolTip="Preview the output of each image in batch run"  Width="132" HorizontalAlignment="Left"/>
+    <CheckBox DockPanel.Dock="Left" Content="Preview Created"
+              IsChecked="{Binding PreviewCreated,UpdateSourceTrigger=PropertyChanged}" Height="18" Margin="10"
+              VerticalAlignment="Center"  Width="132" HorizontalAlignment="Left"
+              ToolTip="Preview the output of each image in batch run" />
     <!--Open wheel exports folder-->
     <Button DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" 
                 Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
