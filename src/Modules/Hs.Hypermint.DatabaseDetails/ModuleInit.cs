@@ -19,7 +19,7 @@ namespace Hs.Hypermint.DatabaseDetails
 
         public override void Initialize()
         {
-            UnityContainer.RegisterType<IGameRepo, GameRepo>();
+            
             UnityContainer.RegisterType<IFavoriteService,FavoriteService>();
 
             UnityContainer.RegisterType<IFolderExplore, FolderExplore>();            
@@ -27,9 +27,10 @@ namespace Hs.Hypermint.DatabaseDetails
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(MainMenuView));
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(DatabaseDetailsView));
-            
-            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(DatabaseOptionsView));                            
-            
+
+            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(DatabaseOptionsView));            
+
+
         }
 
     }
