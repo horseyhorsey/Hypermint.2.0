@@ -94,12 +94,18 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             }
         }
 
-        private void GetPresets()
+        private void GetPresets(string selectedName = "")
         {
             ITextImageService srv = new TextImage();
+
             string[] textPresets = srv.GetTextPresets();
 
             Presets = new ListCollectionView(textPresets);
+
+            if (!string.IsNullOrWhiteSpace(selectedName))
+                Presets.MoveCurrentTo((string)selectedName);
+
+            _eventAgg.GetEvent<PresetWheelsUpdatedEvent>().Publish("");
 
             Presets.CurrentChanged += Presets_CurrentChanged;
 
@@ -147,7 +153,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 serializer.Serialize(writer, CurrentWheelSetting, xmlNameSpace);
             }
 
-            GetPresets();
+            GetPresets(currentWheelSetting.Name + ".xml");
 
         }
 
