@@ -11,5 +11,7 @@
         public static string SettingsRegion = "SettingsRegion"; 
         public static string FlyoutRegion = "FlyoutRegion";
         public static string MediaPaneRegion = "MediaPaneRegion";
+        public static string TextWheelRegion = "TextWheelRegion";
+        
     }
 }
