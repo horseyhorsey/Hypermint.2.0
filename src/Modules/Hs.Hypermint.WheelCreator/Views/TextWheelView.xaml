@@ -88,7 +88,7 @@
 
                 <GroupBox Header="Preset">
                     <DockPanel>
-                        <ComboBox ItemsSource="{Binding Presets}"></ComboBox>
+                        <ComboBox Height="20" Width="100" ItemsSource="{Binding Presets}"></ComboBox>
 
                         <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
                                     VerticalAlignment="Center" Margin="2" 
