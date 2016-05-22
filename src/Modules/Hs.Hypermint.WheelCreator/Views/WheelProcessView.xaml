@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="Hs.Hypermint.WheelCreator.Views.WheelProcessView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:control="clr-namespace:Hs.Hypermint.WheelCreator.Controls"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <GroupBox Header="Process wheels">
+
+            <StackPanel>
+
+                <DockPanel>
+                    <Label Content="Wheel text preset"/>
+                    
+                    <ComboBox ItemsSource="{Binding Presets}"/>
+                    
+                </DockPanel>
+                
+
+                <control:ProcessTools/>
+
+            </StackPanel>
+
+        </GroupBox>
+    </Grid>
+</UserControl>
