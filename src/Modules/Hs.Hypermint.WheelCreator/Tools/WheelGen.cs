@@ -7,6 +7,7 @@ using ImageMagick;
 using System.IO;
 using System.Drawing;
 using System.Windows.Media;
+using System.Drawing.Text;
 
 namespace Hs.Hypermint.WheelCreator.Tools
 {
@@ -152,7 +153,8 @@ namespace Hs.Hypermint.WheelCreator.Tools
             return image;
         }
 
-        public static MagickImage CreateText(MagickImage image, string text = "Game Name", bool caption = false,
+        public static MagickImage CreateText(
+            MagickImage image, string text = "Game Name", bool caption = false,
             System.Drawing.Color textFillColor = new System.Drawing.Color(),
             string fontName = @"C:\Windows\Fonts\fuddle.ttf")
         {
@@ -160,8 +162,9 @@ namespace Hs.Hypermint.WheelCreator.Tools
                 image.Settings.BackgroundColor = new MagickColor();
                 image.Settings.FillColor = textFillColor;
                 image.Settings.Font = fontName;
-               // image.Settings.FontPointsize = 72;
-                image.Settings.TextGravity = Gravity.South;
+                image.Settings.Font = image.Settings.Font.Replace(" ", "-");
+            // image.Settings.FontPointsize = 72;
+            image.Settings.TextGravity = Gravity.Center;
 
                // image.Settings.StrokeColor = new MagickColor(System.Drawing.Color.Black);
                // image.Settings.StrokeWidth = 5;                
@@ -173,7 +176,7 @@ namespace Hs.Hypermint.WheelCreator.Tools
                 //AddShadow(image);
             
                 image.Trim();
-                image.Scale(385, 172);
+                //image.Scale(385, 172);
            
 
                 //var shadow = text.Clone();
@@ -194,6 +197,8 @@ namespace Hs.Hypermint.WheelCreator.Tools
                 {
 
                     text.Settings.Font = "Arial";
+                    //text.Morphology(MorphologyMethod.EdgeIn, Kernel.Diamond);
+                    
                     text.Settings.FontPointsize = 70;
 
                     //text.Tile(new MagickImage("gradient:blue-red"),CompositeOperator.Overlay);
@@ -292,10 +297,81 @@ namespace Hs.Hypermint.WheelCreator.Tools
             settings.Width = 400;
             settings.Height = 175;
             settings.FontPointsize = 72;
+        }
 
+        public static void AnnotateWheel(string filePath,
+            string wheelText,
+            string fontName = @"C:\Windows\Fonts\fuddle.ttf",
+            double fontPointSize = 36,
+            string pattern = "Bricks",
+            System.Drawing.Color fillColor = new System.Drawing.Color(),
+            System.Drawing.Color strokeColor = new System.Drawing.Color(),
+            double strokeWidth = 1.0,
+            System.Drawing.Color shadowColor = new System.Drawing.Color(),
+            int imageWidth = 400, int imageHeight = 175)           
+        {            
             
 
+            if (!IsFontInstalled(fontName)) return;
 
+            fontName = fontName.Replace(" ", "-");
+
+            using (MagickImage image = new MagickImage(MagickColors.Transparent, imageWidth, imageHeight))
+            {                
+                image.Settings.Font = fontName;
+                image.Settings.StrokeWidth = strokeWidth;
+                image.Settings.StrokeColor = strokeColor;
+                image.Settings.Density = new Density(72, 72);
+
+                image.Settings.FontPointsize = fontPointSize;
+
+                var newWheelText = wheelText.Replace(" ", "\n");
+
+                try
+                {
+                    TypeMetric typeMetric = image.FontTypeMetrics(newWheelText);
+
+                    while (typeMetric.TextWidth < image.Width)
+                    {
+                        image.Settings.FontPointsize++;
+                        typeMetric = image.FontTypeMetrics(wheelText);
+                    }
+                    image.Settings.FontPointsize--;
+
+                    image.Settings.FillPattern = new MagickImage("pattern:" + pattern);
+
+                    image.Annotate(wheelText, new MagickGeometry(imageWidth, imageHeight), Gravity.Center);
+
+                    image.Shadow(shadowColor);
+
+                    using (var image2 = new MagickImage(image))
+                    {
+                        image2.Colorize(fillColor, new Percentage(30));
+
+                        image2.Settings.StrokeColor = strokeColor;
+                        image2.Settings.StrokeWidth = strokeWidth;
+
+                        image2.Write(filePath);
+                    }
+                }
+                catch (MagickException)
+                {
+
+                    
+                }
+
+
+            }
         }
+
+        private static bool IsFontInstalled(string name)
+        {
+            using (InstalledFontCollection fontsCollection = new InstalledFontCollection())
+            {
+                return fontsCollection.Families
+                    .Any(x => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+            }
+        }
+
     }
 }
