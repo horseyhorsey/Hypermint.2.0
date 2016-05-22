@@ -73,9 +73,7 @@ namespace Hs.Hypermint.Services
 
                     FullPath = Path.Combine(tempPath, Sound.SystemExit);
                     AuditsGameList[i].HaveS_Exit = CheckMediaFolderFiles(FullPath, "*.mp3");
-
-
-
+                    
                     tempPath = Path.Combine(hsPath, Root.Media, systemName);
 
                     FullPath = Path.Combine(tempPath, Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
@@ -116,41 +114,39 @@ namespace Hs.Hypermint.Services
                     RomName = databaseGameList[i].RomName
                 });
 
-                tempPath = Path.Combine(hsPath, Root.Media, "Main Menu");
+                tempPath = Path.Combine(hsPath, Root.Media);
 
-                FullPath = Path.Combine(tempPath, Images.Letters);
+                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Letters);
                 AuditsMenuList[i].HaveLetters = CheckMediaFolderFiles(FullPath, "*.png");
 
-                FullPath = Path.Combine(tempPath, Images.Special);
+                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Special);
                 AuditsMenuList[i].HaveSpecial = CheckMediaFolderFiles(FullPath, "*.png");
 
-                FullPath = Path.Combine(tempPath, Images.GenreWheel);
+                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.GenreWheel);
                 AuditsMenuList[i].HaveGenreWheel = CheckMediaFolderFiles(FullPath, "*.png");
 
-                FullPath = Path.Combine(tempPath, Images.GenreBackgrounds);
+                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.GenreBackgrounds);
                 AuditsMenuList[i].HaveGenreBG = CheckMediaFolderFiles(FullPath, "*.png");
 
-                FullPath = Path.Combine(tempPath, Images.Pointer);
+                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Pointer);
                 AuditsMenuList[i].HavePointer = CheckMediaFolderFiles(FullPath, "*.png");
 
-                FullPath = Path.Combine(tempPath, Root.Sound);
+                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Root.Sound);
                 AuditsMenuList[i].HaveS_Click = CheckMediaFolderFiles(FullPath, "Wheel Click.mp3");
 
-                FullPath = Path.Combine(tempPath, Sound.WheelSounds);
+                FullPath = Path.Combine(hsPath, Root.Media, AuditsMenuList[i].RomName, Sound.WheelSounds);
                 AuditsMenuList[i].HaveS_Wheel = CheckMediaFolderFiles(FullPath, "*.mp3");
 
-                FullPath = Path.Combine(tempPath, Sound.BackgroundMusic, databaseGameList.ElementAt(i).RomName + ".mp3");
-                AuditsMenuList[i].HaveBGMusic = CheckForFile(FullPath);
+                FullPath = Path.Combine(tempPath, "Main Menu", Sound.BackgroundMusic, databaseGameList.ElementAt(i).RomName + ".mp3");
+                AuditsMenuList[i].HaveBGMusic = CheckForFile(FullPath);                
 
-                tempPath = Path.Combine(hsPath, Root.Media, "Main Menu");
-
-                FullPath = Path.Combine(tempPath, Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
+                FullPath = Path.Combine(tempPath, "Main Menu", Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
                 AuditsMenuList[i].HaveWheel = CheckForFile(FullPath);
 
-                FullPath = Path.Combine(tempPath, Root.Themes, databaseGameList.ElementAt(i).RomName + ".zip");
+                FullPath = Path.Combine(tempPath, "Main Menu", Root.Themes, databaseGameList.ElementAt(i).RomName + ".zip");
                 AuditsMenuList[i].HaveTheme = CheckForFile(FullPath);
 
-                FullPath = Path.Combine(tempPath, Root.Video, databaseGameList.ElementAt(i).RomName + ".mp4");
+                FullPath = Path.Combine(tempPath, "Main Menu", Root.Video, databaseGameList.ElementAt(i).RomName + ".mp4");
                 AuditsMenuList[i].HaveVideo = CheckForFile(FullPath);
 
 
