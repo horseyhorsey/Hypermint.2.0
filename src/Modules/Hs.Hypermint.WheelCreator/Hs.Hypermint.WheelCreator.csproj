@@ -118,7 +118,22 @@
     <Compile Include="Controls\ProcessTools.xaml.cs">
       <DependentUpon>ProcessTools.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ColorConvert.cs" />
+    <Compile Include="Models\WheelTextSetting.cs" />
+    <Compile Include="Patterns.cs" />
+    <Compile Include="Repo\BackgroundImage.cs" />
+    <Compile Include="Repo\TextImage.cs" />
+    <Compile Include="Services\IBackgroundImageService.cs" />
+    <Compile Include="Services\ITextImageService.cs" />
     <Compile Include="Tools\WheelGen.cs" />
+    <Compile Include="ViewModels\TextWheelViewModel.cs" />
+    <Compile Include="ViewModels\WheelProcessViewModel.cs" />
+    <Compile Include="Views\TextWheelView.xaml.cs">
+      <DependentUpon>TextWheelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WheelProcessView.xaml.cs">
+      <DependentUpon>WheelProcessView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WheelModuleInit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -149,6 +164,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
+      <Project>{6108DDA5-DDA5-4254-B62D-6CDFB049FA8B}</Project>
+      <Name>Hs.HyperSpin.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>
@@ -160,6 +179,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SimpleWheelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TextWheelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WheelProcessView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

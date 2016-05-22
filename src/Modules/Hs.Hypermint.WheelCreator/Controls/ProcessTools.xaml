@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d">
     <!--Preview wheel-->
-    <Button DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
+    <Button DockPanel.Dock="Left" HorizontalAlignment="Left" IsEnabled="{Binding ProcessRunning}" VerticalAlignment="Center" Margin="2"
             Background="{DynamicResource HighlightBrush}"
                         Command="{Binding GeneratePreviewCommand}"
                 Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
@@ -17,7 +17,8 @@
         </Rectangle>
     </Button>
     <!--Process wheels-->
-    <Button DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
+    <Button DockPanel.Dock="Left" Command="{Binding ProcessWheelsCommand}" IsEnabled="{Binding ProcessRunning}"
+            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
             Background="{DynamicResource HighlightBrush}"
                 Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
                 ToolTip="Process wheels">
@@ -28,7 +29,9 @@
         </Rectangle>
     </Button>
     <!--Stop processing wheels-->
-    <Button DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" Background="{DynamicResource ValidationBrush5}"
+    <Button DockPanel.Dock="Left" HorizontalAlignment="Left" 
+            Command="{Binding ProcessCancelCommand}" IsEnabled="{Binding Cancellable}"
+               VerticalAlignment="Center" Margin="2" Background="{DynamicResource ValidationBrush5}"
                 Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
                 ToolTip="Stop running processes">
         <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
@@ -42,13 +45,14 @@
     <CheckBox DockPanel.Dock="Left" Content="Preview Created" IsChecked="True" Height="18" Margin="10"
               VerticalAlignment="Center" ToolTip="Preview the output of each image in batch run"  Width="132" HorizontalAlignment="Left"/>
     <!--Open wheel exports folder-->
-    <Button DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
-                Height="35" Width="35" Style="{DynamicResource AccentedSquareButtonStyle}"
+    <Button DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" 
+                Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
                 ToolTip="Open current systems export folder">
-        <Rectangle Width="24" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+        <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
             <Rectangle.OpacityMask>
                 <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_folder}"/>
             </Rectangle.OpacityMask>
         </Rectangle>
     </Button>
+    
 </DockPanel>
