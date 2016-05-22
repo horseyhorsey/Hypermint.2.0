@@ -69,4 +69,9 @@ namespace Hypermint.Base
     }
 
 
+    public class RequestWheelTextSettingsEvent : PubSubEvent<string> { }
+
+    public class GenerateWheelEvent : PubSubEvent<string> { }
+
+
 }
