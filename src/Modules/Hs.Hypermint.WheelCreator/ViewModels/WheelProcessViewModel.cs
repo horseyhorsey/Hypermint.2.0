@@ -30,7 +30,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         public DelegateCommand ProcessWheelsCommand { get; private set; }
         public DelegateCommand GeneratePreviewCommand { get; private set; }
         public DelegateCommand ProcessCancelCommand { get; private set; }
-        public DelegateCommand OpenExportFolderCommand { get; private set; } 
+        public DelegateCommand OpenExportFolderCommand { get; private set; }
 
         private IEventAggregator _eventAgg;
         private IGameRepo _gameRepo;
@@ -98,11 +98,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             _selectedService = selectedService;
             _folderExplorer = folderExplore;
 
-            ITextImageService srv = new TextImage();
-
-            Presets = new ListCollectionView(srv.GetTextPresets());
-
-            Presets.CurrentChanged += Presets_CurrentChanged;
+            PresetsUpdated("");
 
             ProcessWheelsCommand = new DelegateCommand(async () =>
             {
@@ -126,6 +122,20 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
                 _folderExplorer.OpenFolder(exportPath);
             });
+
+            _eventAgg.GetEvent<PresetWheelsUpdatedEvent>().Subscribe(x =>
+            {
+                PresetsUpdated(x);
+            });
+        }
+
+        private void PresetsUpdated(string x)
+        {
+            ITextImageService srv = new TextImage();
+
+            Presets = new ListCollectionView(srv.GetTextPresets());
+
+            Presets.CurrentChanged += Presets_CurrentChanged;
         }
 
         private void Presets_CurrentChanged(object sender, EventArgs e)
@@ -186,7 +196,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 var imagePath = Path.Combine(exportPath, exportName);
 
                 if (!ProcessCancel)
-                {                    
+                {
                     ProcessWheelInfo = "Processing wheels : " + i + " of " + gameCount;
 
                     if (!File.Exists(imagePath))
@@ -202,7 +212,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
                             if (PreviewCreated)
                                 _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
-                        }                     
+                        }
                     }
                     else
                     {
