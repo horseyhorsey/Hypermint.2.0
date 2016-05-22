@@ -63,6 +63,20 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             set { SetProperty(ref processWheelSetting, value); }
         }
 
+        private bool previewCreated = true;
+        public bool PreviewCreated
+        {
+            get { return previewCreated; }
+            set { SetProperty(ref previewCreated, value); }
+        }
+
+        private string processWheelInfo;
+        public string ProcessWheelInfo
+        {
+            get { return processWheelInfo; }
+            set { SetProperty(ref processWheelInfo, value); }
+        }
+
         public WheelProcessViewModel(IEventAggregator ea, IGameRepo gameRepo,
             ISelectedService selectedService)
         {
@@ -134,16 +148,23 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 });
             }
 
+            var gameCount = WheelNamesList.Count;
+
+            ProcessWheelInfo = "Processing wheels" + gameCount;
+
             ITextImageService srv = new TextImage();
             var exportPath = "Exports\\Wheels\\" + _selectedService.CurrentSystem + "\\";
 
             if (!Directory.Exists(exportPath))
                 Directory.CreateDirectory(exportPath);
 
+            int i = 1;
             foreach (var wheel in WheelNamesList)
             {
                 if (!ProcessCancel)
                 {
+                    ProcessWheelInfo = "Processing wheels : " + i + " of " + gameCount;
+
                     string exportName = wheel.RomName + ".png";
 
                     if(_selectedService.CurrentSystem.ToLower().Contains("main menu"))
@@ -157,8 +178,12 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
                         image.Write(imagePath);
 
-                        _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
-                    }
+                        if(PreviewCreated)
+                            _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
+                    }                    
+
+                    i++;
+                    
                 }
                 else
                 {
