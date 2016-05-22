@@ -1,8 +1,5 @@
 ﻿using Hs.Hypermint.WheelCreator.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using ImageMagick;
 using Hs.Hypermint.WheelCreator.Models;
@@ -47,7 +44,7 @@ namespace Hs.Hypermint.WheelCreator.Repo
                 image.Shadow(setting.ShadowX, setting.ShadowY, setting.ShadowSigma,
                     new Percentage(setting.ShadowPercentage), new MagickColor(shadowColor));
 
-                image.RePage();
+                //image.RePage();
 
                 if (setting.Trim)
                     image.Trim();
