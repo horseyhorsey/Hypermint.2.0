@@ -80,7 +80,7 @@
                                             ToolTip="Width of output wheel. May not be exact size you specify on some parameters"/>
                         <Controls:NumericUpDown Minimum="0" Maximum="2160" Value="{Binding CurrentWheelSetting.Height}" Margin="5"
                                             VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Wheel height"/>
-                        <CheckBox ToolTip="Trim the final image" IsChecked="{Binding Trim}" Content="Trim" HorizontalAlignment="Left" 
+                        <CheckBox ToolTip="Trim the final image" IsChecked="{Binding CurrentWheelSetting.Trim}" Content="Trim" HorizontalAlignment="Left" 
                                Height="32" VerticalAlignment="Center"/>
 
                     </StackPanel>
