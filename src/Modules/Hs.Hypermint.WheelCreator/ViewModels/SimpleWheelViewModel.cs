@@ -11,6 +11,9 @@ using System.Drawing;
 using Xceed.Wpf.Toolkit;
 using System.Windows.Media;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.Drawing.Text;
+using Hypermint.Base;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
@@ -18,46 +21,16 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
     {
         private ISelectedService _selectedService;
         private IEventAggregator _eventAggregator;
-        #region Commands
-        public DelegateCommand GeneratePreviewCommand { get; private set; }
+        #region Commands        
         public DelegateCommand SelectFontCommand { get; private set; } 
         #endregion
 
-
         #region Properties
-        private string previewText;
-        public string PreviewText
-        {
-            get { return previewText; }
-            set { SetProperty(ref previewText, value); }
-        }
-
-        private string fontName;
-        public string FontName
-        {
-            get { return fontName; }
-            set { SetProperty(ref fontName, value); }
-        }
-
         private bool borderOn;
         public bool BorderOn
         {
             get { return borderOn; }
             set { SetProperty(ref borderOn, value); }
-        }
-
-        private System.Windows.Media.Color textColor;
-        public System.Windows.Media.Color TextColor
-        {
-            get { return textColor; }
-            set { SetProperty(ref textColor, value); }
-        }
-
-        private System.Windows.Media.Color textStrokeColor;
-        public System.Windows.Media.Color TextStrokeColor
-        {
-            get { return textStrokeColor; }
-            set { SetProperty(ref textStrokeColor, value); }
         }
 
         private System.Windows.Media.Color borderColor;
@@ -88,6 +61,27 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             set { SetProperty(ref backgroundShadowOn, value); }
         }
 
+        private string[] patterns;
+        public string[] Patterns
+        {
+            get { return patterns; }
+            set { SetProperty(ref patterns, value); }
+        }
+
+        private double fontPointSize = 36;
+        public double FontPointSize
+        {
+            get { return fontPointSize; }
+            set { SetProperty(ref fontPointSize, value); }
+        }
+
+        private string selectedPattern;
+        public string SelectedPattern
+        {
+            get { return selectedPattern; }
+            set { SetProperty(ref selectedPattern, value); }
+        }
+
         #endregion
 
         protected override void OnPropertyChanged(string propertyName = null)
@@ -98,25 +92,15 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         public SimpleWheelViewModel(ISelectedService selectedService, IEventAggregator ea)
         {
             _selectedService = selectedService;
-            _eventAggregator = ea;
+            _eventAggregator = ea;                   
 
-            GeneratePreviewCommand = new DelegateCommand(GeneratePreview);
-            SelectFontCommand = new DelegateCommand(SelectFont);
-        }
+            Patterns = Enum.GetNames(typeof(WheelCreator.Patterns));
 
-        private void SelectFont()
-        {
-            FontDialog fontDlg = new FontDialog();
-            System.Windows.Forms.DialogResult result = fontDlg.ShowDialog();
-            string font;
-            if (result != System.Windows.Forms.DialogResult.Cancel)
+            _eventAggregator.GetEvent<GenerateWheelEvent>().Subscribe(x =>
             {
-                font = fontDlg.Font.Name;
-                StringBuilder fontEdit = new StringBuilder(fontDlg.Font.Name);
-                fontEdit.Replace(" ", "-");
-                font = fontEdit.ToString();
-                FontName = font.ToString();
-            }
+                
+
+            });
         }
 
         private System.Drawing.Color ColorFromMediaColor(System.Windows.Media.Color clr)
@@ -126,28 +110,37 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
         private void GeneratePreview()
         {
-            var textfillcolor = ColorFromMediaColor(TextColor);
+
+            //var textfillcolor = ColorFromMediaColor(TextColor);
             var bordercolor = ColorFromMediaColor(BorderColor);
             var backgroundColor = ColorFromMediaColor(BackgroundColor);
-            var textStroke = ColorFromMediaColor(TextStrokeColor);
+            //var textStroke = ColorFromMediaColor(TextStrokeColor);
             var shadowColor = ColorFromMediaColor(BGShadowColor);
 
             try
             {
-                if (PreviewText == "") return;
+                //if (PreviewText == "") return;
 
-               WheelGen.GenerateLogo(
-                   textfillcolor,
-                   bordercolor,
-                   strokeColor: textStroke, 
-                   backgroundColor: backgroundColor,
-                   shadowColor: shadowColor,
-                   BackgroundShadow:shadowColor,
-                   BackgroundShadowOn: BackgroundShadowOn,
-                   borderSize:4,
-                   border:true, 
-                   textDesc:PreviewText,
-                   fontName: FontName);
+                /*
+                WheelGen.GenerateLogo(
+                    textfillcolor,
+                    bordercolor,
+                    strokeColor: textStroke,
+                    backgroundColor: backgroundColor,
+                    shadowColor: shadowColor,
+                    BackgroundShadow: shadowColor,
+                    BackgroundShadowOn: BackgroundShadowOn,
+                    borderSize: 4,
+                    border: true,
+                    textDesc: PreviewText,
+                    fontName: FontName);
+                */
+
+                /*
+                WheelGen.AnnotateWheel("preview.png", PreviewText, FontName,
+                    FontPointSize, SelectedPattern, textfillcolor,
+                    textStroke, StrokeWidth, shadowColor, WheelWidth, wheelHeight);
+                */
 
                 var imagePath = "preview.png";
 
@@ -156,10 +149,25 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             catch (Exception ex)
             {
 
-                
+
             }
 
 
+        }
+
+        private List<System.Drawing.FontFamily> BuildFonts()
+        {
+            var fontFamilies = new List<System.Drawing.FontFamily>();
+
+            InstalledFontCollection installedFontCollection = new InstalledFontCollection();
+
+            // Get the array of FontFamily objects.
+            foreach (var item in installedFontCollection.Families)
+            {
+                fontFamilies.Add(item);
+            }
+
+            return fontFamilies;
         }
     }
 }
