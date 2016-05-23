@@ -10,14 +10,15 @@
 
         <StackPanel>
             <DockPanel>
-                
+
                 <!--FONT OPTIONS-->
                 <GroupBox Height="70" Width="400" HorizontalAlignment="Left" Grid.Row="1" Header="Font">
                     <Grid>
                         <StackPanel>
                             <StackPanel  Orientation="Horizontal">
                                 <TextBox HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" 
-                                 Text="{Binding CurrentWheelSetting.FontName}" VerticalAlignment="Center" Width="161"/>
+                                 Text="{Binding FontName, UpdateSourceTrigger=PropertyChanged}"
+                                         VerticalAlignment="Center" Width="161"/>
 
                                 <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
                                     VerticalAlignment="Center" Margin="2" 
@@ -112,9 +113,9 @@
                 </GroupBox>
             </DockPanel>
 
-            
+
             <StackPanel Orientation="Horizontal">
-                
+
 
                 <GroupBox Header="Color" Margin="5">
                     <StackPanel  Orientation="Horizontal" VerticalAlignment="Bottom">
