@@ -11,9 +11,9 @@
 
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
                 Command="{Binding OpenSaveOptionsCommand}"
-                ToolTip="Save this database, favorites and genres." Height="35" Width="35"
+                ToolTip="Save this database, favorites and genres." Height="25" Width="25"
                 Style="{DynamicResource AccentedSquareButtonStyle}">
-            <Rectangle Width="22" Height="25" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+            <Rectangle Width="13" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
                     <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
                 </Rectangle.OpacityMask>
