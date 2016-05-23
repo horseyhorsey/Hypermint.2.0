@@ -9,6 +9,11 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <BitmapImage x:Key="hsIconImage" UriSource="../Icons/hs.png" />
+        <BitmapImage x:Key="rlIconImage" UriSource="../Icons/rl.png" />
+    </UserControl.Resources>
+
     <metro:WindowCommands>
         
         <!--Database Editor View Btton-->
@@ -39,7 +44,7 @@
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_list_gear}"/>
+                    <ImageBrush ImageSource="{StaticResource hsIconImage}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
@@ -50,7 +55,7 @@
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_list_gear}"/>
+                    <ImageBrush ImageSource="{StaticResource rlIconImage}"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
