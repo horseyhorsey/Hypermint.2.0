@@ -36,6 +36,13 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             set { SetProperty(ref currentWheelSetting, value); }
         }
 
+        private string fontName;
+        public string FontName
+        {
+            get { return CurrentWheelSetting.FontName; }
+            set { SetProperty(ref fontName, value); }
+        }
+
         private ICollectionView presets;
         [XmlIgnore]
         public ICollectionView Presets
@@ -68,7 +75,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
             GeneratePreviewCommand = new DelegateCommand(GeneratePreview);
 
-            GetPresets();
+            GetPresets();            
 
         }
 
@@ -130,6 +137,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         private void SetUIValuesFromPreset(WheelTextSetting setting)
         {
             CurrentWheelSetting = setting;
+            FontName = CurrentWheelSetting.FontName;
         }
 
         private void SavePreset()
@@ -167,8 +175,10 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 font = fontDlg.Font.Name;
                 var fontEdit = new StringBuilder(fontDlg.Font.Name);
                 font = fontEdit.ToString();
-                CurrentWheelSetting.FontName = font.ToString();
+                CurrentWheelSetting.FontName = font;
+                FontName = font;
             }
+            
         }
         #endregion
 

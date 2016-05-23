@@ -17,7 +17,8 @@
                         <StackPanel>
                             <StackPanel  Orientation="Horizontal">
                                 <TextBox HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" 
-                                 Text="{Binding CurrentWheelSetting.FontName}" VerticalAlignment="Center" Width="161"/>
+                                 Text="{Binding FontName, UpdateSourceTrigger=PropertyChanged}"
+                                         VerticalAlignment="Center" Width="161"/>
 
                                 <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
                                     VerticalAlignment="Center" Margin="2" 
