@@ -45,7 +45,7 @@
 
                     <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left">
 
-                        <Button PreviewMouseDown="PlayButtonMouseDown"
+                    <Button PreviewMouseDown="PlayButtonMouseDown"
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" 
                                 Style="{DynamicResource MetroCircleButtonStyle}"                                
@@ -109,7 +109,30 @@
                     <TextBlock x:Name="media_wheelTime" TextWrapping="Wrap" Width="108" VerticalAlignment="Center"/>
                     
                 </StackPanel>
+                
+                <!--ImageCOntrols-->
+                <StackPanel HorizontalAlignment="Left" Grid.Row="1" MaxHeight="45"
+                        Visibility="{Binding ElementName=root,
+                                     Path=DataContext.IsImageSource,UpdateSourceTrigger=PropertyChanged,
+                                     Converter={StaticResource BoolToVisConverter}}"
+                        Orientation="Horizontal">
 
+                    <DockPanel>
+                        <Button HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                Style="{DynamicResource MetroCircleButtonStyle}"                                
+                                Command="{Binding ImageEditCommand}"                          
+                                Height="35" Width="35">
+                            <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                    </DockPanel>
+                    
+                </StackPanel>
+                
                 <!--TextBOXViewer-->
                 <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10"
                                      Text="{Binding TextSource}" 

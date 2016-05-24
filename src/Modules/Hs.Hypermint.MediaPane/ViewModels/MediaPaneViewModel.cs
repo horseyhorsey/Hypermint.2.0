@@ -36,11 +36,18 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             set { SetProperty(ref textSource, value); }
         }
 
-        private bool isTextSource;
+        private bool isTextSource = false;
         public bool IsTextSource
         {
             get { return isTextSource; }
             set { SetProperty(ref isTextSource, value); }
+        }
+
+        private bool isImageSource = false;
+        public bool IsImageSource
+        {
+            get { return isImageSource; }
+            set { SetProperty(ref isImageSource, value); }
         }
 
         private bool isPdf;
@@ -78,6 +85,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             set { SetProperty(ref mediaPaneHeader, value); }
         }
 
+        public string currentImagePath { get; set; }
+
         #endregion
 
         #region Services
@@ -89,7 +98,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         #endregion
 
         #region Commands
-        public DelegateCommand<string> PagePdfCommand { get; private set; } 
+        public DelegateCommand<string> PagePdfCommand { get; private set; }
+        public DelegateCommand ImageEditCommand { get; private set; } 
         #endregion
 
         #region Constructors
@@ -107,14 +117,24 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             });
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
+
             _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe((x) =>
             {
                 IsVideoSource = false;
 
                 SetMediaFromFileType(x);
             });
+
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
-            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetImageWheelPreview);            
+
+            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetImageWheelPreview);
+
+            ImageEditCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("CreateImageView");
+
+                _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath); 
+            });
         }
 
         private void PagePdf(string direction)
@@ -145,11 +165,15 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             WheelSource = null;
             VideoSource = null;
             IsVideoSource = false;
-
-            MediaPaneHeader = "Media View: " + selectedOptions[1];
+            IsImageSource = false;
 
             var hsPath = _settingsRepo.HypermintSettings.HsPath;
             var romName = selectedOptions[0];
+
+            _selectedService.CurrentRomname = romName;
+
+            MediaPaneHeader = "Media View: " + selectedOptions[1];
+
             var mediaTypePath = Images.Wheels;
 
             if (!string.IsNullOrEmpty(selectedOptions[1]))
@@ -174,14 +198,19 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             }
 
             if (!File.Exists(imagePath))
+            {
                 WheelSource = _selectedService.SystemImage;
+                IsImageSource = true;
+            }
             else
             {
+                IsImageSource = true;
+                currentImagePath = imagePath;
                 _selectedService.GameImage =
                     SelectedService.SetBitmapFromUri(new Uri(imagePath));
                 WheelSource = _selectedService.GameImage;
 
-                MediaPaneHeader += " | " + Path.GetFileName(imagePath);
+                MediaPaneHeader += " | " + Path.GetFileName(imagePath) + " W:" + WheelSource.Width + " H:" + WheelSource.Height;
             }
 
         }
@@ -190,13 +219,18 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             WheelSource = null;
             VideoSource = null;
-            IsVideoSource = false;
+            IsVideoSource = false;            
 
             if (File.Exists(imagePath))
             {
+                IsImageSource = true;
+                
                 var fullpath = Path.GetFullPath(imagePath);
+
+                currentImagePath = fullpath;
+
                 _selectedService.GameImage =
-                    SelectedService.SetBitmapFromUri(new Uri(fullpath));
+                    SelectedService.SetBitmapFromUri(new Uri(currentImagePath));
                 WheelSource = _selectedService.GameImage;
             }
         }
@@ -226,6 +260,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 {
                     if (File.Exists(pathToImage))
                     {
+                        IsImageSource = true;
+                        currentImagePath = pathToImage;
                         MediaPaneHeader += " | " + Path.GetFileName(pathToImage);
                         _selectedService.GameImage = SelectedService.SetBitmapFromUri(new Uri(pathToImage));
                         WheelSource = _selectedService.GameImage;
@@ -346,8 +382,9 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
         private void SetMediaFromFileType(string file)
         {
-            IsTextSource = false; IsPdf = false; IsVideoSource = false;
-
+            IsTextSource = false; IsPdf = false;
+            IsVideoSource = false;
+            IsImageSource = false;
             var extension = Path.GetExtension(file);
             
             switch (extension.ToLower())
