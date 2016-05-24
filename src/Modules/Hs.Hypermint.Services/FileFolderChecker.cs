@@ -1,10 +1,5 @@
 ﻿using Hypermint.Base.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hs.Hypermint.Services
 {
@@ -58,6 +53,11 @@ namespace Hs.Hypermint.Services
             return Directory.GetFiles(path, filter);            
         }
 
+        public string[] GetFolders(string path)
+        {
+            return Directory.GetDirectories(path);
+        }
+        
         public string GetFileNameNoExt(string file)
         {
             return Path.GetFileNameWithoutExtension(file);
