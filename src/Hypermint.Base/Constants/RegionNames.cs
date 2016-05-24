@@ -12,6 +12,7 @@
         public static string FlyoutRegion = "FlyoutRegion";
         public static string MediaPaneRegion = "MediaPaneRegion";
         public static string TextWheelRegion = "TextWheelRegion";
-        
+        public static string ImageProcessRegion = "ImageProcessRegion";
+
     }
 }
