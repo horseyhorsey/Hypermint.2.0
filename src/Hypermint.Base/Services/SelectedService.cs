@@ -18,6 +18,8 @@ namespace Hypermint.Base.Services
 
         public string CurrentMainMenu { get; set; }
 
+        public string CurrentRomname { get; set; }
+
         public bool IsMainMenu()
         {
             if (CurrentSystem.Contains("Main Menu"))

@@ -89,6 +89,7 @@
     <Compile Include="Constants\FlyoutNames.cs" />
     <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\ConvertTime.cs" />
+    <Compile Include="Converters\ConvertToImageSource.cs" />
     <Compile Include="Events\AuditingEvents.cs" />
     <Compile Include="Events\Events.cs" />
     <Compile Include="Events\PresetEvents.cs" />
