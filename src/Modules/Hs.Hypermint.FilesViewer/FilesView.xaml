@@ -8,12 +8,54 @@
              xmlns:prism="http://prismlibrary.com/"               
              prism:ViewModelLocator.AutoWireViewModel="True"  
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="600">
     <Grid>
-        <GroupBox Header="{Binding SelectedGameName}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+            <DockPanel IsEnabled="False" Grid.ColumnSpan="2">
+                <Button VerticalAlignment="Center" HorizontalAlignment="Right" Margin="6"
+                    Command="{Binding OpenSaveOptionsCommand}"
+                    ToolTip="Save this database, favorites and genres." Height="25" Width="25"
+                    Style="{DynamicResource AccentedSquareButtonStyle}">
+                    <Rectangle Width="13" Height="15"
+                                   Fill="{Binding Path=Foreground, 
+                                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_folder_star}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+
+                </Button>
+
+                <TextBox Height="25" Text="New Folder Name"/>
+            </DockPanel>
+
+        <GroupBox Grid.Row="1" Header="Folders">
+            <DataGrid Name="FoldersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Folders}"
+                      CanUserAddRows="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Folder" Binding="{Binding Name}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        <GridSplitter HorizontalAlignment="Left"                      
+                      Grid.Row="1" Grid.Column="1"
+                      Height="3" ResizeDirection="Columns" />
+
+        <GroupBox Grid.Row="1"  Grid.Column="1" Header="{Binding SelectedGameName}">
             <DataGrid Name="FilesDataGrid" ItemsSource="{Binding Files}"
                       CanUserAddRows="False" IsReadOnly="True">
             </DataGrid>
         </GroupBox>
+
     </Grid>
 </UserControl>

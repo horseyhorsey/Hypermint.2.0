@@ -238,6 +238,10 @@
       <Project>{a95d1749-9183-4b23-81bc-253feda2cb58}</Project>
       <Name>Hs.Hypermint.HyperspinFile</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.ImageEdit\Hs.Hypermint.ImageEdit.csproj">
+      <Project>{3fd3eae8-56b5-4fee-8362-1c597217c855}</Project>
+      <Name>Hs.Hypermint.ImageEdit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.IntroVideos\Hs.Hypermint.IntroVideos.csproj">
       <Project>{2d1e1886-ec6c-4401-8775-0c2ff030cfa3}</Project>
       <Name>Hs.Hypermint.IntroVideos</Name>
