@@ -8,8 +8,6 @@ using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
-using System.Text.RegularExpressions;
-using System.Windows.Media.Imaging;
 using Prism.Commands;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
@@ -52,6 +50,13 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             set { SetProperty(ref isPdf, value); }
         }
 
+        private bool isVideoSource;
+        public bool IsVideoSource
+        {
+            get { return isVideoSource; }
+            set { SetProperty(ref isVideoSource, value); }
+        }
+
         private int pdfPageCount;
         public int PdfPageCount
         {
@@ -64,6 +69,13 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             get { return currentPage; }
             set { SetProperty(ref currentPage, value); }
+        }
+
+        private string mediaPaneHeader = "Media View";
+        public string MediaPaneHeader
+        {
+            get { return mediaPaneHeader; }
+            set { SetProperty(ref mediaPaneHeader, value); }
         }
 
         #endregion
@@ -95,8 +107,13 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             });
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
-            _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe(SetMediaForRlAudit);
-            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetImageGame);
+            _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe((x) =>
+            {
+                IsVideoSource = false;
+
+                SetMediaFromFileType(x);
+            });
+            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
             _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetImageWheelPreview);            
         }
 
@@ -123,10 +140,13 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         #endregion
 
         #region Methods
-        private void SetImageGame(string[] selectedOptions)
+        private void SetMediaForGameHs(string[] selectedOptions)
         {
             WheelSource = null;
             VideoSource = null;
+            IsVideoSource = false;
+
+            MediaPaneHeader = "Media View: " + selectedOptions[1];
 
             var hsPath = _settingsRepo.HypermintSettings.HsPath;
             var romName = selectedOptions[0];
@@ -142,7 +162,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 mediaTypePath, romName + ".png");
 
             if (selectedOptions[1] == "Videos")
-            {
+            {                
                 SetVideo(imagePath);
                 return;
             }
@@ -160,6 +180,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 _selectedService.GameImage =
                     SelectedService.SetBitmapFromUri(new Uri(imagePath));
                 WheelSource = _selectedService.GameImage;
+
+                MediaPaneHeader += " | " + Path.GetFileName(imagePath);
             }
 
         }
@@ -168,6 +190,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             WheelSource = null;
             VideoSource = null;
+            IsVideoSource = false;
 
             if (File.Exists(imagePath))
             {
@@ -184,7 +207,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             if (File.Exists(soundsPath))
             {
-                VideoSource = new Uri(soundsPath);                
+                VideoSource = new Uri(soundsPath);
+                MediaPaneHeader += " | " + Path.GetFileName(soundsPath);
             }
         }
 
@@ -193,23 +217,39 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             // Check if there is an mp4 or Flv.
             // If none exists then use the original image path instead.
             var videoPath = pathToImage.Replace(".png", ".mp4");
+
             if (!File.Exists(videoPath))
             {
                 videoPath = videoPath.Replace(".mp4", ".flv");
 
                 if (!File.Exists(videoPath))
                 {
-                    _selectedService.GameImage =
-                    SelectedService.SetBitmapFromUri(new Uri(pathToImage));                    
-                    WheelSource = _selectedService.GameImage;
+                    if (File.Exists(pathToImage))
+                    {
+                        MediaPaneHeader += " | " + Path.GetFileName(pathToImage);
+                        _selectedService.GameImage = SelectedService.SetBitmapFromUri(new Uri(pathToImage));
+                        WheelSource = _selectedService.GameImage;
+                        IsVideoSource = false;
+                    }
+                }
+                else
+                {
+                    SetVideoSource(videoPath);
                 }
 
             }
             else
-            {                
-                VideoSource = new Uri(videoPath);
+            {
+                SetVideoSource(videoPath);
             }
-                        
+
+        }
+
+        private void SetVideoSource(string videoPath)
+        {
+            VideoSource = new Uri(videoPath);
+            MediaPaneHeader += " | " + Path.GetFileName(videoPath);
+            IsVideoSource = true;
         }
 
         private string getMediaPath(string mediaType)
@@ -304,12 +344,12 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
         }
 
-        private void SetMediaForRlAudit(string file)
+        private void SetMediaFromFileType(string file)
         {
+            IsTextSource = false; IsPdf = false; IsVideoSource = false;
+
             var extension = Path.GetExtension(file);
-
-            IsTextSource = false;IsPdf = false;
-
+            
             switch (extension.ToLower())
             {
                 case ".png":
@@ -320,7 +360,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 case ".avi":
                 case ".flv":
                 case ".mp4":
-                    SetVideo(file);
+                    SetVideo(file);                    
                     break;
                 case ".mp3":
                 case ".wav":

@@ -8,46 +8,121 @@
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid x:Name="root">
-        <GroupBox Header="Media View">
+        <GroupBox Header="{Binding MediaPaneHeader}">
             <Grid Grid.Row="1">
                 <Grid.Resources>
-                <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-            </Grid.Resources>
+                    <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+                </Grid.Resources>
 
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition MaxHeight="50"/>
                 </Grid.RowDefinitions>
 
-            <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
+                <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
 
-            <MediaElement Stretch="Uniform" Margin="5"  Source="{Binding VideoSource}">
-                <ContextMenuService.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Open"></MenuItem>
-                        <MenuItem x:Name="previewVideoTrim" Header="Trim >" >
-                            <Controls:NumericUpDown Value="30"/>
-                            <RadioButton x:Name="vidReplace" Content="Replace" ToolTip="Move original to rubbish, replace with trimmed video."/>
-                            <RadioButton x:Name="vidCopy" Content="New Copy" ToolTip="Creates a trim at this folder"/>
-                            <Button Content="Trim"></Button>
-                        </MenuItem>
-                    </ContextMenu>
-                </ContextMenuService.ContextMenu>
-            </MediaElement>
+                <MediaElement x:Name="mediaElement" MediaOpened="MediaOpened" MediaEnded="mediaElement_MediaEnded" Stretch="Uniform" Grid.Row="0"
+                          Margin="5" Source="{Binding VideoSource}">
+                    <ContextMenuService.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Open"></MenuItem>
+                            <MenuItem x:Name="previewVideoTrim" Header="Trim >" >
+                                <Controls:NumericUpDown Value="30"/>
+                                <RadioButton x:Name="vidReplace" Content="Replace" ToolTip="Move original to rubbish, replace with trimmed video."/>
+                                <RadioButton x:Name="vidCopy" Content="New Copy" ToolTip="Creates a trim at this folder"/>
+                                <Button Content="Trim"></Button>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ContextMenuService.ContextMenu>
+                </MediaElement>
 
-            <!--TextBOXViewer-->
-            <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10"
+                <StackPanel HorizontalAlignment="Left" Grid.Row="1" MaxHeight="45"
+                        Visibility="{Binding ElementName=root,
+                        Path=DataContext.IsVideoSource,
+                        UpdateSourceTrigger=PropertyChanged,
+                        Converter={StaticResource BoolToVisConverter}}"
+                        Orientation="Horizontal">
+
+                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+
+                        <Button PreviewMouseDown="PlayButtonMouseDown"
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Style="{DynamicResource MetroCircleButtonStyle}"                                
+                                CommandParameter="back"                            
+                                Height="35" Width="35">
+                        <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <Button  PreviewMouseDown="PauseButtonMouseDown"
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Style="{DynamicResource MetroCircleButtonStyle}"                                
+                                CommandParameter="back"                            
+                                Height="35" Width="35">
+                        <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_pause}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>                    
+                    
+                    <Button PreviewMouseDown="StopButtonMouseDown"
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Style="{DynamicResource MetroCircleButtonStyle}"                                
+                                CommandParameter="back"                            
+                                Height="35" Width="35">
+                        <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_stop}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                    </DockPanel>
+
+                    <!-- Volume slider. This slider allows a Volume range between 0 and 1. -->
+                    <TextBlock Foreground="White" VerticalAlignment="Center" Margin="5">
+                        <Run Text="Vol"/>
+                    </TextBlock>
+                    <!--ValueChanged="ChangeMediaVolume"-->
+                    <Slider x:Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume"
+        		    Minimum="0" Maximum="1" Value="0.5" Width="70" Margin="0,12,0,11"/>
+                    <!-- Seek to slider. Ths slider allows you to jump to different parts of the media playback. -->
+                    <TextBlock Foreground="White" Margin="5"  VerticalAlignment="Center">
+                        <Run Text="Scan"/>
+                    </TextBlock>
+                    <!--ValueChanged="SeekToMediaPosition"-->
+                    <Slider x:Name="timelineSlider" 
+                            Thumb.DragStarted="timelineSlider_SeekStarted"  
+                            Thumb.DragCompleted="timelineSlider_SeekCompleted"
+                            ValueChanged="timelineSlider_ValueChanged"
+                            Width="120" VerticalAlignment="Center" />
+                    
+                    <TextBlock x:Name="media_wheelTime" TextWrapping="Wrap" Width="108" VerticalAlignment="Center"/>
+                    
+                </StackPanel>
+
+                <!--TextBOXViewer-->
+                <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10"
                                      Text="{Binding TextSource}" 
                                      Visibility="{Binding ElementName=root,
                                      Path=DataContext.IsTextSource,UpdateSourceTrigger=PropertyChanged,
                                      Converter={StaticResource BoolToVisConverter}}"
                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <toolkit:RichTextBox.TextFormatter>
-                    <toolkit:RtfFormatter />
-                </toolkit:RichTextBox.TextFormatter>
-            </toolkit:RichTextBox>
+                    <toolkit:RichTextBox.TextFormatter>
+                        <toolkit:RtfFormatter />
+                    </toolkit:RichTextBox.TextFormatter>
+                </toolkit:RichTextBox>
 
-            <!--PDF CONTROLS-->
+                <!--PDF CONTROLS-->
                 <DockPanel Grid.Row="1"
                        Visibility="{Binding ElementName=root,
                                      Path=DataContext.IsPdf,UpdateSourceTrigger=PropertyChanged,
@@ -108,49 +183,46 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </Button>
-                
-                </DockPanel>
-                
-            <!--Context right click menu-->
-            <ContextMenuService.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Open with >">
-                        <MenuItem Header="External Edit"></MenuItem>
-                        <MenuItem Header="Default.."></MenuItem>
-                    </MenuItem>
 
-                    <MenuItem Header="BezelEdit"  ToolTip="Send this image to the bezel editor."></MenuItem>
-                    <MenuItem Header="Image Edit" ToolTip="Sends to image editing"></MenuItem>
-                    <MenuItem Header="Copy">
-                        <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
-                        <ComboBox></ComboBox>
-                    </MenuItem>
-                    <MenuItem Header="Preset job" IsEnabled="True">
-                        <MenuItem Header="Instruction Card" ToolTip="Send this file to Instruction cards">
-                            <ComboBox Width="100">
-                            </ComboBox>
-                            <Button Content="Create" ToolTip="Convert and send to cards."></Button>
+                </DockPanel>
+
+                <!--Context right click menu-->
+                <ContextMenuService.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Open with >">
+                            <MenuItem Header="External Edit"></MenuItem>
+                            <MenuItem Header="Default.."></MenuItem>
                         </MenuItem>
-                        <MenuItem Header="Image Presets" >
-                            <ComboBox ToolTip="Select preset"
+
+                        <MenuItem Header="BezelEdit"  ToolTip="Send this image to the bezel editor."></MenuItem>
+                        <MenuItem Header="Image Edit" ToolTip="Sends to image editing"></MenuItem>
+                        <MenuItem Header="Copy">
+                            <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
+                            <ComboBox></ComboBox>
+                        </MenuItem>
+                        <MenuItem Header="Preset job" IsEnabled="True">
+                            <MenuItem Header="Instruction Card" ToolTip="Send this file to Instruction cards">
+                                <ComboBox Width="100">
+                                </ComboBox>
+                                <Button Content="Create" ToolTip="Convert and send to cards."></Button>
+                            </MenuItem>
+                            <MenuItem Header="Image Presets" >
+                                <ComboBox ToolTip="Select preset"
                                       Width="100" ItemsSource="{Binding ElementName=presetListBoxCards3,Path=Items}"></ComboBox>
-                            <MenuItem Header="Media Type" IsEnabled="True">
-                                <MenuItem Header="Layer 1" ></MenuItem>
-                                <MenuItem Header="Layer 2" ></MenuItem>
-                                <MenuItem Header="Layer 3" ></MenuItem>
-                                <MenuItem Header="Layer -1" ></MenuItem>
-                                <MenuItem Header="Background" ></MenuItem>
-                                <MenuItem Header="Background HS" ></MenuItem>
-                                <MenuItem Header="Bezel Background" ></MenuItem>
+                                <MenuItem Header="Media Type" IsEnabled="True">
+                                    <MenuItem Header="Layer 1" ></MenuItem>
+                                    <MenuItem Header="Layer 2" ></MenuItem>
+                                    <MenuItem Header="Layer 3" ></MenuItem>
+                                    <MenuItem Header="Layer -1" ></MenuItem>
+                                    <MenuItem Header="Background" ></MenuItem>
+                                    <MenuItem Header="Background HS" ></MenuItem>
+                                    <MenuItem Header="Bezel Background" ></MenuItem>
+                                </MenuItem>
                             </MenuItem>
                         </MenuItem>
-                    </MenuItem>
-                </ContextMenu>
-            </ContextMenuService.ContextMenu>
-                
-            
-                
-                
+                    </ContextMenu>
+                </ContextMenuService.ContextMenu>
+
             </Grid>
         </GroupBox>
         <!--Context menu-->
