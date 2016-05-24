@@ -66,6 +66,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Search.SearchModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.RocklaunchStats.RocklaunchStatsModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Browser.BrowserModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.ImageEdit.ImageEditModule));
         }
 
         protected override void ConfigureContainer()
