@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Hs.Hypermint.ImageEdit.Views.ImageProcessView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <StackPanel>
+            <GroupBox Header="Size">
+                <DockPanel>
+                <Controls:NumericUpDown HorizontalAlignment="left" Margin="1"
+                                                Height="23" 
+                                                Value="{Binding Width}" 
+                                                VerticalAlignment="Center" Width="101"/>
+                    <Controls:NumericUpDown HorizontalAlignment="Left" Margin="1"
+                                                Height="23" Value="{Binding Height}"
+                                                VerticalAlignment="Center" Width="91"/>
+                    <CheckBox Content="Resize" Width="90" HorizontalAlignment="Right"
+                                           ToolTip="Resize image."
+                                           IsChecked="{Binding ResizeImage}"/>
+                    <CheckBox Content="Stretch" Width="90" HorizontalAlignment="Right"
+                                           ToolTip="Stretch image."
+                                           IsChecked="{Binding StretchImage}"/>
+                </DockPanel>
+            </GroupBox>
+            
+        <GroupBox Header="RL option">
+            <DockPanel>
+                <ComboBox>
+                    
+                </ComboBox>
+
+                <TextBox Text="Author"/>
+
+                <TextBox Text="Description"/>
+
+                <ComboBox>
+
+                </ComboBox>
+                
+            </DockPanel>
+        </GroupBox>
+
+            <GroupBox Header="option">
+                <DockPanel >
+
+                    <CheckBox x:Name="toggleTile" Content="Tile" 
+                                            Margin="1"
+                                           ToolTip="Tile image."
+                                           IsChecked="{Binding TileEnabled}"/>
+                    
+                    <Controls:NumericUpDown IsEnabled="{Binding toggleTile}" 
+                                            HorizontalAlignment="left" Height="23" 
+                                                Value="{Binding TileWidth}" 
+                                            VerticalAlignment="Center" Width="101"/>
+                    
+                    <Controls:NumericUpDown IsEnabled="{Binding toggleTile}" 
+                                            HorizontalAlignment="Left" Height="23" Value="{Binding TileHeight}"
+                                                VerticalAlignment="Center" Width="91"/>
+
+                    <RadioButton Content="Left" Width="90" Margin="2"
+                                           ToolTip="Resize image."
+                                           IsChecked="{Binding FlipL}"/>
+
+                    <RadioButton Content="Right" Width="90" Margin="2"
+                                           ToolTip="Resize image."
+                                           IsChecked="{Binding FlipL}"/>
+
+                    <CheckBox Content="Flip" Width="90" Margin="5"
+                                           ToolTip="Flip image."
+                                           IsChecked="{Binding FlipOn}"/>
+                </DockPanel>
+            </GroupBox>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

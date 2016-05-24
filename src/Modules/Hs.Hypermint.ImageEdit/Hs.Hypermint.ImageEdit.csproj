@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Hs.Hypermint.DatabaseDetails\bin\Release\Microsoft.Practices.Unity.dll</HintPath>
@@ -46,7 +50,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImageEditModule.cs" />
+    <Compile Include="Preset\ImageEditPreset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -75,9 +84,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Repo\ImageEditRepo.cs" />
+    <Compile Include="Service\IImageEditService.cs" />
     <Compile Include="ViewModels\CreateImageViewModel.cs" />
+    <Compile Include="ViewModels\ImagePresetViewModel.cs" />
+    <Compile Include="ViewModels\ImageProcessViewModel.cs" />
     <Compile Include="Views\CreateImageView.xaml.cs">
       <DependentUpon>CreateImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImagePresetView.xaml.cs">
+      <DependentUpon>ImagePresetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImageProcessView.xaml.cs">
+      <DependentUpon>ImageProcessView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -92,6 +111,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
+      <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
+      <Name>Hs.Hypermint.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
+      <Project>{6108DDA5-DDA5-4254-B62D-6CDFB049FA8B}</Project>
+      <Name>Hs.HyperSpin.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5F4FDB5E-3624-4C1A-9B9E-8F27F185EADD}</Project>
       <Name>Hypermint.Base</Name>
@@ -99,6 +126,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\CreateImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImagePresetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImageProcessView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

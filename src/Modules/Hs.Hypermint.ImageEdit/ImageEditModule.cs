@@ -1,4 +1,6 @@
-﻿using Hypermint.Base.Base;
+﻿using Hs.Hypermint.ImageEdit.Views;
+using Hypermint.Base.Base;
+using Hypermint.Base.Constants;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 using System;
@@ -13,6 +15,11 @@ namespace Hs.Hypermint.ImageEdit
             : base(unityContainer, regionManager)
         {
             _regionManager = regionManager;
+
+            _regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(CreateImageView));
+
+            _regionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(ImagePresetView));
+            
         }
 
         public override void Initialize()
