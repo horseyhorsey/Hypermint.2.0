@@ -34,6 +34,7 @@
         public bool HaveMusic { get; set; }
         public bool HavePublisher { get; set; }
         public bool HaveRating { get; set; }
+        public bool HaveScreenshots { get; set; }
         public bool HaveSaves { get; set; }        
         public bool HaveYear { get; set; }
         public bool HaveVideo { get; set; }
