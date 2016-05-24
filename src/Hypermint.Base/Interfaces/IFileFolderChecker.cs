@@ -16,6 +16,8 @@ namespace Hypermint.Base.Interfaces
 
         string[] GetFiles(string path, string filter = "");
 
+        string[] GetFolders(string path);        
+
         FileStream CreateFile(string path);
 
         void CreateDirectory(string path);

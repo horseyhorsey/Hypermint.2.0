@@ -190,7 +190,6 @@ namespace Hs.Hypermint.Services
             }
         }
 
-
         public void ScanVideos(string _selectedSystem, string rlMediaPath)
         {
             for (int i = 1; i < RlAudits.Count; i++)
@@ -198,6 +197,28 @@ namespace Hs.Hypermint.Services
                 RlAudits[i].HaveVideo =
                     CheckForMedia(
                         rlMediaPath + "\\Videos\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
+                        "*.*");
+            }
+        }
+
+        public void ScanArtwork(string _selectedSystem, string rlMediaPath)
+        {
+            for (int i = 1; i < RlAudits.Count; i++)
+            {
+                RlAudits[i].HaveArtwork =
+                    CheckForMedia(
+                        rlMediaPath + "\\Artwork\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
+                        "*.*");
+            }
+        }
+
+        public void ScanScreenshots(string _selectedSystem, string rlMediaPath)
+        {
+            for (int i = 1; i < RlAudits.Count; i++)
+            {
+                RlAudits[i].HaveScreenshots =
+                    CheckForMedia(
+                        rlMediaPath + "\\Artwork\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\Screenshots\\",
                         "*.*");
             }
         }
@@ -229,11 +250,15 @@ namespace Hs.Hypermint.Services
             }
         }
 
-        public string[] GetFilesForMedia(string systemName, string romName, string rlMediaPath, string mediaType)
+        public string[] GetFilesForMedia(string systemName, string romName, string rlMediaPath, string mediaType, string addFolder = "")
         {
             string[] files = null;
             switch (mediaType)
             {
+                case "Artwork":
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName + "\\" + addFolder + "\\",
+                        "*.*");
+                    break;
                 case "Bezel":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\",
                         "Bezel*.*");
@@ -294,6 +319,10 @@ namespace Hs.Hypermint.Services
                         files = _fileManagement.GetFiles(rlMediaPath + "\\Saved Games\\" + systemName + "\\" + romName + "\\",
                         "*.*");
                     break;
+                case "Screenshots":
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName + "\\Screenshots\\",
+                        "*.*");
+                    break;
                 case "Videos":
                     if (romName == "Default")
                         files = _fileManagement.GetFiles(rlMediaPath + "\\Videos\\" + systemName + "\\_Default\\",
@@ -308,6 +337,41 @@ namespace Hs.Hypermint.Services
 
             return files;
         }
+
+        public string[] GetFoldersForMediaColumn(string systemName, string romName, string rlMediaPath, string mediaType)
+        {
+            string[] folders = null;
+            switch (mediaType)
+            {
+                case "Artwork":
+                    folders = _fileManagement.GetFolders(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName + "\\");
+                    break;
+                case "Bezel":
+                    if (romName == "_Default")
+                        folders = _fileManagement.GetFolders(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\");
+                    break;
+                case "Guide":
+                    folders = _fileManagement.GetFolders(rlMediaPath + "\\Guides\\" + systemName + "\\" + romName + "\\");
+                    break;
+                case "Layer 1":
+                case "Layer 2":
+                case "Layer 3":
+                case "ExtraLayer1":
+                    if (romName == "_Default")
+                        folders = _fileManagement.GetFolders(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\");
+                    break;
+                case "Manual":
+                    folders = _fileManagement.GetFolders(rlMediaPath + "\\Manuals\\" + systemName + "\\" + romName + "\\");
+                    break;
+                case "MultiGame":
+                        folders = _fileManagement.GetFolders(rlMediaPath + "\\MultiGame\\" + systemName + "\\" + romName + "\\");
+                    break;
+                default:
+                    break;
+            }
+
+            return folders;
+        }        
 
     }
 }
