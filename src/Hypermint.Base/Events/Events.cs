@@ -14,6 +14,10 @@ namespace Hypermint.Base
 
     }
 
+    public class NavigateRequestEvent : PubSubEvent<string> { }
+
+    public class ImageEditSourceEvent : PubSubEvent<string> { }    
+
     public class SystemsGenerated : PubSubEvent<string> { }
 
     public class UpdateFilesEvent : PubSubEvent<string[]> { }
