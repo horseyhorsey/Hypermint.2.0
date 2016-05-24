@@ -150,6 +150,12 @@ namespace Hs.Hypermint.Audits.ViewModels
                 _rocketAuditer.ScanVideos(_selectedSystem,
                 _settingsRepo.HypermintSettings.RlMediaPath);
 
+                _rocketAuditer.ScanScreenshots(_selectedSystem,
+                _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanArtwork(_selectedSystem,
+                _settingsRepo.HypermintSettings.RlMediaPath);
+
                 AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
             }
         }
