@@ -43,6 +43,9 @@ namespace Hs.Hypermint.NavBar.ViewModels
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetToDbView);
+
+            _eventAggregator.GetEvent<NavigateRequestEvent>().Subscribe(Navigate);
+
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
@@ -120,6 +123,10 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 case "WebBrowseView":
                     CurrentView += "Web Browser";
                     RemoveAllFilesRegionViews();
+                    break;
+                case "CreateImageView":
+                    CurrentView += "Image edit";
+                    _regionManager.RequestNavigate("FilesRegion", "ImagePresetView");                    
                     break;
                 default:
                     break;
