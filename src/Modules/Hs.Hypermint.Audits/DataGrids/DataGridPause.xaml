@@ -74,10 +74,12 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="RomName" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
                 <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
                 <DataGridTextColumn Header="Guide" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Manual" Binding="{Binding HaveManual}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="Screenshots" Binding="{Binding HaveScreenshots}"/>
                 <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}"/>
                 <DataGridTextColumn Header="Saved Game" Binding="{Binding HaveSaves}"/>
                 <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}" SortDirection="Ascending"/>
