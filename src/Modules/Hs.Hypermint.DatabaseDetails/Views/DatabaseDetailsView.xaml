@@ -53,9 +53,14 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
 
+                <DataGrid.InputBindings>
+                    <KeyBinding Key="F5" Command="{Binding LaunchGameCommand}"/>
+                </DataGrid.InputBindings>
+
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridCell}">
                         <Style.Triggers>
+
                             <DataTrigger Binding="{Binding IsFavorite}" Value="True">
                                 <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}"/>
                             </DataTrigger>
@@ -63,6 +68,7 @@
                              Value="0">
                                 <Setter Property="Background" Value="{DynamicResource ValidationSummaryColor5}"/>
                             </DataTrigger>
+
                         </Style.Triggers>
                     </Style>
                 </DataGrid.Resources>
@@ -75,6 +81,7 @@
                         ElementStyle="{DynamicResource MetroDataGridCheckBox}"
                         Header="Fave" EditingElementStyle="{DynamicResource MetroDataGridCheckBox}"
                         MaxWidth="50" Binding="{Binding IsFavorite,UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Rom" Binding="{Binding RomExists}"/>
                     <DataGridTextColumn Header="Romname" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                     <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer}"/>
