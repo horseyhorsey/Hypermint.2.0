@@ -119,6 +119,7 @@
 
                     <DockPanel>
                         <Button HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                ToolTip="Send this image to image edit."
                                 Style="{DynamicResource MetroCircleButtonStyle}"                                
                                 Command="{Binding ImageEditCommand}"                          
                                 Height="35" Width="35">
