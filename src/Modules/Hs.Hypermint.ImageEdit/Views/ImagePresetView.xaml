@@ -15,8 +15,8 @@
         <DockPanel Grid.Row="0">
 
                 <Button VerticalAlignment="Center" HorizontalAlignment="Right" Margin="6"
-                Command="{Binding OpenSaveOptionsCommand}"
-                ToolTip="Save this database, favorites and genres." Height="25" Width="25"
+                Command="{Binding SavePresetCommand}"
+                ToolTip="Save UI values to preset" Height="25" Width="25"
                 Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="13" Height="15"
                                Fill="{Binding Path=Foreground, 
@@ -34,7 +34,6 @@
                          metro:TextBoxHelper.Watermark="Preset Name" 
                          Height="25" Text="{Binding PresetNameText}"/>
 
-                
             </DockPanel>
 
             <ListView ItemsSource="{Binding Presets}" 
