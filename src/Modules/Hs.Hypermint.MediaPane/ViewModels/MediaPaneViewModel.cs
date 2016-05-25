@@ -233,6 +233,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 _selectedService.GameImage =
                     SelectedService.SetBitmapFromUri(new Uri(currentImagePath));
                 WheelSource = _selectedService.GameImage;
+
+                MediaPaneHeader = "Media View | " + currentImagePath + " W:" + Math.Round(WheelSource.Width) + " H:" + Math.Round(WheelSource.Height);
             }
         }
 
@@ -285,7 +287,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         private void SetVideoSource(string videoPath)
         {
             VideoSource = new Uri(videoPath);
-            MediaPaneHeader += " | " + Path.GetFileName(videoPath);
+            MediaPaneHeader = "Media View | " + Path.GetFileName(videoPath);
+            
             IsVideoSource = true;
         }
 
@@ -357,6 +360,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             using (var sr = new StreamReader(file))
             {
                 TextSource = sr.ReadToEnd();
+
+                MediaPaneHeader = "Media View | " + file;
             }
         }
 
@@ -377,7 +382,9 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             if (!Directory.Exists(gsPath)) return;
 
-            WheelSource = _pdfService.GetPage(gsPath, file, pageNumber);            
+            WheelSource = _pdfService.GetPage(gsPath, file, pageNumber);
+
+            MediaPaneHeader = "Media View | " + file;
 
         }
 
@@ -398,6 +405,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 case ".avi":
                 case ".flv":
                 case ".mp4":
+                case ".mpg":
                     SetVideo(file);                    
                     break;
                 case ".mp3":
@@ -405,6 +413,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                     SetSound(file);
                     break;
                 case ".txt":
+                case ".ini":
                     IsTextSource = true;
                     SetText(file);
                     break;
@@ -416,6 +425,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                     break;
                 default:
                     SetImageWheelPreview("");
+                    MediaPaneHeader = "Media View | " + file;
                     break;
             }
 
