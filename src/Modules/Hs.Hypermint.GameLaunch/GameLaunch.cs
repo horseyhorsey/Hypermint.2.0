@@ -40,10 +40,5 @@ namespace Hs.Hypermint.GameLaunch
         {
             
         }
-
-        private void LaunchGame (string launchParams)
-        {
-            
-        }
     }
 }
