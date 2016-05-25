@@ -34,7 +34,7 @@
         <StackPanel>
 
             <TextBox metro:TextBoxHelper.ClearTextButton="True" 
-                 ToolTip="Specify name for multi system"
+                 ToolTip="New system name"
                  metro:TextBoxHelper.Watermark="New system name"
                  Text="{Binding NewSystemName,UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
@@ -64,13 +64,14 @@
             </DockPanel>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                     Height="54" VerticalAlignment="Bottom" 
                     Grid.Row="1" Grid.Column="0">
             <Button Width="28" Height="28" 
                         VerticalAlignment="top" Margin="15" 
                         Command="{Binding SaveNewSystemCommand}"
                         CommandParameter=""
+                    ToolTip="Create new system: Creates necessary HS folders &amp; basic setting.ini for system."
                     Background="Green"
                         Style="{DynamicResource AccentedSquareButtonStyle}">
                 <Rectangle Width="15"
@@ -86,6 +87,7 @@
             <Button Width="28" Height="28" VerticalAlignment="Top" Margin="15" 
                         Command="{Binding CloseDialogCommand}"                        
                     Background="{DynamicResource ValidationBrush5}"
+                    ToolTip="Back to main window"
                         Style="{DynamicResource AccentedSquareButtonStyle}">
                 <Rectangle Width="15"
                                Height="15"
