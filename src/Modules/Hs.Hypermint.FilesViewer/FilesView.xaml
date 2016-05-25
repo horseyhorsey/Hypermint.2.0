@@ -9,7 +9,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"  
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
-    <Grid>
+    <Grid x:Name="root">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
@@ -42,7 +42,25 @@
             <DataGrid Name="FoldersDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding Folders}"
                       CanUserAddRows="False" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Folder" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Folder" Width="120" Binding="{Binding Name}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button VerticalAlignment="top" HorizontalAlignment="Right" Margin="6"
+                                 Command="{Binding ElementName=root, Path=DataContext.OpenFolderCommand}"
+                                ToolTip="Open folder" Height="25" Width="25"
+                                Style="{DynamicResource AccentedSquareButtonStyle}">
+                                    <Rectangle Width="13" Height="15"
+                                   Fill="{Binding Path=Foreground, 
+                                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_folder}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

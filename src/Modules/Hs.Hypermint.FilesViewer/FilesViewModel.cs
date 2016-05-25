@@ -15,6 +15,8 @@ namespace Hs.Hypermint.FilesViewer
 {
     public class FilesViewModel : ViewModelBase
     {
+        public DelegateCommand OpenFolderCommand { get; private set; } 
+
         private string selectedGameName = "Files for:";
         public string SelectedGameName
         {
@@ -44,16 +46,26 @@ namespace Hs.Hypermint.FilesViewer
         private IAuditerRl _rlAuditer;
         private ISelectedService _selectedSrv;
         private ISettingsRepo _settingsRepo;
+        private IFolderExplore _folderService;
 
         public FilesViewModel(IEventAggregator eventAggregator, IAuditerRl auditRl,
-            ISelectedService selectedSrv, ISettingsRepo settings)
+            ISelectedService selectedSrv, ISettingsRepo settings, IFolderExplore folderExplore)
         {
             _eventAggregator = eventAggregator;
             _rlAuditer = auditRl;
             _selectedSrv = selectedSrv;
             _settingsRepo = settings;
+            _folderService = folderExplore;
 
             _eventAggregator.GetEvent<UpdateFilesEvent>().Subscribe(UpdateFiles);
+
+            OpenFolderCommand = new DelegateCommand(() =>
+            {
+                var folder = Folders.CurrentItem as MediaFolder;
+
+                _folderService.OpenFolder(folder.FullPath);
+
+            });
         }
 
         private void UpdateFiles(string[] HeaderAndGame)
