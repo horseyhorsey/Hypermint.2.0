@@ -76,6 +76,20 @@
                 </Button>
             </DockPanel>
 
+            <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        IsEnabled="{Binding ScanRomEnabled}"
+                        Command="{Binding ScanRomsCommand}"
+                        CommandParameter="1"
+                        ToolTip="Scan for roms"
+                        Height="30" Width="30" HorizontalAlignment="Center">
+                <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_magnify}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
             <views:SaveDatabaseView VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
         </StackPanel>
