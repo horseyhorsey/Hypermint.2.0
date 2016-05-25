@@ -206,9 +206,7 @@ namespace Hs.Hypermint.Services
             for (int i = 1; i < RlAudits.Count; i++)
             {
                 RlAudits[i].HaveArtwork =
-                    CheckForMedia(
-                        rlMediaPath + "\\Artwork\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "*.*");
+                    Directory.Exists(rlMediaPath + "\\Artwork\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\");
             }
         }
 
