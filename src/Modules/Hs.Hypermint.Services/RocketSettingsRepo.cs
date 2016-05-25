@@ -5,7 +5,7 @@ namespace Hs.Hypermint.Services
 {
     public class RocketSettingsRepo
     {
-        public string GetDefaultEmulator(string rlPath, string systemName)
+        public static string GetDefaultEmulator(string rlPath, string systemName)
         {
             string section = "ROMS";
             string key = "Default_Emulator";
@@ -17,7 +17,7 @@ namespace Hs.Hypermint.Services
             return defaultEmu ?? "";
         }
 
-        public string[] GetRomExtensions(string rlPath, string emuName)
+        public static string[] GetRomExtensions(string rlPath, string emuName)
         {
             string section = emuName;
 
@@ -30,7 +30,7 @@ namespace Hs.Hypermint.Services
             return extensions;
         }
 
-        public string[] GetRomPaths(string rlPath, string systemName)
+        public static string[] GetRomPaths(string rlPath, string systemName)
         {
             string section = "ROMS";
             string key = "Rom_Path";
@@ -40,18 +40,25 @@ namespace Hs.Hypermint.Services
             var rlDriveLetter = Directory.GetDirectoryRoot(rlPath);
 
             var paths = GetIniValue(iniFile, section, key).Split('|');
-            string[] pathsNormalized = new string[paths.Length];
+                        
             for (int i = 0; i < paths.Length; i++)
             {
                 if (paths[i].Contains(@"..\"))
-                    pathsNormalized[i] =
-                        paths[i].Replace(@"..\", rlDriveLetter);
+                {
+                    do
+                    {
+                        paths[i] = paths[i].Replace(@"..\", "");
+
+                    } while (paths[i].Contains(@"..\"));
+
+                    paths[i] = rlDriveLetter + paths[i];                    
+                }
             }
 
-            return pathsNormalized;
+            return paths;
         }
 
-        private string GetIniValue(string iniFile, string section, string key)
+        private static string GetIniValue(string iniFile, string section, string key)
         {
             if (!File.Exists(iniFile)) return null;
 
@@ -59,13 +66,13 @@ namespace Hs.Hypermint.Services
 
             ini.Load(iniFile);
 
-            return ini.GetKeyValue(section, key); ;
+            return ini.GetKeyValue(section, key);
         }
 
-        private string BuildEmuIniPath(string rlPath, string systemName) =>
+        private static string BuildEmuIniPath(string rlPath, string systemName) =>
             rlPath + "\\Settings\\" + systemName + "\\Emulators.ini";
 
-        private string BuildGlobalEmuIniPath(string rlPath) =>
+        private static string BuildGlobalEmuIniPath(string rlPath) =>
             rlPath + "\\Settings\\Global Emulators.ini";
     }
 }
