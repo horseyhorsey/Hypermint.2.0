@@ -166,6 +166,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             VideoSource = null;
             IsVideoSource = false;
             IsImageSource = false;
+            IsPdf = false;
 
             var hsPath = _settingsRepo.HypermintSettings.HsPath;
             var romName = selectedOptions[0];
