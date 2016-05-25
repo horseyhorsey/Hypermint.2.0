@@ -210,7 +210,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                     SelectedService.SetBitmapFromUri(new Uri(imagePath));
                 WheelSource = _selectedService.GameImage;
 
-                MediaPaneHeader += " | " + Path.GetFileName(imagePath) + " W:" + WheelSource.Width + " H:" + WheelSource.Height;
+                MediaPaneHeader += " | " + Path.GetFileName(imagePath) + " W:" + Math.Round(WheelSource.Width) + " H:" + Math.Round(WheelSource.Height);
             }
 
         }
