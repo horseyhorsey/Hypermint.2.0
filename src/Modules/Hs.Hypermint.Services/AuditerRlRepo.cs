@@ -225,12 +225,12 @@ namespace Hs.Hypermint.Services
 
         public void ScanFadeLayers(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
+            for (int i = 0; i < RlAudits.Count; i++)
             {
                 RlAudits[i].HaveFadeLayer1 =
                     CheckForMedia(
                         rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "Layer 1.*");
+                        "Layer 1*");
                 RlAudits[i].HaveFadeLayer2 =
                     CheckForMedia(
                         rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",

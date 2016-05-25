@@ -3,6 +3,7 @@ using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Services;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
@@ -51,6 +52,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private IDialogCoordinator _dialogService;
         private IRegionManager _regionManager;
+        private ISelectedService _selectedService;
 
         public ICollectionView AuditListDefaults
         {
@@ -67,7 +69,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         public DelegateCommand BezelEditCommand { get; private set; } 
 
         public RlMediaAuditViewModel(IEventAggregator eventAggregator,IRegionManager regionManager, IGameRepo gameRepo
-            , IAuditerRl rocketAuditer, ISettingsRepo settings, IDialogCoordinator dialogService)
+            , IAuditerRl rocketAuditer, ISettingsRepo settings,ISelectedService selectedService, IDialogCoordinator dialogService)
         {
             _eventAggregator = eventAggregator;
             _gameRepo = gameRepo;
@@ -75,6 +77,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             _settingsRepo = settings;
             _dialogService = dialogService;
             _regionManager = regionManager;
+            _selectedService = selectedService;
 
             _rocketAuditer.RlAudits = new RocketLauncherAudits();
             _rocketAuditer.RlAuditsDefault = new RocketLauncherAudits();
@@ -109,6 +112,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                 var dg = datagridProperties as DataGrid;
                 SelectedGame = dg.CurrentItem as RocketLaunchAudit;
+                _selectedService.CurrentRomname = SelectedGame.RomName;
 
             }
             catch (Exception) { return; }

@@ -36,7 +36,7 @@
 
             </DockPanel>
 
-            <ListView ItemsSource="{Binding Presets}" 
+            <ListBox ItemsSource="{Binding Presets,UpdateSourceTrigger=PropertyChanged}" 
                       Grid.Row="1" MinHeight="150"/>
             
         </Grid>

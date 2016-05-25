@@ -134,7 +134,10 @@ namespace Hs.Hypermint.Audits.ViewModels
                             SelectedMenu = dg.CurrentItem as AuditMenu;
                             romName = SelectedMenu.RomName;
                         }
-                        else { romName = SelectedGame.RomName; }
+                        else {
+                            romName = SelectedGame.RomName;
+                            _selectedService.CurrentRomname = romName;
+                        }
 
                     }
                     catch (Exception) { }

@@ -1,17 +1,16 @@
 ﻿using Hs.Hypermint.ImageEdit.Preset;
 using Hs.Hypermint.ImageEdit.Repo;
 using Hs.Hypermint.ImageEdit.Service;
-using Hs.HyperSpin.Database;
 using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Converters;
+using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -23,6 +22,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         private IEventAggregator _eventAggregator;
 
         public DelegateCommand GeneratePreviewCommand { get; private set; }
+        public DelegateCommand SaveImageCommand { get; private set; } 
 
         private ImageSource imageEditSource;
         public ImageSource ImageEditSource
@@ -53,8 +53,6 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         }
 
         private string author;
-
-
         public string Author
         {
             get { return author; }
@@ -112,6 +110,25 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
             });
 
+            //Return the current UI as a preset
+            _eventAggregator.GetEvent<ImagePresetRequestEvent>().Subscribe((x) =>
+            {
+                _eventAggregator.GetEvent<ImagePresetRequestedEvent>().Publish(CurrentSetting);
+            });
+
+            _eventAggregator.GetEvent<ImagePresetUpdateUiEvent>().Subscribe(x =>
+            {                
+                SetUIValuesFromPreset((ImageEditPreset)x);
+            });
+
+            SaveImageCommand = new DelegateCommand(() =>
+            {
+                var outputFileName = CreateNewImageFileName();
+
+                CreateImage(outputFileName,CurrentSetting.Png);
+
+            });
+
         }
 
         private void UpdateImagePreviewHeader()
@@ -124,15 +141,25 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
         private void GeneratePreview()
         {
-            var outputFileName = CreateNewImageFileName();
+            try
+            {
+                var imagePath = Path.GetFullPath(CreateImagePreview(CurrentSetting.Png));
 
-            var imagePath = Path.GetFullPath( CreateImagePreview(CurrentSetting.Png));
+                ImageEditSource =
+                    ConvertToImageSource.ImageSourceFromUri(new Uri(imagePath));
 
-            ImageEditSource = 
-                ConvertToImageSource.ImageSourceFromUri(new Uri(imagePath));
+                UpdateImagePreviewHeader();
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            
+        }
 
-            UpdateImagePreviewHeader();
-
+        private void SetUIValuesFromPreset(ImageEditPreset setting)
+        {
+            CurrentSetting = setting;
         }
 
         private string CreateNewImageFileName()
@@ -176,13 +203,13 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
                     break;
             }
 
-            string newRlMediaFile = 
+            string rlMediaFilePath = 
                 Path.Combine(
                 _settings.HypermintSettings.RlMediaPath,
                 newCellFolder, _selected.CurrentSystem,
                 _selected.CurrentRomname);
 
-            return GetNewFileNameIfExists(layerName, outPutFileName, newRlMediaFile);
+            return GetNewFileNameIfExists(layerName, outPutFileName, rlMediaFilePath);
         }
 
         /// <summary>
@@ -194,9 +221,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         {            
             var newExt = ".jpg";
             if (isPng)
-                newExt = ".png";
-
-            var layerName = MediaExportTypes.CurrentItem as string;
+                newExt = ".png";            
             
             string newPath = "Preview" + newExt;
 
@@ -206,31 +231,26 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
             return newPath;
 
-            //string rocketLaunchGameMediaPath =
-            //    Path.Combine(
-            //    _settings.HypermintSettings.RlMediaPath,
-            //    "Fade", _selected.CurrentSystem, "");
+        }
 
-            //if (layerName.Contains("Background HS"))
-            //{
-            //    rocketLaunchGameMediaPath = Path.Combine(
-            //        _settings.HypermintSettings.HsPath, "Media\\" + _selected.CurrentSystem + "\\Images\\Backgrounds\\", outputFileName);
+        public void CreateImage(string outputFileName, bool isPng)
+        {
+            var newExt = ".jpg";
+            if (isPng)
+                newExt = ".png";
 
-            //    newPath = rocketLaunchGameMediaPath + newExt;
-            //}
-            //else
-            //{
-            //    newPath = rocketLaunchGameMediaPath + "\\" + outputFileName + newExt;
+            var path = Path.GetDirectoryName(outputFileName);
 
-            //    string filePathNew = Path.GetDirectoryName(newPath);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);            
 
-            //    if (!Directory.Exists(filePathNew))
-            //        Directory.CreateDirectory(filePathNew);
-            //}
+            IImageEditService imgService = new ImageEditRepo();
+
+            imgService.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, outputFileName + newExt, isPng);
 
         }
 
-        private string GetNewFileNameIfExists(string layerName, string outPutFileName, string newRlMediaFile)
+        private string GetNewFileNameIfExists(string layerName, string outPutFileName, string rlMediaFilePath)
         {
             #region FileChecking
             bool flag = true;
@@ -239,7 +259,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             {
                 if (!layerName.Contains("HsBackground"))
                 {
-                    if (File.Exists(newRlMediaFile + "\\" + outPutFileName + ".png") || File.Exists(newRlMediaFile + "\\" + outPutFileName + ".jpg"))
+                    if (File.Exists(rlMediaFilePath + "\\" + outPutFileName + ".png") || File.Exists(rlMediaFilePath + "\\" + outPutFileName + ".jpg"))
                     {
                         if (layerName.Contains("Layer"))
                         {
@@ -262,18 +282,18 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
                     flag = false;
             }
             #endregion
-            return outPutFileName;
+            return rlMediaFilePath + "\\" + outPutFileName;
         }
     }
 
-public enum ImageExportType
-{
-    Layer1,
-    Layer2,
-    Layer3,
-    LayerExtra,
-    Background,
-    BezelBackground,
-    HsBackground
-}
+        public enum ImageExportType
+        {
+            Layer1,
+            Layer2,
+            Layer3,
+            LayerExtra,
+            Background,
+            BezelBackground,
+            HsBackground
+        }
 }

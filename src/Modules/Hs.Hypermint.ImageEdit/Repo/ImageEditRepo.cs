@@ -2,6 +2,7 @@
 using Hs.Hypermint.ImageEdit.Service;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace Hs.Hypermint.ImageEdit.Repo
 {
@@ -62,11 +63,18 @@ namespace Hs.Hypermint.ImageEdit.Repo
                     finalImage = ResizeImageEdit(imgIn, new Size(preset.Width, preset.Height));
                 }
 
-                if (isPng)
-                    finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Png);                
-                else
-                    finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
-
+                try
+                {
+                    if (isPng)
+                        finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Png);
+                    else
+                        finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
+                catch (System.Exception)
+                {
+                    
+                }
+                
                 return outputFileName;
             }
                                                
