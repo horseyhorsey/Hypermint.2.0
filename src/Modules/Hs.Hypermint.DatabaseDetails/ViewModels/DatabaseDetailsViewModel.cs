@@ -46,7 +46,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand AuditScanStart { get; private set; }
         public DelegateCommand<IList> SelectionChanged { get; set; }
         public DelegateCommand<string> EnableDbItemsCommand { get; set; }        
-        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }        
+        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
+        public DelegateCommand LaunchGameCommand { get; private set; }
+        public DelegateCommand ScanRomsCommand { get; private set; } 
 
         #endregion
 
@@ -54,7 +56,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
             IHyperspinXmlService xmlService, ISelectedService selectedService, 
             IFavoriteService favoriteService, IGenreRepo genreRepo,
-            IEventAggregator eventAggregator,            
+            IEventAggregator eventAggregator, IGameLaunch gameLaunch,           
             IMainMenuRepo memuRepo, IDialogCoordinator dialogService
             )
         {
@@ -68,6 +70,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _genreRepo = genreRepo;            
             _menuRepo = memuRepo;
             _dialogService = dialogService;
+            _gameLaunch = gameLaunch;
 
             _selectedService.CurrentSystem = "Main Menu";
 
@@ -140,6 +143,47 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
             _eventAggregator.GetEvent<SaveMainMenuEvent>().Subscribe(SaveCurrentMainMenuItems);
 
+            LaunchGameCommand = new DelegateCommand(LaunchGame);
+
+            ScanRomsCommand = new DelegateCommand(ScanRoms);
+
+        }
+
+        private void ScanRoms()
+        {
+            if (!Directory.Exists(_settingsRepo.HypermintSettings.RlPath)) return;
+
+            if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+            {
+                _gameRepo.ScanForRoms(
+                    _settingsRepo.HypermintSettings.RlPath,
+                    _selectedService.CurrentSystem);
+            }
+
+            GamesList.Refresh();
+        }
+
+        private void LaunchGame()
+        {
+            if (_selectedService.SelectedGames == null) return;
+
+            if (_selectedService.SelectedGames.Count != 0)
+            {
+                var rlPath = _settingsRepo.HypermintSettings.RlPath;
+                var hsPath = _settingsRepo.HypermintSettings.HsPath;
+                var sysName = _selectedService.SelectedGames[0].System;
+                var romName = _selectedService.SelectedGames[0].RomName;
+
+                try
+                {
+                    _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
+                }
+                catch (Exception ex)
+                {
+
+                }
+                
+            }
         }
 
         private void SystemDatabaseChangedHandler(string systemName)
