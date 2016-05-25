@@ -49,6 +49,9 @@ namespace Hs.HyperSpin.Database
         [XmlElement("rating")]
         public string Rating { get; set; }
 
+        [XmlIgnore]
+        public bool RomExists { get; set; }
+
         private bool isFavorite;
         [XmlIgnore]
         public bool IsFavorite
@@ -56,6 +59,7 @@ namespace Hs.HyperSpin.Database
             get { return isFavorite; }
             set { isFavorite = value; }
         }
+
 
         #endregion
 
