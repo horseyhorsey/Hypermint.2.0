@@ -97,6 +97,7 @@
     <Compile Include="MainMenuRepo.cs" />
     <Compile Include="PdfService.cs" />
     <Compile Include="RocketSettingsRepo.cs" />
+    <Compile Include="RomCheck.cs" />
     <Compile Include="ServicesModule.cs" />
     <Compile Include="SettingsRepo.cs" />
     <Compile Include="StatRepo.cs" />

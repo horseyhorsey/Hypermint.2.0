@@ -23,8 +23,7 @@ namespace Hs.Hypermint.Services
         {
             if (!File.Exists(systemXml)) return;
 
-            var tempGamesList = new List<Game>();
-
+            var tempGamesList = new List<Game>();            
             
             XmlDocument xdoc = new XmlDocument();
             xdoc.Load(systemXml);
@@ -124,6 +123,19 @@ namespace Hs.Hypermint.Services
 
             
             
+        }
+
+        public void ScanForRoms(string rlPath, string systemName)
+        {
+            var emuName = RocketSettingsRepo.GetDefaultEmulator(rlPath, systemName);
+            var paths = RocketSettingsRepo.GetRomPaths(rlPath, systemName);
+            var exts = RocketSettingsRepo.GetRomExtensions(rlPath, emuName);
+
+            for (int i = 0; i < GamesList.Count; i++)
+            {
+                GamesList[i].RomExists = 
+                    RomCheck.RomExists(paths, exts, GamesList[i].RomName);
+            }
         }
 
     }
