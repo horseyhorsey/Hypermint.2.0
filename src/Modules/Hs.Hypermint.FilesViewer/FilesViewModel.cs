@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using Prism.Commands;
 using System.Linq;
+using Hypermint.Base.Events;
 
 namespace Hs.Hypermint.FilesViewer
 {
@@ -66,6 +67,22 @@ namespace Hs.Hypermint.FilesViewer
                 _folderService.OpenFolder(folder.FullPath);
 
             });
+
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(x =>
+            {
+                ResetViews();
+            });
+        }
+
+        private void ResetViews()
+        {
+            var mediaFiles = new List<MediaFile>();
+            Files = new ListCollectionView(mediaFiles);
+
+            var folders = new List<MediaFolder>();
+            Folders = new ListCollectionView(folders);
+
+            SelectedGameName = "";
         }
 
         private void UpdateFiles(string[] HeaderAndGame)
