@@ -12,14 +12,29 @@
     <UserControl.Resources>
         <BitmapImage x:Key="hsIconImage" UriSource="../Icons/hs.png" />
         <BitmapImage x:Key="rlIconImage" UriSource="../Icons/rl.png" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     </UserControl.Resources>
 
     <metro:WindowCommands>
         
         <!--Database Editor View Btton-->
         <Button Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
-                ToolTip="Database Editor">
+                    Visibility="{Binding IsMainMenu,
+                    UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVisConverter}}"
+                ToolTip="Search games">
         <Rectangle Width="20" Height="20" 
+                   Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_magnify}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <Button Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
+                    Visibility="{Binding IsNotMainMenu,
+                    UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVisConverter}}"
+                ToolTip="Database Editor">
+            <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
                     <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_social_stackoverflow}"/>

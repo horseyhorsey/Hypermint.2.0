@@ -26,6 +26,13 @@ namespace Hs.Hypermint.NavBar.ViewModels
             set { SetProperty(ref isNotMainMenu, value); }
         }
 
+        private bool isMainMenu = true;
+        public bool IsMainMenu
+        {
+            get { return isMainMenu; }
+            set { SetProperty(ref isMainMenu, value); }
+        }
+
         private string _systemName = "";
 
         private IRegionManager _regionManager;
@@ -56,6 +63,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
             if (systemName.ToLower().Contains("main menu"))
             {
                 IsNotMainMenu = false;
+                IsMainMenu = true;
                 //_regionManager.Regions.Remove(RegionNames.FilesRegion);
                 _regionManager.RequestNavigate("ContentRegion", "SearchView");
 
@@ -64,6 +72,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
             else
             {
                 IsNotMainMenu = true;
+                IsMainMenu = false;
 
                 _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
 
