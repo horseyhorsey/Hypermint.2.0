@@ -7,11 +7,13 @@ using Prism.Regions;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Hypermint.Base.Services;
+using Hypermint.Base.Interfaces;
 
 namespace Hs.Hypermint.NavBar.ViewModels
 {
     public class NavBarViewModel : ViewModelBase
     {
+        #region Properties
         private string currentView = "Views: Database editor";
         public string CurrentView
         {
@@ -34,24 +36,32 @@ namespace Hs.Hypermint.NavBar.ViewModels
         }
 
         private string _systemName = "";
+        #endregion
 
         private IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
         private ISelectedService _selectedService;
+        private IFolderExplore _folderExplore;
 
         /// <summary>
         /// Navigate command for the navbar
         /// </summary>
         public DelegateCommand<string> NavigateCommand { get; set; }
 
-        public NavBarViewModel(IRegionManager manager, IEventAggregator eventAggregator, ISelectedService selectedService)
+        public NavBarViewModel(IRegionManager manager, IEventAggregator eventAggregator, 
+            ISelectedService selectedService, IFolderExplore folderExplore)
         {
             _regionManager = manager;
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetToDbView);
+            _folderExplore = folderExplore;
 
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetToDbView);
             _eventAggregator.GetEvent<NavigateRequestEvent>().Subscribe(Navigate);
+            _eventAggregator.GetEvent<RequestOpenFolderEvent>().Subscribe(x =>
+            {
+                _folderExplore.OpenFolder(x);
+            });
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
