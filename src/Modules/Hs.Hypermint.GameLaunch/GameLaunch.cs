@@ -35,10 +35,30 @@ namespace Hs.Hypermint.GameLaunch
                 }
             }
         }
+        
+        //        <MenuItem Header="Pause" Click="RLModeClick"/>
+        //        <MenuItem Header="MultiGame" Click="RLModeClick"/>
+        //        <MenuItem Header="Fade" Click="RLModeClick"/>
+        //        <MenuItem Header="Fade7z" Click="RLModeClick"/>
+        ///
 
-        public void RocketLaunchGameWithMode(string RlPath, string systemName, string RomName, string mode)
+        public void RocketLaunchGameWithMode(string RlPath, 
+            string systemName, string RomName, string mode)
         {
-            
+            if (Directory.Exists(RlPath))
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(RlPath + 
+                        "\\Rocketlauncher.exe", 
+                        "-s " + "\"" + systemName + "\"" + " -r " + "\"" + RomName + "\"" +
+                        //" -f " + HsPath + "\\HyperSpin.exe" +
+                        " -m " + mode + " -p hyperspin");
+                }
+                catch (Exception ex)
+                {
+                }
+            }
         }
     }
 }
