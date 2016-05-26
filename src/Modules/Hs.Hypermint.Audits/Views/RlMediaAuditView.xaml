@@ -36,17 +36,18 @@
             
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Rocketlaunch audit">
+        <GroupBox Header="{Binding AuditHeader}">
             <Grid>
                 <Rectangle Fill="{DynamicResource FlatButtonForegroundBrush}"/>
                 <TabControl >
-                    <TabItem Header="Bezel-Cards" >
-                        <dataGrids:DataGridBezel/>
-
-                    </TabItem>
                     <TabItem Header="Pause">
                         <dataGrids:DataGridPause/>
                     </TabItem>
+                    
+                    <TabItem Header="Bezel-Cards" >
+                        <dataGrids:DataGridBezel/>
+                    </TabItem>
+ 
                     <TabItem Header="Fade">
                         <dataGrids:DataGridFade/>
                     </TabItem>

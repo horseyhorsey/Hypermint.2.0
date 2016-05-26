@@ -16,6 +16,7 @@ using System.Xml;
 using Hypermint.Base.Models;
 using MahApps.Metro.Controls.Dialogs;
 using Hypermint.Base.Events;
+using GongSolutions.Wpf.DragDrop;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -542,6 +543,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {            
             base.OnPropertyChanged(propertyName);
         }
+
         #endregion
     }
 }

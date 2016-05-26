@@ -393,6 +393,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             IsTextSource = false; IsPdf = false;
             IsVideoSource = false;
             IsImageSource = false;
+
             var extension = Path.GetExtension(file);
             
             switch (extension.ToLower())
@@ -400,6 +401,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 case ".png":
                 case ".jpg":
                 case ".jpeg":
+                case ".gif":
                     SetImageWheelPreview(file);
                     break;
                 case ".avi":
@@ -424,7 +426,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                     SetPdfImage(file);
                     break;
                 default:
-                    SetImageWheelPreview("");
+                    WheelSource = null;
                     MediaPaneHeader = "Media View | " + file;
                     break;
             }

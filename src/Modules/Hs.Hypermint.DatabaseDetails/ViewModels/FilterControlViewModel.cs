@@ -78,7 +78,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             AddMultiSystemCommand = new DelegateCommand(() =>
             {
                 _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedService.SelectedGames);
-            });
+            });            
         }
 
         private void RemoveFilters(string obj)

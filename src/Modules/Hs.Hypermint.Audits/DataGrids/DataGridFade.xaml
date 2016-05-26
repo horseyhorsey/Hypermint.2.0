@@ -29,7 +29,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="_Default Folder" Binding="{Binding RomName}"/>
+                <DataGridTextColumn Header="Fade" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Layer 1" Binding="{Binding HaveFadeLayer1}" />
                 <DataGridTextColumn Header="Layer 2" Binding="{Binding HaveFadeLayer2}"/>
                 <DataGridTextColumn Header="Layer 3" Binding="{Binding HaveFadeLayer3}"/>
@@ -67,7 +67,8 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Grid.Row="2" Command="{Binding FadeScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
+        <DockPanel Grid.Row="2">
+        <Button Command="{Binding FadeScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
                 ToolTip="Scan fade layers" IsEnabled="{Binding ScanEnabled}">
             <Rectangle Width="15" Height="15"
@@ -77,5 +78,43 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
+
+            <Button Command="{Binding LaunchRlMode}" CommandParameter="Fade"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Test rocketlaunch fade" IsEnabled="{Binding ScanEnabled}">
+            <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+            <Button Command="{Binding LaunchRlMode}" CommandParameter="Fade7z"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Test rocketlaunch fade 7z" IsEnabled="{Binding ScanEnabled}">
+                <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <Button Command="{Binding OpenFolderCommand}"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Open games fade folder.">
+                <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+        </DockPanel>
     </Grid>
 </UserControl>

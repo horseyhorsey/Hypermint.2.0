@@ -23,6 +23,11 @@ namespace Hs.Hypermint.Audits.ViewModels
         private IGameRepo _gameRepo;
         private IAuditerRl _rocketAuditer;
         private ISettingsRepo _settingsRepo;
+        private IDialogCoordinator _dialogService;
+        private IRegionManager _regionManager;
+        private ISelectedService _selectedService;
+
+        #region Properties
 
         private string _selectedSystem;
 
@@ -40,6 +45,13 @@ namespace Hs.Hypermint.Audits.ViewModels
             set { SetProperty(ref currentColumnType, value); }
         }
 
+        private string auditHeader ;
+        public string AuditHeader 
+        {
+            get { return auditHeader ; }
+            set { SetProperty(ref auditHeader , value); }
+        }
+
         private ICollectionView auditList;
         public ICollectionView AuditList
         {
@@ -48,17 +60,16 @@ namespace Hs.Hypermint.Audits.ViewModels
         }
 
         private ICollectionView auditListDefaults;
-        private CustomDialog customDialog;
-
-        private IDialogCoordinator _dialogService;
-        private IRegionManager _regionManager;
-        private ISelectedService _selectedService;
-
         public ICollectionView AuditListDefaults
         {
             get { return auditListDefaults; }
             set { SetProperty(ref auditListDefaults, value); }
         }
+        #endregion
+
+        private CustomDialog customDialog;
+        private IGameLaunch _gameLaunch;
+        private IFolderExplore _fExplorer;
 
         public RocketLaunchAudit SelectedGame { get; set; }
 
@@ -66,10 +77,14 @@ namespace Hs.Hypermint.Audits.ViewModels
         public DelegateCommand<object> CurrentCellChanged { get; set; }
         public DelegateCommand PauseMediaScanCommand { get; private set; }
         public DelegateCommand FadeScanCommand { get; private set; }
-        public DelegateCommand BezelEditCommand { get; private set; } 
+        public DelegateCommand BezelEditCommand { get; private set; }
+        public DelegateCommand<string> LaunchRlMode { get; private set; }
+        public DelegateCommand OpenFolderCommand { get; private set; } 
 
-        public RlMediaAuditViewModel(IEventAggregator eventAggregator,IRegionManager regionManager, IGameRepo gameRepo
-            , IAuditerRl rocketAuditer, ISettingsRepo settings,ISelectedService selectedService, IDialogCoordinator dialogService)
+        public RlMediaAuditViewModel(IEventAggregator eventAggregator,
+              IRegionManager regionManager, IGameRepo gameRepo,
+              IAuditerRl rocketAuditer, ISettingsRepo settings, IGameLaunch gameLaunch,
+              ISelectedService selectedService, IDialogCoordinator dialogService)
         {
             _eventAggregator = eventAggregator;
             _gameRepo = gameRepo;
@@ -78,6 +93,9 @@ namespace Hs.Hypermint.Audits.ViewModels
             _dialogService = dialogService;
             _regionManager = regionManager;
             _selectedService = selectedService;
+            _gameLaunch = gameLaunch;
+
+            AuditHeader = "Rocketlaunch Audit";
 
             _rocketAuditer.RlAudits = new RocketLauncherAudits();
             _rocketAuditer.RlAuditsDefault = new RocketLauncherAudits();
@@ -99,10 +117,28 @@ namespace Hs.Hypermint.Audits.ViewModels
 
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
 
+            LaunchRlMode = new DelegateCommand<string>((x) =>
+            {
+                _gameLaunch.RocketLaunchGameWithMode(
+                    _settingsRepo.HypermintSettings.RlPath,
+                    _selectedSystem, _selectedService.CurrentRomname, x);
+            });
+
+            OpenFolderCommand = new DelegateCommand(() =>
+            {
+                var path = Path.Combine(_settingsRepo.HypermintSettings.RlMediaPath,
+                    "Fade", _selectedSystem, _selectedService.CurrentRomname);
+
+                if (Directory.Exists(path))
+                    _eventAggregator.GetEvent<RequestOpenFolderEvent>().Publish(path);
+            });
+
         }
 
         private void CurrenCellChanged(object selectedGameCell)
         {
+            //_eventAggregator.GetEvent<ClearRlFilesEvent>().Publish("");
+
             try
             {
                 //Using reflection to get the underlying DataGrid               
@@ -113,6 +149,9 @@ namespace Hs.Hypermint.Audits.ViewModels
                 var dg = datagridProperties as DataGrid;
                 SelectedGame = dg.CurrentItem as RocketLaunchAudit;
                 _selectedService.CurrentRomname = SelectedGame.RomName;
+
+                AuditHeader = "Rocketlaunch Audit : " 
+                    + _selectedService.CurrentRomname + " Selected ";
 
             }
             catch (Exception) { return; }
@@ -127,9 +166,8 @@ namespace Hs.Hypermint.Audits.ViewModels
             }
             catch (Exception e) { }
 
-            _eventAggregator.GetEvent<UpdateFilesEvent>().Publish(
-                new string[] { currentColumnHeader, SelectedGame.RomName });
-
+            _eventAggregator.GetEvent<UpdateFilesEvent>()
+                .Publish(new string[] { currentColumnHeader, SelectedGame.RomName });
         }
 
         private void ScanPauseMedia()

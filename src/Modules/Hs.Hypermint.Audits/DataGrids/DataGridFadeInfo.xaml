@@ -32,7 +32,7 @@
                   IsReadOnly="True" SelectionMode="Single" SelectionUnit="Cell"
                   ItemsSource="{Binding AuditListDefaults}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="_Default Folder" Binding="{Binding RomName}"/>
+                <DataGridTextColumn Header="Bezel" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Bezel" Binding="{Binding HaveBezel}"/>
                 <DataGridTextColumn Header="Bg" Binding="{Binding HaveBezelBg}"/>
             </DataGrid.Columns>

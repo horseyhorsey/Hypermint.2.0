@@ -49,7 +49,7 @@
             </i:Interaction.Triggers>
             
             <DataGrid.Columns>
-                <DataGridTextColumn Header="_Default Folder" Binding="{Binding RomName}"/>
+                <DataGridTextColumn Header="Bezels" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Bezel" Binding="{Binding HaveBezels}"/>
                 <DataGridTextColumn Header="BezelBg" Binding="{Binding HaveBezelBg}"/>
             </DataGrid.Columns>

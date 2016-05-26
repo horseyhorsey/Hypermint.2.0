@@ -125,7 +125,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             {
                 var outputFileName = CreateNewImageFileName();
 
-                CreateImage(outputFileName,CurrentSetting.Png);
+                CreateImage(outputFileName,CurrentSetting.Png);                
 
             });
 
@@ -246,7 +246,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
             IImageEditService imgService = new ImageEditRepo();
 
-            imgService.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, outputFileName + newExt, isPng);
+            imgService.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, outputFileName + newExt, isPng);            
 
         }
 

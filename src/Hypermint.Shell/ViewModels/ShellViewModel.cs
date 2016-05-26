@@ -1,4 +1,6 @@
-﻿using Hypermint.Base;
+﻿using System;
+using GongSolutions.Wpf.DragDrop;
+using Hypermint.Base;
 using Hypermint.Base.Base;
 using Prism.Commands;
 using Prism.Events;
@@ -6,7 +8,7 @@ using Prism.Regions;
 
 namespace Hypermint.Shell.ViewModels
 {
-    public class ShellViewModel : ViewModelBase
+    public class ShellViewModel : ViewModelBase, IDropTarget
     {
         public DelegateCommand<string> NavigateCommand { get; set; }
 
@@ -38,6 +40,16 @@ namespace Hypermint.Shell.ViewModels
         private void Navigate(string uri)
         {            
             
+        }
+
+        void IDropTarget.DragOver(IDropInfo dropInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IDropTarget.Drop(IDropInfo dropInfo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

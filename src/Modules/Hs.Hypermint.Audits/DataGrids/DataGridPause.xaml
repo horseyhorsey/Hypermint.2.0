@@ -46,9 +46,8 @@
                     </prism:InvokeCommandAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
+
             <DataGrid.Columns>
-                <DataGridTextColumn Header="_Default Folder" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
                 <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
                 <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
@@ -77,7 +76,7 @@
                 <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
                 <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
                 <DataGridTextColumn Header="Guide" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Manual" Binding="{Binding HaveManual}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="Manuals" Binding="{Binding HaveManual}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Screenshots" Binding="{Binding HaveScreenshots}"/>
                 <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}"/>
@@ -86,16 +85,30 @@
             </DataGrid.Columns>
         </DataGrid>
 
-
-        <Button Grid.Row="2" Command="{Binding PauseMediaScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
+        <DockPanel Grid.Row="2">
+            <Button Grid.Row="2" Command="{Binding PauseMediaScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
                 ToolTip="Scan for pause media" IsEnabled="{Binding ScanEnabled}">
-            <Rectangle Width="15" Height="15"
+                <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <Button Command="{Binding LaunchRlMode}" CommandParameter="Pause"
+                    Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Load pause menu for this game" IsEnabled="{Binding ScanEnabled}">
+                <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_image}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </DockPanel>
+        
     </Grid>
 </UserControl>
