@@ -37,7 +37,9 @@ namespace Hs.Hypermint.Services
 
             var iniFile = BuildEmuIniPath(rlPath, systemName);
 
-            var rlDriveLetter = Directory.GetDirectoryRoot(rlPath);
+            var dInfo = new DirectoryInfo(rlPath);
+
+            var rlRootDir = rlPath.Replace(dInfo.Name,"");
 
             var paths = GetIniValue(iniFile, section, key).Split('|');
                         
@@ -51,8 +53,8 @@ namespace Hs.Hypermint.Services
 
                     } while (paths[i].Contains(@"..\"));
 
-                    paths[i] = rlDriveLetter + paths[i];                    
-                }
+                    paths[i] = rlRootDir + paths[i];
+                }                
             }
 
             return paths;
