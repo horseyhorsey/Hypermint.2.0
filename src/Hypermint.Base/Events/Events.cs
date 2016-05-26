@@ -18,6 +18,8 @@ namespace Hypermint.Base
 
     public class ImageEditSourceEvent : PubSubEvent<string> { }    
 
+    public class ClearRlFilesEvent : PubSubEvent<string> { }
+
     public class SystemsGenerated : PubSubEvent<string> { }
 
     public class UpdateFilesEvent : PubSubEvent<string[]> { }
@@ -77,5 +79,6 @@ namespace Hypermint.Base
 
     public class GenerateWheelEvent : PubSubEvent<string> { }
 
+    public class RequestOpenFolderEvent : PubSubEvent<string> { }
 
 }
