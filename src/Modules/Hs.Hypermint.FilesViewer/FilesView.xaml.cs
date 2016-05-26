@@ -24,5 +24,18 @@ namespace Hs.Hypermint.FilesViewer
         {
             InitializeComponent();
         }
+
+        private void root_DragEnter(object sender, DragEventArgs e)
+        {        
+            if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop))
+                e.Effects = System.Windows.DragDropEffects.All;
+            else
+                e.Effects = System.Windows.DragDropEffects.None;
+        }    
+
+        private void root_Drop(object sender, DragEventArgs e)
+        {
+
+        }
     }
 }
