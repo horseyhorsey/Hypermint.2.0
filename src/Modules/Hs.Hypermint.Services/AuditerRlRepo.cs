@@ -89,7 +89,7 @@ namespace Hs.Hypermint.Services
 
         public void ScanForCards(string systemName, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
+            for (int i = 0; i < RlAudits.Count; i++)
             {
                 if (RlAudits[i].RomName == "1942 (Europe)")
                     Console.WriteLine("ss");
@@ -103,7 +103,7 @@ namespace Hs.Hypermint.Services
 
         public void ScanForController(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
+            for (int i = 0; i < RlAudits.Count; i++)
             {
 
                 RlAudits[i].HaveMultiGame =
@@ -115,7 +115,7 @@ namespace Hs.Hypermint.Services
 
         public void ScanForBezels(string systemName, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
+            for (int i = 0; i < RlAudits.Count; i++)
             {
 
                 RlAudits[i].HaveBezels =
@@ -155,6 +155,15 @@ namespace Hs.Hypermint.Services
         }
 
         public void ScanForManuals(string _selectedSystem, string rlMediaPath)
+        {
+            for (int i = 0; i < RlAudits.Count; i++)
+            {
+                RlAudits[i].HaveManual =
+                    Directory.Exists(rlMediaPath + "\\Manuals\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\");
+            }
+        }
+
+        public void ScanForManualFiles(string _selectedSystem, string rlMediaPath)
         {
             for (int i = 1; i < RlAudits.Count; i++)
             {
@@ -228,7 +237,7 @@ namespace Hs.Hypermint.Services
                 RlAudits[i].HaveFadeLayer1 =
                     CheckForMedia(
                         rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "Layer 1*");
+                        "Layer 1*.*");
                 RlAudits[i].HaveFadeLayer2 =
                     CheckForMedia(
                         rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
@@ -259,7 +268,12 @@ namespace Hs.Hypermint.Services
                     break;
                 case "Bezel":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\",
-                        "Bezel*.*");
+                    "Bezel*.*");
+                    break;
+                case "Bezels":
+                    if (romName == "_Default")
+                        files = _fileManagement.GetFiles(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\" + addFolder,
+                        "*.*");
                     break;
                 case "BezelBg":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\",
@@ -277,6 +291,10 @@ namespace Hs.Hypermint.Services
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Guides\\" + systemName + "\\" + romName + "\\",
                         "*.*");
                     break;
+                case "Fade":
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\",
+                    "*.*");
+                    break;
                 case "Layer 1":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\",
                         "Layer 1*.*");
@@ -293,12 +311,12 @@ namespace Hs.Hypermint.Services
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\",
                         "Extra Layer 1*.*");
                     break;
-                case "Manual":
+                case "Manuals":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Manuals\\" + systemName + "\\" + romName + "\\",
                         "*.*");
                     break;
                 case "MultiGame":
-                    if (romName == "Default")
+                    if (romName == "_Default")
                         files = _fileManagement.GetFiles(rlMediaPath + "\\MultiGame\\" + systemName + "\\_Default\\",
                             "*.*");
                     else
@@ -339,29 +357,31 @@ namespace Hs.Hypermint.Services
         public string[] GetFoldersForMediaColumn(string systemName, string romName, string rlMediaPath, string mediaType)
         {
             string[] folders = null;
+
+            if (isFadeColumn(mediaType))
+                mediaType = "Fade";
+
             switch (mediaType)
             {
                 case "Artwork":
                     folders = _fileManagement.GetFolders(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName + "\\");
                     break;
-                case "Bezel":
+                case "Bezels":
                     if (romName == "_Default")
                         folders = _fileManagement.GetFolders(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\");
                     break;
                 case "Guide":
                     folders = _fileManagement.GetFolders(rlMediaPath + "\\Guides\\" + systemName + "\\" + romName + "\\");
                     break;
-                case "Layer 1":
-                case "Layer 2":
-                case "Layer 3":
-                case "ExtraLayer1":
+                case "Fade":
                     if (romName == "_Default")
                         folders = _fileManagement.GetFolders(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\");
                     break;
-                case "Manual":
+                case "Manuals":
                     folders = _fileManagement.GetFolders(rlMediaPath + "\\Manuals\\" + systemName + "\\" + romName + "\\");
                     break;
                 case "MultiGame":
+                    if (romName == "_Default")
                         folders = _fileManagement.GetFolders(rlMediaPath + "\\MultiGame\\" + systemName + "\\" + romName + "\\");
                     break;
                 default:
@@ -369,7 +389,26 @@ namespace Hs.Hypermint.Services
             }
 
             return folders;
-        }        
+        }
+
+        private bool isFadeColumn(string columnHeader)
+        {
+            switch (columnHeader)
+            {
+                case "Layer 1":
+                case "Layer 2":
+                case "Layer 3":
+                case "Layer 4":
+                case "Info Bar":
+                case "Progress bar":
+                case "7z Extracting":
+                case "7z Complete":
+                case "_Default Folder":
+                    return true;                                      
+                default:
+                    return false;                    
+            }
+        }
 
     }
 }
