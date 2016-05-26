@@ -154,14 +154,22 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             if (!Directory.Exists(_settingsRepo.HypermintSettings.RlPath)) return;
 
-            if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+            try
             {
-                _gameRepo.ScanForRoms(
-                    _settingsRepo.HypermintSettings.RlPath,
-                    _selectedService.CurrentSystem);
+                if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                {
+                    _gameRepo.ScanForRoms(
+                        _settingsRepo.HypermintSettings.RlPath,
+                        _selectedService.CurrentSystem);
+                }
+
+                GamesList.Refresh();
+            }
+            catch (Exception)
+            {
+                
             }
 
-            GamesList.Refresh();
         }
 
         private void LaunchGame()
