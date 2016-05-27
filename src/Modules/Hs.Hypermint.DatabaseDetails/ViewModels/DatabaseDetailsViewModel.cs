@@ -137,7 +137,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);
             _eventAggregator.GetEvent<MultipleCellsUpdated>().Subscribe((x) =>
             {
-                GamesList.Refresh();
+                if (GamesList != null)
+                    GamesList.Refresh();
             });
 
             _eventAggregator.GetEvent<SystemDatabaseChanged>().Subscribe(SystemDatabaseChangedHandler);

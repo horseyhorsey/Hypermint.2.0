@@ -64,6 +64,20 @@ namespace Hs.Hypermint.Search.ViewModels
             set { SetProperty(ref pageInfo, value); }
         }
 
+        private bool enabledSearchOn = true;
+        public bool EnabledSearchOn
+        {
+            get { return enabledSearchOn; }
+            set { SetProperty(ref enabledSearchOn, value); }
+        }
+
+        private bool cloneSearchOn = true;
+        public bool CloneSearchOn
+        {
+            get { return cloneSearchOn; }
+            set { SetProperty(ref cloneSearchOn, value); }
+        }
+
         /// <summary>
         /// Full collection view list
         /// </summary>
@@ -249,7 +263,7 @@ namespace Hs.Hypermint.Search.ViewModels
                         {
                             var games = _xmlService.SearchGames(
                                 _settings.HypermintSettings.HsPath,
-                                system.Name, searchTerm);
+                                system.Name, searchTerm,CloneSearchOn,EnabledSearchOn);
 
                             foreach (var game in games)
                             {
@@ -345,7 +359,8 @@ namespace Hs.Hypermint.Search.ViewModels
 
             var game = FilteredGames.CurrentItem as GameSearch;
 
-            _selectedSrv.SelectedGames.Add(game.Game);
+            if (game != null)
+                _selectedSrv.SelectedGames.Add(game.Game);
 
         }
         #endregion

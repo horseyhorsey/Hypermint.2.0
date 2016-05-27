@@ -400,7 +400,8 @@ namespace Hs.Hypermint.DatabaseDetails.Services
         /// <param name="systemName"></param>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        public IEnumerable<Game> SearchGames(string hsPath, string systemName, string searchTerm)
+        public IEnumerable<Game> SearchGames(string hsPath, string systemName, string searchTerm,
+            bool searchClone = true, bool searchEnabled = false)
         {
             var xmlName = systemName + ".xml";
             var dbPath = Path.Combine(hsPath, "Databases", systemName);
@@ -416,21 +417,48 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
                     var query =
                         from g in xdoc.Descendants("game")
-                        where g.Value.ToLower().Contains(searchTerm.ToLower())
-                        select new Game()
+                        where g.Value.ToLower().Contains(searchTerm.ToLower())                        
+                        select new 
                         {
-                            RomName = g.Attribute("name").Value,
-                            Description = g.Element("description").Value,
-                            Year = Convert.ToInt32(g.Element("year").Value),
-                            Manufacturer = g.Element("manufacturer").Value,
                             System = systemName,
-                            CloneOf = g.Element("cloneof").Value,
-                            Crc = g.Element("crc").Value,
-                            Rating = g.Element("rating").Value,                            
-                            Genre = g.Element("genre").Value
+                            RomName = g.Attribute("name").Value ?? "",
+                            GameEnabled = g.Attribute("enabled").Value ?? "",
+                            Description = g.Element("description").Value ?? "",
+                            Manufacturer = g.Element("manufacturer").Value ?? "",
+                            Genre = g.Element("genre").Value ?? "",
+                            Rating = g.Element("rating").Value ?? "",
+                            CloneOf = g.Element("cloneof").Value ?? "",
+                            Crc = g.Element("crc").Value ?? "",
+                            Year = g.Element("year").Value ?? "0",                            
                         };
 
-                    searchFoundGames = query.AsEnumerable().ToList();
+                    int year = 0; int enabled = 1;
+
+                    foreach (var item in query)
+                    {
+                        int.TryParse(item.Year, out year);
+                        int.TryParse(item.GameEnabled, out enabled);
+
+                        searchFoundGames.Add(new Game
+                        {
+                            System = item.System,
+                            RomName = item.RomName,
+                            Description = item.Description,
+                            Manufacturer = item.Manufacturer,
+                            Genre = item.Genre,
+                            CloneOf = item.CloneOf,
+                            Rating = item.Rating,
+                            Crc = item.Crc,
+                            Year = year,
+                            GameEnabled = enabled,
+                   
+                        });
+                    }
+
+                    if (searchEnabled)
+                        searchFoundGames = searchFoundGames.Where(x => x.GameEnabled == 1).ToList();
+                    if (!searchClone)
+                        searchFoundGames = searchFoundGames.Where(x => x.CloneOf == string.Empty).ToList();
                 }
             }
 

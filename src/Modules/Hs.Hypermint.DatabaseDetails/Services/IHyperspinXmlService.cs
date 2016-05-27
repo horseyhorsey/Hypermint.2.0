@@ -22,6 +22,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
 
         Task SerializeHyperspinXmlAsync(Games gamesList, string finalPath, string databasePath, bool isMultiSystem = false);
 
-        IEnumerable<Game> SearchGames(string hsPath, string systemName, string searchTerm);
+        IEnumerable<Game> SearchGames(string hsPath, string systemName, string searchTerm,
+            bool searchClone = true, bool searchEnabled = false);
     }
 }

@@ -29,8 +29,16 @@
             <ColumnDefinition Width="325"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text=" Main menu: Search"
-                   HorizontalAlignment="Left" FontWeight="Light" Grid.Column="0" FontSize="28"/>
+        <DockPanel>
+        <TextBlock Text=" Main menu: Search" VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   FontWeight="Light" Grid.Column="0" FontSize="28"/>
+            <CheckBox VerticalAlignment="Center" IsChecked="{Binding EnabledSearchOn}" ToolTip="Include only enabled roms."
+                      Content="Enabled Roms" Margin="5" HorizontalAlignment="Left"/>
+            <CheckBox VerticalAlignment="Center" IsChecked="{Binding CloneSearchOn}" 
+                      ToolTip="Include clones in search."
+                      Content="Clones" Margin="5" HorizontalAlignment="Left"/>
+        </DockPanel>
 
         <!--system selection options-->
         <DockPanel Grid.Row="1" Grid.Column="1">
