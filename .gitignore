@@ -213,3 +213,6 @@ ModelManifest.xml
 /src/Modules/Hs.Hypermint.SidebarSystems/Resources/Thumbs.db
 /src/Hypermint.Base/Services/SearchYoutubeService.cs
 /src/Hypermint.Base/Interfaces/ISearchYoutube.cs
+/src/Hypermint.BaseTests/Services/SearchYoutubeServiceTests.cs
+/src/Hypermint.BaseTests/Properties/AssemblyInfo.cs
+/src/Hypermint.BaseTests/Hypermint.BaseTests.csproj

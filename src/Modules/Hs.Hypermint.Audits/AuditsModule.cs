@@ -1,4 +1,5 @@
-﻿using Hs.Hypermint.Services;
+﻿using Hs.Hypermint.Audits.Views;
+using Hs.Hypermint.Services;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
@@ -21,11 +22,13 @@ namespace Hs.Hypermint.Audits
         public override void Initialize()
         {                        
 
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.HsMediaAuditView));
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(HsMediaAuditView));
 
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.RlMediaAuditView));
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(RlMediaAuditView));
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(BezelEdit.Views.BezelEditView));
+
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(YoutubeView));
         }
     }
 }

@@ -88,6 +88,9 @@
     <Compile Include="BezelEdit\BezelEditView.xaml.cs">
       <DependentUpon>BezelEditView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HsControlsView.xaml.cs">
+      <DependentUpon>HsControlsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataGrids\DataGridFade.xaml.cs">
       <DependentUpon>DataGridFade.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,9 @@
     </Compile>
     <Compile Include="DataGrids\DataGridPause.xaml.cs">
       <DependentUpon>DataGridPause.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\PreviewVideoDialog.xaml.cs">
+      <DependentUpon>PreviewVideoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -116,14 +122,15 @@
     <Compile Include="ViewModels\BezelEditViewModel.cs" />
     <Compile Include="ViewModels\HsMediaAuditViewModel.cs" />
     <Compile Include="ViewModels\RlMediaAuditViewModel.cs" />
-    <Compile Include="Views\AuditControls.xaml.cs">
-      <DependentUpon>AuditControls.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModels\YoutubeViewModel.cs" />
     <Compile Include="Views\HsMediaAuditView.xaml.cs">
       <DependentUpon>HsMediaAuditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RlMediaAuditView.xaml.cs">
       <DependentUpon>RlMediaAuditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\YoutubeView.xaml.cs">
+      <DependentUpon>YoutubeView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -167,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\HsControlsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DataGrids\DataGridFade.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,11 +194,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Icons.xaml">
+    <Page Include="Dialog\PreviewVideoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AuditControls.xaml">
+    <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -196,6 +207,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\RlMediaAuditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\YoutubeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

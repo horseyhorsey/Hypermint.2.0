@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.ImageEdit", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.ServicesTests1", "src\Modules\Hs.Hypermint.ServicesTests1\Hs.Hypermint.ServicesTests1.csproj", "{9F19ACF9-C659-406E-A70B-02071C43C672}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.BaseTests", "src\Hypermint.BaseTests\Hypermint.BaseTests.csproj", "{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,6 +165,10 @@ Global
 		{9F19ACF9-C659-406E-A70B-02071C43C672}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F19ACF9-C659-406E-A70B-02071C43C672}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F19ACF9-C659-406E-A70B-02071C43C672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

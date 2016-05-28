@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"       
              xmlns:local="clr-namespace:Hs.Hypermint.Audits.Views"
+             xmlns:auditcontrol="clr-namespace:Hs.Hypermint.Audits.Controls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"  
@@ -36,15 +37,18 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
-                    
+                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 
-                <DataGrid x:Name="DatabaseGrid"
+
+                <auditcontrol:HsControlsView Grid.Row="1"/>
+                
+                <DataGrid Grid.Row="0" x:Name="DatabaseGrid"
                           Visibility="{Binding ElementName=root,
                     Path=DataContext.IsntMainMenu,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisConverter}}"
                           Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False" 
                       IsReadOnly="True" SelectionMode="Single"
-                      BorderThickness="2" AutoGenerateColumns="False"  Grid.Row="0">
+                      BorderThickness="2" AutoGenerateColumns="False">
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CurrentCellChanged">
@@ -104,6 +108,10 @@
                 </DataGrid>
 
             </Grid>
+            
+            
         </GroupBox>
+        
+        
     </Grid>
 </UserControl>

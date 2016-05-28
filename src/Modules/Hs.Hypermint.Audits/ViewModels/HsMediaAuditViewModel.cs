@@ -22,11 +22,14 @@ namespace Hs.Hypermint.Audits.ViewModels
         private ISettingsRepo _settings;
         private IGameRepo _gameRepo;
         private IAuditer _auditer;
-        public DelegateCommand RunScanCommand { get; private set; }
+        
         public DelegateCommand<object> SelectionChanged { get; set; }
         public DelegateCommand<object> CurrentCellChanged { get; set; }
         private ICollectionView _auditList;
         private ISelectedService _selectedService;
+        public DelegateCommand SearchYoutubeCommand { get; private set; }
+        public DelegateCommand RunAuditCommand { get; private set; }
+    
         #endregion
 
         #region Properties
@@ -79,6 +82,8 @@ namespace Hs.Hypermint.Audits.ViewModels
         }
 
         private bool isntMainMenu = true;
+        private ISearchYoutube _youtube;
+
         public bool IsntMainMenu
         {
             get { return isntMainMenu; }
@@ -101,7 +106,9 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         #region ctors
         public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
-            IEventAggregator eventAggregator, IAuditer auditer, ISelectedService selectedService)
+            IEventAggregator eventAggregator, IAuditer auditer, 
+            ISelectedService selectedService,
+            ISearchYoutube youtube)
         {
             _eventAggregator = eventAggregator;
             _settings = settings;
@@ -109,6 +116,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             _auditer.AuditsGameList = new AuditsGame();
             _gameRepo = gameRepo;
             _selectedService = selectedService;
+            _youtube = youtube;
 
             //This event is called after main database view is updated
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(gamesUpdated);
@@ -159,14 +167,32 @@ namespace Hs.Hypermint.Audits.ViewModels
                     }
                     catch (Exception e) { }
 
-                });
-
-            _eventAggregator.GetEvent<AuditHyperSpinEvent>().Subscribe(RunScan);
+                });            
 
             gamesUpdated("Main Menu");
+
+            SearchYoutubeCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<GetVideosEvent>().Publish(new object());
+                _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("YoutubeView");
+            });
+
+            // Run the auditer for hyperspin
+            RunAuditCommand = new DelegateCommand(() => RunScan());
         }
 
         #endregion
+
+        //private async void SearchYoutube()
+        //{
+        //    var links = await _searchYoutube.SearchAsync("Amstrad");
+
+        //    for (int i = 0; i < links.Count; i++)
+        //    {
+        //        System.Windows.MessageBox.Show(links[i]);
+        //    }
+        //    //_selectedService.CurrentSystem;
+        //}
 
         private void RunScan(string option="")
         {
