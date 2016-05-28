@@ -14,17 +14,12 @@ namespace Hs.Hypermint.HyperspinFile
         public HyperspinFileModule(IUnityContainer container, IRegionManager manager) : base(container, manager)
         {
             _regionManager = manager;
+
             RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(Views.HyperspinFilesView));
         }
 
         public override void Initialize()
         {
-
-            //UnityContainer.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());
-
-            //UnityContainer.RegisterType<ISettingsRepo, SettingsRepo>(new ContainerControlledLifetimeManager());
-
-            //UnityContainer.RegisterType<IGameRepo, GameRepo>(new ContainerControlledLifetimeManager());
 
         }
 
