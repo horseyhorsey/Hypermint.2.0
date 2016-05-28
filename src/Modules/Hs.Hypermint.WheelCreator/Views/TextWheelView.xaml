@@ -8,73 +8,92 @@
     <Grid>
         <!--Font Options-->
 
-        <StackPanel>
-            <DockPanel>
+        <StackPanel MaxWidth="550" HorizontalAlignment="Left">
+            <GroupBox Header="Preview">
+                <DockPanel>
+                    <Button DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
+            Background="{DynamicResource HighlightBrush}"
+                        Command="{Binding GeneratePreviewCommand}"
+                Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
+                ToolTip="Generate preview">
+                        <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_eye}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
 
-                <!--FONT OPTIONS-->
-                <GroupBox Height="70" Width="400" HorizontalAlignment="Left" Grid.Row="1" Header="Font">
-                    <Grid>
-                        <StackPanel>
-                            <StackPanel  Orientation="Horizontal">
-                                <TextBox HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" 
-                                 Text="{Binding FontName, UpdateSourceTrigger=PropertyChanged}"
-                                         VerticalAlignment="Center" Width="161"/>
+                    <TextBox Text="{Binding CurrentWheelSetting.PreviewText,UpdateSourceTrigger=PropertyChanged}"
+                                             MaxHeight="25" MinWidth="200" ></TextBox>
+                </DockPanel>
 
-                                <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
+            </GroupBox>
+
+
+            <GroupBox Header="Preset">
+                <DockPanel>
+                    <ComboBox Height="20" Width="100" ItemsSource="{Binding Presets}"></ComboBox>
+
+                    <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
+                                    VerticalAlignment="Center" Margin="2" 
+                                    Background="{DynamicResource AccentColorBrush}"
+                                    Height="25" Width="25" 
+                                    Command="{Binding SavePresetCommand}"
+                                    Style="{DynamicResource AccentedSquareButtonStyle}"
+                                    ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name">
+                        <Rectangle Width="13" Height="13"
+                                           Fill="{Binding Path=Foreground, 
+                                    RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <TextBox Text="{Binding CurrentWheelSetting.Name,UpdateSourceTrigger=PropertyChanged}"
+                                             MaxHeight="25" MinWidth="200"/>
+                </DockPanel>
+            </GroupBox>
+
+                <GroupBox Header="Options" HorizontalAlignment="Left">
+
+                <StackPanel>
+                    <StackPanel  Orientation="Horizontal">
+
+
+                        <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
                                     VerticalAlignment="Center" Margin="2" 
                                     Background="{DynamicResource AccentColorBrush}"
                                     Height="25" Width="25" 
                                     Command="{Binding SelectFontCommand}"
                                     Style="{DynamicResource AccentedSquareButtonStyle}"
                                     ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name">
-                                    <Rectangle Width="13" Height="13"
+                            <Rectangle Width="13" Height="13"
                                            Fill="{Binding Path=Foreground, 
                                     RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_text_serif}"/>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-
-                                <ComboBox SelectedValue="{Binding CurrentWheelSetting.Gravity, UpdateSourceTrigger=PropertyChanged}"
-                                  ItemsSource="{Binding GravityOptions}"
-                                  VerticalAlignment="Top" Height="20" HorizontalAlignment="Left" Margin="5" Width="75" >
-                                </ComboBox>
-
-                                <Label Content="Arc" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
-                                <Controls:NumericUpDown ToolTip="Arch the text." HorizontalAlignment="Left" Margin="5"
-                                            Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ArcAmount}" VerticalAlignment="Center"/>
-
-                            </StackPanel>
-
-                        </StackPanel>
-                    </Grid>
-                </GroupBox>
-
-                <GroupBox Header="Preview">
-                    <DockPanel>
-                        <Button DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
-            Background="{DynamicResource HighlightBrush}"
-                        Command="{Binding GeneratePreviewCommand}"
-                Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
-                ToolTip="Generate preview">
-                            <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_eye}"/>
+                                    <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_text_serif}"/>
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </Button>
 
-                        <TextBox Text="{Binding CurrentWheelSetting.PreviewText,UpdateSourceTrigger=PropertyChanged}"
-                                             MaxHeight="25" MinWidth="200" ></TextBox>
-                    </DockPanel>
+                        <TextBox HorizontalAlignment="Left" Height="20"  Width="160"
+                                 Text="{Binding FontName, UpdateSourceTrigger=PropertyChanged}"
+                                         VerticalAlignment="Center"/>
 
-                </GroupBox>
-            </DockPanel>
+                        <ComboBox SelectedValue="{Binding CurrentWheelSetting.Gravity, UpdateSourceTrigger=PropertyChanged}"
+                                  ItemsSource="{Binding GravityOptions}"
+                                  VerticalAlignment="Top" Height="20" HorizontalAlignment="Left" Margin="5" Width="75" >
+                        </ComboBox>
 
-            <DockPanel>
-                <GroupBox Header="Size" Grid.Row="3" HorizontalAlignment="Left">
+                        <Label Content="Arc" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
+                        <Controls:NumericUpDown ToolTip="Arch the text." HorizontalAlignment="Left" Margin="5"
+                                            Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ArcAmount}" VerticalAlignment="Center"/>
+
+                    </StackPanel>
+                    
                     <StackPanel  Orientation="Horizontal">
+                        <Label Content="Size" VerticalAlignment="Center"/>
                         <Controls:NumericUpDown HorizontalAlignment="Left"
                                                     Minimum="0" Maximum="4096" Value="{Binding CurrentWheelSetting.Width}"
                                             Margin="5"
@@ -84,40 +103,16 @@
                         <CheckBox ToolTip="Trim the final image" IsChecked="{Binding CurrentWheelSetting.Trim}" Content="Trim" HorizontalAlignment="Left" 
                                Height="32" VerticalAlignment="Center"/>
 
+                        <CheckBox Content="Shade" Margin="10" HorizontalAlignment="Left"
+                                                IsChecked="{Binding CurrentWheelSetting.ShadeOn}"
+                                                VerticalAlignment="Top" Width="69"/>
+                        <Controls:NumericUpDown HorizontalAlignment="Left" ToolTip="ShadeAzimuth"
+                                                Margin="5" Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ShadeAzimuth}"/>
+                        <Controls:NumericUpDown HorizontalAlignment="Left" ToolTip="ShadeElevation"
+                                                Margin="5" Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ShadeElevation}"/>
+
                     </StackPanel>
-                </GroupBox>
-
-                <GroupBox Header="Preset">
-                    <DockPanel>
-                        <ComboBox Height="20" Width="100" ItemsSource="{Binding Presets}"></ComboBox>
-
-                        <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
-                                    VerticalAlignment="Center" Margin="2" 
-                                    Background="{DynamicResource AccentColorBrush}"
-                                    Height="25" Width="25" 
-                                    Command="{Binding SavePresetCommand}"
-                                    Style="{DynamicResource AccentedSquareButtonStyle}"
-                                    ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name">
-                            <Rectangle Width="13" Height="13"
-                                           Fill="{Binding Path=Foreground, 
-                                    RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-
-                        <TextBox Text="{Binding CurrentWheelSetting.Name,UpdateSourceTrigger=PropertyChanged}"
-                                             MaxHeight="25" MinWidth="200"/>
-                    </DockPanel>
-                </GroupBox>
-            </DockPanel>
-
-
-            <StackPanel Orientation="Horizontal">
-
-
-                <GroupBox Header="Color" Margin="5">
+                    
                     <StackPanel  Orientation="Horizontal" VerticalAlignment="Bottom">
 
                         <Label Content="Fill" Margin="5" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center"/>
@@ -135,12 +130,6 @@
                         <Controls:NumericUpDown Value="{Binding CurrentWheelSetting.StrokeWidth,UpdateSourceTrigger=PropertyChanged}" 
                                                 Margin="5" Minimum="0" Maximum="100"/>
 
-                        <Label Content="Shadow" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <toolkit:ColorPicker ShowAdvancedButton="False"
-                                                 MinWidth="50" MaxWidth="50"
-                                                 SelectedColor="{Binding CurrentWheelSetting.ShadowColor,UpdateSourceTrigger=PropertyChanged}" Margin="5" 
-                                                 HorizontalAlignment="Left" VerticalAlignment="Center"  />
-
                         <Rectangle Width="35" Margin="5" Height="20" HorizontalAlignment="Left">
                             <Rectangle.Fill>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
@@ -150,49 +139,33 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </StackPanel>
-                </GroupBox>
 
-                <GroupBox Header="Shade">
-                    <DockPanel>
+                <StackPanel  Orientation="Horizontal">
 
-                        <CheckBox Content="Shade" Margin="10" HorizontalAlignment="Left"
-                                                IsChecked="{Binding CurrentWheelSetting.ShadeOn}"
-                                                VerticalAlignment="Top" Width="69"/>
-                        <Controls:NumericUpDown HorizontalAlignment="Left" ToolTip="ShadeAzimuth"
-                                                Margin="5" Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ShadeAzimuth}"/>
-                        <Controls:NumericUpDown HorizontalAlignment="Left" ToolTip="ShadeElevation"
-                                                Margin="5" Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ShadeElevation}"/>
+                        <toolkit:ColorPicker ShowAdvancedButton="False" ToolTip="Shadow color"
+                                                 MinWidth="50" MaxWidth="50"
+                                                 SelectedColor="{Binding CurrentWheelSetting.ShadowColor,UpdateSourceTrigger=PropertyChanged}" Margin="5" 
+                                                 HorizontalAlignment="Left" VerticalAlignment="Center"  />
 
-                    </DockPanel>
-                </GroupBox>
-
-            </StackPanel>
-
-            <DockPanel>
-                <GroupBox Header="Shadow" HorizontalAlignment="Left">
-                    <StackPanel  Orientation="Horizontal">
-                        <CheckBox Content="On" Margin="5" HorizontalAlignment="Left" 
-                                  ToolTip="Enabled shadow" VerticalAlignment="Center" IsChecked="True"/>
                         <Controls:NumericUpDown  ToolTip="Shadow X" Margin="5"
                                                  HorizontalAlignment="Left"  Minimum="0" Maximum="500"
                                                  Value="{Binding CurrentWheelSetting.ShadowX}"/>
-                        <Controls:NumericUpDown  ToolTip="Shadow Y" Margin="5" HorizontalAlignment="Left"  
+                    <Controls:NumericUpDown  ToolTip="Shadow Y" Margin="5" HorizontalAlignment="Left"  
                                                  Minimum="0" Maximum="500" 
                                                  Value="{Binding CurrentWheelSetting.ShadowY}"/>
-                        <Label Content="Distance"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                        <Controls:NumericUpDown   ToolTip="Shadow distance"
+                    <Label Content="Distance"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                    <Controls:NumericUpDown   ToolTip="Shadow distance"
                                                   Margin="5" HorizontalAlignment="Left"
                                                   Minimum="0" Maximum="500"
                                                   Value="{Binding CurrentWheelSetting.ShadowSigma}"/>
 
-                        <Label Content="Alpha Percent"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                        <Controls:NumericUpDown   ToolTip="Shadow distance"
+                    <Label Content="Alpha Percent"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                    <Controls:NumericUpDown   ToolTip="Shadow distance"
                                                   Margin="5" HorizontalAlignment="Left"
                                                   Minimum="0" Maximum="100" Value="{Binding CurrentWheelSetting.ShadowPercentage}"/>
-                    </StackPanel>
-                </GroupBox>
-
-            </DockPanel>
+                </StackPanel>
+                </StackPanel>
+            </GroupBox>
 
         </StackPanel>
     </Grid>
