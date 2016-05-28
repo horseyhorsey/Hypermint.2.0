@@ -77,11 +77,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\UnusedFilesList.xaml.cs">
+      <DependentUpon>UnusedFilesList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FilesList.xaml.cs">
       <DependentUpon>FilesList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\HsControlsView.xaml.cs">
-      <DependentUpon>HsControlsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="HyperspinFileModule.cs" />
     <Compile Include="Models\UnusedMediaFile.cs" />
@@ -130,11 +130,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\FilesList.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\UnusedFilesList.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\HsControlsView.xaml">
+    <Page Include="Controls\FilesList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
