@@ -14,13 +14,21 @@
 
     <GroupBox Header="Simple wheel creator">
         <Grid>
+            
             <StackPanel>
 
                 <TabControl>
                     <TabItem Header="Text">
-                        <StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="500"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
 
                             <views:TextWheelView/>
+                            <Image Grid.Column="1" Stretch="Fill" Source="{Binding GenerateWheelSource}"/>
 
                             <GroupBox Header="Annotate" Visibility="Collapsed">
                                 <DockPanel>
@@ -38,7 +46,7 @@
                                 </DockPanel>
                             </GroupBox>
 
-                        </StackPanel>
+                        </Grid>
 
                     </TabItem>
                     
