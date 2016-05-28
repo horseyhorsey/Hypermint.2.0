@@ -14,6 +14,7 @@ using System.Xml;
 using System.ComponentModel;
 using System.Windows.Data;
 using Hs.Hypermint.WheelCreator.Models;
+using Hypermint.Base;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
@@ -97,7 +98,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
                 var imagePath = "preview.png";
 
-                _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
+                _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
             }
         }
 
