@@ -20,9 +20,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
     public class HyperspinFilesViewModel : ViewModelBase
     {
         
-        private IEventAggregator _eventAggregator;
-        public DelegateCommand RunAuditCommand { get; private set; }
-        public DelegateCommand SearchYoutubeCommand { get; private set; } 
+        private IEventAggregator _eventAggregator;  
 
         private string columnHeader = "";
         private string groupBoxHeader = "Unused Files: ";
@@ -39,6 +37,13 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             set { SetProperty(ref unusedMediaFiles, value); }
         }
 
+        private ICollectionView filesForGame;
+        public ICollectionView FilesForGame
+        {
+            get { return filesForGame; }
+            set { SetProperty(ref filesForGame, value); }
+        }
+
         private List<UnusedMediaFile> UnusedWheels;
         private List<UnusedMediaFile> UnusedArtwork1;
         private List<UnusedMediaFile> UnusedArtwork2;
@@ -51,7 +56,6 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         private ISettingsRepo _settingsRepo;
         private IAuditer _auditRepo;
         private ISelectedService _selectedService;
-        private ISearchYoutube _searchYoutube;
 
         public string MediaTypeName
         {
@@ -60,37 +64,22 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         }
 
         public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings, IAuditer auditRepo, 
-            ISelectedService selectedService, ISearchYoutube searchYoutube)
+            ISelectedService selectedService)
         {
             _eventAggregator = ea;
             _settingsRepo = settings;
             _auditRepo = auditRepo;
-            _selectedService = selectedService;
-            _searchYoutube = searchYoutube;
-
-            // Run the auditer for hyperspin
-            RunAuditCommand = new DelegateCommand(() =>
-                {
-                    _eventAggregator.GetEvent<AuditHyperSpinEvent>().Publish("");
-                });
-
-            SearchYoutubeCommand = new DelegateCommand(SearchYoutube);
+            _selectedService = selectedService;  
 
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetCurrentName);
 
-            _eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Subscribe(BuildUnusedMediaList);
-        }
-
-        private async void SearchYoutube()
-        {
-            var links = await _searchYoutube.SearchAsync("Amstrad");
-
-
-            for (int i = 0; i < links.Count; i++)
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe((x) =>
             {
-                System.Windows.MessageBox.Show(links[i]);
-            }
-            //_selectedService.CurrentSystem;
+                UnusedMediaFiles = null;
+                FilesForGame = null;
+            });
+
+            _eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Subscribe(BuildUnusedMediaList);
         }
 
         private void BuildUnusedMediaList(string obj)
@@ -156,11 +145,13 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         private void SetCurrentName(string[] romAndColumn)
         {
+            FilesForGame = null;
 
             if (romAndColumn[1] != columnHeader)
             {
                 columnHeader = romAndColumn[1];
-                
+
+                #region unusedswitch
                 switch (columnHeader)
                 {
                     case "Wheel":
@@ -188,9 +179,86 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                         UnusedMediaFiles = null;
                         break;
                 }
+                #endregion
 
-                GroupBoxHeader = "Unused Files: " + columnHeader;
+                GroupBoxHeader = "Hyperspin files for: " + columnHeader;
             }
+
+            switch (columnHeader)
+            {
+                case "Wheel":
+                    GetHyperspinFilesForGame(Images.Wheels);
+                    break;
+                case "Artwork1":
+                    GetHyperspinFilesForGame(Images.Artwork1);
+                    break;
+                case "Artwork2":
+                    GetHyperspinFilesForGame(Images.Artwork2);
+                    break;
+                case "Artwork3":
+                    GetHyperspinFilesForGame(Images.Artwork3);
+                    break;
+                case "Artwork4":
+                    GetHyperspinFilesForGame(Images.Artwork4);
+                    break;
+                case "Theme":
+                    GetHyperspinFilesForGame(Root.Themes);
+                    break;
+                case "Videos":
+                    GetHyperspinFilesForGame(Root.Video);
+                    break;
+                case "Letters":
+                    GetHyperspinLetters(Images.Letters);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void GetHyperspinLetters(string letters)
+        {
+            string pathToScan = "";
+
+            if (_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                pathToScan = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
+                Root.Media, _selectedService.CurrentRomname,
+                letters);
+            else
+                pathToScan = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
+                Root.Media, _selectedService.CurrentSystem,
+                letters);
+
+            var mediaFiles = new List<MediaFile>();
+
+            foreach (var item in Directory.EnumerateFiles(pathToScan, "*.*"))
+            {
+                mediaFiles.Add(new MediaFile
+                {
+                    FileName = item
+                });
+            }
+
+            FilesForGame = new ListCollectionView(mediaFiles);
+
+        }
+
+        private void GetHyperspinFilesForGame(string mediaPath)
+        {
+            var pathToScan = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
+            Root.Media, _selectedService.CurrentSystem,
+            mediaPath);
+
+            var mediaFiles = new List<MediaFile>();
+
+            foreach (var item in Directory.EnumerateFiles(pathToScan, _selectedService.CurrentRomname + "*.*"))
+            {
+                mediaFiles.Add(new MediaFile
+                {
+                    FileName = item
+                }); 
+            } 
+
+            FilesForGame = new ListCollectionView(mediaFiles);
         }
     }
 }
