@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Top" CanUserAddRows="False"
-                      Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" ItemsSource="{Binding UnusedMediaFiles}">
+                      Grid.Row="1" AutoGenerateColumns="False" SelectionMode="Single" ItemsSource="{Binding FilesForGame}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="FileName" Binding="{Binding FileName}"/>
                 <DataGridTextColumn Header="Extension" Binding="{Binding Extension}"/>
