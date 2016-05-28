@@ -14,6 +14,8 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Drawing.Text;
 using Hypermint.Base;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
@@ -82,6 +84,13 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             set { SetProperty(ref selectedPattern, value); }
         }
 
+        private ImageSource generateWheelSource;
+        public ImageSource GenerateWheelSource
+        {
+            get { return generateWheelSource; }
+            set { SetProperty(ref generateWheelSource, value); }
+        }
+
         #endregion
 
         protected override void OnPropertyChanged(string propertyName = null)
@@ -98,8 +107,10 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
             _eventAggregator.GetEvent<GenerateWheelEvent>().Subscribe(x =>
             {
-                
 
+                //GenerateWheelSource = new BitmapImage(new Uri(Path.GetFullPath(x)));
+
+                GenerateWheelSource = SelectedService.SetBitmapFromUri(new Uri(Path.GetFullPath(x)));
             });
         }
 
