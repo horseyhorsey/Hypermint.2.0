@@ -6,16 +6,22 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="85"/>
-            <RowDefinition Height="*"/>
+            <!--<RowDefinition Height="85"/>
+            <RowDefinition Height="*"/>-->
         </Grid.RowDefinitions>
 
-        <GroupBox Header="{Binding MediaTypeName}">
-            <controls:HsControlsView />
-        </GroupBox>
-
         <GroupBox Header="{Binding GroupBoxHeader}" Grid.Row="1">
-            <controls:FilesList/>
+            <TabControl>
+                <TabItem Header="Files">
+                    <controls:FilesList/>
+                </TabItem>
+
+                <TabItem Header="Unused">
+                    <controls:UnusedFilesList/>
+                </TabItem>
+                
+            </TabControl>
+            
         </GroupBox>
         
 
