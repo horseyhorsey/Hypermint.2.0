@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Hs.Hypermint.HyperspinFile.Models
 {
-    public class UnusedMediaFile
+    public class MediaFile
     {
         public string FileName { get; set; }
 
         public string Extension { get; set; }
+
+    }
+
+    public class UnusedMediaFile : MediaFile
+    {
 
     }
 }
