@@ -1,20 +1,9 @@
-﻿<UserControl x:Class="Hs.Hypermint.HyperspinFile.Controls.HsControlsView"
+﻿<UserControl x:Class="Hs.Hypermint.Audits.Controls.HsControlsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <DockPanel>
-        <Button Command="{Binding SearchYoutubeCommand}" IsEnabled="False" Style="{DynamicResource MetroCircleButtonStyle}"
-                Height="40" Width="40" HorizontalAlignment="Left"
-                ToolTip="Scan Media" >
-            <Rectangle Width="15" Height="15"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill"  Visual="{DynamicResource appbar_youtube}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
-        
         <Button Command="{Binding RunAuditCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
                 ToolTip="Scan Media" IsEnabled="{Binding ScanEnabled}">
@@ -25,7 +14,15 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
-
-
+        <Button Command="{Binding SearchYoutubeCommand}" IsEnabled="True" Style="{DynamicResource MetroCircleButtonStyle}"
+                Height="40" Width="40" HorizontalAlignment="Left"
+                ToolTip="Youtube game" >
+            <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill"  Visual="{DynamicResource appbar_youtube}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
     </DockPanel>
 </UserControl>

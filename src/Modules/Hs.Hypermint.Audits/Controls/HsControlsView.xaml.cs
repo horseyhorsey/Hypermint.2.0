@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Hs.Hypermint.HyperspinFile.Controls
+namespace Hs.Hypermint.Audits.Controls
 {
     /// <summary>
     /// Interaction logic for HsControlsView
