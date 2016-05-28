@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using YoutubeInfo.Models;
 
 namespace Hypermint.Base.Services
 {
     public class SearchYoutubeService : ISearchYoutube
-    {
-        const string YOUTUBELINK = @"https://www.google.com/?q=site+youtube.com+amstrad";
-
-
+    {        
         public async Task<List<string>> SearchAsync(string searchTerm) => await GoogleSearch(searchTerm);
 
-        private  async Task<List<string>>  GoogleSearch(string searchTerm)
+        private async Task<List<string>> GoogleSearch(string searchTerm)
         {
             // ... Target page.
             string page = "https://www.google.co.uk/search?q=sites:youtube.com";
+
+            //VideoThumb
+            // https://img.youtube.com/vi/HoZ_Jq5LN7Q/maxresdefault.jpg
 
             var videoLinks = new List<string>();
 
@@ -27,7 +28,7 @@ namespace Hypermint.Base.Services
                 // ... Read the string.
                 string result = await content.ReadAsStringAsync();
 
-                var pattern = @"https://www.youtube.com/watch?....................";
+                var pattern = @"https://www.youtube.com/watch?..................";
 
                 foreach (Match item in Regex.Matches(result, pattern))
                 {
@@ -39,18 +40,21 @@ namespace Hypermint.Base.Services
             }
 
             return videoLinks;
-        }
-
-    private static void start_get()
+        }        
+        
+        public List<string> GetYoutubeMp4s(string youtubeUrl)
         {
-            //Our getVars, to test the get of our php. 
-            //We can get a page without any of these vars too though.
-            
-         
+            var info = new YoutubeInfo.YoutubeInfo();
 
-            //Congratulations, with these two functions in basic form, you just learned
-            //the two basic forms of web surfing
-            //This proves how easy it can be.
+            var mp4s = new List<string>();
+
+            foreach (var mp4 in info.GetMp4Videos(youtubeUrl))
+            {                
+                mp4s.Add(mp4.DownloadUrl);
+            }
+
+            return mp4s;
+            
         }
 
         public IEnumerable<string> Search(string searchTerm, string systemName)

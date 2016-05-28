@@ -8,6 +8,7 @@ namespace Hypermint.Base.Interfaces
         Task<List<string>> SearchAsync(string searchTerm);
 
         IEnumerable<string> Search(string searchTerm, string systemName);
-        
+
+        List<string> GetYoutubeMp4s(string youtubeUrl);        
     }
 }

@@ -81,6 +81,18 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="YoutubeInfo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YoutubeInfo.1.1.3\lib\net35\YoutubeInfo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="YoutubeInfo.Helpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YoutubeInfo.1.1.3\lib\net35\YoutubeInfo.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="YoutubeInfo.Models, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YoutubeInfo.1.1.3\lib\net35\YoutubeInfo.Models.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationCommands.cs" />
@@ -95,6 +107,7 @@
     <Compile Include="Events\PresetEvents.cs" />
     <Compile Include="Events\SelectedEvents.cs" />
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
+    <Compile Include="Events\YoutubeEvents.cs" />
     <Compile Include="Interfaces\IAuditer.cs" />
     <Compile Include="Interfaces\IAuditerRl.cs" />
     <Compile Include="Interfaces\IFileFolderChecker.cs" />
@@ -145,7 +158,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MockData\Hyperspin\Media\" />
