@@ -39,7 +39,8 @@ namespace Hs.Hypermint.Services
 
                 AuditsGameList.Add(new AuditGame()
                 {
-                    RomName = databaseGameList[i].RomName
+                    RomName = databaseGameList[i].RomName,
+                    Description = databaseGameList[i].Description
                 });
 
                 if (systemName != "_Default")
@@ -111,7 +112,8 @@ namespace Hs.Hypermint.Services
                 AuditsMenuList.Add(new AuditMenu()
                 {
                     
-                    RomName = databaseGameList[i].RomName
+                    RomName = databaseGameList[i].RomName,
+                    Description = databaseGameList[i].Description
                 });
 
                 tempPath = Path.Combine(hsPath, Root.Media);
