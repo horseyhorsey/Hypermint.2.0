@@ -71,7 +71,14 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             _auditRepo = auditRepo;
             _selectedService = selectedService;  
 
-            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetCurrentName);
+            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe((x) =>
+            {
+                SetCurrentName(x);                
+
+                if (FilesForGame != null)
+                    FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;
+
+            });
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe((x) =>
             {
@@ -147,6 +154,10 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         {
             FilesForGame = null;
 
+            //if (_selectedService.IsMainMenu())
+            var rom = romAndColumn[0];
+            //var rom = _selectedService.CurrentRomname;
+
             if (romAndColumn[1] != columnHeader)
             {
                 columnHeader = romAndColumn[1];
@@ -187,28 +198,43 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             switch (columnHeader)
             {
                 case "Wheel":
-                    GetHyperspinFilesForGame(Images.Wheels);
+                    GetHyperspinFilesForGame(Images.Wheels, rom + "*.*");
                     break;
                 case "Artwork1":
-                    GetHyperspinFilesForGame(Images.Artwork1);
+                    GetHyperspinFilesForGame(Images.Artwork1, rom + "*.*");
                     break;
                 case "Artwork2":
-                    GetHyperspinFilesForGame(Images.Artwork2);
+                    GetHyperspinFilesForGame(Images.Artwork2, rom + "*.*");
                     break;
                 case "Artwork3":
-                    GetHyperspinFilesForGame(Images.Artwork3);
+                    GetHyperspinFilesForGame(Images.Artwork3, rom + "*.*");
                     break;
                 case "Artwork4":
-                    GetHyperspinFilesForGame(Images.Artwork4);
+                    GetHyperspinFilesForGame(Images.Artwork4, rom + "*.*");
                     break;
                 case "Theme":
-                    GetHyperspinFilesForGame(Root.Themes);
+                    GetHyperspinFilesForGame(Root.Themes, rom + "*.*");
                     break;
                 case "Videos":
-                    GetHyperspinFilesForGame(Root.Video);
+                    GetHyperspinFilesForGame(Root.Video, rom + "*.*");
                     break;
                 case "Letters":
-                    GetHyperspinLetters(Images.Letters);
+                    GetHyperspinFilesForMenu(Images.Letters);
+                    break;
+                case "GenreBg":
+                    GetHyperspinFilesForMenu(Images.GenreBackgrounds);
+                    break;
+                case "GenreWheel":
+                    GetHyperspinFilesForMenu(Images.GenreWheel);
+                    break;
+                case "Wheel Sounds":
+                    GetHyperspinFilesForMenu(Sound.WheelSounds);
+                    break;
+                case "Pointer":
+                    GetHyperspinFilesForMenu(Images.Pointer);
+                    break;
+                case "Special":
+                    GetHyperspinFilesForMenu(Images.Special);
                     break;
                 default:
                     break;
@@ -242,15 +268,19 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         }
 
-        private void GetHyperspinFilesForGame(string mediaPath)
+        private void GetHyperspinFilesForGame(string mediaPath, string filter = "*.*")
         {
+            var mainMenu = _selectedService.CurrentSystem.ToLower().Contains("main menu");
+            string selected = "";
+
+            selected = _selectedService.CurrentSystem;
+
             var pathToScan = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
-            Root.Media, _selectedService.CurrentSystem,
-            mediaPath);
+            Root.Media, selected, mediaPath);
 
             var mediaFiles = new List<MediaFile>();
 
-            foreach (var item in Directory.EnumerateFiles(pathToScan, _selectedService.CurrentRomname + "*.*"))
+            foreach (var item in Directory.EnumerateFiles(pathToScan, filter))
             {
                 mediaFiles.Add(new MediaFile
                 {
@@ -259,6 +289,36 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             } 
 
             FilesForGame = new ListCollectionView(mediaFiles);
+
+        }
+
+        private void GetHyperspinFilesForMenu(string mediaPath, string filter = "*.*")
+        {
+            var selected = _selectedService.CurrentRomname;
+
+            var pathToScan = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
+            Root.Media, selected, mediaPath);
+
+            var mediaFiles = new List<MediaFile>();
+
+            foreach (var item in Directory.EnumerateFiles(pathToScan, filter))
+            {
+                mediaFiles.Add(new MediaFile
+                {
+                    FileName = item
+                });
+            }
+
+            FilesForGame = new ListCollectionView(mediaFiles);
+
+        }
+
+        private void FilesForGame_CurrentChanged(object sender, EventArgs e)
+        {
+            var selectedFile = FilesForGame.CurrentItem as MediaFile;            
+
+            if (selectedFile != null)
+                _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish(selectedFile.FileName);
         }
     }
 }
