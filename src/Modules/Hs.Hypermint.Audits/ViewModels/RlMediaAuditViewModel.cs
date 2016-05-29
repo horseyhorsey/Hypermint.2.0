@@ -52,6 +52,13 @@ namespace Hs.Hypermint.Audits.ViewModels
             set { SetProperty(ref auditHeader , value); }
         }
 
+        private string filterText;
+        public string FilterText
+        {
+            get { return filterText; }
+            set { SetProperty(ref filterText, value); }
+        }
+
         private ICollectionView auditList;
         public ICollectionView AuditList
         {
@@ -172,6 +179,9 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private void ScanPauseMedia()
         {
+            if (AuditList != null)
+                FilterText = "";
+
             if (!string.IsNullOrEmpty(_selectedSystem))
             {
                 _rocketAuditer.ScanForMultiGame(_selectedSystem,
@@ -204,8 +214,12 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private void ScanFadeLayers()
         {
+            if (AuditList != null)
+                FilterText = "";
+
             if (!string.IsNullOrEmpty(_selectedSystem))
             {
+
                 _rocketAuditer.ScanFadeLayers(_selectedSystem,
                     _settingsRepo.HypermintSettings.RlMediaPath);
 
@@ -219,6 +233,9 @@ namespace Hs.Hypermint.Audits.ViewModels
         /// </summary>
         private void ScanBezel()
         {
+            if (AuditList != null)
+                FilterText = "";
+
             if (!string.IsNullOrEmpty(_selectedSystem))
             {
                 _rocketAuditer.ScanForCards(_selectedSystem,
@@ -235,6 +252,9 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
             if (Directory.Exists(_settingsRepo.HypermintSettings.RlPath))
             {
+                if (AuditList != null)
+                    FilterText = "";
+
                 if (!systemName.ToLower().Contains("main menu"))
                 {
                     _selectedSystem = systemName;
@@ -268,6 +288,31 @@ namespace Hs.Hypermint.Audits.ViewModels
                 }
             }
 
+        }
+
+        private void SetAuditGameFilter()
+        {
+            ICollectionView cv = CollectionViewSource.GetDefaultView(AuditList);
+
+            cv.Filter = o =>
+            {
+                var g = o as RocketLaunchAudit;
+
+                if (_selectedService.IsMainMenu())
+                    return g.RomName.ToUpper().Contains(FilterText.ToUpper());
+                else
+                    return g.Description.ToUpper().Contains(FilterText.ToUpper()); ;
+            };
+        }
+
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName == "FilterText")
+            {
+                SetAuditGameFilter();
+            }
         }
 
     }

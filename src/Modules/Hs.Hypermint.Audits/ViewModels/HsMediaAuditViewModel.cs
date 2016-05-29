@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Hypermint.Base.Events;
+using System.Runtime.CompilerServices;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -22,10 +23,10 @@ namespace Hs.Hypermint.Audits.ViewModels
         private ISettingsRepo _settings;
         private IGameRepo _gameRepo;
         private IAuditer _auditer;
-        
+        private ISearchYoutube _youtube;
+
         public DelegateCommand<object> SelectionChanged { get; set; }
-        public DelegateCommand<object> CurrentCellChanged { get; set; }
-        private ICollectionView _auditList;
+        public DelegateCommand<object> CurrentCellChanged { get; set; }        
         private ISelectedService _selectedService;
         public DelegateCommand SearchYoutubeCommand { get; private set; }
         public DelegateCommand RunAuditCommand { get; private set; }
@@ -39,6 +40,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             get { return runningScan; }
             set { SetProperty(ref runningScan, value); }
         }
+
         private string message = "Test Message";
         public string Message
         {
@@ -70,6 +72,13 @@ namespace Hs.Hypermint.Audits.ViewModels
             set { SetProperty(ref currentColumnType, value); }
         }
 
+        private string filterText;
+        public string FilterText
+        {
+            get { return filterText; }
+            set { SetProperty(ref filterText, value); }
+        }
+
         private bool isMainMenu = false;
         public bool IsMainMenu
         {
@@ -82,8 +91,6 @@ namespace Hs.Hypermint.Audits.ViewModels
         }
 
         private bool isntMainMenu = true;
-        private ISearchYoutube _youtube;
-
         public bool IsntMainMenu
         {
             get { return isntMainMenu; }
@@ -94,9 +101,9 @@ namespace Hs.Hypermint.Audits.ViewModels
         }
 
         public AuditGame SelectedGame { get; set; }
-
         public AuditMenu SelectedMenu { get; set; }
 
+        private ICollectionView _auditList;
         public ICollectionView AuditList
         {
             get { return _auditList; }
@@ -188,20 +195,36 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         #endregion
 
-        //private async void SearchYoutube()
-        //{
-        //    var links = await _searchYoutube.SearchAsync("Amstrad");
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
 
-        //    for (int i = 0; i < links.Count; i++)
-        //    {
-        //        System.Windows.MessageBox.Show(links[i]);
-        //    }
-        //    //_selectedService.CurrentSystem;
-        //}
+            if (propertyName == "FilterText")
+            {
+                SetAuditGameFilter();
+            }
+        }
+
+        private void SetAuditGameFilter()
+        {
+            ICollectionView cv = CollectionViewSource.GetDefaultView(AuditList);
+
+            cv.Filter = o =>
+            {
+                var g = o as AuditGame;
+
+                if (_selectedService.IsMainMenu())
+                    return g.RomName.ToUpper().Contains(FilterText.ToUpper());
+                else
+                    return g.Description.ToUpper().Contains(FilterText.ToUpper()); ;
+            };
+        }
 
         private void RunScan(string option="")
         {
             var hsPath = _settings.HypermintSettings.HsPath;
+
+            FilterText = "";
 
             try
             {
@@ -235,7 +258,10 @@ namespace Hs.Hypermint.Audits.ViewModels
         }
 
         private void gamesUpdated(string systemName)
-        {
+        {            
+            if (AuditList != null)
+                FilterText = "";
+
             if (systemName.ToLower().Contains("main menu"))
             {
                 IsMainMenu = true;
