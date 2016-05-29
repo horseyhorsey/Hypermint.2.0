@@ -16,6 +16,13 @@ namespace Hs.HyperSpin.Database.Audit
             set { romName = value; }
         }
 
+        private string description;
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
         public bool HaveWheel { get; set; }
         public bool HaveTheme { get; set; }
         public bool HaveVideo { get; set; }
