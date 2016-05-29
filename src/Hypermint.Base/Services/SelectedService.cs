@@ -22,6 +22,8 @@ namespace Hypermint.Base.Services
 
         public string CurrentDescription { get; set; }
 
+        public bool IsMultiSystem { get; set; }
+
         public bool IsMainMenu()
         {
             if (CurrentSystem.Contains("Main Menu"))

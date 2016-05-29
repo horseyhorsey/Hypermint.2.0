@@ -17,6 +17,8 @@ namespace Hypermint.Base.Services
 
         bool IsMainMenu();
 
+        bool IsMultiSystem { get; set; }
+
         BitmapImage SystemImage { get; set; }
         ImageSource GameImage { get; set; }
 
