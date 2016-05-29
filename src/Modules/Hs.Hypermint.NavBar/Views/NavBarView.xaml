@@ -98,7 +98,7 @@
         </Button>
 
         <!--Search-->
-        <Button ToolTip="Web Search" Command="{Binding NavigateCommand}" CommandParameter="WebBrowseView">
+        <Button ToolTip="Web Search" IsEnabled="False" Command="{Binding NavigateCommand}" CommandParameter="WebBrowseView">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
