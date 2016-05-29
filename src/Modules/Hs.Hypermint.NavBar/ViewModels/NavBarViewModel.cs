@@ -8,6 +8,7 @@ using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
+using System.IO;
 
 namespace Hs.Hypermint.NavBar.ViewModels
 {
@@ -42,6 +43,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
         private IEventAggregator _eventAggregator;
         private ISelectedService _selectedService;
         private IFolderExplore _folderExplore;
+        private ISettingsRepo _settings;
 
         /// <summary>
         /// Navigate command for the navbar
@@ -49,12 +51,13 @@ namespace Hs.Hypermint.NavBar.ViewModels
         public DelegateCommand<string> NavigateCommand { get; set; }
 
         public NavBarViewModel(IRegionManager manager, IEventAggregator eventAggregator, 
-            ISelectedService selectedService, IFolderExplore folderExplore)
+            ISelectedService selectedService, IFolderExplore folderExplore, ISettingsRepo settings)
         {
             _regionManager = manager;
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
             _folderExplore = folderExplore;
+            _settings = settings;
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetToDbView);
             _eventAggregator.GetEvent<NavigateRequestEvent>().Subscribe(Navigate);
@@ -70,12 +73,22 @@ namespace Hs.Hypermint.NavBar.ViewModels
         {
             _systemName = systemName;
 
-            if (systemName.ToLower().Contains("main menu"))
+            if (File.Exists(_settings.HypermintSettings.HsPath + @"\Databases\" + systemName + "\\_multiSystem"))
+                _selectedService.IsMultiSystem = true;
+            else
+                _selectedService.IsMultiSystem = false;
+
+            if (systemName.ToLower().Contains("main menu") || _selectedService.IsMultiSystem)
             {
-                IsNotMainMenu = false;
-                IsMainMenu = true;
-                //_regionManager.Regions.Remove(RegionNames.FilesRegion);
-                _regionManager.RequestNavigate("ContentRegion", "SearchView");
+                IsNotMainMenu = false;                
+                
+                if (!_selectedService.IsMultiSystem)
+                {
+                    IsMainMenu = true;
+                    _regionManager.RequestNavigate("ContentRegion", "SearchView");
+                }                    
+                else
+                    _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
 
                 RemoveAllFilesRegionViews();
             }
