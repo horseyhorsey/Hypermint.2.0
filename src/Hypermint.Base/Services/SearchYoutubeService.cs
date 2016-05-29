@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using YoutubeInfo.Models;
 
 namespace Hypermint.Base.Services
 {
@@ -14,7 +13,7 @@ namespace Hypermint.Base.Services
         private async Task<List<string>> GoogleSearch(string searchTerm)
         {
             // ... Target page.
-            string page = "https://www.google.co.uk/search?q=sites:youtube.com";
+            string page = "https://www.google.co.uk/search?q=sites:youtube.com";            
 
             //VideoThumb
             // https://img.youtube.com/vi/HoZ_Jq5LN7Q/maxresdefault.jpg
@@ -43,14 +42,14 @@ namespace Hypermint.Base.Services
         }        
         
         public List<string> GetYoutubeMp4s(string youtubeUrl)
-        {
-            var info = new YoutubeInfo.YoutubeInfo();
+        {                        
+            var info = new YoutubeInfo.YoutubeInfo();                             
 
             var mp4s = new List<string>();
 
             foreach (var mp4 in info.GetMp4Videos(youtubeUrl))
             {                
-                mp4s.Add(mp4.DownloadUrl);
+                mp4s.Add(mp4.DownloadUrl);                
             }
 
             return mp4s;
