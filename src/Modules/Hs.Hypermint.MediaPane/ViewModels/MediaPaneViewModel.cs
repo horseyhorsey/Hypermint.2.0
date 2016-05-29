@@ -127,7 +127,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
 
-            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetImageWheelPreview);
+            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetMediaFromFileType);
 
             ImageEditCommand = new DelegateCommand(() =>
             {
