@@ -62,6 +62,7 @@
 
                     <DataGrid.Columns >
                         <DataGridTextColumn  Header="Romname" Binding="{Binding RomName}"/>
+                        <DataGridTextColumn  Header="Description" Binding="{Binding Description}"/>
                         <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
                         <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
                         <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
