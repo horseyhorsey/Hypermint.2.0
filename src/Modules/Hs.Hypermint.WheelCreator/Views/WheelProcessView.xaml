@@ -15,8 +15,14 @@
                     <ComboBox ItemsSource="{Binding Presets}"/>
                     
                 </DockPanel>
-                
 
+                <DockPanel Margin="5">
+                    <RadioButton Content="Wheels" IsChecked="True"/>
+                    <RadioButton Content="Letters" IsEnabled="False"/>
+                    <RadioButton Content="Special" IsEnabled="False"/>
+                    <RadioButton Content="Genre" IsEnabled="False"/>
+                </DockPanel>
+                
                 <control:ProcessTools/>
 
             </StackPanel>
