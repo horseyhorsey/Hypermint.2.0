@@ -22,11 +22,11 @@ namespace Hs.Hypermint.NavBar.ViewModels
             set { SetProperty(ref currentView, value); }
         }
 
-        private bool isNotMainMenu = false;
-        public bool IsNotMainMenu
+        private bool isRlEnabled = false;
+        public bool IsRlEnabled
         {
-            get { return isNotMainMenu; }
-            set { SetProperty(ref isNotMainMenu, value); }
+            get { return isRlEnabled; }
+            set { SetProperty(ref isRlEnabled, value); }
         }
 
         private bool isMainMenu = true;
@@ -34,6 +34,13 @@ namespace Hs.Hypermint.NavBar.ViewModels
         {
             get { return isMainMenu; }
             set { SetProperty(ref isMainMenu, value); }
+        }
+
+        private bool isMultiSystem = true;
+        public bool IsMultiSystem
+        {
+            get { return isMultiSystem; }
+            set { SetProperty(ref isMultiSystem, value); }
         }
 
         private string _systemName = "";
@@ -80,7 +87,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
 
             if (systemName.ToLower().Contains("main menu") || _selectedService.IsMultiSystem)
             {
-                IsNotMainMenu = false;                
+                IsRlEnabled = false;                           
                 
                 if (!_selectedService.IsMultiSystem)
                 {
@@ -94,7 +101,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
             }
             else
             {
-                IsNotMainMenu = true;
+                IsRlEnabled = true;
                 IsMainMenu = false;
 
                 _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
