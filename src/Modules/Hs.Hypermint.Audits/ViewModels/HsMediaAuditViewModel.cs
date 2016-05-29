@@ -120,11 +120,12 @@ namespace Hs.Hypermint.Audits.ViewModels
 
             //This event is called after main database view is updated
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(gamesUpdated);
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(gamesUpdated);
 
             CurrentCellChanged = new DelegateCommand<object>(
                 selectedGameCell =>
                 {
-                    string romName = "";
+                    string romName = "", description = "";
 
                     try
                     {
@@ -141,10 +142,14 @@ namespace Hs.Hypermint.Audits.ViewModels
                         {
                             SelectedMenu = dg.CurrentItem as AuditMenu;
                             romName = SelectedMenu.RomName;
+                            _selectedService.CurrentRomname = romName;
+
                         }
                         else {
                             romName = SelectedGame.RomName;
+                            description = SelectedGame.Description;
                             _selectedService.CurrentRomname = romName;
+                            _selectedService.CurrentDescription = description;
                         }
 
                     }
@@ -250,7 +255,8 @@ namespace Hs.Hypermint.Audits.ViewModels
                 {
                     _auditer.AuditsGameList.Add(new AuditGame
                     {
-                        RomName = item.RomName
+                        RomName = item.RomName,
+                        Description = item.Description                        
                     });
                 }
 
