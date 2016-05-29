@@ -13,6 +13,8 @@ namespace Hypermint.Base.Services
 
         string CurrentRomname { get; set; }
 
+        string CurrentDescription { get; set; }
+
         bool IsMainMenu();
 
         BitmapImage SystemImage { get; set; }
