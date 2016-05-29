@@ -1,4 +1,6 @@
-﻿using Hs.HyperSpin.Database;
+﻿using Hs.Hypermint.Services.Helpers;
+using Hs.HyperSpin.Database;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Hs.Hypermint.MultiSystem.Services
@@ -15,7 +17,7 @@ namespace Hs.Hypermint.MultiSystem.Services
                 fi.Attributes &= ~FileAttributes.ReadOnly;
 
             using (StreamWriter file = new StreamWriter(gamesIniPath + "\\games.ini", false))
-            {                
+            {
                 file.WriteLine("# This file is only used for remapping specific games to other Emulators and/or Systems.");
                 file.WriteLine("# If you don't want your game to use the Default_Emulator, you would set the Emulator key here.");
                 file.WriteLine("# This file can also be used when you have Wheels with games from other Systems.");
@@ -29,5 +31,22 @@ namespace Hs.Hypermint.MultiSystem.Services
             }
         }
 
+        public static Dictionary<string, string> GamesIniDict(string gamesIniPath)
+        {            
+
+            IniFile ini = new IniFile();
+
+            ini.Load(gamesIniPath);
+
+            var dict = new Dictionary<string, string>();
+
+            foreach (var game in ini.Sections)
+            {
+                dict.Add(game.ToString(),ini.GetKeyValue(game.ToString(), "System"));
+            }
+            
+            return dict;
+
+        }
     }
 }
