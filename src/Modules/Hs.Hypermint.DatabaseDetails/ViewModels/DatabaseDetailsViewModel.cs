@@ -164,9 +164,10 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         _selectedService.CurrentSystem);
                 }
 
-                GamesList.Refresh();
+                if (GamesList != null)
+                    GamesList.Refresh();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 
             }
@@ -410,7 +411,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         var msg = exception.Message;
                         _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri +  " : " + msg);
                     }
-                    catch (Exception) { }
+                    catch (Exception ex) { }
                     finally
                     {                                          
                         //updateSystemDatabases();
@@ -439,7 +440,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 GamesList.MoveCurrentToPrevious();
 
-                GamesList.MoveCurrentToFirst();
+                try
+                {
+                    GamesList.MoveCurrentToFirst();
+                }
+                catch (Exception)
+                {
+                    
+                }
+                
             }
             catch (XmlException exception)
             {
