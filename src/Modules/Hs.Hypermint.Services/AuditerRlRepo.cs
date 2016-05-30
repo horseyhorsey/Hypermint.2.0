@@ -87,32 +87,6 @@ namespace Hs.Hypermint.Services
 
         private bool CheckForMedia(string path, string ext) => _fileManagement.CheckMediaFolderFiles(path, ext);
 
-        public void ScanForCards(string systemName, string rlMediaPath)
-        {
-            for (int i = 0; i < RlAudits.Count; i++)
-            {
-                if (RlAudits[i].RomName == "1942 (Europe)")
-                    Console.WriteLine("ss");
-
-                RlAudits[i].HaveCards =
-                    CheckForMedia(
-                        rlMediaPath + "\\Bezels\\" + systemName + "\\" + RlAudits[i].RomName + "\\", 
-                        "Instruction Card *.*");
-            }
-        }
-
-        public void ScanForController(string _selectedSystem, string rlMediaPath)
-        {
-            for (int i = 0; i < RlAudits.Count; i++)
-            {
-
-                RlAudits[i].HaveMultiGame =
-                    CheckForMedia(
-                        rlMediaPath + "\\Controller\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "*.*");
-            }
-        }
-
         public void ScanForBezels(string systemName, string rlMediaPath)
         {
             for (int i = 0; i < RlAudits.Count; i++)
@@ -129,37 +103,121 @@ namespace Hs.Hypermint.Services
                         "Background*.*");
             }
         }
+        public void ScanForCards(string systemName, string rlMediaPath)
+        {
+            for (int i = 0; i < RlAudits.Count; i++)
+            {
+                if (RlAudits[i].RomName == "1942 (Europe)")
+                    Console.WriteLine("ss");
+
+                RlAudits[i].HaveCards =
+                    CheckForMedia(
+                        rlMediaPath + "\\Bezels\\" + systemName + "\\" + RlAudits[i].RomName + "\\",
+                        "Instruction Card *.*");
+            }
+        }
+
+        public void ScanForController(string _selectedSystem, string rlMediaPath)
+        {
+            var scanPath = rlMediaPath + "\\Controller\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
+
+            var dirs = Directory.EnumerateDirectories(scanPath);
+
+            foreach (var item in dirs)
+            {
+                try
+                {
+                    var dirName = Path.GetFileNameWithoutExtension(item);
+
+                    var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                    var index = RlAudits.IndexOf(s);
+                    RlAudits[index].HaveController = true;
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
 
         public void ScanForMultiGame(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
+            var scanPath = rlMediaPath + "\\MultiGame\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
+
+            try
+            {
+                var dirs = Directory.EnumerateDirectories(scanPath);
+
+                foreach (var item in dirs)
+                {
+                    try
+                    {
+                        var dirName = Path.GetFileNameWithoutExtension(item);
+
+                        var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                        var index = RlAudits.IndexOf(s);
+                        RlAudits[index].HaveMultiGame = true;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+            }
+            catch (Exception)
             {
 
-                RlAudits[i].HaveMultiGame =
-                    CheckForMedia(
-                        rlMediaPath + "\\MultiGame\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        RlAudits[i].RomName + "*.*");                
             }
+
         }
 
         public void ScanForGuides(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
-            {
+            var scanPath = rlMediaPath + "\\Guides\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
 
-                RlAudits[i].HaveGuide =
-                    CheckForMedia(
-                        rlMediaPath + "\\Guides\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "*.*");
+            var dirs = Directory.EnumerateDirectories(scanPath);
+
+            foreach (var item in dirs)
+            {
+                try
+                {
+                    var dirName = Path.GetFileNameWithoutExtension(item);
+
+                    var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                    var index = RlAudits.IndexOf(s);
+                    RlAudits[index].HaveGuide = true;
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
         public void ScanForManuals(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 0; i < RlAudits.Count; i++)
+            var scanPath = rlMediaPath + "\\Manuals\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
+
+            var dirs = Directory.EnumerateDirectories(scanPath);
+
+            foreach (var item in dirs)
             {
-                RlAudits[i].HaveManual =
-                    Directory.Exists(rlMediaPath + "\\Manuals\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\");
+                try
+                {
+                    var dirName = Path.GetFileNameWithoutExtension(item);
+
+                    var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                    var index = RlAudits.IndexOf(s);
+                    RlAudits[index].HaveManual = true;
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
@@ -177,45 +235,97 @@ namespace Hs.Hypermint.Services
 
         public void ScanForMusic(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
-            {
+            var scanPath = rlMediaPath + "\\Music\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
 
-                RlAudits[i].HaveMusic =
-                    CheckForMedia(
-                        rlMediaPath + "\\Music\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "*.*");
+            var dirs = Directory.EnumerateDirectories(scanPath);
+
+            foreach (var item in dirs)
+            {
+                try
+                {
+                    var dirName = Path.GetFileNameWithoutExtension(item);
+
+                    var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                    var index = RlAudits.IndexOf(s);
+                    RlAudits[index].HaveMusic = true;
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
         public void ScanSaves(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
-            {
+            var scanPath = rlMediaPath + "\\Saved Games\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
 
-                RlAudits[i].HaveSaves =
-                    CheckForMedia(
-                        rlMediaPath + "\\Saved Games\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "*.*");
+            var dirs = Directory.EnumerateDirectories(scanPath);
+
+            foreach (var item in dirs)
+            {
+                try
+                {
+                    var dirName = Path.GetFileNameWithoutExtension(item);
+
+                    var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                    var index = RlAudits.IndexOf(s);
+                    RlAudits[index].HaveSaves = true;
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
         public void ScanVideos(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
+            var scanPath = rlMediaPath + "\\Videos\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
+
+            var dirs = Directory.EnumerateDirectories(scanPath);
+
+            foreach (var item in dirs)
             {
-                RlAudits[i].HaveVideo =
-                    CheckForMedia(
-                        rlMediaPath + "\\Videos\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "*.*");
+                try
+                {
+                    var dirName = Path.GetFileNameWithoutExtension(item);
+
+                    var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                    var index = RlAudits.IndexOf(s);
+                    RlAudits[index].HaveVideo = true;
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
         public void ScanArtwork(string _selectedSystem, string rlMediaPath)
         {
-            for (int i = 1; i < RlAudits.Count; i++)
+            var scanPath = rlMediaPath + "\\Artwork\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
+
+            var dirs = Directory.EnumerateDirectories(scanPath);
+
+            foreach (var item in dirs)
             {
-                RlAudits[i].HaveArtwork =
-                    Directory.Exists(rlMediaPath + "\\Artwork\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\");
+                try
+                {
+                    var dirName = Path.GetFileNameWithoutExtension(item);
+
+                    var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                    var index = RlAudits.IndexOf(s);
+                    RlAudits[index].HaveArtwork = true;
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
@@ -260,10 +370,11 @@ namespace Hs.Hypermint.Services
         public string[] GetFilesForMedia(string systemName, string romName, string rlMediaPath, string mediaType, string addFolder = "")
         {
             string[] files = null;
+
             switch (mediaType)
             {
                 case "Artwork":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName + "\\" + addFolder + "\\",
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName + "\\" + addFolder,
                         "*.*");
                     break;
                 case "Bezel":
@@ -316,12 +427,8 @@ namespace Hs.Hypermint.Services
                         "*.*");
                     break;
                 case "MultiGame":
-                    if (romName == "_Default")
-                        files = _fileManagement.GetFiles(rlMediaPath + "\\MultiGame\\" + systemName + "\\_Default\\",
-                            "*.*");
-                    else
-                        files = _fileManagement.GetFiles(rlMediaPath + "\\MultiGame\\" + systemName + "\\" + romName + "\\",
-                        romName + ".*");
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\MultiGame\\" + systemName + "\\" + romName + "\\",
+                        "*.*");
                     break;
                 case "Music":
                     if (romName == "Default")
@@ -331,9 +438,9 @@ namespace Hs.Hypermint.Services
                         files = _fileManagement.GetFiles(rlMediaPath + "\\Music\\" + systemName + "\\" + romName + "\\",
                         "*.*");
                     break;
-                case "Saved Game":
-                        files = _fileManagement.GetFiles(rlMediaPath + "\\Saved Games\\" + systemName + "\\" + romName + "\\",
-                        "*.*");
+                case "Saved Games":
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Saved Games\\" + systemName + "\\" + romName + "\\",
+                    "*.*");
                     break;
                 case "Screenshots":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName + "\\Screenshots\\",
@@ -364,7 +471,7 @@ namespace Hs.Hypermint.Services
             switch (mediaType)
             {
                 case "Artwork":
-                    folders = _fileManagement.GetFolders(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName + "\\");
+                    folders = _fileManagement.GetFolders(rlMediaPath + "\\Artwork\\" + systemName + "\\" + romName);
                     break;
                 case "Bezels":
                     if (romName == "_Default")
@@ -404,9 +511,9 @@ namespace Hs.Hypermint.Services
                 case "7z Extracting":
                 case "7z Complete":
                 case "_Default Folder":
-                    return true;                                      
+                    return true;
                 default:
-                    return false;                    
+                    return false;
             }
         }
 
