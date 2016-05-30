@@ -184,8 +184,12 @@ namespace Hs.Hypermint.Audits.ViewModels
 
             if (!string.IsNullOrEmpty(_selectedSystem))
             {
-                _rocketAuditer.ScanForMultiGame(_selectedSystem,
-                    _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanArtwork(_selectedSystem,
+                _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanForController(_selectedSystem,
+                _settingsRepo.HypermintSettings.RlMediaPath);
 
                 _rocketAuditer.ScanForGuides(_selectedSystem,
                     _settingsRepo.HypermintSettings.RlMediaPath);
@@ -199,13 +203,13 @@ namespace Hs.Hypermint.Audits.ViewModels
                 _rocketAuditer.ScanSaves(_selectedSystem,
                     _settingsRepo.HypermintSettings.RlMediaPath);
 
+                _rocketAuditer.ScanForMultiGame(_selectedSystem,
+                _settingsRepo.HypermintSettings.RlMediaPath);
+
                 _rocketAuditer.ScanVideos(_selectedSystem,
                 _settingsRepo.HypermintSettings.RlMediaPath);
 
                 _rocketAuditer.ScanScreenshots(_selectedSystem,
-                _settingsRepo.HypermintSettings.RlMediaPath);
-
-                _rocketAuditer.ScanArtwork(_selectedSystem,
                 _settingsRepo.HypermintSettings.RlMediaPath);
 
                 AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
