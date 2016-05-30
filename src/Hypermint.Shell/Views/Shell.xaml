@@ -50,7 +50,7 @@
 
         <!--SystemsSidebarRegion : Systems MainMenu Dbs-->
 
-        <ContentControl  prism:RegionManager.RegionName="SidebarRegion" Grid.RowSpan="6" Grid.Row="0"/>
+        <ContentControl prism:RegionManager.RegionName="SidebarRegion" Grid.RowSpan="6" Grid.Row="0"/>
 
 
         <metro:TransitioningContentControl x:Name="transitioning" Transition="LeftReplace"
@@ -58,7 +58,7 @@
                 prism:RegionManager.RegionName="ContentRegion" />
 
         <!--Bottom panes-->
-        <Grid Background="{DynamicResource AccentColorBrush}" AllowDrop="True"
+        <Grid Background="{DynamicResource AccentColorBrush}" 
             x:Name="ViewerGrid" Grid.Row="4" Grid.RowSpan="1" 
             Margin="5,0" Grid.Column="1" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
@@ -66,7 +66,7 @@
                 <ColumnDefinition Width="175*"/>
             </Grid.ColumnDefinitions>
 
-            <ContentControl prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
+            <ContentControl Background="Transparent" prism:RegionManager.RegionName="FilesRegion" Margin="0,0,0,5"/>
 
             <!--Media Pane-->
             <metro:TransitioningContentControl Transition="RightReplace" 
