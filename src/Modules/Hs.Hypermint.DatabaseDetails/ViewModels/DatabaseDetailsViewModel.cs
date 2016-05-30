@@ -545,8 +545,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         #region Events
         private void GamesList_CurrentChanged(object sender, EventArgs e)
-        {
-            
+        {            
             if (GamesList != null)
             {
                 Game game = GamesList.CurrentItem as Game;

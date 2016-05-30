@@ -6,9 +6,9 @@ using System.IO;
 using System.Windows.Data;
 using Prism.Events;
 using Hypermint.Base.Events;
-using Hs.Hypermint.ImageEdit.Preset;
 using System.Xml.Serialization;
 using System.Xml;
+using Hypermint.Base.Models;
 
 namespace Hs.Hypermint.ImageEdit.ViewModels
 {
