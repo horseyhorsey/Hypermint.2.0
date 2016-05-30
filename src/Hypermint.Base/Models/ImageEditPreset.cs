@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Hs.Hypermint.ImageEdit.Preset
+namespace Hypermint.Base.Models
 {
     [Serializable]
     [XmlRoot(ElementName = "Preset")]
