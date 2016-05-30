@@ -248,6 +248,9 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 case "Backgrounds":
                     GetHyperspinFilesForGame(Images.Backgrounds, rom + "*.*");
                     break;
+                case "MusicBg":
+                    GetHyperspinFilesForGame(Sound.BackgroundMusic, rom + "*.*");
+                    break;
                 case "Letters":
                     GetHyperspinFilesForMenu(Images.Letters);
                     break;
