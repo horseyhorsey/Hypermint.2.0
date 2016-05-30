@@ -15,6 +15,7 @@ namespace Hypermint.Base.Interfaces
         string[] GetFilesForMedia(string systemName, string romName, string rlMediaPath, string mediaType, string addFolder = "");
         string[] GetFoldersForMediaColumn(string systemName, string romName, string rlMediaPath, string mediaType);        
         void ScanForMultiGame(string _selectedSystem, string rlMediaPath);
+        void ScanForController(string _selectedSystem, string rlMediaPath);
         void ScanForGuides(string _selectedSystem, string rlMediaPath);
         void ScanForManuals(string _selectedSystem, string rlMediaPath);
         void ScanForMusic(string _selectedSystem, string rlMediaPath);
