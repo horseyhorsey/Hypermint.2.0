@@ -53,7 +53,16 @@ namespace Hs.Hypermint.Services
 
                 settings.FrameCount = 1;
 
-                collection.Read(pdfFile, settings);
+                try
+                {
+                    collection.Read(pdfFile, settings);
+                }
+                catch (MagickException)
+                {
+
+                    return null;
+                }
+                
 
                 return SetBitmapImageFromBitmap(collection.ToBitmap(System.Drawing.Imaging.ImageFormat.Jpeg));
             }
