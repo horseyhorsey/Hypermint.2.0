@@ -1,11 +1,9 @@
-﻿using Hs.Hypermint.ImageEdit.Preset;
-using Hs.Hypermint.ImageEdit.Repo;
-using Hs.Hypermint.ImageEdit.Service;
-using Hypermint.Base;
+﻿using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Converters;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Models;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
@@ -70,12 +68,14 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
         private ISettingsRepo _settings;
         private ISelectedService _selected;
+        private IImageEditService _imageEdit;
 
         public CreateImageViewModel(IEventAggregator eventAggregator,
-            ISettingsRepo settings, ISelectedService selected)
+            ISettingsRepo settings, ISelectedService selected, IImageEditService imageEdit)
         {
             _settings = settings;
             _selected = selected;
+            _imageEdit = imageEdit;
 
             Author = _settings.HypermintSettings.Author;
 
@@ -125,8 +125,8 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             {
                 var outputFileName = CreateNewImageFileName();
 
-                CreateImage(outputFileName,CurrentSetting.Png);                
-
+                if (File.Exists(outputFileName))
+                    CreateImage(outputFileName,CurrentSetting.Png);
             });
 
         }
@@ -223,11 +223,9 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             if (isPng)
                 newExt = ".png";            
             
-            string newPath = "Preview" + newExt;
+            string newPath = "Preview" + newExt;            
 
-            IImageEditService imgService = new ImageEditRepo();
-
-            imgService.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, newPath, isPng);
+            _imageEdit.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, newPath, isPng);
 
             return newPath;
 
@@ -242,11 +240,9 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             var path = Path.GetDirectoryName(outputFileName);
 
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
+                Directory.CreateDirectory(path);                        
 
-            IImageEditService imgService = new ImageEditRepo();
-
-            imgService.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, outputFileName + newExt, isPng);            
+            _imageEdit.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, outputFileName + newExt, isPng);            
 
         }
 

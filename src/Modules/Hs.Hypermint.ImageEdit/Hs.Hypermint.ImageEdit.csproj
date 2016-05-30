@@ -70,7 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImageEditModule.cs" />
-    <Compile Include="Preset\ImageEditPreset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,8 +83,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Repo\ImageEditRepo.cs" />
-    <Compile Include="Service\IImageEditService.cs" />
     <Compile Include="ViewModels\CreateImageViewModel.cs" />
     <Compile Include="ViewModels\ImagePresetViewModel.cs" />
     <Compile Include="ViewModels\ImageProcessViewModel.cs" />
