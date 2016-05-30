@@ -12,6 +12,11 @@ using Prism.Commands;
 using System.Linq;
 using Hypermint.Base.Events;
 using GongSolutions.Wpf.DragDrop;
+using System.Windows;
+using Hypermint.Base.Constants;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
+using Hs.Hypermint.FilesViewer.Dialog;
 
 namespace Hs.Hypermint.FilesViewer
 {
@@ -24,6 +29,13 @@ namespace Hs.Hypermint.FilesViewer
         {
             get { return selectedGameName; }
             set { SetProperty(ref selectedGameName, value); }
+        }
+
+        private string selectedFolder;
+        public string SelectedFolder
+        {
+            get { return selectedFolder; }
+            set { SetProperty(ref selectedFolder, value); }
         }
 
         private ICollectionView files;
@@ -43,14 +55,18 @@ namespace Hs.Hypermint.FilesViewer
         private string _systemName;
         private string _mediaType;
         private string _romName;
+        private string _currentPath;
 
         private IEventAggregator _eventAggregator;
         private IAuditerRl _rlAuditer;
         private ISelectedService _selectedSrv;
         private ISettingsRepo _settingsRepo;
         private IFolderExplore _folderService;
+        private IDialogCoordinator _dialogService;
+        CustomDialog customDialog;
+        public DelegateCommand CloseDialogCommand { get; set; }
 
-        public FilesViewModel(IEventAggregator eventAggregator, IAuditerRl auditRl,
+        public FilesViewModel(IEventAggregator eventAggregator, IAuditerRl auditRl, IDialogCoordinator dialogService,
             ISelectedService selectedSrv, ISettingsRepo settings, IFolderExplore folderExplore)
         {
             _eventAggregator = eventAggregator;
@@ -74,36 +90,115 @@ namespace Hs.Hypermint.FilesViewer
                 ResetViews();
             });
 
+            _dialogService = dialogService;
+
+            CloseDialogCommand = new DelegateCommand(async () =>
+            {
+                await _dialogService.HideMetroDialogAsync(this, customDialog);
+                
+            });
+
         }
 
-        //public void DragOver(IDropInfo dropInfo)
-        //{
-        //    System.Windows.MessageBox.Show("");
-        //    //var sourceItem = dropInfo.Data as MainMenu;
-        //    //var targetItem = dropInfo.TargetItem as MainMenu;
 
-        //    //if (sourceItem != null && targetItem != null)
-        //    //{
-        //    //    dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-        //    //    dropInfo.Effects = DragDropEffects.Copy;
-        //    //}
+        public void DragOver(IDropInfo dropInfo)
+        {
 
-        //}
+            var dragFileList = ((DataObject)dropInfo.Data).GetFileDropList().Cast<string>();
+            dropInfo.Effects = dragFileList.Any(item =>
+            {
+                var extension = Path.GetExtension(item);
+                return extension != null;
+            }) ? DragDropEffects.Copy : DragDropEffects.None;
+        }
 
-        //public void Drop(IDropInfo dropInfo)
-        //{
-        //    System.Windows.MessageBox.Show("");
-        //    //var sourceItem = dropInfo.Data as MainMenu;
-        //    //var targetItem = dropInfo.TargetItem as MainMenu;
+        public async void Drop(IDropInfo dropInfo)
+        {
+            var dragFileList = ((DataObject)dropInfo.Data).GetFileDropList().Cast<string>();
+            dropInfo.Effects = dragFileList.Any(item =>
+            {
+                var extension = Path.GetExtension(item);
+                return extension != null && extension.Equals(".*");
+            }) ? DragDropEffects.Copy : DragDropEffects.None;
 
-        //    //var AddInIndex = _mainMenuRepo.Systems.IndexOf(targetItem);
+            _currentPath = GetSelectedPath();
 
-        //    //if (AddInIndex == 0)
-        //    //    AddInIndex = 1;
+            foreach (var file in dragFileList)
+            {
+                var newFileName = await DroppedFileAsync(file);
 
-        //    //_mainMenuRepo.Systems.Remove(sourceItem);
-        //    //_mainMenuRepo.Systems.Insert(AddInIndex, sourceItem);
-        //}
+                if (newFileName != null)
+                    DroppedFile(file, _currentPath + "\\" + SelectedFolder, newFileName);
+
+            }                       
+
+            UpdateMediaFiles(SelectedFolder);
+
+            if (Files != null)
+            {
+                Files.CurrentChanged += Files_CurrentChanged;
+
+                if (Files.CurrentItem == null)
+                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+                else
+                    Files_CurrentChanged(null, null);
+            }
+
+        }
+
+        private async Task<string> DroppedFileAsync(string file)
+        {
+            var settings = new MetroDialogSettings();
+            settings.AffirmativeButtonText = "Copy";
+            settings.NegativeButtonText = "Skip";                        
+
+            var message = "File: " + file;
+            var pathToCopyTo = _currentPath + "\\" + SelectedFolder;
+
+            settings.DefaultText = Path.GetFileName(file);
+
+            return await _dialogService.ShowInputAsync(this, pathToCopyTo, file, settings);  
+            
+        }
+
+        public void DroppedFile(string file, string pathToCopy, string newFileName)
+        {
+            int i = 0;
+            string Filename, ext, filename3, path;          
+
+                Filename = System.IO.Path.GetFileName(newFileName);
+                ext = System.IO.Path.GetExtension(newFileName);
+                filename3 = System.IO.Path.GetFileNameWithoutExtension(newFileName);
+
+                path = null;
+                path = pathToCopy + "\\" + filename3 + ext;
+
+                if (!Directory.Exists(pathToCopy))
+                    Directory.CreateDirectory(pathToCopy);
+
+
+            while (File.Exists(path))
+            {
+                path = pathToCopy + "\\" + filename3 + i + ext;
+                i++;
+            }
+
+            System.IO.File.Copy(file, path);
+        }
+
+        private string GetRlGameMediaPath(string rlMediaPath, string mediaType,
+            string systemName, string romName, string parentMediaType = "")
+        {
+            if (parentMediaType != "")
+            {
+                if (mediaType == "Screenshots")
+                    return Path.Combine(rlMediaPath, parentMediaType, systemName, romName, mediaType);
+                else
+                    return Path.Combine(rlMediaPath, parentMediaType, systemName, romName);
+            }
+            else
+                return Path.Combine(rlMediaPath, mediaType, systemName, romName);
+        }
 
         private void ResetViews()
         {
@@ -118,13 +213,13 @@ namespace Hs.Hypermint.FilesViewer
 
         private void UpdateFiles(string[] HeaderAndGame)
         {
-            SetSelectedClearFiles(HeaderAndGame);
+            SetSelectedClearFiles(HeaderAndGame);               
 
             try
             {
-                UpdateMediaFiles();
-
                 UpdateRlFolders();
+
+                UpdateMediaFiles();
 
             }
             catch (Exception ex)
@@ -132,7 +227,9 @@ namespace Hs.Hypermint.FilesViewer
                 _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(ex.Message);
             }
 
-            ShowMediaPaneSelectedFile();
+            //Folders_CurrentChanged(null, null);
+
+            ShowMediaPaneSelectedFile();            
 
         }
 
@@ -140,9 +237,10 @@ namespace Hs.Hypermint.FilesViewer
         {
             _systemName = _selectedSrv.CurrentSystem;
             _romName = HeaderAndGame[1];
-            _mediaType = HeaderAndGame[0];
-            
+            _mediaType = HeaderAndGame[0];            
+
             SelectedGameName = HeaderAndGame[0] + " Files for: " + HeaderAndGame[1];
+            SelectedFolder = "";
 
             Files = null;
             Folders = null;
@@ -151,14 +249,21 @@ namespace Hs.Hypermint.FilesViewer
         private void UpdateMediaFiles(string addFolder = "")
         {
             var mediaFiles = new List<MediaFile>();
-            Files = new ListCollectionView(mediaFiles);            
+            Files = new ListCollectionView(mediaFiles);
 
-            var filesInFolder =
-                _rlAuditer.GetFilesForMedia(
-                _systemName,
+            if (addFolder == "Root")
+                addFolder = "";
+
+            string[] filesInFolder;
+            try
+            {
+                filesInFolder = _rlAuditer.GetFilesForMedia(_systemName,
                 _romName,
                 _settingsRepo.HypermintSettings.RlMediaPath,
-                _mediaType,addFolder);
+                _mediaType, addFolder);
+            }
+            catch (Exception) { return; }
+                 
 
             if (filesInFolder == null || filesInFolder.Length == 0)
             {
@@ -182,16 +287,11 @@ namespace Hs.Hypermint.FilesViewer
         private void UpdateRlFolders()
         {
             var folders = new List<MediaFolder>();
-
             Folders = new ListCollectionView(folders);
 
-            var newMediaType = _mediaType;
-            if (_mediaType == "_Default Folder")
-                newMediaType = "Fade";
+            string gameMediaRootPath = GetSelectedPath();
 
-            var gameMediaRootPath = Path.Combine(
-                _settingsRepo.HypermintSettings.RlMediaPath,
-                newMediaType, _systemName, _romName);
+            _currentPath = gameMediaRootPath;
 
             if (!Directory.Exists(gameMediaRootPath)) return;
 
@@ -206,8 +306,8 @@ namespace Hs.Hypermint.FilesViewer
                 _systemName,
                 _romName,
                 _settingsRepo.HypermintSettings.RlMediaPath,
-                newMediaType);
-            
+                _mediaType);
+
             if (foldersInFolder != null)
             {
                 foreach (var item in foldersInFolder)
@@ -222,10 +322,53 @@ namespace Hs.Hypermint.FilesViewer
 
             Folders = new ListCollectionView(folders);
 
-            //Folders_CurrentChanged(null, null);
-
             Folders.CurrentChanged += Folders_CurrentChanged;
 
+        }
+
+        private string GetSelectedPath()
+        {
+            string parentMediaType = GetParentMediaType();
+
+            if (_mediaType == "Saved Game")
+                _mediaType = "Saved Games";
+            if (_mediaType == "Guide")
+                _mediaType = "Guides";
+
+            var gameMediaRootPath =
+            GetRlGameMediaPath(_settingsRepo.HypermintSettings.RlMediaPath, _mediaType, _systemName, _romName, parentMediaType);
+
+            return gameMediaRootPath;
+        }
+
+        private string GetParentMediaType()
+        {
+            var parent = _mediaType;
+
+            switch (parent)
+            {
+                case "Screenshots":
+                    parent = "Artwork";
+                    break;
+                case "_Default Folder":
+                    parent = "Fade";
+                    break;
+                case "Bezel":
+                case "BezelBg":
+                case "Cards":
+                    parent = "Bezels";
+                    break;
+                case "Layer 1":
+                case "Layer 2":
+                case "Layer 3":
+                    parent = "Fade";
+                    break;
+                default:
+                    parent = "";
+                    break;
+            }
+                
+            return parent;
         }
 
         private void ShowMediaPaneSelectedFile()
@@ -254,24 +397,21 @@ namespace Hs.Hypermint.FilesViewer
 
         private void Folders_CurrentChanged(object sender, EventArgs e)
         {
-            var folder = Folders.CurrentItem as MediaFolder;
+            if (Folders != null)
+            {
+                var folder = Folders.CurrentItem as MediaFolder;
 
-            if (folder.Name == "Root")
-                UpdateMediaFiles();
-            else
-                UpdateMediaFiles(folder.Name);
+                if (folder != null)
+                {                    
+                    SelectedFolder = folder.Name;
+                    if (SelectedFolder.EndsWith("Root"))
+                        SelectedFolder = SelectedFolder.Remove(SelectedFolder.Length - 4, 4);
+                    UpdateMediaFiles(SelectedFolder);
+                }
+
+            }
 
             ShowMediaPaneSelectedFile();
-        }
-
-        void IDropTarget.DragOver(IDropInfo dropInfo)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IDropTarget.Drop(IDropInfo dropInfo)
-        {
-            throw new NotImplementedException();
         }
 
         public class MediaFile
