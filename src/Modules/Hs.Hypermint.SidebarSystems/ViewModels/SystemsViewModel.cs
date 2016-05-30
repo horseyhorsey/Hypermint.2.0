@@ -348,6 +348,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 {
                     SetSystemImage();
 
+                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
                     this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);
                 }
             }
