@@ -135,14 +135,14 @@
                 </StackPanel>
                 
                 <!--TextBOXViewer-->
-                <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10"
+                <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10" 
                                      Text="{Binding TextSource}" 
                                      Visibility="{Binding ElementName=root,
                                      Path=DataContext.IsTextSource,UpdateSourceTrigger=PropertyChanged,
                                      Converter={StaticResource BoolToVisConverter}}"
                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <toolkit:RichTextBox.TextFormatter>
-                        <toolkit:RtfFormatter />
+                        <toolkit:PlainTextFormatter />
                     </toolkit:RichTextBox.TextFormatter>
                 </toolkit:RichTextBox>
 
