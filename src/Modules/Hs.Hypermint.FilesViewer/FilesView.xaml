@@ -3,19 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hs.Hypermint.FilesViewer"           
              xmlns:ddrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-             xmlns:local="clr-namespace:Hs.Hypermint.FilesViewer"             
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"  
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"               
              prism:ViewModelLocator.AutoWireViewModel="True"  
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
 
-    <Border   AllowDrop="True"  DragEnter="root_DragEnter" Drop="root_Drop"
+    <Border ddrop:DragDrop.IsDropTarget="True"
+            ddrop:DragDrop.DropHandler="{Binding}"
             BorderThickness="4,4,4,0"
-            Background="#DDDDDD"
+            Background="{DynamicResource ProgressBrush}"
             CornerRadius="12">
 
+        <!--AllowDrop="True" DragOver="Border_DragOver" Drop="root_Drop"-->
         <Grid x:Name="root" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -30,7 +34,7 @@
             <DockPanel IsEnabled="False" Grid.ColumnSpan="2">
                 <Button VerticalAlignment="Center" HorizontalAlignment="Right" Margin="6"
                     Command="{Binding OpenSaveOptionsCommand}"
-                    ToolTip="Save this database, favorites and genres." Height="25" Width="25"
+                    ToolTip="Create new folder." Height="25" Width="25"
                     Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="13" Height="15"
                                    Fill="{Binding Path=Foreground, 
@@ -76,9 +80,9 @@
                       Grid.Row="1" Grid.Column="1"
                       Height="3" ResizeDirection="Columns" />
 
-            <GroupBox Grid.Row="1" Grid.Column="1" Header="{Binding SelectedGameName}">
-                <DataGrid Name="FilesDataGrid" ItemsSource="{Binding Files}"
-                        
+            <GroupBox Grid.Row="1" Grid.Column="1" Header="{Binding SelectedGameName}" >
+                <DataGrid Name="FilesDataGrid" ItemsSource="{Binding Files}" Background="Transparent"
+ 
                       CanUserAddRows="False" IsReadOnly="True">
                 </DataGrid>
             </GroupBox>
