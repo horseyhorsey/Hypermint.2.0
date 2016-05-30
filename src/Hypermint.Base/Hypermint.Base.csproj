@@ -116,6 +116,7 @@
     <Compile Include="Interfaces\IGameLaunch.cs" />
     <Compile Include="Interfaces\IGameRepo.cs" />
     <Compile Include="Interfaces\IGenreRepo.cs" />
+    <Compile Include="Interfaces\IImageEditService.cs" />
     <Compile Include="Interfaces\IMainMenuRepo.cs" />
     <Compile Include="Interfaces\IMultiSystemRepo.cs" />
     <Compile Include="Interfaces\IPdfService.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Interfaces\ISystemGen.cs" />
     <Compile Include="Models\AviSynthOption.cs" />
     <Compile Include="Models\GameFilter.cs" />
+    <Compile Include="Models\ImageEditPreset.cs" />
     <Compile Include="Paths\Installation.cs" />
     <Compile Include="Constants\Paths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

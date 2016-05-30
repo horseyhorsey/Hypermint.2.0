@@ -104,6 +104,9 @@ namespace Hypermint.Shell
                 new ContainerControlledLifetimeManager());
 
             Container.RegisterType<IPdfService, PdfService>(
+                new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<IImageEditService, ImageEditRepo>(
                 new ContainerControlledLifetimeManager());            
 
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
