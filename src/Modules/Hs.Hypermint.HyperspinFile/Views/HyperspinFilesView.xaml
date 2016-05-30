@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Hs.Hypermint.HyperspinFile.Views.HyperspinFilesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ddrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:prism="http://prismlibrary.com/"          
              xmlns:controls="clr-namespace:Hs.Hypermint.HyperspinFile.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -10,10 +11,11 @@
             <RowDefinition Height="*"/>-->
         </Grid.RowDefinitions>
 
-        <GroupBox Header="{Binding GroupBoxHeader}" Grid.Row="1">
-            <TabControl>
+        <GroupBox Header="{Binding GroupBoxHeader}" ddrop:DragDrop.IsDropTarget="True"
+                      ddrop:DragDrop.DropHandler="{Binding}" Grid.Row="1">
+            <TabControl  Background="Transparent" >
                 <TabItem Header="Files">
-                    <controls:FilesList/>
+                    <controls:FilesList />
                 </TabItem>
 
                 <TabItem Header="Unused">
