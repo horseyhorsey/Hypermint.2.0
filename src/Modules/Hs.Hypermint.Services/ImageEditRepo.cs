@@ -1,10 +1,10 @@
-﻿using Hs.Hypermint.ImageEdit.Preset;
-using Hs.Hypermint.ImageEdit.Service;
+﻿using Hypermint.Base.Interfaces;
+using Hypermint.Base.Models;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 
-namespace Hs.Hypermint.ImageEdit.Repo
+namespace Hs.Hypermint.Services
 {
     public class ImageEditRepo : IImageEditService
     {
@@ -86,7 +86,7 @@ namespace Hs.Hypermint.ImageEdit.Repo
         /// <param name="imgToResize"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        private Image ResizeImage(Image imgToResize, Size size)
+        public Image ResizeImage(Image imgToResize, Size size)
         {
 
             int sourceWidth = imgToResize.Width;
@@ -127,7 +127,7 @@ namespace Hs.Hypermint.ImageEdit.Repo
             return bitMap;
         }
 
-        private Image ResizeImageTile(Image imgToResize, Size size)
+        public Image ResizeImageTile(Image imgToResize, Size size)
         {
             int sourceWidth = imgToResize.Width;
             int sourceHeight = imgToResize.Height;
@@ -146,7 +146,7 @@ namespace Hs.Hypermint.ImageEdit.Repo
             return bitMap;
         }
 
-        private Image ResizeImageEdit(Image imgToResize, Size size)
+        public Image ResizeImageEdit(Image imgToResize, Size size)
         {
             int sourceWidth = imgToResize.Width;
             int sourceHeight = imgToResize.Height;
