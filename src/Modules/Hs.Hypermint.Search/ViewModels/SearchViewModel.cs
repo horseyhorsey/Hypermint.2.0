@@ -190,6 +190,7 @@ namespace Hs.Hypermint.Search.ViewModels
             LaunchGameCommand = new DelegateCommand(LaunchGame);
 
             _eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => SystemsUpdated(x));
+            
         }
 
         #region Methods
@@ -214,6 +215,9 @@ namespace Hs.Hypermint.Search.ViewModels
 
         private void SystemsUpdated(string system)
         {
+
+            _systems = new Systems();
+
             try
             {
                 if (_mainmenuRepo.Systems != null)
