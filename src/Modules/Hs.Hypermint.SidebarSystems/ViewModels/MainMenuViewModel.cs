@@ -96,7 +96,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
                     MainMenuDatabases = new ListCollectionView(databases);
                     MainMenuDatabases.CurrentChanged += MainMenuDatabases_CurrentChanged;
-                    MainMenuDatabases.CollectionChanged += MainMenuDatabases_CurrentChanged;
+
                     try
                     {
                         MainMenuDatabases.MoveCurrentTo("Main Menu");
@@ -106,11 +106,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                     
                 }
             }
-
-        }
-
-        private void MainMenuDatabases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
 
         }
 
