@@ -9,6 +9,8 @@ using Hypermint.Base.Interfaces;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Prism.Commands;
+using System.Windows.Documents;
+using System.Windows.Controls;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
 {
@@ -125,7 +127,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 SetMediaFromFileType(x);
             });
 
-            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
+            //_eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
 
             _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetMediaFromFileType);
 
@@ -244,8 +246,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             if (File.Exists(soundsPath))
             {
-                VideoSource = new Uri(soundsPath);
-                MediaPaneHeader += " | " + Path.GetFileName(soundsPath);
+                SetVideoSource(soundsPath);
             }
         }
 
@@ -362,6 +363,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 TextSource = sr.ReadToEnd();
 
                 MediaPaneHeader = "Media View | " + file;
+
             }
         }
 
@@ -390,9 +392,16 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
         private void SetMediaFromFileType(string file)
         {
-            IsTextSource = false; IsPdf = false;
+            IsTextSource = false;
+            IsPdf = false;
             IsVideoSource = false;
             IsImageSource = false;
+            WheelSource = null;
+            VideoSource = null;
+
+            MediaPaneHeader = "Media View | ";
+
+            if (file == "") return;
 
             var extension = Path.GetExtension(file);
             
@@ -426,7 +435,6 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                     SetPdfImage(file);
                     break;
                 default:
-                    WheelSource = null;
                     MediaPaneHeader = "Media View | " + file;
                     break;
             }
