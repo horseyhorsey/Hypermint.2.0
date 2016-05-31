@@ -351,11 +351,11 @@ namespace Hs.Hypermint.Services
                 RlAudits[i].HaveFadeLayer2 =
                     CheckForMedia(
                         rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "Layer 2.*");
+                        "Layer 2*.*");
                 RlAudits[i].HaveFadeLayer3 =
                     CheckForMedia(
                         rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "Layer 3.*");
+                        "Layer 3*.*");
                 RlAudits[i].HaveExtraLayer1 =
                                     CheckForMedia(
                                         rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
@@ -363,7 +363,7 @@ namespace Hs.Hypermint.Services
                 RlAudits[i].HaveExtraLayer1 =
                     CheckForMedia(
                         rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
-                        "Extra Layer 1.*");
+                        "Extra Layer 1*.*");
             }
         }
 
@@ -395,15 +395,15 @@ namespace Hs.Hypermint.Services
                         "Instruction Card*.*");
                     break;
                 case "Controller":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Controller\\" + systemName + "\\" + romName + "\\",
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Controller\\" + systemName + "\\" + romName + "\\" + addFolder,
                         "*.*");
                     break;
-                case "Guide":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Guides\\" + systemName + "\\" + romName + "\\",
+                case "Guides":
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Guides\\" + systemName + "\\" + romName + "\\" + addFolder,
                         "*.*");
                     break;
                 case "Fade":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\",
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\" + addFolder,
                     "*.*");
                     break;
                 case "Layer 1":
@@ -423,7 +423,7 @@ namespace Hs.Hypermint.Services
                         "Extra Layer 1*.*");
                     break;
                 case "Manuals":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Manuals\\" + systemName + "\\" + romName + "\\",
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Manuals\\" + systemName + "\\" + romName + "\\" + addFolder,
                         "*.*");
                     break;
                 case "MultiGame":
@@ -435,11 +435,11 @@ namespace Hs.Hypermint.Services
                         files = _fileManagement.GetFiles(rlMediaPath + "\\Music\\" + systemName + "\\_Default\\",
                             "*.*");
                     else
-                        files = _fileManagement.GetFiles(rlMediaPath + "\\Music\\" + systemName + "\\" + romName + "\\",
+                        files = _fileManagement.GetFiles(rlMediaPath + "\\Music\\" + systemName + "\\" + romName + "\\" + addFolder,
                         "*.*");
                     break;
-                case "Saved Games":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Saved Games\\" + systemName + "\\" + romName + "\\",
+                case "Saved Game":
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Saved Games\\" + systemName + "\\" + romName + "\\" + addFolder,
                     "*.*");
                     break;
                 case "Screenshots":
@@ -451,7 +451,7 @@ namespace Hs.Hypermint.Services
                         files = _fileManagement.GetFiles(rlMediaPath + "\\Videos\\" + systemName + "\\_Default\\",
                         "*.*");
                     else
-                        files = _fileManagement.GetFiles(rlMediaPath + "\\Videos\\" + systemName + "\\" + romName + "\\",
+                        files = _fileManagement.GetFiles(rlMediaPath + "\\Videos\\" + systemName + "\\" + romName + "\\" + addFolder, 
                         "*.*");
                     break;
                 default:
@@ -477,7 +477,7 @@ namespace Hs.Hypermint.Services
                     if (romName == "_Default")
                         folders = _fileManagement.GetFolders(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\");
                     break;
-                case "Guide":
+                case "Guides":
                     folders = _fileManagement.GetFolders(rlMediaPath + "\\Guides\\" + systemName + "\\" + romName + "\\");
                     break;
                 case "Fade":
