@@ -1,4 +1,5 @@
 ﻿using Hs.HyperSpin.Database;
+using System.Threading.Tasks;
 
 namespace Hypermint.Base.Interfaces
 {
@@ -7,6 +8,8 @@ namespace Hypermint.Base.Interfaces
         Games GamesList { get; set; }
 
         void GetGames(string systemXml, string systemName = "Main Menu");
+
+        Task GetGamesAsync(string systemXml, string systemName = "Main Menu");
 
         void ScanForRoms(string rlPath, string systemName);
     }
