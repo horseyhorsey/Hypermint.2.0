@@ -32,7 +32,8 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <DataGrid  x:Name="DatabaseDefaultGridMainMenu"  Grid.Row="0" BorderThickness="4" AutoGenerateColumns="False" 
+        <DataGrid  x:Name="DatabaseDefaultGridMainMenu" 
+                   Grid.Row="0" BorderThickness="4" AutoGenerateColumns="False" 
                    IsSynchronizedWithCurrentItem="True"
                   IsReadOnly="True" SelectionMode="Single" SelectionUnit="Cell"
                   ItemsSource="{Binding AuditListDefaults}">
@@ -56,7 +57,9 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid x:Name="DatabaseGridMainMenu"  Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
+        <DataGrid x:Name="DatabaseGridMainMenu" 
+                  Grid.Row="1" BorderThickness="2" 
+                  AutoGenerateColumns="False" IsReadOnly="True" 
                    SelectionMode="Single"  IsSynchronizedWithCurrentItem="True"
                   ItemsSource="{Binding AuditList}">
 
@@ -75,7 +78,7 @@
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                 <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
                 <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
-                <DataGridTextColumn Header="Guide" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="Guides" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Manuals" Binding="{Binding HaveManual}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Screenshots" Binding="{Binding HaveScreenshots}"/>

@@ -34,7 +34,9 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="DatabaseGridDefault" Grid.Row="0" BorderThickness="4" AutoGenerateColumns="False"  IsSynchronizedWithCurrentItem="True" 
+        <DataGrid x:Name="DatabaseGridDefault" Grid.Row="0" 
+                  BorderThickness="4" AutoGenerateColumns="False" 
+                  IsSynchronizedWithCurrentItem="True" 
                   IsReadOnly="True" SelectionMode="Single" SelectionUnit="Cell"
                   ItemsSource="{Binding AuditListDefaults}">
 
