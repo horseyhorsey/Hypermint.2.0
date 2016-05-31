@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Hs.Hypermint.MediaPane.Views.BezelEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"  
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid Background="Transparent">
+        <!--<Image x:Name="screenImage" MinWidth="500"  MinHeight="500" Stretch="UniformToFill"/>-->
+        <!--MouseDown="bezelImage_MouseDown"-->
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="{Binding BezelHeader}">
+            <Grid>
+            <Image x:Name="screenImage" Margin="6,10,10,88" Stretch="UniformToFill"/>
+            <Image x:Name="bezelImage" Margin="10" Stretch="Fill" PreviewMouseDown="bezelImage_MouseDown"
+               Source="{Binding BezelImage}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseDown">
+                        <prism:InvokeCommandAction 
+                            Command="{Binding PreviewMouseDownCommand}">
+                        </prism:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Image>
+            </Grid>
+
+        </GroupBox>
+
+        <Grid Grid.Row="1">
+
+            <StackPanel>
+                <DockPanel Margin="5" Height="32" VerticalAlignment="Top">
+
+                    <metro:NumericUpDown HorizontalAlignment="Left" Margin="2" 
+                                         Value="{Binding LeftClickX}"
+                                     VerticalAlignment="Top" x:Name="LeftClickX"
+                                     Width="80" Height="20"
+                                     Minimum="0" Maximum="5000"/>
+
+                    <TextBlock HorizontalAlignment="Left" 
+                   TextWrapping="Wrap" Text="Bezel Screen Top Left Click X"
+                   Height="16" VerticalAlignment="Center"/>
+
+                    <metro:NumericUpDown HorizontalAlignment="Left" 
+                                         Value="{Binding RightClickX}"
+                                         Margin="2"  VerticalAlignment="Top"
+                                     Width="80" Height="20" x:Name="RightClickX" Minimum="0" Maximum="5000"/>
+
+                    <TextBlock HorizontalAlignment="Left"
+                   TextWrapping="Wrap" Text="Bezel Screen Bottom Right Click X" 
+                   Height="16" VerticalAlignment="Center"/>
+
+                </DockPanel>
+
+                <DockPanel Margin="5">
+                    <metro:NumericUpDown HorizontalAlignment="Left" Margin="2" 
+                                     VerticalAlignment="Center"
+                                     Width="80" Height="20"
+                                         Value="{Binding LeftClickY}"
+                                     x:Name="LeftClickY" Minimum="0" Maximum="5000"/>
+                    <TextBlock HorizontalAlignment="Left"
+                   TextWrapping="Wrap" Text="Bezel Screen Top Left Click Y"
+                   VerticalAlignment="Center"/>
+
+                    <metro:NumericUpDown HorizontalAlignment="Left" Margin="2" 
+                                     VerticalAlignment="Center"
+                                     Width="80" Height="20"
+                                         Value="{Binding RightClickY}"
+                                     x:Name="RightClickY" Minimum="0" Maximum="5000"/>
+                    <TextBlock TextWrapping="Wrap" 
+                   Text="Bezel Screen Bottom Right Click Y" 
+                               Height="16" VerticalAlignment="Center"
+                               HorizontalAlignment="Left" Width="179"/>
+
+                    <Button HorizontalAlignment="Left" Command="{Binding SaveBezelIniCommand}"
+                            VerticalAlignment="Center" Margin="6"
+                ToolTip="Save bezel settings" Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                        <Rectangle Width="20" Height="18" 
+                                   Fill="{Binding Path=Foreground,
+                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                </DockPanel>
+                
+
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</UserControl>
