@@ -96,7 +96,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 SetCurrentName(x);                
 
                 if (FilesForGame != null)
-                {                  
+                {
                     if (FilesForGame.CurrentItem == null)
                         _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
                     else
@@ -178,9 +178,13 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         private void SetCurrentName(string[] romAndColumn)
         {
-            //FilesForGame = null;
-            
-            var rom = romAndColumn[0];            
+            FilesForGame = null;
+            string rom = "";
+
+            if (romAndColumn[0] == "")
+                rom = _selectedService.CurrentRomname;
+            else
+                rom = romAndColumn[0];         
 
             if (romAndColumn[1] != columnHeader)
             {
