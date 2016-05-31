@@ -1,10 +1,7 @@
 ﻿using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
-using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;
-using Prism.Modularity;
 using Prism.Regions;
-using System;
 
 namespace Hs.Hypermint.MediaPane
 {
@@ -17,6 +14,9 @@ namespace Hs.Hypermint.MediaPane
         {
             _regionManager = manager;
             RegionManager.RegisterViewWithRegion(RegionNames.MediaPaneRegion, typeof(Views.MediaPaneView));
+
+            RegionManager.RegisterViewWithRegion(RegionNames.MediaPaneRegion, typeof(Views.BezelEditView));
+
         }
 
         public override void Initialize()

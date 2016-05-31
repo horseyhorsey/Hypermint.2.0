@@ -109,6 +109,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\BezelEditView.xaml.cs">
+      <DependentUpon>BezelEditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MediaPaneControls.xaml.cs">
       <DependentUpon>MediaPaneControls.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\BezelEditViewModel.cs" />
     <Compile Include="ViewModels\MediaPaneControlsViewModel.cs" />
     <Compile Include="ViewModels\MediaPaneViewModel.cs" />
     <Compile Include="Views\MediaPaneView.xaml.cs">
@@ -152,8 +156,16 @@
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
+      <Project>{7C5872EA-A3BD-4BFA-911C-0A9B62F2F11F}</Project>
+      <Name>Hs.Hypermint.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\BezelEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MediaPaneControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
