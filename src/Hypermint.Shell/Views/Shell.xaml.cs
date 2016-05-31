@@ -27,9 +27,5 @@ namespace Hypermint.Shell.Views
             RegionManager.SetRegionManager(regionTarget, regionManager);
         }
 
-        private void ContentControl_Drop(object sender, DragEventArgs e)
-        {
-
-        }
     }
 }
