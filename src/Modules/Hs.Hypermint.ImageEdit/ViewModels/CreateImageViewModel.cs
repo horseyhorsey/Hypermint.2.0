@@ -1,4 +1,5 @@
-﻿using Hypermint.Base;
+﻿using Hs.Hypermint.Services.Helpers;
+using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Converters;
 using Hypermint.Base.Events;
@@ -123,10 +124,9 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
             SaveImageCommand = new DelegateCommand(() =>
             {
-                var outputFileName = CreateNewImageFileName();
+                var outputFileName = CreateNewImageFileName();                
 
-                if (File.Exists(outputFileName))
-                    CreateImage(outputFileName,CurrentSetting.Png);
+                CreateImage(outputFileName,CurrentSetting.Png);
             });
 
         }
@@ -166,48 +166,17 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         {
             var layerName = MediaExportTypes.CurrentItem as string;
 
-            var newCellFolder = "";
             var outPutFileName = "";
 
-            switch (layerName)
-            {
-                case "Background":
-                    newCellFolder = "Backgrounds";
-                    outPutFileName = "Background - " + Ratio + " (" + Author + ")";
-                    break;
-                case "HsBackground":
-                    newCellFolder = "Backgrounds";
-                    outPutFileName = "RomName";
-                    break;
-                case "BezelBackground":
-                    newCellFolder = "Bezels";
-                    outPutFileName = "Background - " + Ratio + " (" + Author + ")";
-                    break;
-                case "Layer1":
-                    newCellFolder = "Fade";
-                    outPutFileName = "Layer 1 - " + Ratio + " " + CurrentSetting.Description + " (" + Author + ")";
-                    break;
-                case "Layer2":
-                    newCellFolder = "Fade";
-                    outPutFileName = "Layer 2 - " + Ratio + " " + CurrentSetting.Description + " (" + Author + ")";
-                    break;
-                case "Layer3":
-                    newCellFolder = "Fade";
-                    outPutFileName = "Layer 3 - " + Ratio + " " + CurrentSetting.Description + " (" + Author + ")";
-                    break;
-                case "LayerExtra":
-                    newCellFolder = "Fade";
-                    outPutFileName = "Extra Layer 1 - " + Ratio + " " + CurrentSetting.Description + " (" + Author + ")";
-                    break;
-                default:
-                    break;
-            }
+            var parent = RlStaticMethods.GetParentMediaType(layerName);
 
             string rlMediaFilePath = 
                 Path.Combine(
                 _settings.HypermintSettings.RlMediaPath,
-                newCellFolder, _selected.CurrentSystem,
+                parent, _selected.CurrentSystem,
                 _selected.CurrentRomname);
+
+            outPutFileName = RlStaticMethods.CreateFileNameForRlImage(layerName, "", CurrentSetting.Description, "");
 
             return GetNewFileNameIfExists(layerName, outPutFileName, rlMediaFilePath);
         }
