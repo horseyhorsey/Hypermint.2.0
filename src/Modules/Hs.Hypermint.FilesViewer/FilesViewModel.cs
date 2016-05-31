@@ -239,6 +239,17 @@ namespace Hs.Hypermint.FilesViewer
 
             CardPositionsArray.MoveCurrentToFirst();
 
+            CardPositionsArray.CurrentChanged += CardPositionsArray_CurrentChanged;
+
+        }
+
+        private void CardPositionsArray_CurrentChanged(object sender, EventArgs e)
+        {
+            if (CardPositionsArray != null)
+                FileNameToSave =
+                    RlStaticMethods
+                    .CreateCardFileName(Description, Author,
+                    (string)CardPositionsArray.CurrentItem);
         }
 
         protected override void OnPropertyChanged(string propertyName = null)
@@ -252,15 +263,9 @@ namespace Hs.Hypermint.FilesViewer
                     case "Description":
                     case "Ratio":
                     case "Author":
-                        if (MediaType != "Cards")
                             FileNameToSave =
                                 RlStaticMethods
                                 .CreateFileNameForRlImage(MediaType, Ratio, Description, Author);
-                        else
-                            FileNameToSave =
-                                RlStaticMethods
-                                .CreateCardFileName(Description, Author,
-                                (string)CardPositionsArray.CurrentItem);
                         break;
                 }
             }
