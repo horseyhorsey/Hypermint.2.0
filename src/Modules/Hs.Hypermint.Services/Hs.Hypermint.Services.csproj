@@ -90,6 +90,8 @@
     <Compile Include="AuditerRlRepo.cs" />
     <Compile Include="FileFolderChecker.cs" />
     <Compile Include="FileFolderService.cs" />
+    <Compile Include="Helpers\IniFileReader.cs" />
+    <Compile Include="Helpers\RlStaticMethods.cs" />
     <Compile Include="ImageEditRepo.cs" />
     <Compile Include="MultiSystemRepo.cs" />
     <Compile Include="GameRepo.cs" />
