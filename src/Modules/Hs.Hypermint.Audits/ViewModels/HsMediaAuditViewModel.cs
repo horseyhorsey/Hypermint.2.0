@@ -14,6 +14,7 @@ using System.Windows.Data;
 using Hypermint.Base.Events;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -105,6 +106,8 @@ namespace Hs.Hypermint.Audits.ViewModels
         public AuditMenu SelectedMenu { get; set; }
 
         private ICollectionView _auditList;
+        private IDialogCoordinator _dialogService;
+
         public ICollectionView AuditList
         {
             get { return _auditList; }
@@ -114,7 +117,8 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         #region ctors
         public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
-            IEventAggregator eventAggregator, IAuditer auditer, 
+            IEventAggregator eventAggregator, IAuditer auditer,
+            IDialogCoordinator dialogService,
             ISelectedService selectedService,
             ISearchYoutube youtube)
         {
@@ -125,6 +129,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             _gameRepo = gameRepo;
             _selectedService = selectedService;
             _youtube = youtube;
+            _dialogService = dialogService;
 
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(GamesUpdated);
@@ -172,12 +177,13 @@ namespace Hs.Hypermint.Audits.ViewModels
                         romName + " : " +
                         CurrentColumnHeader;
 
-                        _eventAggregator.GetEvent<GameSelectedEvent>().Publish(
-                            new string[] { romName, CurrentColumnHeader }
-                            );
-
                     }
                     catch (Exception e) { }
+
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(
+                        new string[] { romName, CurrentColumnHeader }
+                        );
+
 
                 });            
 
@@ -190,7 +196,8 @@ namespace Hs.Hypermint.Audits.ViewModels
             });
 
             // Run the auditer for hyperspin
-            RunAuditCommand = new DelegateCommand(() => RunScan());
+            RunAuditCommand = new DelegateCommand(
+                async () => await RunScan());
         }
 
         #endregion
@@ -220,7 +227,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             };
         }
 
-        private void RunScan(string option="")
+        private async Task RunScan(string option="")
         {
             var hsPath = _settings.HypermintSettings.HsPath;
 
@@ -230,30 +237,39 @@ namespace Hs.Hypermint.Audits.ViewModels
             {
                 if (AuditList != null && Directory.Exists(hsPath))
                 {
+                    var progressResult = await _dialogService.ShowProgressAsync(this, "Scanning Hs media...", "");
+                    progressResult.SetIndeterminate();
+
                     var systemName = _selectedService.CurrentSystem;
 
+                        if (systemName.ToLower().Contains("main menu"))
+                        {
+                            _auditer.ScanForMediaMainMenu(
+                                hsPath, _gameRepo.GamesList);                           
+                        }
+                        else
+                        {                        
+
+                        await _auditer.ScanForMediaAsync(
+                                hsPath, systemName, _gameRepo.GamesList);                            
+                        }
+
+                        progressResult.SetMessage("Scan complete");
+
                     if (systemName.ToLower().Contains("main menu"))
-                    {
-                        _auditer.ScanForMediaMainMenu(
-                            hsPath, _gameRepo.GamesList);
-
                         AuditList = new ListCollectionView(_auditer.AuditsMenuList);
-                    }
                     else
-                    {
-                        _auditer.ScanForMedia(
-                            hsPath, systemName, _gameRepo.GamesList
-                             );
-
                         AuditList = new ListCollectionView(_auditer.AuditsGameList);
-                    }
 
+                    await progressResult.CloseAsync();
+                    
                 }
-
+                
                 _eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Publish("");
+                
 
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using Hs.HyperSpin.Database;
 using Hs.HyperSpin.Database.Audit;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Hypermint.Base.Interfaces
 {
@@ -10,7 +11,7 @@ namespace Hypermint.Base.Interfaces
 
         AuditsGame AuditsGameList { get; set; }
 
-        void ScanForMedia(string hyperspinPath, string systemName, Games databaseGameList);
+        Task ScanForMediaAsync(string hyperspinPath, string systemName, Games databaseGameList);
 
         void ScanForMediaMainMenu(string hyperspinPath, Games mainMenuList);
 
