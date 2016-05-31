@@ -68,6 +68,8 @@ namespace Hs.Hypermint.NavBar.ViewModels
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetToDbView);
             _eventAggregator.GetEvent<NavigateRequestEvent>().Subscribe(Navigate);
+            _eventAggregator.GetEvent<NavigateMediaPaneRequestEvent>().Subscribe(NavigateMediaPane);
+            
             _eventAggregator.GetEvent<RequestOpenFolderEvent>().Subscribe(x =>
             {
                 _folderExplore.OpenFolder(x);
@@ -79,6 +81,8 @@ namespace Hs.Hypermint.NavBar.ViewModels
         private void SetToDbView(string systemName)
         {
             _systemName = systemName;
+
+            NavigateMediaPane("MediaPaneView");
 
             if (File.Exists(_settings.HypermintSettings.HsPath + @"\Databases\" + systemName + "\\_multiSystem"))
                 _selectedService.IsMultiSystem = true;
@@ -131,17 +135,17 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     else
                     {
                         CurrentView += "Database editor";
-                        _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
+                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "DatabaseOptionsView");
                         _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
                     }
                     break;
                 case "HsMediaAuditView":
                     CurrentView += "Hyperspin media audit";
-                    _regionManager.RequestNavigate("FilesRegion", "HyperspinFilesView");
+                    _regionManager.RequestNavigate(RegionNames.FilesRegion, "HyperspinFilesView");
                     break;
                 case "RlMediaAuditView":
                     CurrentView += "RocketLaunch media audit";
-                    _regionManager.RequestNavigate("FilesRegion", "FilesView");
+                    _regionManager.RequestNavigate(RegionNames.FilesRegion, "FilesView");
                     break;
                 case "IntroVideosView":
                     CurrentView += "Hyperspin video intros";
@@ -174,7 +178,12 @@ namespace Hs.Hypermint.NavBar.ViewModels
             if (uri != "WebBrowseView" && uri != "DatabaseDetailsView")
                 _regionManager.RequestNavigate("ContentRegion", uri);
             
-        }    
+        }
+
+        private void NavigateMediaPane(string view)
+        {
+            _regionManager.RequestNavigate(RegionNames.MediaPaneRegion, view);            
+        }
 
         private void RemoveAllFilesRegionViews()
         {            
