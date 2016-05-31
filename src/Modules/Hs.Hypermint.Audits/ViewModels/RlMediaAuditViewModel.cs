@@ -117,11 +117,6 @@ namespace Hs.Hypermint.Audits.ViewModels
             PauseMediaScanCommand = new DelegateCommand(ScanPauseMedia);
             FadeScanCommand = new DelegateCommand(ScanFadeLayers);
 
-            BezelEditCommand = new DelegateCommand(() =>
-            {
-                _regionManager.RequestNavigate(RegionNames.ContentRegion, "BezelEditView");
-            });
-
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
 
             LaunchRlMode = new DelegateCommand<string>((x) =>

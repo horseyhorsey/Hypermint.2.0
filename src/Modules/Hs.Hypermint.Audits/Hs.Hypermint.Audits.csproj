@@ -85,9 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditsModule.cs" />
-    <Compile Include="BezelEdit\BezelEditView.xaml.cs">
-      <DependentUpon>BezelEditView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\HsControlsView.xaml.cs">
       <DependentUpon>HsControlsView.xaml</DependentUpon>
     </Compile>
@@ -119,7 +116,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\BezelEditViewModel.cs" />
     <Compile Include="ViewModels\HsMediaAuditViewModel.cs" />
     <Compile Include="ViewModels\RlMediaAuditViewModel.cs" />
     <Compile Include="ViewModels\YoutubeViewModel.cs" />
@@ -170,10 +166,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BezelEdit\BezelEditView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\HsControlsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

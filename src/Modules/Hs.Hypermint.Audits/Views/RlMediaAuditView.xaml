@@ -67,7 +67,7 @@
                         <dataGrids:DataGridFade/>
                     </TabItem>
 
-                    <TabItem Header="FadeInfo">
+                    <TabItem Header="FadeInfo" IsEnabled="False">
                         <TabControl>
                             <TabItem Header="Developer"></TabItem>
                             <TabItem Header="Genre"></TabItem>
