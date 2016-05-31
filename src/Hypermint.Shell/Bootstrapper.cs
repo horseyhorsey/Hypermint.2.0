@@ -22,7 +22,7 @@ using Hs.Hypermint.DatabaseDetails;
 using Hs.Hypermint.RocklaunchStats.Views;
 using Hs.Hypermint.Browser.Views;
 using Hs.Hypermint.DatabaseDetails.Services;
-using Hs.Hypermint.BezelEdit.Views;
+using Hs.Hypermint.MediaPane.Views;
 
 namespace Hypermint.Shell
 {
@@ -118,7 +118,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");
             Container.RegisterTypeForNavigation<SearchView>("SearchView");
             Container.RegisterTypeForNavigation<StatsView>("StatsView");
-            Container.RegisterTypeForNavigation<WebBrowseView>("WebBrowseView");
+            //Container.RegisterTypeForNavigation<WebBrowseView>("WebBrowseView");
             Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");            
 
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
