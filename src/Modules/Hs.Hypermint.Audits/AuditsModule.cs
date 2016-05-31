@@ -24,9 +24,7 @@ namespace Hs.Hypermint.Audits
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(HsMediaAuditView));
 
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(RlMediaAuditView));
-
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(BezelEdit.Views.BezelEditView));
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(RlMediaAuditView));            
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(YoutubeView));
         }
