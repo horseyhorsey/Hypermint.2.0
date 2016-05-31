@@ -3,6 +3,7 @@ using Hypermint.Base.Models;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System;
 
 namespace Hs.Hypermint.Services
 {
@@ -22,7 +23,7 @@ namespace Hs.Hypermint.Services
             string inputImage,
             string outputFileName,
             bool isPng)
-        {            
+        {
 
             using (var imgIn = Image.FromFile(inputImage))
             {
@@ -69,15 +70,16 @@ namespace Hs.Hypermint.Services
                         finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Png);
                     else
                         finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+
                 }
                 catch (System.Exception)
                 {
-                    
+
                 }
-                
+
                 return outputFileName;
             }
-                                               
+
         }
 
         /// <summary>
@@ -108,7 +110,7 @@ namespace Hs.Hypermint.Services
             int destHeight = (int)(sourceHeight * nPercent);
 
             var bitMap = new Bitmap(destWidth, destHeight);
-            
+
             using (var g = Graphics.FromImage(bitMap))
             {
                 g.InterpolationMode = InterpolationMode.Bicubic;
@@ -158,15 +160,29 @@ namespace Hs.Hypermint.Services
 
             using (TextureBrush brush = new TextureBrush(imgToResize, WrapMode.Tile))
             using (Graphics g = Graphics.FromImage(bitMap))
-            {                
+            {
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
                 g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
-             
+
                 g.Dispose();
             }
 
             return bitMap;
+        }
+
+        public bool ConvertImageFormat(string inputImage, 
+            string outputFileName, bool isJpg)
+        {
+            using (var imgIn = Image.FromFile(inputImage))
+            {
+                if (isJpg)
+                    imgIn.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Png);
+                else
+                    imgIn.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+            }
+
+            return true;
         }
     }
 }
