@@ -120,6 +120,10 @@
       <Project>{5F4FDB5E-3624-4C1A-9B9E-8F27F185EADD}</Project>
       <Name>Hypermint.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
+      <Project>{7C5872EA-A3BD-4BFA-911C-0A9B62F2F11F}</Project>
+      <Name>Hs.Hypermint.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\CreateImageView.xaml">
