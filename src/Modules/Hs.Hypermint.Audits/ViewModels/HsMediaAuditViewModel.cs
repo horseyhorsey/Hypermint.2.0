@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Hypermint.Base.Events;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -125,9 +126,8 @@ namespace Hs.Hypermint.Audits.ViewModels
             _selectedService = selectedService;
             _youtube = youtube;
 
-            //This event is called after main database view is updated
-            _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(gamesUpdated);
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(gamesUpdated);
+            _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(GamesUpdated);
 
             CurrentCellChanged = new DelegateCommand<object>(
                 selectedGameCell =>
@@ -181,7 +181,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                 });            
 
-            gamesUpdated("Main Menu");
+            GamesUpdated("Main Menu");
 
             SearchYoutubeCommand = new DelegateCommand(() =>
             {
@@ -257,7 +257,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         }
 
-        private void gamesUpdated(string systemName)
+        private void GamesUpdated(string systemName)
         {            
             if (AuditList != null)
                 FilterText = "";
@@ -276,17 +276,18 @@ namespace Hs.Hypermint.Audits.ViewModels
             if (_gameRepo.GamesList != null)
             {
                 _auditer.AuditsGameList.Clear();
-
-                foreach (var item in _gameRepo.GamesList)
-                {
-                    _auditer.AuditsGameList.Add(new AuditGame
+            
+                    foreach (var item in _gameRepo.GamesList)
                     {
-                        RomName = item.RomName,
-                        Description = item.Description                        
-                    });
-                }
+                        _auditer.AuditsGameList.Add(new AuditGame
+                        {
+                            RomName = item.RomName,
+                            Description = item.Description
+                        });
+                    }
 
-                AuditList = new ListCollectionView(_auditer.AuditsGameList);
+                    AuditList = new ListCollectionView(_auditer.AuditsGameList);
+                
             }
         }
 
