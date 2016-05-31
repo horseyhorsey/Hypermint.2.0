@@ -135,7 +135,7 @@
                 </StackPanel>
                 
                 <!--TextBOXViewer-->
-                <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10" 
+                <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10" Grid.RowSpan="2"
                                      Text="{Binding TextSource}" 
                                      Visibility="{Binding ElementName=root,
                                      Path=DataContext.IsTextSource,UpdateSourceTrigger=PropertyChanged,
@@ -211,17 +211,7 @@
                 </DockPanel>
 
                 <!--Context right click menu-->
-                <ContextMenuService.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Open with >">
-                            <MenuItem Header="External Edit"></MenuItem>
-                            <MenuItem Header="Default.."></MenuItem>
-                        </MenuItem>
-
-                        <MenuItem Header="BezelEdit"  ToolTip="Send this image to the bezel editor."></MenuItem>
-                        <MenuItem Header="Image Edit" ToolTip="Sends to image editing"></MenuItem>
-                        <MenuItem Header="Copy">
-                            <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
+                <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"--><!--
                             <ComboBox></ComboBox>
                         </MenuItem>
                         <MenuItem Header="Preset job" IsEnabled="True">
@@ -245,7 +235,7 @@
                             </MenuItem>
                         </MenuItem>
                     </ContextMenu>
-                </ContextMenuService.ContextMenu>
+                </ContextMenuService.ContextMenu>-->
 
             </Grid>
         </GroupBox>
