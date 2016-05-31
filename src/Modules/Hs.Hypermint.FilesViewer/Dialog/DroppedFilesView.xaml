@@ -18,7 +18,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="root">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -31,47 +31,74 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        </Grid.Resources>
+        
+
         <StackPanel>
 
+            <Label FontSize="14" Content="{Binding DroppedFileName}"/>
+            
             <TextBox metro:TextBoxHelper.ClearTextButton="True" 
-                 ToolTip="New system name"
-                 metro:TextBoxHelper.Watermark="New system name"
-                 Text="{Binding NewSystemName,UpdateSourceTrigger=PropertyChanged}"
+                                            Visibility="{Binding ElementName=root,
+                       Path=DataContext.FileNameOptionsOff,UpdateSourceTrigger=PropertyChanged, 
+                        Converter={StaticResource BoolToVisConverter}}"
+                 ToolTip="New fileName"
+                 metro:TextBoxHelper.Watermark="New file name"
+                 Text="{Binding FileNameToSave,UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
                  Width="280" Height="25" VerticalAlignment="Top" IsEnabled="True"/>
 
-            <DockPanel Grid.Row="0" Grid.Column="0" >
-                <TextBox metro:TextBoxHelper.ClearTextButton="True" 
-                 ToolTip="Open an existing HS database"
-                 metro:TextBoxHelper.Watermark="Optional xml database"
-                 Text="{Binding ShortDbName,UpdateSourceTrigger=PropertyChanged}"
-                 Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
-                 Width="280" Height="25" VerticalAlignment="Top" IsEnabled="True"/>
-                <!--Select Database-->
-                <Button HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" 
-                Command="{Binding SelectDatabaseCommand}"
-                ToolTip="Pick an existing database to use for this system" 
-                Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
-                    <Rectangle Width="20"
-                       Height="20"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill"
-                                 Visual="{DynamicResource appbar_folder}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
+            <DockPanel Margin="5" Visibility="{Binding ElementName=root,
+                       Path=DataContext.FileNameOptionsOn,UpdateSourceTrigger=PropertyChanged, 
+                        Converter={StaticResource BoolToVisConverter}}">
+
+                <Label Content="{Binding MediaType}"/>
+
+                <TextBox Text="{Binding Ratio,UpdateSourceTrigger=PropertyChanged}" Margin="3"
+                         ToolTip="Optional resolution"
+                         metro:TextBoxHelper.Watermark="16x9"                         
+                         metro:TextBoxHelper.ClearTextButton="True" />
+                
+                <ComboBox ItemsSource="{Binding CardPositionsArray}" Margin="3"/>
+                
+                <TextBox Text="{Binding Author,UpdateSourceTrigger=PropertyChanged}"  ToolTip="Optional resolution" Margin="3"
+                         metro:TextBoxHelper.Watermark="Author name"                         
+                         metro:TextBoxHelper.ClearTextButton="True"  />
+                <TextBox Text="{Binding Description,UpdateSourceTrigger=PropertyChanged}" ToolTip="Description" Margin="3"
+                         metro:TextBoxHelper.Watermark="Description"                         
+                         metro:TextBoxHelper.ClearTextButton="True" />
+
             </DockPanel>
+
+            <DockPanel Margin="8"
+                       Visibility="{Binding ElementName=root,
+                       Path=DataContext.ConvertEnabled,UpdateSourceTrigger=PropertyChanged, 
+                        Converter={StaticResource BoolToVisConverter}}"
+                       IsEnabled="{Binding ConvertEnabled,UpdateSourceTrigger=PropertyChanged}">
+                <CheckBox IsChecked="{Binding ImageConvertEnabled}" x:Name="convertCheckBox"  Content="Enable convert"/>
+                <RadioButton Content="Save Jpg" Margin="5"
+                             IsEnabled="{Binding ElementName=convertCheckBox,Path=IsChecked}"
+                             IsChecked="{Binding FormatJpg}"/>
+                <RadioButton Content="Save Png" Margin="5"
+                           IsEnabled="{Binding ElementName=convertCheckBox,Path=IsChecked}"/>
+            </DockPanel>
+
+
+            <Label FontSize="18" Content="{Binding FileNameToSave}"/>
+
         </StackPanel>
 
+
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
-                    Height="54" VerticalAlignment="Bottom" 
+                     VerticalAlignment="Bottom" 
                     Grid.Row="1" Grid.Column="0">
             <Button Width="28" Height="28" 
                         VerticalAlignment="top" Margin="15" 
-                        Command="{Binding SaveNewSystemCommand}"
+                        Command="{Binding SaveNewFileCommand}"
                         CommandParameter=""
-                    ToolTip="Create new system: Creates necessary HS folders &amp; basic setting.ini for system."
+                    ToolTip="Save file"
                     Background="Green"
                         Style="{DynamicResource AccentedSquareButtonStyle}">
                 <Rectangle Width="15"
@@ -85,16 +112,32 @@
             </Button>
 
             <Button Width="28" Height="28" VerticalAlignment="Top" Margin="15" 
-                        Command="{Binding CloseDialogCommand}"                        
+                    Command="{Binding CloseDialogCommand}"                        
                     Background="{DynamicResource ValidationBrush5}"
-                    ToolTip="Back to main window"
+                    ToolTip="Skip this file"
                         Style="{DynamicResource AccentedSquareButtonStyle}">
                 <Rectangle Width="15"
                                Height="15"
-                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                               Fill="{Binding Path=Foreground, 
+                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill"
-                                         Visual="{DynamicResource appbar_cancel}" />
+                                         Visual="{DynamicResource appbar_noentry}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <Button Width="28" Height="28" VerticalAlignment="Top" Margin="15" 
+                    Command="{Binding CloseAllPendingFileDropCommand}"                        
+                    Background="{DynamicResource ValidationBrush5}"
+                    ToolTip="Quit &amp; skip all"
+                        Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="15"
+                               Height="15"
+                               Fill="{Binding Path=Foreground, 
+                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_close}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>

@@ -16,6 +16,7 @@ namespace Hs.Hypermint.FilesViewer
         public override void Initialize()
         {            
             RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(FilesView));
+
         }
 
     }
