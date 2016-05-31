@@ -16,7 +16,13 @@ namespace Hypermint.Base
 
     public class NavigateRequestEvent : PubSubEvent<string> { }
 
-    public class ImageEditSourceEvent : PubSubEvent<string> { }    
+    public class NavigateMediaPaneRequestEvent : PubSubEvent<string> { }
+
+    public class RlFilesDroppedEvent : PubSubEvent<string[]> { }
+
+    public class ImageEditSourceEvent : PubSubEvent<string> { }
+
+    public class SetBezelImagesEvent : PubSubEvent<string> { }
 
     public class ClearRlFilesEvent : PubSubEvent<string> { }
 
