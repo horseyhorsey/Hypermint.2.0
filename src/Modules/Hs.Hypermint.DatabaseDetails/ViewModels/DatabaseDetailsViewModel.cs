@@ -17,6 +17,7 @@ using Hypermint.Base.Models;
 using MahApps.Metro.Controls.Dialogs;
 using Hypermint.Base.Events;
 using GongSolutions.Wpf.DragDrop;
+using System.Threading.Tasks;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -132,7 +133,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 });
 
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGames);
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(UpdateGamesAsync);
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
             _eventAggregator.GetEvent<CloneFilterEvent>().Subscribe(FilterRomClones);
             _eventAggregator.GetEvent<MultipleCellsUpdated>().Subscribe((x) =>
@@ -199,7 +200,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         private void SystemDatabaseChangedHandler(string systemName)
         {
-            UpdateGames(systemName);
+            UpdateGamesAsync(systemName);
         }
 
         private void SaveCurrentMainMenuItems(string xml)
@@ -386,21 +387,20 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// Published by selecting Systems in left system list        
         /// </summary>
         /// <param name="systemName"></param>
-        private void UpdateGames(string dbName)
+        private async void UpdateGamesAsync(string dbName)
         {
-            _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Status: ");            
-
             var hsPath = _settingsRepo.HypermintSettings.HsPath;
+            var system = _selectedService.CurrentSystem;
 
             if (GamesList != null)
             {
                 _gameRepo.GamesList.Clear();
-                
+
                 if (Directory.Exists(hsPath))
                 {
                     try
                     {
-                        PopulateGamesList(_selectedService.CurrentSystem,  hsPath, dbName);
+                        await PopulateGamesList(system, hsPath, dbName);
 
                         //Publish after the gameslist is updated here
                         _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(dbName);
@@ -409,29 +409,28 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     {
                         exception.GetBaseException();
                         var msg = exception.Message;
-                        _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri +  " : " + msg);
+                        _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri + " : " + msg);
                     }
                     catch (Exception ex) { }
                     finally
-                    {                                          
-                        //updateSystemDatabases();
-                        //updateGenres();
+                    {
+
                     }
-                    
+
                 }
             }
 
         }
 
-        private void PopulateGamesList(string systemName, string hsPath, string dbName)
+        private async Task PopulateGamesList(string systemName, string hsPath, string dbName)
         {
             try
             {
-                if (systemName.Contains("Main Menu"))
-                    _gameRepo.GetGames(hsPath + @"\Databases\Main Menu\" + dbName + ".xml", systemName);
+                if (systemName.ToLower().Contains("main Menu"))
+                    await _gameRepo.GetGamesAsync (hsPath + @"\Databases\Main Menu\" + dbName + ".xml", systemName);
                 else
                 {
-                    _gameRepo.GetGames(hsPath + @"\Databases\" + systemName + "\\" + dbName + ".xml", systemName);
+                    await _gameRepo.GetGamesAsync(hsPath + @"\Databases\" + systemName + "\\" + dbName + ".xml", systemName);
                 }
 
                 GamesList = new ListCollectionView(_gameRepo.GamesList);
@@ -459,25 +458,29 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 _gameRepo.GamesList.Clear();
             }
 
-            updateFavoritesForGamesList();
+           await updateFavoritesForGamesList();
             
         }
 
-        private void updateFavoritesForGamesList()
+        private async Task updateFavoritesForGamesList()
         {
             if (_selectedService != null)
             {
-                var selectedSystemName = _selectedService.CurrentSystem;
-
-                //_gameRepo.GamesList
-                var favesList = _favouriteService.GetFavoritesForSystem
-                    (selectedSystemName, _settingsRepo.HypermintSettings.HsPath);
-
-                foreach (var item in _gameRepo.GamesList)
+                await Task.Run(() =>
                 {
-                    if (favesList.Contains(item.RomName))
-                        item.IsFavorite = true;
-                }
+                    var selectedSystemName = _selectedService.CurrentSystem;
+
+                    //_gameRepo.GamesList
+                    var favesList = _favouriteService.GetFavoritesForSystem
+                        (selectedSystemName, _settingsRepo.HypermintSettings.HsPath);
+
+                    foreach (var item in _gameRepo.GamesList)
+                    {
+                        if (favesList.Contains(item.RomName))
+                            item.IsFavorite = true;
+                    }
+                });
+                
             }
             
         }        
