@@ -18,7 +18,7 @@
                     <controls:FilesList />
                 </TabItem>
 
-                <TabItem Header="Unused">
+                <TabItem Header="Unused" Visibility="Collapsed">
                     <controls:UnusedFilesList/>
                 </TabItem>
                 

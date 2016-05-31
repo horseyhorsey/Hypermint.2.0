@@ -91,16 +91,12 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 var views = _regionManager.Regions[RegionNames.ContentRegion].ActiveViews.ToList();
                 var activeViewName = views[0].ToString();
 
-                if (!activeViewName.Contains("HsMediaAuditView")) return;                
+                if (!activeViewName.Contains("HsMediaAuditView")) return;
 
                 SetCurrentName(x);                
 
                 if (FilesForGame != null)
-                {
-                    FilesForGame.CurrentChanged -= FilesForGame_CurrentChanged;
-
-                    FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;                    
-
+                {                  
                     if (FilesForGame.CurrentItem == null)
                         _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
                     else
@@ -115,7 +111,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 FilesForGame = null;
             });
 
-            _eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Subscribe(BuildUnusedMediaList);
+            //_eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Subscribe(BuildUnusedMediaList);
         }
 
         #region Methods
@@ -182,7 +178,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         private void SetCurrentName(string[] romAndColumn)
         {
-            FilesForGame = null;
+            //FilesForGame = null;
             
             var rom = romAndColumn[0];            
 
@@ -191,38 +187,38 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 columnHeader = romAndColumn[1];
 
                 #region unusedswitch
-                switch (columnHeader)
-                {
-                    case "Wheel":
-                        UnusedMediaFiles = new ListCollectionView(UnusedWheels);
-                        break;
-                    case "Artwork1":
-                        UnusedMediaFiles = new ListCollectionView(UnusedArtwork1);
-                        break;
-                    case "Artwork2":
-                        UnusedMediaFiles = new ListCollectionView(UnusedArtwork2);
-                        break;
-                    case "Artwork3":
-                        UnusedMediaFiles = new ListCollectionView(UnusedArtwork3);
-                        break;
-                    case "Artwork4":
-                        UnusedMediaFiles = new ListCollectionView(UnusedArtwork4);
-                        break;
-                    case "Theme":
-                        UnusedMediaFiles = new ListCollectionView(UnusedThemes);
-                        break;
-                    case "Videos":
-                        UnusedMediaFiles = new ListCollectionView(UnusedVideos);
-                        break;
-                    default:
-                        UnusedMediaFiles = null;
-                        break;
-                }
+                //switch (columnHeader)
+                //{
+                //    case "Wheel":
+                //        UnusedMediaFiles = new ListCollectionView(UnusedWheels);
+                //        break;
+                //    case "Artwork1":
+                //        UnusedMediaFiles = new ListCollectionView(UnusedArtwork1);
+                //        break;
+                //    case "Artwork2":
+                //        UnusedMediaFiles = new ListCollectionView(UnusedArtwork2);
+                //        break;
+                //    case "Artwork3":
+                //        UnusedMediaFiles = new ListCollectionView(UnusedArtwork3);
+                //        break;
+                //    case "Artwork4":
+                //        UnusedMediaFiles = new ListCollectionView(UnusedArtwork4);
+                //        break;
+                //    case "Theme":
+                //        UnusedMediaFiles = new ListCollectionView(UnusedThemes);
+                //        break;
+                //    case "Videos":
+                //        UnusedMediaFiles = new ListCollectionView(UnusedVideos);
+                //        break;
+                //    default:
+                //        UnusedMediaFiles = null;
+                //        break;
+                //}
                 #endregion
                 
             }
 
-            switch (columnHeader)
+            switch (romAndColumn[1])
             {
                 case "Wheel":
                     GetHyperspinFilesForGame(Images.Wheels, rom + "*.*");
@@ -301,7 +297,9 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 });
             }
 
-            FilesForGame = new ListCollectionView(mediaFiles);
+            FilesForGame = new ListCollectionView(mediaFiles);            
+
+            FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;
 
         }
 
@@ -329,6 +327,8 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
             FilesForGame = new ListCollectionView(mediaFiles);
 
+            FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;
+
             FilesForGame.MoveCurrentToLast();
 
         }
@@ -352,7 +352,9 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 });
             }
 
-            FilesForGame = new ListCollectionView(mediaFiles);            
+            FilesForGame = new ListCollectionView(mediaFiles);
+
+            FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;
 
         }
 
