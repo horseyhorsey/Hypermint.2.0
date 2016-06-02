@@ -127,7 +127,11 @@ namespace Hs.Hypermint.Services
                 AuditsMenuList[i].HaveLetters = CheckMediaFolderFiles(FullPath, "*.png");
 
                 FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Special);
-                AuditsMenuList[i].HaveSpecial = CheckMediaFolderFiles(FullPath, "*.png");
+                if (CheckMediaFolderFiles(FullPath, "*.swf"))
+                    AuditsMenuList[i].HaveSpecial = true;
+                else if ((CheckMediaFolderFiles(FullPath, "*.png")))
+                    AuditsMenuList[i].HaveSpecial = true;
+
 
                 FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.GenreWheel);
                 AuditsMenuList[i].HaveGenreWheel = CheckMediaFolderFiles(FullPath, "*.png");
