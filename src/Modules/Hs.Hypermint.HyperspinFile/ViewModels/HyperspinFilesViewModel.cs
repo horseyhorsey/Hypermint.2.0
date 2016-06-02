@@ -339,10 +339,14 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         private void GetHyperspinFilesForMenu(string mediaPath, string filter = "*.*")
         {
+            FilesForGame = null;
+
             var selected = _selectedService.CurrentRomname;
 
             var pathToScan = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
             Root.Media, selected, mediaPath);
+
+            if (!Directory.Exists(pathToScan)) Directory.CreateDirectory(pathToScan);        
 
             var mediaFiles = new List<MediaFile>();
 
