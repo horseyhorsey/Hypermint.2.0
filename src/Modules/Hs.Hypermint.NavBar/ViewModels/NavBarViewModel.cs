@@ -159,7 +159,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
                 case "IntroVideosView":
                     CurrentView += "Hyperspin video intros";
-                    RemoveAllFilesRegionViews();
+                    _regionManager.RequestNavigate(RegionNames.FilesRegion, "ProcessOptionsView");
                     break;
                 case "MultiSystemView":
                     CurrentView += "Hyperspin multiple system generator";
