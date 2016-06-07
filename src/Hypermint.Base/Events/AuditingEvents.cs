@@ -13,5 +13,7 @@ namespace Hypermint.Base.Events
 
     public class RlAuditUpdateEvent : PubSubEvent<object> { }
 
+    public class RefreshHsAuditEvent : PubSubEvent<string> { }
+
 
 }

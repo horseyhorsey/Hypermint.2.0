@@ -208,6 +208,11 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                 AuditList.Refresh();
             });
+
+            _eventAggregator.GetEvent<RefreshHsAuditEvent>().Subscribe((x) =>
+            {
+                AuditList.Refresh();
+            });
                         
         }
 
