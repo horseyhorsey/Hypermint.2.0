@@ -493,7 +493,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 //{
                 //    audio_drop(filelist[i], filename3, game, selectedColumn);
                 //}
-            }
+            }            
         }
 
         private void wheel_drop(string file, string selectedColumn, string romName)
@@ -531,6 +531,10 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
                     ConvertImageToPng(file, fullPath);
 
+                    _eventAggregator.GetEvent<HsAuditUpdateEvent>().Publish(new string[] {
+                        romName, selectedColumn
+                    });
+
                     return;
                 }
                 else if (file.ToLower().EndsWith(".png") || file.ToLower().EndsWith(".mp4"))
@@ -549,6 +553,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
                     File.Copy(file, fullPath);
                 }
+                
             }
             catch (Exception)
             {
