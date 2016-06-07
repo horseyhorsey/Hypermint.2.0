@@ -6,28 +6,25 @@
              xmlns:local="clr-namespace:Hs.Hypermint.IntroVideos.Views"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition  MaxWidth="100"></ColumnDefinition>
-            <ColumnDefinition  MaxWidth="0"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="90"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <!--Import videos-->
-        <local:ImportVideoView Grid.Column="2" Grid.ColumnSpan="1"></local:ImportVideoView>
-        <!--AVI synth Options-->
-        <StackPanel Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
-            <local:AviSynthParamsView HorizontalAlignment="Left"></local:AviSynthParamsView>
-            <local:AviSynthOverlayView HorizontalAlignment="Left" />
-        </StackPanel>
 
-        <local:ScanAddVideosView Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
-                
-        <local:ProcessVideosView Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" />
-               
+        <GroupBox Header="{Binding VideosAvailableHeader}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MaxHeight="90"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <local:ScanAddVideosView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+
+                <local:ProcessVideosView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" />
+            </Grid>
+            
+        </GroupBox>
+
     </Grid>
 </UserControl>
