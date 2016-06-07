@@ -13,8 +13,8 @@ namespace Hypermint.Base.Services
         private string[] audioDub;
         private string[] trimName;
 
-        public void CreateScript(string[] VideoFiles, AviSynthOption options,string systemName,
-            bool overlay = false,bool overlayResize = false, string wheelPath = "", string exportScriptPath = @"exports\aviSynth")
+        public string CreateScript(string[] VideoFiles, AviSynthOption options,string systemName,
+            bool overlay = false,bool overlayResize = false, string wheelPath = "", string exportScriptPath = @"exports\videos\")
         {
             var i = 0;
             vidname = new string[VideoFiles.Length];
@@ -43,22 +43,27 @@ namespace Hypermint.Base.Services
                     // Get the wheel file name
                     var name = Path.GetFileNameWithoutExtension(VideoFiles[i]);
                     var path = wheelPath + name;
+                    var fullPath = "";
 
                     trimName = new string[VideoFiles.Length];
 
+                    fullPath = path + ".png";
+                    if (!File.Exists(fullPath))
+                        fullPath = Path.GetFullPath(@"Resources/empty.png");
+
+
                     vidname[i] = "V" + i + " = ffvideosource(" + "\"" + VideoFiles[i] + "\"" + ")";
-                    wheelName[i] = "W" + i + " = ImageSource(" + "\"" + wheelPath + name + ".png" + "\"" + ")";
-                    wheelNameAlpha[i] = "Wa" + i + " = ImageSource(" + "\"" + wheelPath + name + 
-                        ".png" + "\"" + ", pixel_type=" + "\"" + "RGB32" + "\""
+                    wheelName[i] = "W" + i + " = ImageSource(" + "\"" + fullPath + "\"" + ")";
+                    wheelNameAlpha[i] = "Wa" + i + " = ImageSource(" + "\"" + fullPath + "\"" + ", pixel_type=" + "\"" + "RGB32" + "\""
                         + ").ShowAlpha(pixel_type=" + "\"" + "RGB32" + "\"" + ")";
                     audioname[i] = "A" + i + " = ffaudiosource(" + "\"" + VideoFiles[i] + "\"" + ")";
 
                     if (overlayResize)
                     {
-                        wheelName[i] = "W" + i + " = ImageSource(" + "\"" + wheelPath + name + ".png" + "\"" 
+                        wheelName[i] = "W" + i + " = ImageSource(" + "\"" + fullPath + "\"" 
                             + ")" + @".BilinearResize(" + options.ResizeWidth + @"," + options.ResizeHeight + ")";
                         wheelNameAlpha[i] = "Wa" + i + " = ImageSource(" + "\"" 
-                            + wheelPath + name + ".png" + "\"" + ", pixel_type=" + "\""
+                            + fullPath + "\"" + ", pixel_type=" + "\""
                             + "RGB32" + "\"" + ").ShowAlpha(pixel_type=" + "\"" + "RGB32" + "\"" + ")" +
                             @".BilinearResize(" + options.ResizeWidth + @"," + options.ResizeHeight + ")";
                     }
@@ -124,20 +129,24 @@ namespace Hypermint.Base.Services
 
             lineArray[ii] = "Dissolve(" + stringBuilder.ToString();
 
-            if (!Directory.Exists(exportScriptPath))
-                Directory.CreateDirectory(exportScriptPath);
+            var system = systemName.Replace(' ', '_');
 
-            var scriptFile = systemName + ".avs";
-
+            if (!Directory.Exists(exportScriptPath + system))
+                Directory.CreateDirectory(exportScriptPath + system);
+            
+            var scriptFile = system + ".avs";
+            
             i = 1;
 
-            while (File.Exists(exportScriptPath + scriptFile))
+            while (File.Exists(exportScriptPath + system + "\\" + scriptFile))
             {
-                scriptFile = systemName + "(" + i + ")" + ".avs";
+                scriptFile = system + "(" + i + ")" + ".avs";                
                 i++;
             }
 
-            File.WriteAllLines(exportScriptPath + scriptFile, lineArray);
+            File.WriteAllLines(exportScriptPath + system + "\\" + scriptFile, lineArray);
+
+            return scriptFile.Replace(".avs","");
         }
 
         private string SetTrimName(int index, string audioDub)
