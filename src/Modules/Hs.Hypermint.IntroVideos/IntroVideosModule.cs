@@ -22,7 +22,9 @@ namespace Hs.Hypermint.IntroVideos
             UnityContainer.RegisterType<IAviSynthScripter, AviSynthScripter>();
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.IntroVideosView));
-            
+
+            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(Views.ProcessOptionsView));
+
         }
     }
 }

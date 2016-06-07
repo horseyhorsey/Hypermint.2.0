@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\gong-wpf-dragdrop.1.0.0-ALPHA013\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -69,6 +73,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -103,9 +108,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\AviSynthOverlayViewModel.cs" />
-    <Compile Include="ViewModels\AviSynthParamsViewModel.cs" />
     <Compile Include="ViewModels\IntroVideosViewModel.cs" />
+    <Compile Include="ViewModels\ProcessOptionsViewModel.cs" />
     <Compile Include="Views\AviSynthOverlayView.xaml.cs">
       <DependentUpon>AviSynthOverlayView.xaml</DependentUpon>
     </Compile>
@@ -117,6 +121,9 @@
     </Compile>
     <Compile Include="Views\IntroVideosView.xaml.cs">
       <DependentUpon>IntroVideosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProcessOptionsView.xaml.cs">
+      <DependentUpon>ProcessOptionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProcessVideosView.xaml.cs">
       <DependentUpon>ProcessVideosView.xaml</DependentUpon>
@@ -160,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\IntroVideosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProcessOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
