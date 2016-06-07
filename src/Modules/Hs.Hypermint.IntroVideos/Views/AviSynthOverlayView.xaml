@@ -4,30 +4,24 @@
              xmlns:prism="http://prismlibrary.com/"             
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              >
-    <GroupBox Header="Overlay" ToolTip="Overlay a wheel image onto the video output">
-        <!-- Overlay wheel images on video params-->
+    <StackPanel>
 
-        <StackPanel >
-            <StackPanel >
-                <CheckBox Content="Enabled" Margin="2" IsChecked="{Binding Overlay}"/>
-                <CheckBox Content="Resize" Margin="2" IsChecked="{Binding ResizeOverlay}" 
-                          IsEnabled="{Binding Overlay}" ToolTip="Resize the wheel image"/>
-            </StackPanel>
-            
-            <StackPanel IsEnabled="{Binding OverlayOn}" >
-                <Label Content="Pos X"></Label>
-                <metro:NumericUpDown Minimum="0" Maximum="2000" IsEnabled="{Binding Overlay}" Value="{Binding WheelPosX}"/>
-                <Label Content="Pos Y"></Label>
-                <metro:NumericUpDown Minimum="0" Maximum="2000" IsEnabled="{Binding Overlay}" Value="{Binding WheelPosY}"/>
+        <DockPanel Margin="5" MaxHeight="30">
+            <Label  Content="Pos X"/>
+            <metro:NumericUpDown Minimum="0" Maximum="2000" ToolTip="X Position of image"
+                                 IsEnabled="{Binding Overlay}" Value="{Binding WheelPosX}"/>
+            <Label Content="Pos Y"></Label>
+            <metro:NumericUpDown Minimum="0" Maximum="2000" ToolTip="Y Position of image"
+                                 IsEnabled="{Binding Overlay}" Value="{Binding WheelPosY}"/>
 
-                <StackPanel IsEnabled="{Binding ResizeOn}">
-                    <Label Content="Width"></Label>
-                    <metro:NumericUpDown Minimum="0" IsEnabled="{Binding ResizeOverlay}" Maximum="2000" Value="{Binding ResizeWidth}"/>
-                    <Label Content="Height"></Label>
-                    <metro:NumericUpDown Minimum="0" IsEnabled="{Binding ResizeOverlay}" Maximum="2000" Value="{Binding ResizeHeight}"/>
-                </StackPanel>
-            </StackPanel>
-            
-        </StackPanel>
-    </GroupBox>
+            <Label Content="Width"></Label>
+            <metro:NumericUpDown Minimum="0" ToolTip="Image width"
+                                 IsEnabled="{Binding ResizeOverlay}" Maximum="2000" Value="{Binding ResizeWidth}"/>
+            <Label Content="Height"></Label>
+            <metro:NumericUpDown Minimum="0" ToolTip="Image height"
+                                 IsEnabled="{Binding ResizeOverlay}" Maximum="2000" Value="{Binding ResizeHeight}"/>
+        </DockPanel>
+        
+    </StackPanel>
+    
 </UserControl>

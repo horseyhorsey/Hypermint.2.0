@@ -3,18 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"            
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
-    <GroupBox Header="Options">
-        <StackPanel>
-            <Label Content="Start" ToolTip="Number of frame to start from each video"></Label>
-            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding StartFrame,UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="End" ToolTip="Frame number to end on each video"></Label>
-            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding EndFrame}"/>
-            <Label Content="Dissolve" ToolTip="Frames to dissolve into each video"></Label>
-            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding DissolveAmount}"/>
-            <Label Content="Fade In" ToolTip="Output video fade in time (frames)"></Label>
-            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding FadeIn}"/>
-            <Label Content="Fade Out" ToolTip="Output video fade out time (frames)"></Label>
-            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding FadeOut}"/>
-        </StackPanel>
-    </GroupBox>
+    <StackPanel>
+        <DockPanel HorizontalAlignment="Left" MaxHeight="25" Margin="5" LastChildFill="False">
+        <Label Content="Start" Margin="9,0"/>
+        <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Frame number to start from each video"
+                             Value="{Binding StartFrame,UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="End" Margin="10,0"/>
+            <metro:NumericUpDown Minimum="1" Maximum="2000"
+                                 ToolTip="Frame number to end on each video" 
+                             Value="{Binding EndFrame}"/>
+                <Label Content="Overlay" ToolTip="Overlay a wheel image onto the video output" />
+            <CheckBox Content="Enabled" ToolTip="Overlay a wheel image onto the video output"  Margin="2" IsChecked="{Binding Overlay}"/>
+                <CheckBox Content="Resize" Margin="2" IsChecked="{Binding ResizeOverlay}" 
+                          IsEnabled="{Binding Overlay}" ToolTip="Resize the wheel image"/>
+            </DockPanel>
+        <DockPanel MaxHeight="25" Margin="5" LastChildFill="False">
+            <Label Content="Dissolve"/>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Frames to dissolve into each video" 
+                             Value="{Binding DissolveAmount}"/>
+            <Label Content="Fade In"/>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Output video fade in time (frames)" 
+                             Value="{Binding FadeIn}"/>
+            <Label Content="Fade Out"></Label>
+            <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Output video fade out time (frames)"
+                             Value="{Binding FadeOut}"/>
+        </DockPanel>
+    </StackPanel>
 </UserControl>
