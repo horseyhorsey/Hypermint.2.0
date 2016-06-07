@@ -6,7 +6,13 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
 
     <Grid>
-        <GroupBox Header="Videos available" Grid.Row="1">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="{Binding SelectedAvailableHeader}" Grid.Row="0">
             <!--List for videos-->
             <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" IsReadOnly="True"
                       BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="3"
@@ -21,7 +27,7 @@
                         </prism:InvokeCommandAction>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="File" Binding="{Binding FileName}"/>
                     <DataGridTextColumn Header="Dimensions" Binding="{Binding Format}"/>
@@ -30,5 +36,35 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
+        
+        <DockPanel VerticalAlignment="Top" Grid.Row="1">
+
+            <Label Margin="5" Content="Random"/>
+            <metro:NumericUpDown Minimum="1" 
+                                 Maximum="2000" Margin="2" Height="10" Value="{Binding RandomCount}"/>
+
+            <!--Grab random videos-->
+            <Button HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" 
+                    Command="{Binding RandomVideoCommand}"
+                    ToolTip="Grab random videos" Height="30" Width="30" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_shuffle}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <!--Send to process list-->
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" 
+                    Command="{Binding AddSelectedCommand}"
+                    ToolTip="Selected to process list" Height="30" Width="30" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="15" Height="15" 
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_arrow_right}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </DockPanel>
     </Grid>
 </UserControl>
