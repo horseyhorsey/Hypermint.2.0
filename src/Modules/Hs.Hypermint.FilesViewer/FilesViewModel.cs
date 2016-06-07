@@ -28,6 +28,7 @@ namespace Hs.Hypermint.FilesViewer
         public DelegateCommand SaveNewFileCommand { get; private set; }
         public DelegateCommand CloseDialogCommand { get; set; }
         public DelegateCommand CloseAllPendingFileDropCommand { get; set; }
+        public DelegateCommand RemoveFileCommand { get; private set; } 
 
         #region Properties
         private string selectedGameName = "Files for:";
@@ -175,7 +176,8 @@ namespace Hs.Hypermint.FilesViewer
         private bool cancelPending;
         #endregion
 
-        public FilesViewModel(IEventAggregator eventAggregator, IAuditerRl auditRl, IDialogCoordinator dialogService,
+        public FilesViewModel(IEventAggregator eventAggregator, 
+            IAuditerRl auditRl, IDialogCoordinator dialogService,
             ISelectedService selectedSrv,
             ISettingsRepo settings,
             IFolderExplore folderExplore,
@@ -241,6 +243,49 @@ namespace Hs.Hypermint.FilesViewer
 
             CardPositionsArray.CurrentChanged += CardPositionsArray_CurrentChanged;
 
+            RemoveFileCommand = new DelegateCommand(() =>
+            {
+                var currentFile = Files.CurrentItem as MediaFile;
+
+                if (currentFile != null)
+                {
+                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+
+                    var fileToMove = GetNewFileNameForTrash(currentFile);
+
+                    try
+                    {
+                        File.Move(currentFile.FullPath, fileToMove);
+
+                        UpdateMediaFiles(SelectedFolder);
+
+                        _eventAggregator.GetEvent<RefreshHsAuditEvent>().Publish("");
+                    }
+
+                    catch (Exception) { }
+
+                }
+            });
+
+        }
+
+        private string GetNewFileNameForTrash(MediaFile mediaFile)
+        {
+            var trashPath = @"trash\" + _selectedSrv.CurrentSystem + "\\rl\\"  + MediaType + "\\" + _romName + "\\";
+
+            if (!Directory.Exists(trashPath))
+                Directory.CreateDirectory(trashPath);
+
+            string newFileName = trashPath + mediaFile.Name + mediaFile.Extension;
+
+            int i = 1;
+            while (File.Exists(newFileName))
+            {
+                newFileName = trashPath + mediaFile.Name + i + mediaFile.Extension;
+                i++;
+            }
+
+            return newFileName;
         }
 
         private void CardPositionsArray_CurrentChanged(object sender, EventArgs e)

@@ -82,8 +82,33 @@
 
             <GroupBox Grid.Row="1" Grid.Column="1" Header="{Binding SelectedGameName}" >
                 <DataGrid Name="FilesDataGrid" ItemsSource="{Binding Files}" Background="Transparent"
- 
-                      CanUserAddRows="False" IsReadOnly="True">
+                    CanUserAddRows="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="X">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Grid.Row="5" Grid.Column="2"
+                                    ToolTip="Moves file to hypermint trash folder"
+                                    HorizontalAlignment="Left" Margin="3"
+                                    Command="{Binding ElementName=root, Path=DataContext.RemoveFileCommand}" 
+                                        CommandParameter="{Binding}"
+                                        VerticalAlignment="Bottom" 
+                                        Height="25" Width="25" 
+                                        Style="{DynamicResource AccentedSquareButtonStyle}">
+                                        <Rectangle Width="13" Height="15"
+                                            Fill="{Binding Path=Foreground, 
+                                            RelativeSource={RelativeSource FindAncestor,
+                                            AncestorType={x:Type Button}}}">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_delete}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
 
