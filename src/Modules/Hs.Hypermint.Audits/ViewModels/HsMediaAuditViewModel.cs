@@ -15,6 +15,7 @@ using Hypermint.Base.Events;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
+using System.Linq;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -132,7 +133,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             _dialogService = dialogService;
 
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(GamesUpdated);
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(GamesUpdated);            
 
             CurrentCellChanged = new DelegateCommand<object>(
                 selectedGameCell =>
@@ -198,9 +199,63 @@ namespace Hs.Hypermint.Audits.ViewModels
             // Run the auditer for hyperspin
             RunAuditCommand = new DelegateCommand(
                 async () => await RunScan());
+
+            _eventAggregator.GetEvent<HsAuditUpdateEvent>().Subscribe(a =>
+            {
+                var nameAndType = (string[])a;
+
+                UpdateAuditValuesAfterDrop(nameAndType);
+
+                AuditList.Refresh();
+            });
+                        
         }
 
         #endregion
+
+        private void UpdateAuditValuesAfterDrop(string[] romAndType)
+        {
+            var game = _auditer.AuditsGameList
+                .Where(x => x.RomName == romAndType[0]).Single();
+
+            if (game == null) return;
+
+            switch (romAndType[1])
+            {
+                case "Artwork1":
+                    game.HaveArt1 = true;
+                    break;
+                case "Artwork2":
+                    game.HaveArt2 = true;
+                    break;
+                case "Artwork3":
+                    game.HaveArt3 = true;
+                    break;
+                case "Artwork4":
+                    game.HaveArt4 = true;
+                    break;
+                case "Wheel":
+                    game.HaveWheel = true;
+                    break;
+                case "Videos":
+                    game.HaveVideo = true;
+                    break;
+                case "Theme":
+                    game.HaveTheme = true;
+                    break;
+                case "Backgrounds":
+                    game.HaveBackground = true;
+                    break;
+                case "MusicBg":
+                    game.HaveBGMusic = true;
+                    break;
+                case "SoundStart":
+                    game.HaveS_Start = true;
+                    break;
+                default:
+                    break;
+            }                        
+        }
 
         protected override void OnPropertyChanged(string propertyName = null)
         {
