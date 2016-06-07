@@ -1,4 +1,6 @@
-﻿using Hs.Hypermint.IntroVideos.Models;
+﻿using GongSolutions.Wpf.DragDrop;
+using Hs.Hypermint.IntroVideos.Models;
+using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
@@ -8,48 +10,131 @@ using Hypermint.Base.Services;
 using MediaToolkit.Model;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
+using System.Configuration;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
-    public class IntroVideosViewModel : ViewModelBase
+    public class IntroVideosViewModel : ViewModelBase, IDropTarget
     {
+        #region Properties      
 
-        public IntroVideosViewModel(IRegionManager manager, IFileFolderChecker fileChecker,
-            IEventAggregator ea, ISettingsRepo settings, IAviSynthScripter aviSythnScripter,
-            ISelectedService selected, IFolderExplore folderexplorer)
+        private string selectedAvailableHeader;
+        public string SelectedAvailableHeader
+        {
+            get { return selectedAvailableHeader; }
+            set { SetProperty(ref selectedAvailableHeader, value); }
+        }
+
+        private string selectedprocessHeader;
+        public string SelectedprocessHeader
+        {
+            get { return selectedprocessHeader; }
+            set { SetProperty(ref selectedprocessHeader, value); }
+        }
+
+        private int randomCount = 12;
+        public int RandomCount
+        {
+            get { return randomCount; }
+            set { SetProperty(ref randomCount, value); }
+        }
+
+        public int SelectedAvailableItemsCount { get; private set; }
+        public int SelectedprocessItemsCount { get; private set; }
+
+        private string videosAvailableHeader = "Videos Available";
+        public string VideosAvailableHeader
+        {
+            get { return videosAvailableHeader; }
+            set { SetProperty(ref videosAvailableHeader, value); }
+        }
+
+        public List<IntroVideo> SelectedAvailableVideos = new List<IntroVideo>();
+        public List<IntroVideo> SelectedProcessVideos = new List<IntroVideo>();
+
+        #region Collections
+        private ICollectionView videoList;
+        public ICollectionView VideoList
+        {
+            get { return videoList; }
+            set { SetProperty(ref videoList, value); }
+        }
+
+        private ICollectionView videoToProcessList;
+        public ICollectionView VideoToProcessList
+        {
+            get { return videoToProcessList; }
+            set { SetProperty(ref videoToProcessList, value); }
+        }
+
+        private List<IntroVideo> scannedVideos;
+        private List<IntroVideo> processVideos;
+        #endregion    
+
+        #endregion        
+
+        #region Services
+        private IRegionManager _regionManager;
+        private IEventAggregator _eventAggregator;
+        private IFileFolderChecker _fileFolderChecker;
+        private ISettingsRepo _settings;
+        private ISelectedService _selectedService;
+        #endregion
+
+        #region Commands
+        public DelegateCommand RandomVideoCommand { get; private set; }
+        public DelegateCommand<IList> SelectionAvailableChanged { get; set; }
+        public DelegateCommand<IList> SelectionProcessChanged { get; set; }
+        public DelegateCommand AddSelectedCommand { get; private set; }
+        public DelegateCommand<string> RemoveVideosCommand { get; private set; }
+        public DelegateCommand ScanFormatCommand { get; private set; }
+        #endregion
+
+
+        public IntroVideosViewModel(IRegionManager manager, 
+            IFileFolderChecker fileChecker,
+            IEventAggregator ea, ISettingsRepo settings,
+            ISelectedService selected)
         {
             _regionManager = manager;
             _fileFolderChecker = fileChecker;
             _eventAggregator = ea;
             _settings = settings;
-            _selectedService = selected;
-            _avisynthScripter = aviSythnScripter;
-            _folderExplorer = folderexplorer;
+            _selectedService = selected;                        
 
             processVideos = new List<IntroVideo>();
             scannedVideos = new List<IntroVideo>();
-            VideoToProcessList = new ListCollectionView(processVideos);
-
-            AviSynthOptions = new AviSynthOption();
+            VideoToProcessList = new ListCollectionView(processVideos);            
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(x => SystemChanged(x));
 
+            _eventAggregator.GetEvent<GetProcessVideosEvent>().Subscribe(x =>
+            {
+                if (processVideos.Count > 0)
+                {
+                    string[] vids = new string[processVideos.Count];
+                    for (int i = 0; i < processVideos.Count; i++)
+                    {
+                        vids[i] = processVideos[i].FileName;
+                    }
+
+                    _eventAggregator.GetEvent<ReturnProcessVideosEvent>()
+                    .Publish(vids);
+                }
+
+            });
+
             RandomVideoCommand = new DelegateCommand(GrabRandomVideos);
             AddSelectedCommand = new DelegateCommand(AddVideos);
-            ScanFormatCommand = new DelegateCommand(ScanFormat);
-            SaveScriptCommand = new DelegateCommand(SaveScript);
-            OpenExportFolderCommand = new DelegateCommand(() =>
-            {
-                _folderExplorer.OpenFolder("exports");
-            });
+            ScanFormatCommand = new DelegateCommand(ScanFormat);            
 
             try
             {
@@ -144,152 +229,31 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         }
 
-        public List<IntroVideo> SelectedAvailableVideos = new List<IntroVideo>();
-        public List<IntroVideo> SelectedProcessVideos = new List<IntroVideo>();
-
-        #region Services
-        private IRegionManager _regionManager;
-        private IEventAggregator _eventAggregator;
-        private IFileFolderChecker _fileFolderChecker;
-        private ISettingsRepo _settings;
-        private ISelectedService _selectedService;
-        private IAviSynthScripter _avisynthScripter;
-        private IFolderExplore _folderExplorer;
-        #endregion
-
-        #region Collections
-        private ICollectionView videoList;
-        public ICollectionView VideoList
+        public void DragOver(IDropInfo dropInfo)
         {
-            get { return videoList; }
-            set { SetProperty(ref videoList, value); }
+            var sourceItem = dropInfo.Data as IntroVideo;
+            var targetItem = dropInfo.TargetItem as IntroVideo;
+
+            if (sourceItem != null && targetItem != null)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                dropInfo.Effects = DragDropEffects.Copy;
+            }
+
         }
 
-        private ICollectionView videoToProcessList;
-        public ICollectionView VideoToProcessList
+        public void Drop(IDropInfo dropInfo)
         {
-            get { return videoToProcessList; }
-            set { SetProperty(ref videoToProcessList, value); }
-        }
+            var sourceItem = dropInfo.Data as IntroVideo;
+            var targetItem = dropInfo.TargetItem as IntroVideo;
 
-        private List<IntroVideo> scannedVideos;
-        private List<IntroVideo> processVideos;
-        #endregion
+            var AddInIndex = processVideos.IndexOf(targetItem);                        
 
-        #region Properties      
+            processVideos.Remove(sourceItem);
+            processVideos.Insert(AddInIndex, sourceItem);
 
-        private AviSynthOption aviSynthOptions;
-        public AviSynthOption AviSynthOptions
-        {
-            get { return aviSynthOptions; }
-            set { SetProperty(ref aviSynthOptions, value); }
+            VideoToProcessList = new ListCollectionView(processVideos);
         }
-
-        private string selectedAvailableHeader;
-        public string SelectedAvailableHeader
-        {
-            get { return selectedAvailableHeader; }
-            set { SetProperty(ref selectedAvailableHeader, value); }
-        }
-
-        private string selectedprocessHeader;
-        public string SelectedprocessHeader
-        {
-            get { return selectedprocessHeader; }
-            set { SetProperty(ref selectedprocessHeader, value); }
-        }
-
-        private int randomCount = 12;
-        public int RandomCount
-        {
-            get { return randomCount; }
-            set { SetProperty(ref randomCount, value); }
-        }
-
-        public int SelectedAvailableItemsCount { get; private set; }
-        public int SelectedprocessItemsCount { get; private set; }
-
-        #endregion
-
-        #region AviSynthProperties
-        private bool overlay;
-        public bool Overlay
-        {
-            get { return overlay; }
-            set { SetProperty(ref overlay, value); }
-        }
-        private bool resizeOverlay;
-        public bool ResizeOverlay
-        {
-            get { return resizeOverlay; }
-            set { SetProperty(ref resizeOverlay, value); }
-        }
-        private int startFrame = 60;
-        public int StartFrame
-        {
-            get { return startFrame; }
-            set { SetProperty(ref startFrame, value); }
-        }
-        private int endFrame = 300;
-        public int EndFrame
-        {
-            get { return endFrame; }
-            set { SetProperty(ref endFrame, value); }
-        }
-        private int dissolveAmount = 2;
-        public int DissolveAmount
-        {
-            get { return dissolveAmount; }
-            set { SetProperty(ref dissolveAmount, value); }
-        }
-        private int fadeIn = 2;
-        public int FadeIn
-        {
-            get { return fadeIn; }
-            set { SetProperty(ref fadeIn, value); }
-        }
-        private int fadeOut = 2;
-        public int FadeOut
-        {
-            get { return fadeOut; }
-            set { SetProperty(ref fadeOut, value); }
-        }
-        private int resizeWidth = 200;
-        public int ResizeWidth
-        {
-            get { return resizeWidth; }
-            set { SetProperty(ref resizeWidth, value); }
-        }
-        private int resizeHeight = 50;
-        public int ResizeHeight
-        {
-            get { return resizeHeight; }
-            set { SetProperty(ref resizeHeight, value); }
-        }
-        private int wheelPosX = 3;
-        public int WheelPosX
-        {
-            get { return wheelPosX; }
-            set { SetProperty(ref wheelPosX, value); }
-        }
-        private int wheelPosY = 420;        
-        public int WheelPosY
-        {
-            get { return wheelPosY; }
-            set { SetProperty(ref wheelPosY, value); }
-        }
-        #endregion
-
-        #region Commands
-        public DelegateCommand RandomVideoCommand { get; private set; }
-        public DelegateCommand<IList> SelectionAvailableChanged { get; set; }
-        public DelegateCommand<IList> SelectionProcessChanged { get; set; }        
-        public DelegateCommand AddSelectedCommand { get; private set; }
-        public DelegateCommand<string> RemoveVideosCommand { get; private set; }
-        public DelegateCommand ScanFormatCommand { get; private set; }
-        public DelegateCommand SaveScriptCommand { get; private set; }
-        public DelegateCommand OpenExportFolderCommand { get; private set; }
-        #endregion
 
         #region Methods
 
@@ -334,6 +298,8 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
                 }
 
                 VideoList = new ListCollectionView(scannedVideos);
+
+                VideosAvailableHeader = "Videos Available: " + scannedVideos.Count;
             }
             catch (Exception)
             {
@@ -431,37 +397,6 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
             VideoList.Refresh();
             VideoToProcessList.Refresh();
-        }
-
-        private void SaveScript()
-        {
-            if (processVideos.Count < 2) return;            
-
-            aviSynthOptions = new AviSynthOption()
-            {
-               DissolveAmount = DissolveAmount,
-               StartFrame = StartFrame,
-               EndFrame = EndFrame,
-               FadeIn = FadeIn,
-               FadeOut = FadeOut,
-               ResizeHeight = ResizeHeight,
-               ResizeWidth = ResizeWidth,
-               WheelPosX = WheelPosX,
-               WheelPosY = WheelPosY,              
-                };
-
-            string[] videos = new string[processVideos.Count];
-            var i = 0;
-            foreach (var video in processVideos)
-            {
-                videos[i] = video.FileName;
-                i++;
-            }
-
-            var wheelPath = _settings.HypermintSettings.HsPath + "\\Media\\" + _selectedService.CurrentSystem + "\\" +
-                Images.Wheels + "\\";
-
-            _avisynthScripter.CreateScript(videos, aviSynthOptions, _selectedService.CurrentSystem, Overlay,ResizeOverlay, wheelPath);
         }
 
         private void ScanFormat()
