@@ -66,6 +66,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         private string mediaTypeName = "Controls";
         private IImageEditService _imageEdit;
         private IRegionManager _regionManager;
+        private IFolderExplore _folderExplore;
 
         public string MediaTypeName
         {
@@ -75,8 +76,13 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         #endregion        
 
+        public DelegateCommand RemoveFileCommand { get; private set; }
+        public DelegateCommand OpenFolderCommand { get; private set; }
+        public DelegateCommand OpenTrashFolderCommand { get; private set; } 
+
         public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings,
             IAuditer auditRepo, IRegionManager regionManager,
+            IFolderExplore folderExplore,
             ISelectedService selectedService, IImageEditService imageEdit)
         {
             _eventAggregator = ea;
@@ -85,6 +91,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             _selectedService = selectedService;
             _imageEdit = imageEdit;
             _regionManager = regionManager;
+            _folderExplore = folderExplore;
 
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe((x) =>
             {
@@ -112,6 +119,67 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             });
 
             //_eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Subscribe(BuildUnusedMediaList);
+
+            RemoveFileCommand = new DelegateCommand(() =>
+            {
+                var currentFile = FilesForGame.CurrentItem as MediaFile;
+
+                if (currentFile != null)
+                {
+                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+
+                    var fileToMove = GetNewFileNameForTrash(currentFile);
+
+                    try
+                    {
+                        File.Move(currentFile.FileName, fileToMove);
+
+                        SetCurrentName(new string[] { _selectedService.CurrentRomname, columnHeader });
+
+                        _eventAggregator.GetEvent<RefreshHsAuditEvent>().Publish("");
+                    }
+                    
+                    catch (Exception) { }
+
+                }
+            });
+
+            OpenFolderCommand = new DelegateCommand(() =>
+            {
+                string hsMediaPath = GetHsMediaPathDirectory(
+                    _settingsRepo.HypermintSettings.HsPath,
+                    _selectedService.CurrentSystem,
+                     columnHeader);
+
+                _folderExplore.OpenFolder(hsMediaPath);
+            });
+
+            OpenTrashFolderCommand = new DelegateCommand(() =>
+            {
+                
+                var trashPath = @"trash\" + _selectedService.CurrentSystem + "\\hs\\" + columnHeader + "\\";
+
+                _folderExplore.OpenFolder(trashPath);
+            });
+        }
+
+        private string GetNewFileNameForTrash(MediaFile mediaFile)
+        {
+            var trashPath = @"trash\" + _selectedService.CurrentSystem + "\\hs\\" + columnHeader + "\\";
+
+            if (!Directory.Exists(trashPath))
+                Directory.CreateDirectory(trashPath);
+
+            string newFileName = trashPath + mediaFile.Name + mediaFile.Extension;
+
+            int i = 1;
+            while (File.Exists(newFileName))
+            {
+                newFileName = trashPath + mediaFile.Name + i + mediaFile.Extension;
+                i++;
+            }
+
+            return newFileName;
         }
 
         #region Methods
@@ -225,53 +293,69 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             switch (romAndColumn[1])
             {
                 case "Wheel":
-                    GetHyperspinFilesForGame(Images.Wheels, rom + "*.*");
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveWheel =
+                        GetHyperspinFilesForGame(Images.Wheels, rom + "*.*");
                     break;
                 case "Artwork1":
                     GetHyperspinFilesForGame(Images.Artwork1, rom + "*.*");
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveArt1 =
+                        GetHyperspinFilesForGame(Images.Artwork1, rom + "*.*");
                     break;
-                case "Artwork2":
-                    GetHyperspinFilesForGame(Images.Artwork2, rom + "*.*");
+                case "Artwork2":                    
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveArt2 =
+                        GetHyperspinFilesForGame(Images.Artwork2, rom + "*.*");
                     break;
                 case "Artwork3":
-                    GetHyperspinFilesForGame(Images.Artwork3, rom + "*.*");
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveArt3 =
+                        GetHyperspinFilesForGame(Images.Artwork3, rom + "*.*");
                     break;
-                case "Artwork4":
-                    GetHyperspinFilesForGame(Images.Artwork4, rom + "*.*");
+                case "Artwork4":                    
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveArt4 =
+                        GetHyperspinFilesForGame(Images.Artwork4, rom + "*.*");
                     break;
                 case "Theme":
-                    GetHyperspinFilesForGame(Root.Themes, rom + "*.*");
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveTheme =
+                        GetHyperspinFilesForGame(Root.Themes, rom + "*.*");                    
                     break;
-                case "Videos":
-                    GetHyperspinFilesForGame(Root.Video, rom + "*.*");
+                case "Videos":                    
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveVideo =
+                        GetHyperspinFilesForGame(Root.Video, rom + "*.*");
                     break;
                 case "Backgrounds":
-                    GetHyperspinFilesForGame(Images.Backgrounds, rom + "*.*");
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveBackground =                        
+                        GetHyperspinFilesForGame(Images.Backgrounds, rom + "*.*");
                     break;
                 case "MusicBg":
-                    GetHyperspinFilesForGame(Sound.BackgroundMusic, rom + "*.*");
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveBGMusic =
+                        GetHyperspinFilesForGame(Sound.BackgroundMusic, rom + "*.*");
                     break;
                 case "Letters":
-                    GetHyperspinFilesForMenu(Images.Letters);
+                    _auditRepo.AuditsMenuList.Where(x => x.RomName == rom).Single().HaveLetters =
+                        GetHyperspinFilesForMenu(Images.Letters);
                     break;
                 case "GenreBg":
+                    _auditRepo.AuditsMenuList.Where(x => x.RomName == rom).Single().HaveGenreBG =
                     GetHyperspinFilesForMenu(Images.GenreBackgrounds);
                     break;
                 case "GenreWheel":
+                    _auditRepo.AuditsMenuList.Where(x => x.RomName == rom).Single().HaveGenreWheel =
                     GetHyperspinFilesForMenu(Images.GenreWheel);
                     break;
                 case "Wheel Sounds":
+                    _auditRepo.AuditsMenuList.Where(x => x.RomName == rom).Single().HaveS_Wheel =
                     GetHyperspinFilesForMenu(Sound.WheelSounds);
                     break;
                 case "Pointer":
+                    _auditRepo.AuditsMenuList.Where(x => x.RomName == rom).Single().HavePointer =
                     GetHyperspinFilesForMenu(Images.Pointer);
                     break;
                 case "Special":
+                    _auditRepo.AuditsMenuList.Where(x => x.RomName == rom).Single().HaveSpecial =
                     GetHyperspinFilesForMenu(Images.Special);
                     break;
                 default:
                     break;
-            }
+            }            
 
             GroupBoxHeader = "Hyperspin files for: " + columnHeader;
         }
@@ -307,7 +391,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         }
 
-        private void GetHyperspinFilesForGame(string mediaPath, string filter = "*.*")
+        private bool GetHyperspinFilesForGame(string mediaPath, string filter = "*.*")
         {
             var mainMenu = _selectedService.CurrentSystem.ToLower().Contains("main menu");
             string selected = "";
@@ -327,7 +411,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                     FileName = Path.GetFullPath(item),
                     Extension = Path.GetExtension(item)
                 });
-            }
+            }            
 
             FilesForGame = new ListCollectionView(mediaFiles);
 
@@ -335,9 +419,14 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
             FilesForGame.MoveCurrentToLast();
 
+            if (mediaFiles.Count == 0)
+                return false;
+            else
+                return true;
+
         }
 
-        private void GetHyperspinFilesForMenu(string mediaPath, string filter = "*.*")
+        private bool GetHyperspinFilesForMenu(string mediaPath, string filter = "*.*")
         {
             FilesForGame = null;
 
@@ -363,6 +452,11 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             FilesForGame = new ListCollectionView(mediaFiles);
 
             FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;
+
+            if (mediaFiles.Count == 0)
+                return false;
+            else
+                return true;
 
         }
 
