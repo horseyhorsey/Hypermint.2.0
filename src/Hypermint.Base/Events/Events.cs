@@ -20,6 +20,10 @@ namespace Hypermint.Base
 
     public class RlFilesDroppedEvent : PubSubEvent<string[]> { }
 
+    public class GetProcessVideosEvent : PubSubEvent<string> { }
+
+    public class ReturnProcessVideosEvent : PubSubEvent<object> { }    
+
     public class ImageEditSourceEvent : PubSubEvent<string> { }
 
     public class SetBezelImagesEvent : PubSubEvent<string> { }
