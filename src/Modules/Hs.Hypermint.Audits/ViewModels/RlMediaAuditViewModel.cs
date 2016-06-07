@@ -2,6 +2,7 @@
 using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
+using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using MahApps.Metro.Controls.Dialogs;
@@ -11,7 +12,9 @@ using Prism.Regions;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -117,7 +120,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             PauseMediaScanCommand = new DelegateCommand(ScanPauseMedia);
             FadeScanCommand = new DelegateCommand(ScanFadeLayers);
 
-            _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
+            _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);            
 
             LaunchRlMode = new DelegateCommand<string>((x) =>
             {
@@ -135,6 +138,71 @@ namespace Hs.Hypermint.Audits.ViewModels
                     _eventAggregator.GetEvent<RequestOpenFolderEvent>().Publish(path);
             });
 
+            _eventAggregator.GetEvent<RlAuditUpdateEvent>().Subscribe(FilesDroppedEventHandler);
+
+        }
+
+        private void FilesDroppedEventHandler(object x)
+        {
+            var values = (string[])x;
+
+            var game = _rocketAuditer.RlAudits
+                .Where(r => r.RomName == values[0]).Single();
+
+            if (game == null) return;
+
+            switch (values[1])
+            {
+                case "Artwork":
+                    game.HaveArtwork = true;
+                    break;
+                case "Controller":
+                    game.HaveController = true;
+                    break;
+                case "Guides":
+                    game.HaveGuide = true;
+                    break;
+                case "Manuals":
+                    game.HaveManual = true;
+                    break;
+                case "Screenshots":
+                    game.HaveScreenshots = true;
+                    break;
+                case "Music":
+                    game.HaveMusic = true;
+                    break;
+                case "SavedGame":
+                    game.HaveSaves = true;
+                    break;
+                case "Videos":
+                    game.HaveVideo = true;
+                    break;
+                case "Bezel":
+                    game.HaveBezels = true;
+                    break;
+                case "BezelBg":
+                    game.HaveBezelBg = true;
+                    break;
+                case "Cards":
+                    game.HaveCards = true;
+                    break;
+                case "Layer 1":
+                    game.HaveFadeLayer1 = true;
+                    break;
+                case "Layer 2":
+                    game.HaveFadeLayer2 = true;
+                    break;
+                case "Layer 3":
+                    game.HaveFadeLayer3 = true;
+                    break;
+                case "Extra Layer 1":
+                    game.HaveExtraLayer1 = true;
+                    break;
+                default:
+                    break;
+            }
+
+            AuditList.Refresh();
         }
 
         private void CurrenCellChanged(object selectedGameCell)
@@ -260,29 +328,30 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                     if (_gameRepo.GamesList != null)
                     {
-                        _rocketAuditer.RlAudits.Clear();
-                        _rocketAuditer.RlAuditsDefault.Clear();
+                            _rocketAuditer.RlAudits.Clear();
+                            _rocketAuditer.RlAuditsDefault.Clear();
 
-                        _rocketAuditer.RlAuditsDefault.Add(new RocketLaunchAudit()
-                        {
-                            RomName = "_Default",
-                            Description = ""
-                        });
-
-                        foreach (var game in _gameRepo.GamesList)
-                        {
-                            _rocketAuditer.RlAudits.Add(new RocketLaunchAudit
+                            _rocketAuditer.RlAuditsDefault.Add(new RocketLaunchAudit()
                             {
-                                RomName = game.RomName,
-                                Description = game.Description,
-
+                                RomName = "_Default",
+                                Description = ""
                             });
-                        }
 
-                        _rocketAuditer.ScanRocketLaunchMedia(systemName, _settingsRepo.HypermintSettings.RlMediaPath);
+                            foreach (var game in _gameRepo.GamesList)
+                            {
+                                _rocketAuditer.RlAudits.Add(new RocketLaunchAudit
+                                {
+                                    RomName = game.RomName,
+                                    Description = game.Description,
 
-                        AuditListDefaults = new ListCollectionView(_rocketAuditer.RlAuditsDefault);
-                        AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
+                                });
+                            }
+
+                            _rocketAuditer.ScanRocketLaunchMedia(systemName, _settingsRepo.HypermintSettings.RlMediaPath);
+
+                            AuditListDefaults = new ListCollectionView(_rocketAuditer.RlAuditsDefault);
+                            AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
+                        
                     }
                 }
             }
