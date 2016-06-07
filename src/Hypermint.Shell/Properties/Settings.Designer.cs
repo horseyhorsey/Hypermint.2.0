@@ -25,18 +25,6 @@ namespace Hypermint.Shell.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string GuiColor {
-            get {
-                return ((string)(this["GuiColor"]));
-            }
-            set {
-                this["GuiColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool GuiTheme {
             get {
@@ -49,73 +37,13 @@ namespace Hypermint.Shell.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("asdasdasd")]
-        public string HsPath {
-            get {
-                return ((string)(this["HsPath"]));
-            }
-            set {
-                this["HsPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RlPath {
+        public string GuiColor {
             get {
-                return ((string)(this["RlPath"]));
+                return ((string)(this["GuiColor"]));
             }
             set {
-                this["RlPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RlParams {
-            get {
-                return ((string)(this["RlParams"]));
-            }
-            set {
-                this["RlParams"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RlMediaPath {
-            get {
-                return ((string)(this["RlMediaPath"]));
-            }
-            set {
-                this["RlMediaPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ImPath {
-            get {
-                return ((string)(this["ImPath"]));
-            }
-            set {
-                this["ImPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RlAuthor {
-            get {
-                return ((string)(this["RlAuthor"]));
-            }
-            set {
-                this["RlAuthor"] = value;
+                this["GuiColor"] = value;
             }
         }
     }

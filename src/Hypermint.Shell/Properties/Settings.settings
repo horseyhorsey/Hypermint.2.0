@@ -2,28 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Hypermint.Shell.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="GuiColor" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="GuiTheme" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="HsPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">asdasdasd</Value>
-    </Setting>
-    <Setting Name="RlPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="RlParams" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="RlMediaPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ImPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="RlAuthor" Type="System.String" Scope="User">
+    <Setting Name="GuiColor" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
