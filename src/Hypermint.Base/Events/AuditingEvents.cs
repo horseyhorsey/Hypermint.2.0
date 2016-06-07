@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using System;
+using Prism.Events;
 
 namespace Hypermint.Base.Events
 {
@@ -7,5 +8,10 @@ namespace Hypermint.Base.Events
     public class AuditMediaTypeEvent : PubSubEvent<string> { }
 
     public class AuditHyperSpinEndEvent : PubSubEvent<string> { }
-    
+
+    public class HsAuditUpdateEvent : PubSubEvent<object> { }
+
+    public class RlAuditUpdateEvent : PubSubEvent<object> { }
+
+
 }
