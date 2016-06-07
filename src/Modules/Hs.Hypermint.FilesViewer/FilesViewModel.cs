@@ -245,6 +245,8 @@ namespace Hs.Hypermint.FilesViewer
 
         private void CardPositionsArray_CurrentChanged(object sender, EventArgs e)
         {
+            if (MediaType != "Cards") return;
+
             if (CardPositionsArray != null)
                 FileNameToSave =
                     RlStaticMethods
@@ -314,7 +316,11 @@ namespace Hs.Hypermint.FilesViewer
                 if (Files.CurrentItem == null)
                     _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
                 else
+                {
+                    _eventAggregator.GetEvent<RlAuditUpdateEvent>().Publish(new string[] { _romName, MediaType });
+
                     Files_CurrentChanged(null, null);
+                }
             }
 
         }
