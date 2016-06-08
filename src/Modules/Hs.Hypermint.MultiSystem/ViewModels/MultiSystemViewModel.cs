@@ -76,7 +76,14 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { SetProperty(ref defaultTheme, value); }
         }
 
-        private bool createSymbolicLinks;
+        private bool copyMedia;
+        public bool CopyMedia
+        {
+            get { return copyMedia; }
+            set { SetProperty(ref copyMedia, value); }
+        }
+
+        private bool createSymbolicLinks = true;
         public bool CreateSymbolicLinks
         {
             get { return createSymbolicLinks; }
@@ -381,7 +388,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 return;
             }
 
-
             // Add the new system to the main menu if it doesn't already exist
             // then serialize.
             bool nameExists = false;
@@ -420,7 +426,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             CreateMediaDirectorysForNewSystem(hsPath);
 
-            if (CreateSymbolicLinks)
+            if (CopyMedia)
                 GenerateMediaItems(hsPath);
 
             if (CreateRomMap)
@@ -447,19 +453,17 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         }
 
         private void GenerateMediaItems(string hsPath)
-        {
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
+        {            
             foreach (var game in _multiSystemRepo.MultiSystemList)
             {
-                CreateSymbolicArtworks(ref hsPath, game);
-                CreateSymbolicTheme(ref hsPath, game);
-                CreateSymbolicVideos(ref hsPath, game);
-                CreateSymbolicWheels(ref hsPath, game);
+                CopyArtworks(ref hsPath, game);
+                CopyThemes(ref hsPath, game);
+                CopyVideos(ref hsPath, game);
+                CopyWheels(ref hsPath, game);
             }
         }
 
-        private void CreateSymbolicVideos(ref string hsPath, Game game)
+        private void CopyVideos(ref string hsPath, Game game)
         {
             var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Video, game.RomName + ".mp4");
             var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Video, game.RomName + ".mp4");
@@ -478,11 +482,14 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             if (File.Exists(FileToLink))
             {
-                SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+                if (CreateSymbolicLinks)
+                    SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+                else
+                    File.Copy(FileToLink, tempSymlinkFile, true);
             }
         }
 
-        private void CreateSymbolicArtworks(ref string hsPath, Game game)
+        private void CopyArtworks(ref string hsPath, Game game)
         {
             for (int i = 1; i < 5; i++)
             {
@@ -492,25 +499,31 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 if (!File.Exists(tempSymlinkFile))
                 {
                     if (File.Exists(FileToLink))
-                        SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+                    {
+                        if (CreateSymbolicLinks)
+                            SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+                        else
+                            File.Copy(FileToLink, tempSymlinkFile, true);
+                    }
                 }
             }
         }
 
-        private void CreateSymbolicWheels(ref string hsPath, Game game)
+        private void CopyWheels(ref string hsPath, Game game)
         {
             var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Images.Wheels, game.RomName + ".png");
             var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Images.Wheels, game.RomName + ".png");
 
-            if (!File.Exists(tempSymlinkFile))
+            if (File.Exists(FileToLink))
             {
-                if (File.Exists(FileToLink))
-
+                if (CreateSymbolicLinks)
                     SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+                else
+                    File.Copy(FileToLink, tempSymlinkFile, true);
             }
         }
 
-        private void CreateSymbolicTheme(ref string hsPath, Game game)
+        private void CopyThemes(ref string hsPath, Game game)
         {
             var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Themes, game.RomName + ".zip");
             var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Themes, game.RomName + ".zip");
@@ -524,7 +537,10 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 }
             }
 
-            SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+            if (CreateSymbolicLinks)
+                SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
+            else
+                File.Copy(FileToLink, tempSymlinkFile, true);
         }
 
         private void CreateMediaDirectorysForNewSystem(string hsPath)

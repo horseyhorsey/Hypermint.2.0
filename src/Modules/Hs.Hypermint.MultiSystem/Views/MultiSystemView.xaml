@@ -128,12 +128,14 @@
             <DockPanel Grid.Row="2">
                 <!--Toggle Switches-->
                 <DockPanel>
-                    <metro:ToggleSwitch Header="Create links" OnLabel="Yes"
-                                        IsChecked="{Binding CreateSymbolicLinks}" OffLabel="No" Width="90" Margin="5"
-                                        ToolTip="Create symbolic links for media. (Run app as administrator"/>
+                    <metro:ToggleSwitch Header="Copy media" OnLabel="Yes"
+                                        IsChecked="{Binding CopyMedia}"
+                                        OffLabel="No" Width="90" Margin="5"
+                                        ToolTip="Find &amp; copy media"/>
+                    
                     <metro:ToggleSwitch Width="90" Header="Theme" OnLabel="Yes" OffLabel="No" Margin="5"
                   ToolTip="If a theme.zip doesn't exist for a game, copy the systems default.zip theme in place, so you have a theme for each game"                   
-                  IsChecked="{Binding DefaultTheme}" IsEnabled="{Binding CreateSymbolicLinks}"/>
+                  IsChecked="{Binding DefaultTheme}" IsEnabled="{Binding CopyMedia}"/>
                     <metro:ToggleSwitch Header="Rom Map" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
                   ToolTip="Creates a Games.ini for Rocketlauncher rom mapping."
                   IsChecked="{Binding CreateRomMap}"/>
@@ -142,6 +144,10 @@
                                         ToolTip="Create genre lists for this system."
                   IsChecked="{Binding CreateGenres}"/>
 
+                    <CheckBox Content="Copy media as links" IsEnabled="{Binding CopyMedia}"
+                              IsChecked="{Binding CreateSymbolicLinks}"
+                              ToolTip="Create symbolic links for media. (Run as admin). Disable to just copy found media"
+                              VerticalAlignment="Bottom" Height="20" Margin="5"/>
                     <!--Build Multi System-->
                     <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3"
                             Command="{Binding BuildMultiSystemCommand}"
