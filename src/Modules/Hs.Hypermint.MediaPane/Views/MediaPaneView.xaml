@@ -6,6 +6,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Hs.Hypermint.MediaPane.Controls"
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:ns="clr-namespace:Hs.Hypermint.MediaPane.ViewModels"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid x:Name="root">
         <GroupBox Header="{Binding MediaPaneHeader}">
@@ -45,47 +46,47 @@
 
                     <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left">
 
-                    <Button PreviewMouseDown="PlayButtonMouseDown"
+                        <Button PreviewMouseDown="PlayButtonMouseDown"
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" 
                                 Style="{DynamicResource MetroCircleButtonStyle}"                                
                                 CommandParameter="back"                            
                                 Height="35" Width="35">
-                        <Rectangle Width="12" Height="12"
+                            <Rectangle Width="12" Height="12"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
 
-                    <Button  PreviewMouseDown="PauseButtonMouseDown"
+                        <Button  PreviewMouseDown="PauseButtonMouseDown"
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" 
                                 Style="{DynamicResource MetroCircleButtonStyle}"                                
                                 CommandParameter="back"                            
                                 Height="35" Width="35">
-                        <Rectangle Width="12" Height="12"
+                            <Rectangle Width="12" Height="12"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_pause}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>                    
-                    
-                    <Button PreviewMouseDown="StopButtonMouseDown"
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_pause}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+
+                        <Button PreviewMouseDown="StopButtonMouseDown"
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Top" 
                                 Style="{DynamicResource MetroCircleButtonStyle}"                                
                                 CommandParameter="back"                            
                                 Height="35" Width="35">
-                        <Rectangle Width="12" Height="12"
+                            <Rectangle Width="12" Height="12"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_stop}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_stop}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
                     </DockPanel>
 
                     <!-- Volume slider. This slider allows a Volume range between 0 and 1. -->
@@ -105,11 +106,11 @@
                             Thumb.DragCompleted="timelineSlider_SeekCompleted"
                             ValueChanged="timelineSlider_ValueChanged"
                             Width="120" VerticalAlignment="Center" />
-                    
+
                     <TextBlock x:Name="media_wheelTime" TextWrapping="Wrap" Width="108" VerticalAlignment="Center"/>
-                    
+
                 </StackPanel>
-                
+
                 <!--ImageCOntrols-->
                 <StackPanel HorizontalAlignment="Left" Grid.Row="1" MaxHeight="45"
                         Visibility="{Binding ElementName=root,
@@ -131,9 +132,9 @@
                             </Rectangle>
                         </Button>
                     </DockPanel>
-                    
+
                 </StackPanel>
-                
+
                 <!--TextBOXViewer-->
                 <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10" Grid.RowSpan="2"
                                      Text="{Binding TextSource}" 
@@ -145,6 +146,12 @@
                         <toolkit:PlainTextFormatter />
                     </toolkit:RichTextBox.TextFormatter>
                 </toolkit:RichTextBox>
+
+                <WebBrowser Grid.RowSpan="2"
+                            ns:WebBrowserUtility.BindableSource="{Binding SwfFileSource}"
+                            Visibility="{Binding ElementName=root,
+                            Path=DataContext.IsSwfSource,UpdateSourceTrigger=PropertyChanged,
+                            Converter={StaticResource BoolToVisConverter}}"/>
 
                 <!--PDF CONTROLS-->
                 <DockPanel Grid.Row="1"
@@ -211,7 +218,8 @@
                 </DockPanel>
 
                 <!--Context right click menu-->
-                <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"--><!--
+                <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
+                <!--
                             <ComboBox></ComboBox>
                         </MenuItem>
                         <MenuItem Header="Preset job" IsEnabled="True">

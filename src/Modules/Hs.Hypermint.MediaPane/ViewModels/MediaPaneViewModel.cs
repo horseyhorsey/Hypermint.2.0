@@ -45,6 +45,13 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             set { SetProperty(ref isTextSource, value); }
         }
 
+        private bool isSwfSource = false;
+        public bool IsSwfSource
+        {
+            get { return isSwfSource; }
+            set { SetProperty(ref isSwfSource, value); }
+        }        
+
         private bool isImageSource = false;
         public bool IsImageSource
         {
@@ -85,6 +92,13 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             get { return mediaPaneHeader; }
             set { SetProperty(ref mediaPaneHeader, value); }
+        }
+
+        private string swfFileSource;
+        public string SwfFileSource
+        {
+            get { return swfFileSource; }
+            set { SetProperty(ref swfFileSource, value); }
         }
 
         public string currentImagePath { get; set; }
@@ -394,10 +408,12 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             IsTextSource = false;
             IsPdf = false;
+            IsSwfSource = false;
             IsVideoSource = false;
             IsImageSource = false;
             WheelSource = null;
             VideoSource = null;
+            SwfFileSource = null;
 
             MediaPaneHeader = "Media View | ";
 
@@ -433,6 +449,10 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                     CurrentPage = 1;
                     SetPdfPageCount(file);
                     SetPdfImage(file);
+                    break;
+                case ".swf":
+                    IsSwfSource = true;
+                    SwfFileSource = file;
                     break;
                 default:
                     MediaPaneHeader = "Media View | " + file;
