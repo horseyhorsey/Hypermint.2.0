@@ -61,11 +61,14 @@ namespace Hs.Hypermint.Services
 
                 else
                 {
-                    finalImage = ResizeImageEdit(imgIn, new Size(preset.Width, preset.Height));
+                    finalImage = null;
                 }
 
                 try
                 {
+                    if (finalImage == null)
+                        finalImage = imgIn;
+
                     if (isPng)
                         finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Png);
                     else
