@@ -613,37 +613,60 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                     case "Artwork4":
                     case "Backgrounds":
                     case "Videos":
-                    case "Letters":
-                    case "Special":
+                    case "Letters":                    
                     case "GenreBg":
                     case "Pointer":
-                    case "GenreWheel":
-                    case "Wheel Sounds":
-                    case "Sound Click":
+                    case "GenreWheel":                                        
                         wheel_drop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
                         break;
                     case "Theme":
                         ThemeDrop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
                         break;
+                    case "Special":
+                    case "Wheel Sounds":
+                    case "Sound Click":
+                        FileDrop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
+                        break;
                     default:
                         break;
                 }
-
-                //if (selectedColumn == "Wheel" || selectedColumn == "Artwork1" || selectedColumn == "Artwork2"
-                //    || selectedColumn == "Artwork3" || selectedColumn == "Artwork4" || selectedColumn == "Video"
-                //    || selectedColumn == "Background")
-                //{
-                //    wheel_drop(filelist[i], filename3, game, selectedColumn);
-                //}
-                //else if (selectedColumn == "Theme")
-                //{
-                //    theme_drop(filelist[i], filename3, game, selectedColumn);
-                //}
-                //else if (selectedColumn == "BG-Music")
-                //{
-                //    audio_drop(filelist[i], filename3, game, selectedColumn);
-                //}
             }
+        }
+
+        private void FileDrop(string file, string selectedColumn, string romName)
+        {
+            string ext = Path.GetExtension(file);
+            string path = Path.GetDirectoryName(file);
+
+            string name = _selectedService.CurrentSystem;
+
+            if (_selectedService.IsMainMenu())
+                name = _selectedService.CurrentRomname;
+
+            string hsMediaPath = GetHsMediaPathDirectory(
+                _settingsRepo.HypermintSettings.HsPath,
+                 name,
+                 columnHeader);
+
+            if (string.IsNullOrWhiteSpace(hsMediaPath)) return;            
+
+            if (!Directory.Exists(hsMediaPath))
+            {
+                Directory.CreateDirectory(hsMediaPath);
+            }
+
+
+            name = Path.GetFileNameWithoutExtension(file);
+            string fullPath = Path.Combine(hsMediaPath, name + ext);
+
+            int i = 0;
+            while (File.Exists(fullPath))
+            {
+                fullPath = Path.Combine(hsMediaPath, name + " " + i + ext);
+                i++;
+            }
+
+            File.Copy(file, fullPath);
         }
 
         private void wheel_drop(string file, string selectedColumn, string romName)
