@@ -83,11 +83,12 @@ namespace Hs.Hypermint.NavBar.ViewModels
             });
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
+            
         }
 
         private void SetToDbView(string systemName)
         {
-            _systemName = systemName;
+            _systemName = systemName;            
 
             NavigateMediaPane("MediaPaneView");
 
@@ -95,22 +96,25 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 _selectedService.IsMultiSystem = true;
             else
                 _selectedService.IsMultiSystem = false;
-
+            
             if (systemName.ToLower().Contains("main menu") || _selectedService.IsMultiSystem)
             {
-                IsRlEnabled = false;
-                IsNotMainMenu = false;
-
+                // Disable RL audit, main menu & multisystem
+                IsRlEnabled = false;                
 
                 if (!_selectedService.IsMultiSystem)
                 {
+                    IsNotMainMenu = false;
                     IsMainMenu = true;
                     _regionManager.RequestNavigate("ContentRegion", "SearchView");
-                }                    
+                    RemoveAllFilesRegionViews();
+                }
                 else
+                {
+                    IsNotMainMenu = true;
+                    IsMainMenu = false;
                     _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
-
-                RemoveAllFilesRegionViews();
+                }            
             }
             else
             {
@@ -141,6 +145,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     {
                         CurrentView += "Search view";
                         _regionManager.RequestNavigate("ContentRegion", "SearchView");
+                        RemoveAllFilesRegionViews();
                     }
                     else
                     {
