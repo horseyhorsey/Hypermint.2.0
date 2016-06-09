@@ -9,40 +9,8 @@
     <Grid x:Name="root">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-            <StackPanel>
-            <DockPanel>
-                <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="6"
-                    Command="{Binding OpenFolderCommand}"
-                    ToolTip="Open media folder for this coloumn." Height="25" Width="25"
-                    Style="{DynamicResource AccentedSquareButtonStyle}">
-                    <Rectangle Width="13" Height="15"
-                                   Fill="{Binding Path=Foreground, 
-                                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_folder}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-
-                </Button>
-
-                <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="6"
-                    Command="{Binding OpenTrashFolderCommand}"
-                    ToolTip="Open trash folder for this coloumn." Height="25" Width="25"
-                    Style="{DynamicResource AccentedSquareButtonStyle}">
-                    <Rectangle Width="13" Height="15"
-                                   Fill="{Binding Path=Foreground, 
-                                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_delete}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-
-                </Button>
-            </DockPanel>
-        </StackPanel>
 
         <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Row="1"
                       CanUserAddRows="False" AutoGenerateColumns="False" 
