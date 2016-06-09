@@ -50,6 +50,7 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
+                <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}"/>
                 <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
                 <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}"/>
@@ -77,6 +78,7 @@
                 <DataGridTextColumn Header="RomName" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                 <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
+                <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}"/>
                 <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
                 <DataGridTextColumn Header="Guides" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
                 <DataGridTextColumn Header="Manuals" Binding="{Binding HaveManual}" SortDirection="Ascending"/>

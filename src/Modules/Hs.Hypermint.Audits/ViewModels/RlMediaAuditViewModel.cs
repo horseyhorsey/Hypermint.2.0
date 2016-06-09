@@ -188,6 +188,9 @@ namespace Hs.Hypermint.Audits.ViewModels
                 case "BezelBg":
                     game.HaveBezelBg = true;
                     break;
+                case "Backgrounds":
+                    game.HaveBackgrounds = true;
+                    break;
                 case "Cards":
                     game.HaveCards = true;
                     break;
@@ -254,6 +257,9 @@ namespace Hs.Hypermint.Audits.ViewModels
             {
 
                 _rocketAuditer.ScanArtwork(_selectedSystem,
+                _settingsRepo.HypermintSettings.RlMediaPath);
+
+                _rocketAuditer.ScanBackground(_selectedSystem,
                 _settingsRepo.HypermintSettings.RlMediaPath);
 
                 _rocketAuditer.ScanForController(_selectedSystem,

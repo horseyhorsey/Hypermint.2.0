@@ -24,5 +24,6 @@ namespace Hypermint.Base.Interfaces
         void ScanFadeLayers(string _selectedSystem, string rlMediaPath);
         void ScanScreenshots(string _selectedSystem, string rlMediaPath);
         void ScanArtwork(string _selectedSystem, string rlMediaPath);
+        void ScanBackground(string _selectedSystem, string rlMediaPath);
     }
 }

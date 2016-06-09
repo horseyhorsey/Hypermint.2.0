@@ -329,6 +329,30 @@ namespace Hs.Hypermint.Services
             }
         }
 
+        public void ScanBackground(string _selectedSystem, string rlMediaPath)
+        {
+            var scanPath = rlMediaPath + "\\Backgrounds\\" + _selectedSystem;
+            if (!Directory.Exists(scanPath)) return;
+
+            var dirs = Directory.EnumerateDirectories(scanPath);
+
+            foreach (var item in dirs)
+            {
+                try
+                {
+                    var dirName = Path.GetFileNameWithoutExtension(item);
+
+                    var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
+                    var index = RlAudits.IndexOf(s);
+                    RlAudits[index].HaveBackgrounds = true;
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
         public void ScanScreenshots(string _selectedSystem, string rlMediaPath)
         {
             for (int i = 1; i < RlAudits.Count; i++)
@@ -389,6 +413,10 @@ namespace Hs.Hypermint.Services
                 case "BezelBg":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\",
                         "Background*.*");
+                    break;
+                case "Backgrounds":
+                    files = _fileManagement.GetFiles(rlMediaPath + "\\Backgrounds\\" + systemName + "\\" + romName + "\\",
+                        "*.*");
                     break;
                 case "Cards":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Bezels\\" + systemName + "\\" + romName + "\\",
