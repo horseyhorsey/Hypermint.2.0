@@ -66,6 +66,13 @@ namespace Hs.Hypermint.FilesViewer
             set { SetProperty(ref fileNameToSave, value); }
         }
 
+        private bool cardsEnabled;
+        public bool CardsEnabled
+        {
+            get { return cardsEnabled; }
+            set { SetProperty(ref cardsEnabled, value); }
+        }
+
         private bool convertEnabled = false;
         public bool ConvertEnabled
         {
@@ -250,6 +257,7 @@ namespace Hs.Hypermint.FilesViewer
                 if (currentFile != null)
                 {
                     _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+                    _eventAggregator.GetEvent<SetBezelImagesEvent>().Publish("");
 
                     var fileToMove = GetNewFileNameForTrash(currentFile);
 
@@ -396,6 +404,8 @@ namespace Hs.Hypermint.FilesViewer
         /// <param name="file"></param>
         private void InitFileDialog(string file)
         {
+            CardsEnabled = false;
+
             if (RlStaticMethods.GetMediaFormatFromFile(file) == "image")
                 ConvertEnabled = true;
             else
@@ -412,9 +422,13 @@ namespace Hs.Hypermint.FilesViewer
                 FileNameOptionsOff = false;
 
                 if (MediaType != "Cards")
+                {
+                    CardsEnabled = true;
+
                     FileNameToSave =
                         RlStaticMethods
                         .CreateFileNameForRlImage(MediaType, Ratio, Description, Author);
+                }
                 else
                     FileNameToSave =
                         RlStaticMethods

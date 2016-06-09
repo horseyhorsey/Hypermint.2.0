@@ -61,7 +61,9 @@
                          metro:TextBoxHelper.Watermark="16x9"                         
                          metro:TextBoxHelper.ClearTextButton="True" />
                 
-                <ComboBox ItemsSource="{Binding CardPositionsArray,UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+                <ComboBox ItemsSource="{Binding CardPositionsArray,UpdateSourceTrigger=PropertyChanged}" 
+                          IsEnabled="{Binding CardsEnabled,UpdateSourceTrigger=PropertyChanged}"
+                          Margin="3"/>
                 
                 <TextBox Text="{Binding Author,UpdateSourceTrigger=PropertyChanged}"  ToolTip="Optional resolution" Margin="3"
                          metro:TextBoxHelper.Watermark="Author name"                         
