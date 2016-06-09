@@ -23,6 +23,7 @@ using Hs.Hypermint.RocklaunchStats.Views;
 using Hs.Hypermint.Browser.Views;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.Hypermint.MediaPane.Views;
+using Prism.Logging;
 
 namespace Hypermint.Shell
 {
@@ -39,13 +40,13 @@ namespace Hypermint.Shell
             if (regionManager != null)
             {
                 regionManager.RegisterViewWithRegion(RegionNames.FlyoutRegion, typeof(SettingsFlyout));
-                
+                regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
+                regionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(MainMenuView));
             }
 
-            Application.Current.MainWindow = (Views.Shell)this.Shell;
-            regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));            
+            Application.Current.MainWindow = (Views.Shell)this.Shell;            
             Application.Current.MainWindow.Show();
-        }
+        }        
 
         protected override void ConfigureModuleCatalog()
         {
