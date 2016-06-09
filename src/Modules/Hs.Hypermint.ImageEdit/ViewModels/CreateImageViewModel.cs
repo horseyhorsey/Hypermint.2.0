@@ -9,6 +9,7 @@ using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Data;
@@ -97,7 +98,15 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
             GeneratePreviewCommand = new DelegateCommand(GeneratePreview);
 
-            MediaExportTypes = new ListCollectionView(Enum.GetNames(typeof(ImageExportType)));
+            MediaExportTypes = new ListCollectionView(new List<string>()
+            {
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Extra Layer 1",
+                "BezelBg",
+                "Background",
+            });
 
             _eventAggregator = eventAggregator;
 
@@ -251,14 +260,4 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         }
     }
 
-        public enum ImageExportType
-        {
-            Layer1,
-            Layer2,
-            Layer3,
-            LayerExtra,
-            Background,
-            BezelBackground,
-            HsBackground
-        }
 }
