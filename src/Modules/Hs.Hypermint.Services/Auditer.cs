@@ -49,7 +49,10 @@ namespace Hs.Hypermint.Services
                     if (systemName != "_Default")
                     {
 
-                        tempPath = Path.Combine(hsPath, Root.Media, systemName);
+                        tempPath = Path.Combine(hsPath, Root.Media, systemName);                        
+
+                        FullPath = Path.Combine(tempPath, Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
+                        AuditsGameList[i].HaveWheel = CheckForFile(FullPath);
 
                         FullPath = Path.Combine(tempPath, Images.Artwork1,
                             databaseGameList.ElementAt(i).RomName + ".png");
@@ -78,11 +81,6 @@ namespace Hs.Hypermint.Services
                         FullPath = Path.Combine(tempPath, Sound.SystemExit);
                         AuditsGameList[i].HaveS_Exit = CheckMediaFolderFiles(FullPath, "*.mp3");
 
-                        tempPath = Path.Combine(hsPath, Root.Media, systemName);
-
-                        FullPath = Path.Combine(tempPath, Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
-                        AuditsGameList[i].HaveWheel = CheckForFile(FullPath);
-
                         FullPath = Path.Combine(tempPath, Root.Themes, databaseGameList.ElementAt(i).RomName + ".zip");
                         AuditsGameList[i].HaveTheme = CheckForFile(FullPath);
 
@@ -102,7 +100,7 @@ namespace Hs.Hypermint.Services
 
             });
 
-        }
+        }        
 
         public void ScanForMediaMainMenu(string hyperspinPath, Games databaseGameList)
         {            

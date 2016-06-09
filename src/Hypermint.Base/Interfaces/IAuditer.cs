@@ -11,7 +11,7 @@ namespace Hypermint.Base.Interfaces
 
         AuditsGame AuditsGameList { get; set; }
 
-        Task ScanForMediaAsync(string hyperspinPath, string systemName, Games databaseGameList);
+        Task ScanForMediaAsync(string hyperspinPath, string systemName, Games databaseGameList);        
 
         void ScanForMediaMainMenu(string hyperspinPath, Games mainMenuList);
 

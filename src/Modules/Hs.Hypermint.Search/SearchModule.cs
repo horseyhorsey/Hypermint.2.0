@@ -22,7 +22,7 @@ namespace Hs.Hypermint.Search
         public override void Initialize()
         {
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.SearchView));
-            
+ 
         }
     }
 }

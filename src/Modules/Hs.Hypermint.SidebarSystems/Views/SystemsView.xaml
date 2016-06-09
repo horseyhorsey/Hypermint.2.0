@@ -49,9 +49,9 @@
 
                 <ListBox BorderThickness="2" Grid.Row="1"  ItemsSource="{Binding SystemItems}"  
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-             ddrop:DragDrop.IsDropTarget="True" ddrop:DragDrop.IsDragSource="True"
-             ddrop:DragDrop.DropHandler="{Binding}"
-         SelectionMode="Single" IsEnabled="{Binding SystemListEnabled}"  
+                 ddrop:DragDrop.IsDropTarget="True" ddrop:DragDrop.IsDragSource="True"
+                 ddrop:DragDrop.DropHandler="{Binding}"
+                 SelectionMode="Single" IsEnabled="{Binding SystemListEnabled}"  
               >
                     <ListBox.ItemTemplate>
                         <DataTemplate>

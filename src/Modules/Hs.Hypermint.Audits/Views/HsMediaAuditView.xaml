@@ -75,7 +75,7 @@
                         <DataGridTextColumn  Header="Description" Binding="{Binding Description}"/>
                         <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
                         <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
-                        <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2}"/>
+                        <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2,UpdateSourceTrigger=PropertyChanged}"/>
                         <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
                         <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
                         <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>

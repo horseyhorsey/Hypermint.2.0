@@ -33,7 +33,16 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                             tempGamesBuilder.Add(game);
                     }
 
-                    SerializeHyperspinXml(tempGamesBuilder, systemName, hyperspinPath, dbName);
+                    try
+                    {
+                        SerializeHyperspinXml(tempGamesBuilder, systemName, hyperspinPath, dbName);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        System.Windows.MessageBox.Show(ex.Message + " " + dbName);
+                    }
+
                 }
             }
 

@@ -336,7 +336,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
         private void SystemItems_CurrentChanged(object sender, System.EventArgs e)
         {
-
             MainMenu system = SystemItems.CurrentItem as MainMenu;
 
             if (system != null)
@@ -346,9 +345,10 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
                 if (!ReOrderSystems)
                 {
-                    SetSystemImage();
-
                     _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+
+                    SetSystemImage();
+                    
                     this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);
                 }
             }
