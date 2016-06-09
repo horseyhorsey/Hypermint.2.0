@@ -146,7 +146,12 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
             var values = (string[])x;
 
-            var game = _rocketAuditer.RlAudits
+            RocketLaunchAudit game;
+            if (values[0] == "_Default")            
+                game = _rocketAuditer.RlAuditsDefault
+                    .Where(r => r.RomName == values[0]).Single();            
+            else
+                game = _rocketAuditer.RlAudits
                 .Where(r => r.RomName == values[0]).Single();
 
             if (game == null) return;
