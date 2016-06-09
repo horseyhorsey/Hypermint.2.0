@@ -68,6 +68,11 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 BezelImage = imageFile;
                 BezelHeader = BezelImage;
 
+                if (string.IsNullOrEmpty(imageFile))
+                { BezelImage = null;
+                    return;
+                }
+
                 try
                 {
                     var bezelValues =
