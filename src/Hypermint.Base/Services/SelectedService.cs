@@ -26,7 +26,7 @@ namespace Hypermint.Base.Services
 
         public bool IsMainMenu()
         {
-            if (CurrentSystem.Contains("Main Menu"))
+            if (CurrentSystem.ToLower().Contains("main menu"))
                 return true;
             else
                 return false;
