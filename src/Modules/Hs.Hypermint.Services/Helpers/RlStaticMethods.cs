@@ -42,6 +42,9 @@ namespace Hs.Hypermint.Services.Helpers
                 case "Cards":
                     rlMediaType = "Bezels";
                     break;
+                case "Background":
+                    rlMediaType = "Backgrounds";
+                    break;
                 case "Info":
                 case "Progress":
                 case "Extract":
