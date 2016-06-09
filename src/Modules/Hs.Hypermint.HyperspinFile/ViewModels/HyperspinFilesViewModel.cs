@@ -78,7 +78,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         public DelegateCommand RemoveFileCommand { get; private set; }
         public DelegateCommand OpenFolderCommand { get; private set; }
-        public DelegateCommand OpenTrashFolderCommand { get; private set; } 
+        public DelegateCommand OpenTrashFolderCommand { get; private set; }
 
         public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings,
             IAuditer auditRepo, IRegionManager regionManager,
@@ -100,7 +100,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
                 if (!activeViewName.Contains("HsMediaAuditView")) return;
 
-                SetCurrentName(x);                
+                SetCurrentName(x);
 
                 if (FilesForGame != null)
                 {
@@ -108,8 +108,8 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                         _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
                     else
                         FilesForGame_CurrentChanged(null, null);
-                }                
-                    
+                }
+
             });
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe((x) =>
@@ -138,34 +138,38 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
                         _eventAggregator.GetEvent<RefreshHsAuditEvent>().Publish("");
                     }
-                    
+
                     catch (Exception) { }
 
                 }
             });
 
-            OpenFolderCommand = new DelegateCommand(() =>
-            {
-                string hsMediaPath = GetHsMediaPathDirectory(
-                    _settingsRepo.HypermintSettings.HsPath,
-                    _selectedService.CurrentSystem,
-                     columnHeader);
-
-                _folderExplore.OpenFolder(hsMediaPath);
-            });
+            OpenFolderCommand = new DelegateCommand(OpenFolder);
 
             OpenTrashFolderCommand = new DelegateCommand(() =>
             {
-                
-                var trashPath = @"trash\" + _selectedService.CurrentSystem + "\\hs\\" + columnHeader + "\\";
-
-                _folderExplore.OpenFolder(trashPath);
+                _folderExplore.OpenFolder(GetHsTrashPath(columnHeader));
             });
+        }
+
+        private void OpenFolder()
+        {
+            string name = _selectedService.CurrentSystem;
+
+            if (_selectedService.IsMainMenu())
+                name = _selectedService.CurrentRomname;
+
+            string hsMediaPath = GetHsMediaPathDirectory(
+                _settingsRepo.HypermintSettings.HsPath,
+                 name,
+                 columnHeader);
+
+            _folderExplore.OpenFolder(hsMediaPath);
         }
 
         private string GetNewFileNameForTrash(MediaFile mediaFile)
         {
-            var trashPath = @"trash\" + _selectedService.CurrentSystem + "\\hs\\" + columnHeader + "\\";
+            var trashPath = GetHsTrashPath(columnHeader);
 
             if (!Directory.Exists(trashPath))
                 Directory.CreateDirectory(trashPath);
@@ -180,6 +184,22 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             }
 
             return newFileName;
+        }
+
+        private string GetHsTrashPath(string mediaType) => 
+            @"trash\" + GetSystemFolderName(mediaType) + "\\hs\\" + mediaType + "\\";
+
+        private string GetSystemFolderName(string mediaType)
+        {
+            string sysFolderName = _selectedService.CurrentSystem;
+
+            if (_selectedService.IsMainMenu())
+            {
+                if (mediaType != "Wheel" && mediaType != "Theme" && mediaType != "Videos")
+                    sysFolderName = _selectedService.CurrentRomname;
+            }
+
+            return sysFolderName;
         }
 
         #region Methods
@@ -252,7 +272,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             if (romAndColumn[0] == "")
                 rom = _selectedService.CurrentRomname;
             else
-                rom = romAndColumn[0];         
+                rom = romAndColumn[0];
 
             if (romAndColumn[1] != columnHeader)
             {
@@ -287,7 +307,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 //        break;
                 //}
                 #endregion
-                
+
             }
 
             switch (romAndColumn[1])
@@ -301,7 +321,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                     _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveArt1 =
                         GetHyperspinFilesForGame(Images.Artwork1, rom + "*.*");
                     break;
-                case "Artwork2":                    
+                case "Artwork2":
                     _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveArt2 =
                         GetHyperspinFilesForGame(Images.Artwork2, rom + "*.*");
                     break;
@@ -309,20 +329,20 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                     _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveArt3 =
                         GetHyperspinFilesForGame(Images.Artwork3, rom + "*.*");
                     break;
-                case "Artwork4":                    
+                case "Artwork4":
                     _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveArt4 =
                         GetHyperspinFilesForGame(Images.Artwork4, rom + "*.*");
                     break;
                 case "Theme":
                     _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveTheme =
-                        GetHyperspinFilesForGame(Root.Themes, rom + "*.*");                    
+                        GetHyperspinFilesForGame(Root.Themes, rom + "*.*");
                     break;
-                case "Videos":                    
+                case "Videos":
                     _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveVideo =
                         GetHyperspinFilesForGame(Root.Video, rom + "*.*");
                     break;
                 case "Backgrounds":
-                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveBackground =                        
+                    _auditRepo.AuditsGameList.Where(x => x.RomName == rom).Single().HaveBackground =
                         GetHyperspinFilesForGame(Images.Backgrounds, rom + "*.*");
                     break;
                 case "MusicBg":
@@ -355,7 +375,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                     break;
                 default:
                     break;
-            }            
+            }
 
             GroupBoxHeader = "Hyperspin files for: " + columnHeader;
         }
@@ -385,7 +405,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 });
             }
 
-            FilesForGame = new ListCollectionView(mediaFiles);            
+            FilesForGame = new ListCollectionView(mediaFiles);
 
             FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;
 
@@ -411,7 +431,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                     FileName = Path.GetFullPath(item),
                     Extension = Path.GetExtension(item)
                 });
-            }            
+            }
 
             FilesForGame = new ListCollectionView(mediaFiles);
 
@@ -435,7 +455,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             var pathToScan = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
             Root.Media, selected, mediaPath);
 
-            if (!Directory.Exists(pathToScan)) Directory.CreateDirectory(pathToScan);        
+            if (!Directory.Exists(pathToScan)) Directory.CreateDirectory(pathToScan);
 
             var mediaFiles = new List<MediaFile>();
 
@@ -517,28 +537,55 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         }
 
-        private string GetHsMediaPathDirectory(string hsPath, string systemName, string mediaType)
+        private string GetHsMediaPathDirectory(
+            string hsPath, string systemName, string mediaType)
         {
-            var hsSystemMediaPath = Path.Combine(hsPath, Root.Media, systemName);
+            var hsSystemMediaPath = Path.Combine(hsPath, Root.Media);
 
             switch (mediaType)
             {
                 case "Wheel":
-                    return Path.Combine(hsSystemMediaPath, Images.Wheels);
+                    if (_selectedService.IsMainMenu())
+                        systemName = "Main Menu";
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Wheels);
                 case "Artwork1":
-                    return Path.Combine(hsSystemMediaPath, Images.Artwork1);
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Artwork1);
                 case "Artwork2":
-                    return Path.Combine(hsSystemMediaPath, Images.Artwork2);
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Artwork2);
                 case "Artwork3":
-                    return Path.Combine(hsSystemMediaPath, Images.Artwork3);
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Artwork3);
                 case "Artwork4":
-                    return Path.Combine(hsSystemMediaPath, Images.Artwork4);
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Artwork4);
                 case "Backgrounds":
-                    return Path.Combine(hsSystemMediaPath, Images.Backgrounds);
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Backgrounds);
                 case "Videos":
-                    return Path.Combine(hsSystemMediaPath, Root.Video);
+                    if (_selectedService.IsMainMenu())
+                        systemName = "Main Menu";
+                    return Path.Combine(hsSystemMediaPath, systemName, Root.Video);
                 case "Theme":
-                    return Path.Combine(hsSystemMediaPath, Root.Themes);
+                    if (_selectedService.IsMainMenu())
+                        systemName = "Main Menu";
+                    return Path.Combine(hsSystemMediaPath, systemName, Root.Themes);
+                case "Letters":
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Letters);
+                case "Special":
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Special);
+                case "Sound Click":
+                    return Path.Combine(hsSystemMediaPath, systemName, Root.Sound);
+                case "Wheel Sounds":
+                    return Path.Combine(hsSystemMediaPath, systemName, Sound.WheelSounds);
+                case "MusicBg":
+                    return Path.Combine(hsSystemMediaPath, systemName, Sound.BackgroundMusic);
+                case "Sound End":
+                    return Path.Combine(hsSystemMediaPath, systemName, Sound.SystemExit);
+                case "Sound Start":
+                    return Path.Combine(hsSystemMediaPath, systemName, Sound.SystemStart);
+                case "GenreBg":
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.GenreBackgrounds);
+                case "GenreWheel":
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.GenreWheel);
+                case "Pointer":
+                    return Path.Combine(hsSystemMediaPath, systemName, Images.Pointer);
                 default:
                     return "";
             }
@@ -587,7 +634,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 //{
                 //    audio_drop(filelist[i], filename3, game, selectedColumn);
                 //}
-            }            
+            }
         }
 
         private void wheel_drop(string file, string selectedColumn, string romName)
@@ -647,7 +694,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
                     File.Copy(file, fullPath);
                 }
-                
+
             }
             catch (Exception)
             {
@@ -680,10 +727,10 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 {
                     fullPath = Path.Combine(hsMediaPath, romName + " " + i + ".zip");
                     i++;
-                }                
+                }
 
                 File.Copy(file, fullPath);
-                           
+
                 return;
             }
             else if (ext == ".png" || ext == ".jpg")
