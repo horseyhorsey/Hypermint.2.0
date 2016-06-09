@@ -407,20 +407,12 @@ namespace Hs.Hypermint.Services
                     "*.*");
                     break;
                 case "Layer 1":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\",
-                        "Layer 1*.*");
-                    break;
                 case "Layer 2":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\",
-                        "Layer 2*.*");
-                    break;
                 case "Layer 3":
+                case "Layer 4":
+                case "Extra Layer 1":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\",
-                        "Layer 3*.*");
-                    break;
-                case "ExtraLayer1":
-                    files = _fileManagement.GetFiles(rlMediaPath + "\\Fade\\" + systemName + "\\" + romName + "\\",
-                        "Extra Layer 1*.*");
+                         mediaType + "*.*");
                     break;
                 case "Manuals":
                     files = _fileManagement.GetFiles(rlMediaPath + "\\Manuals\\" + systemName + "\\" + romName + "\\" + addFolder,

@@ -127,15 +127,11 @@ namespace Hs.Hypermint.Services.Helpers
                 case "BezelBg":
                     return "Background - " + ratio + author;
                 case "Bezel":
-                    return "Bezel" + spacer + ratio + " " + desc + author;
-                case "Layer1":
-                    return "Layer 1" + spacer + ratio + " " + desc + author;
-                case "Layer2":
-                    return "Layer 2" + spacer + ratio + " " + desc + author;
-                case "Layer3":
-                    return "Layer 3" + spacer + ratio + " " + desc + author;
-                case "ExtraLayer1":
-                    return "Extra Layer 1" + spacer + ratio + " " + desc + author;
+                case "Layer 1":
+                case "Layer 2":
+                case "Layer 3":
+                case "Extra Layer 1":
+                    return hmColumnName + spacer + ratio + " " + desc + author;
                 default:
                     return "";
             }
