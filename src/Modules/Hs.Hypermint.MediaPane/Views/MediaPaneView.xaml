@@ -37,80 +37,6 @@
                     </ContextMenuService.ContextMenu>
                 </MediaElement>
 
-                <StackPanel HorizontalAlignment="Left" Grid.Row="1" MaxHeight="45"
-                        Visibility="{Binding ElementName=root,
-                        Path=DataContext.IsVideoSource,
-                        UpdateSourceTrigger=PropertyChanged,
-                        Converter={StaticResource BoolToVisConverter}}"
-                        Orientation="Horizontal">
-
-                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-
-                        <Button PreviewMouseDown="PlayButtonMouseDown"
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Style="{DynamicResource MetroCircleButtonStyle}"                                
-                                CommandParameter="back"                            
-                                Height="35" Width="35">
-                            <Rectangle Width="12" Height="12"
-                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-
-                        <Button  PreviewMouseDown="PauseButtonMouseDown"
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Style="{DynamicResource MetroCircleButtonStyle}"                                
-                                CommandParameter="back"                            
-                                Height="35" Width="35">
-                            <Rectangle Width="12" Height="12"
-                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_pause}"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-
-                        <Button PreviewMouseDown="StopButtonMouseDown"
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" 
-                                Style="{DynamicResource MetroCircleButtonStyle}"                                
-                                CommandParameter="back"                            
-                                Height="35" Width="35">
-                            <Rectangle Width="12" Height="12"
-                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_stop}"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-                    </DockPanel>
-
-                    <!-- Volume slider. This slider allows a Volume range between 0 and 1. -->
-                    <TextBlock Foreground="White" VerticalAlignment="Center" Margin="5">
-                        <Run Text="Vol"/>
-                    </TextBlock>
-                    <!--ValueChanged="ChangeMediaVolume"-->
-                    <Slider x:Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume"
-        		    Minimum="0" Maximum="1" Value="0.5" Width="70" Margin="0,12,0,11"/>
-                    <!-- Seek to slider. Ths slider allows you to jump to different parts of the media playback. -->
-                    <TextBlock Foreground="White" Margin="5"  VerticalAlignment="Center">
-                        <Run Text="Scan"/>
-                    </TextBlock>
-                    <!--ValueChanged="SeekToMediaPosition"-->
-                    <Slider x:Name="timelineSlider" 
-                            Thumb.DragStarted="timelineSlider_SeekStarted"  
-                            Thumb.DragCompleted="timelineSlider_SeekCompleted"
-                            ValueChanged="timelineSlider_ValueChanged"
-                            Width="120" VerticalAlignment="Center" />
-
-                    <TextBlock x:Name="media_wheelTime" TextWrapping="Wrap" Width="108" VerticalAlignment="Center"/>
-
-                </StackPanel>
-
                 <!--ImageCOntrols-->
                 <StackPanel HorizontalAlignment="Left" Grid.Row="1" MaxHeight="45"
                         Visibility="{Binding ElementName=root,
@@ -217,6 +143,79 @@
 
                 </DockPanel>
 
+                <StackPanel HorizontalAlignment="Left" Grid.Row="1" MaxHeight="45"
+                        Visibility="{Binding ElementName=root,
+                        Path=DataContext.IsVideoSource,
+                        UpdateSourceTrigger=PropertyChanged,
+                        Converter={StaticResource BoolToVisConverter}}"
+                        Orientation="Horizontal">
+
+                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+
+                        <Button PreviewMouseDown="PlayButtonMouseDown"
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Style="{DynamicResource MetroCircleButtonStyle}"                                
+                                CommandParameter="back"                            
+                                Height="35" Width="35">
+                            <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+
+                        <Button  PreviewMouseDown="PauseButtonMouseDown"
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Style="{DynamicResource MetroCircleButtonStyle}"                                
+                                CommandParameter="back"                            
+                                Height="35" Width="35">
+                            <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_pause}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+
+                        <Button PreviewMouseDown="StopButtonMouseDown"
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Style="{DynamicResource MetroCircleButtonStyle}"                                
+                                CommandParameter="back"                            
+                                Height="35" Width="35">
+                            <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_stop}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
+                    </DockPanel>
+
+                    <!-- Volume slider. This slider allows a Volume range between 0 and 1. -->
+                    <TextBlock Foreground="White" VerticalAlignment="Center" Margin="5">
+                        <Run Text="Vol"/>
+                    </TextBlock>
+                    <!--ValueChanged="ChangeMediaVolume"-->
+                    <Slider x:Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume"
+        		    Minimum="0" Maximum="1" Value="0.5" Width="70" Margin="0,12,0,11"/>
+                    <!-- Seek to slider. Ths slider allows you to jump to different parts of the media playback. -->
+                    <TextBlock Foreground="White" Margin="5"  VerticalAlignment="Center">
+                        <Run Text="Scan"/>
+                    </TextBlock>
+                    <!--ValueChanged="SeekToMediaPosition"-->
+                    <Slider x:Name="timelineSlider" 
+                            Thumb.DragStarted="timelineSlider_SeekStarted"  
+                            Thumb.DragCompleted="timelineSlider_SeekCompleted"
+                            ValueChanged="timelineSlider_ValueChanged"
+                            Width="120" VerticalAlignment="Center" />
+
+                    <TextBlock x:Name="media_wheelTime" TextWrapping="Wrap" Width="108" VerticalAlignment="Center"/>
+
+                </StackPanel>
                 <!--Context right click menu-->
                 <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
                 <!--
