@@ -110,7 +110,12 @@ namespace Hs.Hypermint.Services
 
             AuditsMenuList = new AuditsMenu();
 
-            for (int i = 0; i < databaseGameList.Count; i++)
+            AuditsMenuList.Add(new AuditMenu()
+            {
+                RomName = "Main Menu"
+            });
+
+            for (int i = 1; i < databaseGameList.Count; i++)
             {
                 AuditsMenuList.Add(new AuditMenu()
                 {
