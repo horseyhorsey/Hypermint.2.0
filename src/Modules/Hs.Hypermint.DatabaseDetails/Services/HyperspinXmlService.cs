@@ -431,7 +431,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                         {
                             System = systemName,
                             RomName = g.Attribute("name").Value ?? "",
-                            GameEnabled = g.Attribute("enabled").Value ?? "",
+                            GameEnabled = g.Attribute("enabled").Value ?? "1",
                             Description = g.Element("description").Value ?? "",
                             Manufacturer = g.Element("manufacturer").Value ?? "",
                             Genre = g.Element("genre").Value ?? "",
@@ -440,6 +440,30 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                             Crc = g.Element("crc").Value ?? "",
                             Year = g.Element("year").Value ?? "0",                            
                         };
+
+                    try
+                    {
+                        var count = query.Count();
+                    }
+                    catch (Exception)
+                    {
+
+                        query = from g in xdoc.Descendants("game")
+                                where g.Value.ToLower().Contains(searchTerm.ToLower())
+                                select new
+                                {
+                                    System = systemName,
+                                    RomName = g.Attribute("name").Value ?? "",
+                                    GameEnabled = "1",
+                                    Description = g.Element("description").Value ?? "",
+                                    Manufacturer = g.Element("manufacturer").Value ?? "",
+                                    Genre = g.Element("genre").Value ?? "",
+                                    Rating = g.Element("rating").Value ?? "",
+                                    CloneOf = g.Element("cloneof").Value ?? "",
+                                    Crc = g.Element("crc").Value ?? "",
+                                    Year = g.Element("year").Value ?? "0",
+                                };
+                    }
 
                     int year = 0; int enabled = 1;
 
