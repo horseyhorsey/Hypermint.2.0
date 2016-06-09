@@ -569,6 +569,8 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 case "Letters":
                     return Path.Combine(hsSystemMediaPath, systemName, Images.Letters);
                 case "Special":
+                    if (_selectedService.IsMainMenu() && _selectedService.CurrentRomname == "Main Menu")
+                        systemName = "Main Menu";
                     return Path.Combine(hsSystemMediaPath, systemName, Images.Special);
                 case "Sound Click":
                     return Path.Combine(hsSystemMediaPath, systemName, Root.Sound);
@@ -611,6 +613,13 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                     case "Artwork4":
                     case "Backgrounds":
                     case "Videos":
+                    case "Letters":
+                    case "Special":
+                    case "GenreBg":
+                    case "Pointer":
+                    case "GenreWheel":
+                    case "Wheel Sounds":
+                    case "Sound Click":
                         wheel_drop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
                         break;
                     case "Theme":
@@ -641,10 +650,16 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         {
             string ext = Path.GetExtension(file);
             string path = Path.GetDirectoryName(file);
+
+            string name = _selectedService.CurrentSystem;
+
+            if (_selectedService.IsMainMenu())
+                name = _selectedService.CurrentRomname;
+
             string hsMediaPath = GetHsMediaPathDirectory(
                 _settingsRepo.HypermintSettings.HsPath,
-                _selectedService.CurrentSystem,
-                 selectedColumn);
+                 name,
+                 columnHeader);
 
             if (string.IsNullOrWhiteSpace(hsMediaPath)) return;
 
@@ -707,10 +722,15 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         {
             string ext = Path.GetExtension(file);
             string path = Path.GetDirectoryName(file);
+            string name = _selectedService.CurrentSystem;
+
+            if (_selectedService.IsMainMenu())
+                name = _selectedService.CurrentRomname;
+
             string hsMediaPath = GetHsMediaPathDirectory(
                 _settingsRepo.HypermintSettings.HsPath,
-                _selectedService.CurrentSystem,
-                 selectedColumn);
+                 name,
+                 columnHeader);
 
             string fullPath = "";
 
@@ -803,3 +823,4 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
     }
 }
+
