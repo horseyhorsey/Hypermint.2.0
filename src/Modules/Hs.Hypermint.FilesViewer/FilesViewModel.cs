@@ -318,9 +318,17 @@ namespace Hs.Hypermint.FilesViewer
                     case "Description":
                     case "Ratio":
                     case "Author":
+                        if (!CardsEnabled)
                             FileNameToSave =
                                 RlStaticMethods
                                 .CreateFileNameForRlImage(MediaType, Ratio, Description, Author);
+                        else
+                        {
+                            FileNameToSave =
+                                RlStaticMethods
+                                .CreateCardFileName(Description, Author,
+                                (string)CardPositionsArray.CurrentItem);
+                        }
                         break;
                 }
             }
@@ -403,9 +411,7 @@ namespace Hs.Hypermint.FilesViewer
         /// </summary>
         /// <param name="file"></param>
         private void InitFileDialog(string file)
-        {
-            CardsEnabled = false;
-
+        {            
             if (RlStaticMethods.GetMediaFormatFromFile(file) == "image")
                 ConvertEnabled = true;
             else
@@ -415,25 +421,29 @@ namespace Hs.Hypermint.FilesViewer
 
             var parentType = RlStaticMethods.GetParentMediaType(MediaType);
 
-            if (parentType == "Fade" || parentType == "Bezels")
+            CardsEnabled = false;
+
+            if (parentType == "Fade" || parentType == "Bezels" || parentType == "Backgrounds")
             {
                 IsFadeOptions = true;
                 FileNameOptionsOn = true;
                 FileNameOptionsOff = false;
 
                 if (MediaType != "Cards")
-                {
-                    CardsEnabled = true;
-
+                {                    
                     FileNameToSave =
                         RlStaticMethods
                         .CreateFileNameForRlImage(MediaType, Ratio, Description, Author);
                 }
                 else
+                {
+                    CardsEnabled = true;
+
                     FileNameToSave =
                         RlStaticMethods
                         .CreateCardFileName(Description, Author,
                         (string)CardPositionsArray.CurrentItem);
+                }
             }
             else
             {
