@@ -9,18 +9,18 @@
 
             <StackPanel>
 
-                <DockPanel>
-                    <Label Content="Wheel text preset"/>
-                    
-                    <ComboBox ItemsSource="{Binding Presets}"/>
+                <DockPanel Margin="5">
+                    <Label Margin="5" Content="Wheel text preset"/>
+
+                    <ComboBox Margin="5" ItemsSource="{Binding Presets}"/>
                     
                 </DockPanel>
 
                 <DockPanel Margin="5">
-                    <RadioButton Content="Wheels" IsChecked="True"/>
-                    <RadioButton Content="Letters" IsEnabled="False"/>
-                    <RadioButton Content="Special" IsEnabled="False"/>
-                    <RadioButton Content="Genre" IsEnabled="False"/>
+                    <RadioButton Margin="5" Content="Wheels" IsChecked="True"/>
+                    <RadioButton Margin="5" Content="Letters" IsEnabled="False"/>
+                    <RadioButton Margin="5" Content="Special" IsEnabled="False"/>
+                    <RadioButton Margin="5" Content="Genre" IsEnabled="False"/>
                 </DockPanel>
                 
                 <control:ProcessTools/>

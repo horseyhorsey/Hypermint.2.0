@@ -6,187 +6,185 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <GroupBox Header="Wheel text options">
-        <Grid>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-            </Grid.RowDefinitions>
+    <Grid>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition MaxWidth="50"/>
-                <ColumnDefinition MaxWidth="400"/>
-            </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
 
-            <!--Preview-->
-            <Label Content="Preview" VerticalAlignment="Center"/>
-            <DockPanel Grid.Column="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="60"/>
+            <ColumnDefinition MaxWidth="400"/>
+        </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
+        <!--Preview-->
+        <Label Content="Preview" VerticalAlignment="Center"/>
+        <DockPanel Grid.Column="1">
+
+            <Button Grid.Column="1" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
                         Background="{DynamicResource HighlightBrush}"
                         Command="{Binding GeneratePreviewCommand}"
                          Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
                         ToolTip="Generate preview">
-                    <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_eye}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
+                <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_eye}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
 
-                <TextBox Margin="5" Grid.Column="1" Text="{Binding CurrentWheelSetting.PreviewText,UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Margin="5" Grid.Column="1" Text="{Binding CurrentWheelSetting.PreviewText,UpdateSourceTrigger=PropertyChanged}"
                                              MaxHeight="25" MinWidth="200" ></TextBox>
-            </DockPanel>
+        </DockPanel>
 
-            <!--Presets-->
-            <Label Content="Preset" Grid.Row="1" VerticalAlignment="Center"/>
-            <DockPanel Margin="5" Grid.Row="1" Grid.Column="1">
-                <ComboBox Height="20" Width="100" ItemsSource="{Binding Presets}"></ComboBox>
+        <!--Presets-->
+        <Label Content="Preset" Grid.Row="1" VerticalAlignment="Center"/>
+        <DockPanel Margin="5" Grid.Row="1" Grid.Column="1">
+            <ComboBox Height="20" Width="100" ItemsSource="{Binding Presets}"></ComboBox>
 
-                <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
+            <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
                                     VerticalAlignment="Center" Margin="2" 
                                     Background="{DynamicResource AccentColorBrush}"
                                     Height="25" Width="25" 
                                     Command="{Binding SavePresetCommand}"
                                     Style="{DynamicResource AccentedSquareButtonStyle}"
                                     ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name">
-                    <Rectangle Width="13" Height="13"
+                <Rectangle Width="13" Height="13"
                                            Fill="{Binding Path=Foreground, 
                                     RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
+                    <Rectangle.OpacityMask>
+                        <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
 
-                <TextBox Margin="5" Text="{Binding CurrentWheelSetting.Name,UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Margin="5" Text="{Binding CurrentWheelSetting.Name,UpdateSourceTrigger=PropertyChanged}"
                                              MaxHeight="25"/>
-            </DockPanel>
+        </DockPanel>
 
-            <!--Fonts-->
-            <Label Content="Font" Grid.Row="2" VerticalAlignment="Center"/>
-            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+        <!--Fonts-->
+        <Label Content="Font" Grid.Row="2" VerticalAlignment="Center"/>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
 
-                <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
+            <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
                                     VerticalAlignment="Center" Margin="2" 
                                     Background="{DynamicResource AccentColorBrush}"
                                     Height="25" Width="25" 
                                     Command="{Binding SelectFontCommand}"
                                     Style="{DynamicResource AccentedSquareButtonStyle}"
                                     ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name">
-                    <Rectangle Width="13" Height="13"
+                <Rectangle Width="13" Height="13"
                                            Fill="{Binding Path=Foreground, 
                                     RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_text_serif}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
+                    <Rectangle.OpacityMask>
+                        <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_text_serif}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
 
-                <TextBox HorizontalAlignment="Left" Height="20"  Width="160"
+            <TextBox HorizontalAlignment="Left" Height="20"  Width="160"
                                  Text="{Binding FontName, UpdateSourceTrigger=PropertyChanged}"
                                          VerticalAlignment="Center"/>
 
-                <ComboBox SelectedValue="{Binding CurrentWheelSetting.Gravity, UpdateSourceTrigger=PropertyChanged}"
+            <ComboBox SelectedValue="{Binding CurrentWheelSetting.Gravity, UpdateSourceTrigger=PropertyChanged}"
                                   ItemsSource="{Binding GravityOptions}"
                                   VerticalAlignment="Center" Height="20" HorizontalAlignment="Left" Margin="5" Width="75" >
-                </ComboBox>
+            </ComboBox>
 
-                <Label Content="Arc" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
-                <Controls:NumericUpDown ToolTip="Arch the text." HorizontalAlignment="Left" Margin="5"
+            <Label Content="Arc" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
+            <Controls:NumericUpDown ToolTip="Arch the text." HorizontalAlignment="Left" Margin="5"
                                             Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ArcAmount}" VerticalAlignment="Center"/>
 
-            </StackPanel>
+        </StackPanel>
 
-            <!--Colors-->
-            <Label Content="Fill" Grid.Row="3" Margin="5" VerticalAlignment="Center"/>
-            <DockPanel Grid.Row="3" Grid.Column="1">
-                
-                <toolkit:ColorPicker ShowAdvancedButton="True"
+        <!--Colors-->
+        <Label Content="Fill" Grid.Row="3" VerticalAlignment="Center"/>
+        <DockPanel Grid.Row="3" Grid.Column="1">
+
+            <toolkit:ColorPicker ShowAdvancedButton="True"
                                                  MinWidth="50" MaxWidth="50"
                                                  SelectedColor="{Binding CurrentWheelSetting.TextColor,UpdateSourceTrigger=PropertyChanged}" Margin="5" 
                                                  HorizontalAlignment="Left" VerticalAlignment="Center"  />
-                <Label Content="Stroke" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <toolkit:ColorPicker ShowAdvancedButton="False"
+            <Label Content="Stroke" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <toolkit:ColorPicker ShowAdvancedButton="False"
                                                  MinWidth="50" MaxWidth="50"
                                                  SelectedColor="{Binding CurrentWheelSetting.TextStrokeColor,UpdateSourceTrigger=PropertyChanged}" Margin="5" 
                                                  HorizontalAlignment="Left" VerticalAlignment="Center"  />
 
 
-                <Rectangle Width="35" Margin="5" Height="20" HorizontalAlignment="Left">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
-                            <GradientStop Color="Blue" Offset="0" />
-                            <GradientStop Color="Red" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </DockPanel>
+            <Rectangle Width="35" Margin="5" Height="20" HorizontalAlignment="Left">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
+                        <GradientStop Color="Blue" Offset="0" />
+                        <GradientStop Color="Red" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </DockPanel>
 
-            <Label Content="Shadow" Margin="5" Grid.Row="4" VerticalAlignment="Center"/>
-            <StackPanel Grid.Row="4" Grid.Column="1"  Orientation="Horizontal">
+        <Label Content="Shadow" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <StackPanel Grid.Row="4" Grid.Column="1"  Orientation="Horizontal">
 
-                <Controls:NumericUpDown  ToolTip="Shadow X" Margin="5" Visibility="Collapsed"
+            <Controls:NumericUpDown  ToolTip="Shadow X" Margin="5" Visibility="Collapsed"
                                                  HorizontalAlignment="Left"  Minimum="0" Maximum="500"
                                                  Value="{Binding CurrentWheelSetting.ShadowX}"/>
-                <Controls:NumericUpDown  ToolTip="Shadow Y" Margin="5" HorizontalAlignment="Left"  Visibility="Collapsed"
+            <Controls:NumericUpDown  ToolTip="Shadow Y" Margin="5" HorizontalAlignment="Left"  Visibility="Collapsed"
                                                  Minimum="0" Maximum="500" 
                                                  Value="{Binding CurrentWheelSetting.ShadowY}"/>
-                <toolkit:ColorPicker ShowAdvancedButton="False" ToolTip="Shadow color"
+            <toolkit:ColorPicker ShowAdvancedButton="False" ToolTip="Shadow color"
                                                  MinWidth="50" MaxWidth="50"
                                                  SelectedColor="{Binding CurrentWheelSetting.ShadowColor,UpdateSourceTrigger=PropertyChanged}" Margin="5" 
                                                  HorizontalAlignment="Left" VerticalAlignment="Center"  />
-                <Label Content="Distance"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                <Controls:NumericUpDown   ToolTip="Shadow distance" Height="5"
+            <Label Content="Distance"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+            <Controls:NumericUpDown   ToolTip="Shadow distance" Height="5"
                                                   Margin="5" HorizontalAlignment="Left"
                                                   Minimum="0" Maximum="500"
                                                   Value="{Binding CurrentWheelSetting.ShadowSigma}"/>
 
-                <Label Content="Alpha"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                <Controls:NumericUpDown   ToolTip="Shadow distance" Height="5"
+            <Label Content="Alpha"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+            <Controls:NumericUpDown   ToolTip="Shadow distance" Height="5"
                                                   Margin="5" HorizontalAlignment="Left"
                                                   Minimum="0" Maximum="100" Value="{Binding CurrentWheelSetting.ShadowPercentage}"/>
-            </StackPanel>
+        </StackPanel>
 
-            <Label Content="Stroke" VerticalAlignment="Center" Grid.Row="5"/>
-            <DockPanel Grid.Row="5" Grid.Column="1">
-                <Controls:NumericUpDown Width="75" HorizontalAlignment="Left" Height="5"
+        <Label Content="Stroke" VerticalAlignment="Center" Grid.Row="5"/>
+        <DockPanel Grid.Row="5" Grid.Column="1">
+            <Controls:NumericUpDown Width="75" HorizontalAlignment="Left" Height="5"
                     Value="{Binding CurrentWheelSetting.StrokeWidth,UpdateSourceTrigger=PropertyChanged}" 
                                                 Margin="5"/>
 
-                <DockPanel>
-                    <CheckBox Content="Shade" Margin="10" HorizontalAlignment="Left"
+            <DockPanel>
+                <CheckBox Content="Shade" Margin="10" HorizontalAlignment="Left"
                                                 IsChecked="{Binding CurrentWheelSetting.ShadeOn}"
                                                 VerticalAlignment="Top" Width="69"/>
-                    <Controls:NumericUpDown HorizontalAlignment="Left" ToolTip="ShadeAzimuth" Height="5"
+                <Controls:NumericUpDown HorizontalAlignment="Left" ToolTip="ShadeAzimuth" Height="5"
                                                 Margin="5" Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ShadeAzimuth}"/>
-                    <Controls:NumericUpDown HorizontalAlignment="Left" ToolTip="ShadeElevation" Height="5"
+                <Controls:NumericUpDown HorizontalAlignment="Left" ToolTip="ShadeElevation" Height="5"
                                                 Margin="5" Minimum="0" Maximum="1000" Value="{Binding CurrentWheelSetting.ShadeElevation}"/>
-                </DockPanel>
             </DockPanel>
+        </DockPanel>
 
-            <Label Content="Size" VerticalAlignment="Center" Grid.Row="6"/>
-            <StackPanel  Grid.Row="6" Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Bottom">
-                <Controls:NumericUpDown HorizontalAlignment="Left" Height="5"
+        <Label Content="Size" VerticalAlignment="Center" Grid.Row="6"/>
+        <StackPanel  Grid.Row="6" Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Bottom">
+            <Controls:NumericUpDown HorizontalAlignment="Left" Height="5"
                                                     Minimum="0" Maximum="4096" Value="{Binding CurrentWheelSetting.Width}"
                                             Margin="5"
                                             ToolTip="Width of output wheel. May not be exact size you specify on some parameters"/>
-                <Controls:NumericUpDown Minimum="0" Maximum="2160" Value="{Binding CurrentWheelSetting.Height}" Margin="5" Height="5"
+            <Controls:NumericUpDown Minimum="0" Maximum="2160" Value="{Binding CurrentWheelSetting.Height}" Margin="5" Height="5"
                                             VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Wheel height"/>
-                <CheckBox ToolTip="Trim the final image" IsChecked="{Binding CurrentWheelSetting.Trim}" Content="Trim" HorizontalAlignment="Left" 
+            <CheckBox ToolTip="Trim the final image" IsChecked="{Binding CurrentWheelSetting.Trim}" Content="Trim" HorizontalAlignment="Left" 
                                Height="32" VerticalAlignment="Center"/>
 
 
 
-            </StackPanel>
-        </Grid>
-
-    </GroupBox>
+        </StackPanel>
+    </Grid>
 
 </UserControl>

@@ -14,12 +14,12 @@
 
     <GroupBox Header="Simple wheel creator">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="450"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="350"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <TabControl>
+            <TabControl Grid.Row="0">
                 <TabItem Header="Text">
 
                     <Grid>
@@ -69,7 +69,7 @@
 
             </TabControl>
 
-            <Image Grid.Column="1" Stretch="Fill"
+            <Image Grid.Row="1" Grid.Column="1" Stretch="Fill"
                                    Source="{Binding GenerateWheelSource}"/>
         </Grid>
     </GroupBox>
