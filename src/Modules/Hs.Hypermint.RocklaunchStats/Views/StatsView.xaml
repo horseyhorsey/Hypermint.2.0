@@ -47,7 +47,23 @@
                 </TabItem>
 
                 <TabItem Header="Full list">
-                    <DataGrid ItemsSource="{Binding Stats,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="True"></DataGrid>
+                    <DataGrid ItemsSource="{Binding Stats, UpdateSourceTrigger=PropertyChanged}"                              
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="RomName" IsReadOnly="True" 
+                                                Binding="{Binding Rom}" 
+                                                />
+                            <DataGridTextColumn Header="Times" IsReadOnly="True" 
+                                                Binding="{Binding TimesPlayed}" 
+                                                />
+                            <DataGridTextColumn Header="Last Played" IsReadOnly="True" 
+                                                Binding="{Binding LastTimePlayed}" 
+                                                />
+                            <DataGridTextColumn Header="Total" IsReadOnly="True" 
+                                                Binding="{Binding TotalTimePlayed}" 
+                                                />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </TabItem>
             </TabControl>
         </GroupBox>

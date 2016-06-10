@@ -1,4 +1,5 @@
-﻿using Hypermint.Base.Base;
+﻿using Hs.RocketLauncher.Statistics;
+using Hypermint.Base.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Prism.Commands;
@@ -69,7 +70,7 @@ namespace Hs.Hypermint.RocklaunchStats.ViewModels
 
             if (stats != null)
             {
-                Stats = new ListCollectionView(stats);
+                Stats = new ListCollectionView(stats.OrderByDescending(x => x.TimesPlayed).ToList());                
 
                 TopTen = stats
                     .OrderByDescending(x => x.TimesPlayed)
@@ -80,6 +81,28 @@ namespace Hs.Hypermint.RocklaunchStats.ViewModels
                     .OrderByDescending(x => x.TotalTimePlayed.Ticks)
                     .Take(10).ToList();                    
             }
+        }
+
+        private ListCollectionView GetListCollectionView()
+        {
+            return (ListCollectionView)CollectionViewSource
+                            .GetDefaultView(Stats);
+        }
+    }
+
+    public class SortStatsByPlayed : IComparer
+    {
+        public int Compare(object x, object y)
+        {
+            if (x as Stat == null && y as Stat == null)
+            {
+                throw new ArgumentException("stats can only sort stat object." );
+            }
+            if (((Stat)x).TimesPlayed > ((Stat)y).TimesPlayed)
+            {
+                return 1;
+            }
+            return -1;
         }
     }
 }
