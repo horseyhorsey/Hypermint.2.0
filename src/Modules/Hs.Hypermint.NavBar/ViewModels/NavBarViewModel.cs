@@ -138,6 +138,8 @@ namespace Hs.Hypermint.NavBar.ViewModels
         {
             CurrentView = "Views: ";
 
+            _eventAggregator.GetEvent<NavigateMediaPaneRequestEvent>().Publish("MediaPaneView");
+
             switch (uri)
             {
                 case "DatabaseDetailsView":
@@ -155,7 +157,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     }
                     break;
                 case "HsMediaAuditView":
-                    CurrentView += "Hyperspin media audit";
+                    CurrentView += "Hyperspin media audit";                    
                     _regionManager.RequestNavigate(RegionNames.FilesRegion, "HyperspinFilesView");
                     break;
                 case "RlMediaAuditView":
@@ -176,10 +178,6 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
                 case "StatsView":
                     CurrentView += "Rocketlaunch stats";
-                    RemoveAllFilesRegionViews();
-                    break;
-                case "WebBrowseView":
-                    CurrentView += "Web Browser";
                     RemoveAllFilesRegionViews();
                     break;
                 case "CreateImageView":

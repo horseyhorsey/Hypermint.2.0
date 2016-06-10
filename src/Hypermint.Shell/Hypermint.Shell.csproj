@@ -223,10 +223,6 @@
       <Project>{4df6b19a-6129-46f7-8020-9f24e5d2584b}</Project>
       <Name>Hs.Hypermint.Audits</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modules\Hs.Hypermint.Browser\Hs.Hypermint.Browser.csproj">
-      <Project>{eef87ef3-697a-43fa-9d93-cfbec59e3632}</Project>
-      <Name>Hs.Hypermint.Browser</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.DatabaseDetails\Hs.Hypermint.DatabaseDetails.csproj">
       <Project>{0f4321e7-fa9a-4528-b7ca-8d0edec79bc3}</Project>
       <Name>Hs.Hypermint.DatabaseDetails</Name>

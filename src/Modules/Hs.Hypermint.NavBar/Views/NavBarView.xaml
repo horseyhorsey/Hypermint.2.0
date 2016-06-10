@@ -97,16 +97,6 @@
             </Rectangle>
         </Button>
 
-        <!--Search-->
-        <Button ToolTip="Web Search" IsEnabled="False" Command="{Binding NavigateCommand}" CommandParameter="WebBrowseView">
-            <Rectangle Width="20" Height="20" 
-                   Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_browser}"/>
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
-
         <!--Rocketlaunch Stats-->
         <Button Command="{Binding NavigateCommand}" 
                 CommandParameter="StatsView" ToolTip="RocketLaunch Stats">

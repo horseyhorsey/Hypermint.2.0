@@ -47,8 +47,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Search", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.RocklaunchStats", "src\Modules\Hs.Hypermint.RocklaunchStats\Hs.Hypermint.RocklaunchStats.csproj", "{E297D293-BEF3-403F-9592-9A5DD648038C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Browser", "src\Modules\Hs.Hypermint.Browser\Hs.Hypermint.Browser.csproj", "{EEF87EF3-697A-43FA-9D93-CFBEC59E3632}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.DatabaseDetailsSearchTests", "src\Modules\Hs.Hypermint.DatabaseDetailsSearchTests\Hs.Hypermint.DatabaseDetailsSearchTests.csproj", "{0430F08B-1F88-4B31-BA47-6B17BDD014CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.WheelCreatorTests", "src\Modules\Hs.Hypermint.WheelCreatorTests\Hs.Hypermint.WheelCreatorTests.csproj", "{451D55B4-C384-4D6A-A082-E96482D3BC92}"
@@ -145,10 +143,6 @@ Global
 		{E297D293-BEF3-403F-9592-9A5DD648038C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E297D293-BEF3-403F-9592-9A5DD648038C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E297D293-BEF3-403F-9592-9A5DD648038C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEF87EF3-697A-43FA-9D93-CFBEC59E3632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEF87EF3-697A-43FA-9D93-CFBEC59E3632}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEF87EF3-697A-43FA-9D93-CFBEC59E3632}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEF87EF3-697A-43FA-9D93-CFBEC59E3632}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -192,7 +186,6 @@ Global
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{035B43C5-944A-4EAC-88B8-BEC5FDD26846} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{E297D293-BEF3-403F-9592-9A5DD648038C} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
-		{EEF87EF3-697A-43FA-9D93-CFBEC59E3632} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 	EndGlobalSection
 EndGlobal

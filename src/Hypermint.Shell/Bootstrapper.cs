@@ -20,7 +20,6 @@ using Hs.Hypermint.Search.Views;
 using Hs.Hypermint.SidebarSystems;
 using Hs.Hypermint.DatabaseDetails;
 using Hs.Hypermint.RocklaunchStats.Views;
-using Hs.Hypermint.Browser.Views;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.Hypermint.MediaPane.Views;
 using Prism.Logging;
@@ -65,8 +64,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(GameLaunchModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.HyperspinFile.HyperspinFileModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Search.SearchModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.RocklaunchStats.RocklaunchStatsModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.Browser.BrowserModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.RocklaunchStats.RocklaunchStatsModule));            
             moduleCatalog.AddModule(typeof(Hs.Hypermint.ImageEdit.ImageEditModule));
         }
 
@@ -118,8 +116,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<RlMediaAuditView>("RlMediaAuditView");
             Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");
             Container.RegisterTypeForNavigation<SearchView>("SearchView");
-            Container.RegisterTypeForNavigation<StatsView>("StatsView");
-            //Container.RegisterTypeForNavigation<WebBrowseView>("WebBrowseView");
+            Container.RegisterTypeForNavigation<StatsView>("StatsView");            
             Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");            
 
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
