@@ -42,6 +42,7 @@ namespace Hs.Hypermint.Services.Helpers
                 case "Cards":
                     rlMediaType = "Bezels";
                     break;
+                case "Backgrounds":
                 case "Background":
                     rlMediaType = "Backgrounds";
                     break;
@@ -126,6 +127,7 @@ namespace Hs.Hypermint.Services.Helpers
 
             switch (hmColumnName)
             {
+                case "Backgrounds":
                 case "Background":
                 case "BezelBg":
                     return "Background - " + ratio + author;
