@@ -104,6 +104,7 @@
     <Compile Include="ServicesModule.cs" />
     <Compile Include="SettingsRepo.cs" />
     <Compile Include="StatRepo.cs" />
+    <Compile Include="TrashMaster.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
