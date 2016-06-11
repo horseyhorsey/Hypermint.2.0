@@ -176,6 +176,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
                     {
                         var video = items[0] as IntroVideo;
                         SelectedAvailableHeader = "Selected item: " + video.FileName;
+                        _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish(video.FileName);
                     }
                     else
                         SelectedAvailableHeader = "";
