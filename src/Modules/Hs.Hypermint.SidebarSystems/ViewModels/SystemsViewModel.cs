@@ -366,6 +366,8 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             if (File.Exists(imagePath))
                 _selectedService.SystemImage = setImage(imagePath);
+            else
+                _selectedService.SystemImage = null;
 
         }
 

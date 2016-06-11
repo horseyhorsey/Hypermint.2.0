@@ -50,7 +50,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             get { return isSwfSource; }
             set { SetProperty(ref isSwfSource, value); }
-        }        
+        }
 
         private bool isImageSource = false;
         public bool IsImageSource
@@ -115,7 +115,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
         #region Commands
         public DelegateCommand<string> PagePdfCommand { get; private set; }
-        public DelegateCommand ImageEditCommand { get; private set; } 
+        public DelegateCommand ImageEditCommand { get; private set; }
         #endregion
 
         #region Constructors
@@ -132,7 +132,15 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 PagePdf(x);
             });
 
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(SetImage);
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(
+                (x) =>
+                {
+                    WheelSource = null;
+                    VideoSource = null;
+                    IsVideoSource = false;
+
+                    SetImage(x);
+                 });
 
             _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe((x) =>
             {
@@ -149,7 +157,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             {
                 _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("CreateImageView");
 
-                _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath); 
+                _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath);
             });
         }
 
@@ -170,7 +178,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 }
             }
 
-            SetPdfImage(currentPdfFile, CurrentPage -1);
+            SetPdfImage(currentPdfFile, CurrentPage - 1);
         }
 
         #endregion
@@ -203,7 +211,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 mediaTypePath, romName + ".png");
 
             if (selectedOptions[1] == "Videos")
-            {                
+            {
                 SetVideo(imagePath);
                 return;
             }
@@ -236,12 +244,12 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         {
             WheelSource = null;
             VideoSource = null;
-            IsVideoSource = false;            
+            IsVideoSource = false;
 
             if (File.Exists(imagePath))
             {
                 IsImageSource = true;
-                
+
                 var fullpath = Path.GetFullPath(imagePath);
 
                 currentImagePath = fullpath;
@@ -301,10 +309,16 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
         private void SetVideoSource(string videoPath)
         {
-            VideoSource = new Uri(videoPath);
-            MediaPaneHeader = "Media View | " + Path.GetFileName(videoPath);
-            
-            IsVideoSource = true;
+            try
+            {
+                VideoSource = new Uri(videoPath);
+                MediaPaneHeader = "Media View | " + Path.GetFileName(videoPath);
+                IsVideoSource = true;
+            }
+            catch (Exception ex)
+            {
+                MediaPaneHeader = "Media View | " + ex.Message;
+            }
         }
 
         private string getMediaPath(string mediaType)
@@ -420,7 +434,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             if (file == "") return;
 
             var extension = Path.GetExtension(file);
-            
+
             switch (extension.ToLower())
             {
                 case ".png":
@@ -433,7 +447,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 case ".flv":
                 case ".mp4":
                 case ".mpg":
-                    SetVideo(file);                    
+                    SetVideo(file);
                     break;
                 case ".mp3":
                 case ".wav":
