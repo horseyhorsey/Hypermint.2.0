@@ -72,7 +72,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             get { return resizeWidth; }
             set { SetProperty(ref resizeWidth, value); }
         }
-        private int resizeHeight = 50;
+        private int resizeHeight = 100;
         public int ResizeHeight
         {
             get { return resizeHeight; }
@@ -84,7 +84,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             get { return wheelPosX; }
             set { SetProperty(ref wheelPosX, value); }
         }
-        private int wheelPosY = 420;        
+        private int wheelPosY = 380;        
         public int WheelPosY
         {
             get { return wheelPosY; }
