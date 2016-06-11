@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Hs.RocketLauncher.Statistics
@@ -14,5 +15,6 @@ namespace Hs.RocketLauncher.Statistics
         public string _systemName { get; set; }
         public string Rom { get; set; }
         public TimeSpan TotalOverallTime;
+
     }
 }
