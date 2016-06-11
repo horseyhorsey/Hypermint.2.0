@@ -67,6 +67,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         private IImageEditService _imageEdit;
         private IRegionManager _regionManager;
         private IFolderExplore _folderExplore;
+        private ITrashMaster _trashMaster;
 
         public string MediaTypeName
         {
@@ -82,7 +83,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings,
             IAuditer auditRepo, IRegionManager regionManager,
-            IFolderExplore folderExplore,
+            IFolderExplore folderExplore, ITrashMaster trashMaster,
             ISelectedService selectedService, IImageEditService imageEdit)
         {
             _eventAggregator = ea;
@@ -92,6 +93,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             _imageEdit = imageEdit;
             _regionManager = regionManager;
             _folderExplore = folderExplore;
+            _trashMaster = trashMaster;
 
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe((x) =>
             {
@@ -126,14 +128,12 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
                 if (currentFile != null)
                 {
-                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");                    
 
-                    var fileToMove = GetNewFileNameForTrash(currentFile);
-
+                    _trashMaster.HsFileToTrash(currentFile.FileName, GetSystemFolderName(columnHeader),columnHeader, _selectedService.CurrentRomname);
+                    
                     try
-                    {
-                        File.Move(currentFile.FileName, fileToMove);
-
+                    {                        
                         SetCurrentName(new string[] { _selectedService.CurrentRomname, columnHeader });
 
                         _eventAggregator.GetEvent<RefreshHsAuditEvent>().Publish("");
@@ -148,7 +148,10 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
             OpenTrashFolderCommand = new DelegateCommand(() =>
             {
-                _folderExplore.OpenFolder(GetHsTrashPath(columnHeader));
+                var sys = GetSystemFolderName(columnHeader);
+
+                _folderExplore.OpenFolder(_trashMaster.GetHsTrashPath(sys, columnHeader));
+
             });
         }
 
@@ -166,28 +169,6 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
             _folderExplore.OpenFolder(hsMediaPath);
         }
-
-        private string GetNewFileNameForTrash(MediaFile mediaFile)
-        {
-            var trashPath = GetHsTrashPath(columnHeader);
-
-            if (!Directory.Exists(trashPath))
-                Directory.CreateDirectory(trashPath);
-
-            string newFileName = trashPath + mediaFile.Name + mediaFile.Extension;
-
-            int i = 1;
-            while (File.Exists(newFileName))
-            {
-                newFileName = trashPath + mediaFile.Name + i + mediaFile.Extension;
-                i++;
-            }
-
-            return newFileName;
-        }
-
-        private string GetHsTrashPath(string mediaType) => 
-            @"trash\" + GetSystemFolderName(mediaType) + "\\hs\\" + mediaType + "\\";
 
         private string GetSystemFolderName(string mediaType)
         {

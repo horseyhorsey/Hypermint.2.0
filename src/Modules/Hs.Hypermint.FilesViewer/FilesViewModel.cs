@@ -181,6 +181,7 @@ namespace Hs.Hypermint.FilesViewer
         private IDialogCoordinator _dialogService;
         private IImageEditService _imageEdit;
         private bool cancelPending;
+        private ITrashMaster _trashMaster;
         #endregion
 
         public FilesViewModel(IEventAggregator eventAggregator, 
@@ -188,7 +189,8 @@ namespace Hs.Hypermint.FilesViewer
             ISelectedService selectedSrv,
             ISettingsRepo settings,
             IFolderExplore folderExplore,
-            IImageEditService imageEdit)
+            IImageEditService imageEdit,
+            ITrashMaster trashMaster)
         {
             _eventAggregator = eventAggregator;
             _rlAuditer = auditRl;
@@ -197,6 +199,7 @@ namespace Hs.Hypermint.FilesViewer
             _folderService = folderExplore;
             _imageEdit = imageEdit;
             _dialogService = dialogService;
+            _trashMaster = trashMaster;
 
             _eventAggregator.GetEvent<UpdateFilesEvent>().Subscribe(UpdateFiles);
 
@@ -259,42 +262,20 @@ namespace Hs.Hypermint.FilesViewer
                     _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
                     _eventAggregator.GetEvent<SetBezelImagesEvent>().Publish("");
 
-                    var fileToMove = GetNewFileNameForTrash(currentFile);
+                    _trashMaster.RlFileToTrash(currentFile.FullPath,_selectedSrv.CurrentSystem,MediaType,_romName);
 
                     try
-                    {
-                        File.Move(currentFile.FullPath, fileToMove);
-
+                    {                        
                         UpdateMediaFiles(SelectedFolder);
 
                         _eventAggregator.GetEvent<RefreshHsAuditEvent>().Publish("");
                     }
 
                     catch (Exception) { }
-
                 }
             });
 
-        }
-
-        private string GetNewFileNameForTrash(MediaFile mediaFile)
-        {
-            var trashPath = @"trash\" + _selectedSrv.CurrentSystem + "\\rl\\"  + MediaType + "\\" + _romName + "\\";
-
-            if (!Directory.Exists(trashPath))
-                Directory.CreateDirectory(trashPath);
-
-            string newFileName = trashPath + mediaFile.Name + mediaFile.Extension;
-
-            int i = 1;
-            while (File.Exists(newFileName))
-            {
-                newFileName = trashPath + mediaFile.Name + i + mediaFile.Extension;
-                i++;
-            }
-
-            return newFileName;
-        }
+        }        
 
         private void CardPositionsArray_CurrentChanged(object sender, EventArgs e)
         {
