@@ -106,7 +106,10 @@ namespace Hypermint.Shell
                 new ContainerControlledLifetimeManager());
 
             Container.RegisterType<IImageEditService, ImageEditRepo>(
-                new ContainerControlledLifetimeManager());            
+                new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<ITrashMaster, TrashMaster>(
+                new ContainerControlledLifetimeManager());
 
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");
