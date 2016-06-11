@@ -44,11 +44,12 @@
 
         <!--system selection options-->
         <DockPanel Grid.Row="1" Grid.Column="1">
-            <Label Content="System select" VerticalAlignment="Center" />
-            <Button Margin="2" Content="None" Height="22" HorizontalAlignment="Left"
-                    Command="{Binding SelectSystemsCommand}"
+            <Label Content="System select" VerticalAlignment="Bottom" />
+            <Button Margin="2" Content="None" Height="22" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                    Command="{Binding SelectSystemsCommand}" Style="{DynamicResource AccentedSquareButtonStyle}"
                     CommandParameter="none"/>
-            <Button Margin="2" Content="All" Height="22" HorizontalAlignment="Left"
+            <Button Margin="2" Content="All" Height="22" Style="{DynamicResource AccentedSquareButtonStyle}"
+                    HorizontalAlignment="Left" VerticalAlignment="Bottom" 
                     Command="{Binding SelectSystemsCommand}"
                     CommandParameter="all" Width="35"
                     />
