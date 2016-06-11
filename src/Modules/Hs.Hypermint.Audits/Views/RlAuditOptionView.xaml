@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Hs.Hypermint.Audits.Views.RlAuditOptionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <StackPanel>
+        
+        <DockPanel HorizontalAlignment="Center">
+            <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                        IsEnabled="{Binding SaveEnabled}"
+                        Command="{Binding EnableDbItemsCommand}"
+                        CommandParameter="1"
+                        ToolTip="Delete empty RL folders."
+                        Height="30" Width="30" HorizontalAlignment="Left">
+                <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder_puzzle}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </DockPanel>
+    </StackPanel>
+</UserControl>

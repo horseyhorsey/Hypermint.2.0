@@ -117,10 +117,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\HsMediaAuditViewModel.cs" />
+    <Compile Include="ViewModels\RlAuditOptionViewModel.cs" />
     <Compile Include="ViewModels\RlMediaAuditViewModel.cs" />
     <Compile Include="ViewModels\YoutubeViewModel.cs" />
     <Compile Include="Views\HsMediaAuditView.xaml.cs">
       <DependentUpon>HsMediaAuditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RlAuditOptionView.xaml.cs">
+      <DependentUpon>RlAuditOptionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RlMediaAuditView.xaml.cs">
       <DependentUpon>RlMediaAuditView.xaml</DependentUpon>
@@ -197,6 +201,10 @@
     <Page Include="Views\HsMediaAuditView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RlAuditOptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RlMediaAuditView.xaml">
       <SubType>Designer</SubType>

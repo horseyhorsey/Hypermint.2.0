@@ -44,17 +44,24 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Rectangle Grid.RowSpan="2" Fill="{DynamicResource FlatButtonForegroundBrush}"/>
-                
-                <DockPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--RlAuditOptionView-->
+                <local:RlAuditOptionView Grid.RowSpan="3"/>
+                <Rectangle Grid.RowSpan="2" Grid.Column="1" Fill="{DynamicResource FlatButtonForegroundBrush}"/>
+
+                <DockPanel Grid.Column="1" >
 
                     <TextBox Width="250" HorizontalAlignment="Left" Margin="2" Height="20"
                              metro:TextBoxHelper.ClearTextButton="True"                  
                        metro:TextBoxHelper.Watermark="Filter games"
                  Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
-                                
-                <TabControl Grid.Row="1">
+
+                <TabControl Grid.Row="1" Grid.Column="1" >
                     <TabItem Header="Pause">
                         <dataGrids:DataGridPause/>
                     </TabItem>
