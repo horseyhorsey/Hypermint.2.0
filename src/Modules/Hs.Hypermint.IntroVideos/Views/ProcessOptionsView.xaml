@@ -7,11 +7,17 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <GroupBox Header="Process options">
-        <!--AVI synth Options-->
-        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <local:AviSynthParamsView HorizontalAlignment="Left" Margin="5"/>
-            <local:AviSynthOverlayView HorizontalAlignment="Left" />
-                <DockPanel HorizontalAlignment="Left">
+            <!--AVI synth Options-->
+            <StackPanel Margin="5" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                <local:AviSynthParamsView HorizontalAlignment="Left" Margin="5"/>
+                <DockPanel>
+                    <Label Content="Overlay" ToolTip="Overlay a wheel image onto the video output" />
+                    <CheckBox Content="Enabled" ToolTip="Overlay a wheel image onto the video output"  Margin="2" IsChecked="{Binding Overlay}"/>
+                    <CheckBox Content="Resize" Margin="2" IsChecked="{Binding ResizeOverlay}" 
+                          IsEnabled="{Binding Overlay}" ToolTip="Resize the wheel image"/>
+                </DockPanel>
+                <local:AviSynthOverlayView HorizontalAlignment="Left" />
+                <DockPanel HorizontalAlignment="Left" Margin="15">
 
                     <!--Save to avisynth-->
                     <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 

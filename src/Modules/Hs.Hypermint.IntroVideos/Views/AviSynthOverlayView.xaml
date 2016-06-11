@@ -4,17 +4,31 @@
              xmlns:prism="http://prismlibrary.com/"             
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              >
-    <StackPanel>
+    <Grid>
 
-        <DockPanel Margin="5" MaxHeight="30">
-            <Label  Content="Pos X"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="65"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <Label  Content="Pos X" VerticalAlignment="Center"/>
+        <DockPanel  Grid.Column="1" Margin="5">
+            
             <metro:NumericUpDown Minimum="0" Maximum="2000" ToolTip="X Position of image"
                                  IsEnabled="{Binding Overlay}" Value="{Binding WheelPosX}"/>
-            <Label Content="Pos Y"></Label>
+            <Label Content="Pos Y  "></Label>
             <metro:NumericUpDown Minimum="0" Maximum="2000" ToolTip="Y Position of image"
                                  IsEnabled="{Binding Overlay}" Value="{Binding WheelPosY}"/>
+        </DockPanel>
 
-            <Label Content="Width"></Label>
+        <Label Content="Width" VerticalAlignment="Center" Grid.Row="1"></Label>
+        <DockPanel Grid.Row="1" Grid.Column="1" Margin="5">
+            
             <metro:NumericUpDown Minimum="0" ToolTip="Image width"
                                  IsEnabled="{Binding ResizeOverlay}" Maximum="2000" Value="{Binding ResizeWidth}"/>
             <Label Content="Height"></Label>
@@ -22,6 +36,6 @@
                                  IsEnabled="{Binding ResizeOverlay}" Maximum="2000" Value="{Binding ResizeHeight}"/>
         </DockPanel>
         
-    </StackPanel>
+    </Grid>
     
 </UserControl>
