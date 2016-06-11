@@ -14,6 +14,7 @@ using Hypermint.Base.Interfaces;
 using System.Collections.Generic;
 using Hypermint.Base.Services;
 using System.Threading.Tasks;
+using Hypermint.Base;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
@@ -88,6 +89,27 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             set { SetProperty(ref overwriteImage, value); }
         }
 
+        private bool processWheels = true;
+        public bool ProcessWheels
+        {
+            get { return processWheels; }
+            set { SetProperty(ref processWheels, value); }
+        }
+
+        private bool processLetters;
+        public bool ProcessLetters
+        {
+            get { return processLetters; }
+            set { SetProperty(ref processLetters, value); }
+        }
+
+        private bool processGenres;
+        public bool ProcessGenres
+        {
+            get { return processGenres; }
+            set { SetProperty(ref processGenres, value); }
+        }        
+
         public WheelProcessViewModel(IEventAggregator ea,
             IGameRepo gameRepo,
             ISelectedService selectedService,
@@ -106,7 +128,12 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 {
                     Cancellable = true;
 
-                    await ProcessWheelsAsync();
+                    if (ProcessWheels)
+                        await ProcessWheelsAsync();
+                    else if (ProcessLetters)
+                        await ProcessLettersAsync();
+                    else if (ProcessGenres)
+                        await ProcessGenresAsync();
                 }
 
             });
@@ -122,6 +149,11 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             OpenExportFolderCommand = new DelegateCommand(() =>
             {
                 var exportPath = "Exports\\Wheels\\" + _selectedService.CurrentSystem + "\\";
+
+                if (ProcessLetters)
+                    exportPath = "Exports\\Letters\\" + _selectedService.CurrentSystem + "\\";
+                else if (ProcessGenres)
+                    exportPath = "Exports\\Genres\\" + _selectedService.CurrentSystem + "\\";
 
                 _folderExplorer.OpenFolder(exportPath);
             });
@@ -163,8 +195,8 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 image.Write("preview.png");
 
                 var imagePath = "preview.png";
-
-                _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
+                
+                _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
             }
         }
 
@@ -214,7 +246,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                             image.Write(imagePath);
 
                             if (PreviewCreated)
-                                _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
+                                _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
                         }
                     }
                     else
@@ -231,7 +263,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                                 image.Write(imagePath);
 
                                 if (PreviewCreated)
-                                    _eventAgg.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
+                                    _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
                             }
                         }
                     }
@@ -241,11 +273,133 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
                 else
                 {
+                    ProcessWheelInfo = "Processing wheels cancelled";
                     break;
                 }
 
             }
+            
+            Cancellable = false;
+            ProcessRunning = false;
+            ProcessCancel = false;
 
+            ProcessWheelInfo = "Processing wheels complete";
+        }
+
+        private async Task ProcessLettersAsync()
+        {
+            ProcessRunning = true;
+
+            ProcessWheelInfo = "Processing letters";
+
+            string letters = @"!('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            ITextImageService srv = new TextImage();
+            var exportPath = "Exports\\Letters\\" + _selectedService.CurrentSystem + "\\";
+
+            if (!Directory.Exists(exportPath))
+                Directory.CreateDirectory(exportPath);
+
+            foreach (var letter in letters)
+            {
+                if (!ProcessCancel)
+                {
+                    string exportName = letter + ".png";
+                    var imagePath = Path.Combine(exportPath, exportName);
+
+                    ProcessWheelSetting.PreviewText = letter.ToString();
+
+                    using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
+                    {
+                        image.Write(imagePath);
+
+                        if (PreviewCreated)
+                            _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            ProcessWheelInfo = "Processing letters complete";
+            Cancellable = false;
+            ProcessRunning = false;
+            ProcessCancel = false;
+        }
+
+        private async Task ProcessGenresAsync()
+        {
+            ProcessRunning = true;
+
+            ProcessWheelInfo = "Processing genres";
+
+            var genreList = new List<string>();
+            foreach (var game in _gameRepo.GamesList)
+            {
+                if (!string.IsNullOrEmpty(game.Genre))
+                    if (!genreList.Contains(game.Genre))
+                        genreList.Add(game.Genre);
+            }
+
+            var genreCount = genreList.Count;
+            if (genreCount == 0)
+            {
+                ResetProcess();
+                return;
+            }
+            
+            var exportPath = "Exports\\Genres\\" + _selectedService.CurrentSystem + "\\";
+
+            if (!Directory.Exists(exportPath))
+                Directory.CreateDirectory(exportPath);
+
+            int i = 1;
+            foreach (var genre in genreList)
+            {
+                if (!ProcessCancel)
+                {
+                    ProcessWheelInfo = "Processing genres : " + i + " of " + genreCount;
+                    ProcessWheelSetting.PreviewText = genre.ToString();
+
+                    string exportName = genre + ".png";
+                    var imagePath = Path.Combine(exportPath, exportName);             
+
+                    if (!File.Exists(imagePath))                    
+                        await SaveImageAsync(imagePath);                    
+                    else if (OverwriteImage)
+                        await SaveImageAsync(imagePath);
+
+                    i++;
+                }
+                else
+                {
+                    ResetProcess();
+                    break;
+                }
+            }
+
+            ProcessWheelInfo = "Processing genres complete";
+
+            ResetProcess();
+        }
+
+        private async Task SaveImageAsync(string imagePath)
+        {
+            ITextImageService srv = new TextImage();
+
+            using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
+            {
+                image.Write(imagePath);
+
+                if (PreviewCreated)
+                    _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
+            }
+        }
+
+        private void ResetProcess()
+        {
             Cancellable = false;
             ProcessRunning = false;
             ProcessCancel = false;

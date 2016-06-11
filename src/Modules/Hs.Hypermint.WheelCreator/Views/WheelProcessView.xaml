@@ -17,10 +17,10 @@
                 </DockPanel>
 
                 <DockPanel Margin="5">
-                    <RadioButton Margin="5" Content="Wheels" IsChecked="True"/>
-                    <RadioButton Margin="5" Content="Letters" IsEnabled="False"/>
+                    <RadioButton Margin="5" Content="Wheels" IsChecked="{Binding ProcessWheels,UpdateSourceTrigger=PropertyChanged}"/>
+                    <RadioButton Margin="5" Content="Letters" IsChecked="{Binding ProcessLetters,UpdateSourceTrigger=PropertyChanged}"/>
+                    <RadioButton Margin="5" Content="Genre" IsChecked="{Binding ProcessGenres,UpdateSourceTrigger=PropertyChanged}"/>
                     <RadioButton Margin="5" Content="Special" IsEnabled="False"/>
-                    <RadioButton Margin="5" Content="Genre" IsEnabled="False"/>
                 </DockPanel>
                 
                 <control:ProcessTools/>
