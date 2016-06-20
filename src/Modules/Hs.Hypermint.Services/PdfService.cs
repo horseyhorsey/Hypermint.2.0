@@ -35,9 +35,22 @@ namespace Hs.Hypermint.Services
         public int GetNumberOfPdfPages(string pdfFile)
         {
             int pageCount = 0;
-            var pdfReader = new PdfReader(pdfFile);
 
-            pageCount = pdfReader.NumberOfPages;
+            try
+            {                
+                using (var pdfStream = new FileStream(pdfFile, FileMode.Open))
+                {
+                    var pdfReader = new PdfReader(pdfStream);
+
+                    pageCount = pdfReader.NumberOfPages;
+
+                }
+
+            }
+            catch (Exception ex)
+            {                
+            }
+
 
             return pageCount;
         }
