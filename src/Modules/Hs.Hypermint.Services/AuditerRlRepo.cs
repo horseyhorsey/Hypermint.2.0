@@ -107,8 +107,6 @@ namespace Hs.Hypermint.Services
         {
             for (int i = 0; i < RlAudits.Count; i++)
             {
-                if (RlAudits[i].RomName == "1942 (Europe)")
-                    Console.WriteLine("ss");
 
                 RlAudits[i].HaveCards =
                     CheckForMedia(
@@ -128,7 +126,7 @@ namespace Hs.Hypermint.Services
             {
                 try
                 {
-                    var dirName = Path.GetFileNameWithoutExtension(item);
+                    var dirName = Path.GetFileName (item);
 
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                     var index = RlAudits.IndexOf(s);
@@ -154,7 +152,7 @@ namespace Hs.Hypermint.Services
                 {
                     try
                     {
-                        var dirName = Path.GetFileNameWithoutExtension(item);
+                        var dirName = Path.GetFileName (item);
 
                         var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                         var index = RlAudits.IndexOf(s);
@@ -183,9 +181,8 @@ namespace Hs.Hypermint.Services
             foreach (var item in dirs)
             {
                 try
-                {
-                    var dirName = Path.GetFileNameWithoutExtension(item);
-
+                {                    
+                    var dirName = Path.GetFileName(item);
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                     var index = RlAudits.IndexOf(s);
                     RlAudits[index].HaveGuide = true;
@@ -208,7 +205,7 @@ namespace Hs.Hypermint.Services
             {
                 try
                 {
-                    var dirName = Path.GetFileNameWithoutExtension(item);
+                    var dirName = Path.GetFileName(item);
 
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                     var index = RlAudits.IndexOf(s);
@@ -225,7 +222,6 @@ namespace Hs.Hypermint.Services
         {
             for (int i = 1; i < RlAudits.Count; i++)
             {
-
                 RlAudits[i].HaveManual =
                     CheckForMedia(
                         rlMediaPath + "\\Manuals\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
@@ -244,7 +240,7 @@ namespace Hs.Hypermint.Services
             {
                 try
                 {
-                    var dirName = Path.GetFileNameWithoutExtension(item);
+                    var dirName = Path.GetFileName(item);
 
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                     var index = RlAudits.IndexOf(s);
@@ -268,7 +264,7 @@ namespace Hs.Hypermint.Services
             {
                 try
                 {
-                    var dirName = Path.GetFileNameWithoutExtension(item);
+                    var dirName = Path.GetFileName(item);
 
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                     var index = RlAudits.IndexOf(s);
@@ -292,7 +288,7 @@ namespace Hs.Hypermint.Services
             {
                 try
                 {
-                    var dirName = Path.GetFileNameWithoutExtension(item);
+                    var dirName = Path.GetFileName(item);
 
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                     var index = RlAudits.IndexOf(s);
@@ -316,7 +312,7 @@ namespace Hs.Hypermint.Services
             {
                 try
                 {
-                    var dirName = Path.GetFileNameWithoutExtension(item);
+                    var dirName = Path.GetFileName(item);
 
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                     var index = RlAudits.IndexOf(s);
@@ -340,7 +336,7 @@ namespace Hs.Hypermint.Services
             {
                 try
                 {
-                    var dirName = Path.GetFileNameWithoutExtension(item);
+                    var dirName = Path.GetFileName (item);
 
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
                     var index = RlAudits.IndexOf(s);
