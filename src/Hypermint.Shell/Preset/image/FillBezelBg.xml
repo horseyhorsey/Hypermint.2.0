@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>FillBezelBg</Name>
+  <Width>1920</Width>
+  <Height>1080</Height>
+  <Png>false</Png>
+  <ResizeImage>true</ResizeImage>
+  <StretchImage>true</StretchImage>
+  <Description>filled</Description>
+  <TileEnabled>false</TileEnabled>
+  <TileHeight>800</TileHeight>
+  <TileWidth>500</TileWidth>
+  <FlipOn>false</FlipOn>
+  <FlipL>true</FlipL>
+</Preset>

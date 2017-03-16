@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using Hs.Hypermint.WheelCreator.Models;
 using Hypermint.Base;
+using System.Drawing;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
@@ -126,13 +127,15 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             if (!Directory.Exists(Path.GetDirectoryName(settingsPath)))
                 Directory.CreateDirectory(settingsPath);
 
-            var name = Presets.CurrentItem.ToString();
+            var name = Presets.CurrentItem?.ToString();
 
-            ITextImageService ts = new TextImage();
-            CurrentWheelSetting = ts.DeserializePreset(settingsPath + name);
+            if (name != null)
+            {
+                ITextImageService ts = new TextImage();
+                CurrentWheelSetting = ts.DeserializePreset(settingsPath + name);
 
-            SetUIValuesFromPreset(CurrentWheelSetting);
-
+                SetUIValuesFromPreset(CurrentWheelSetting);
+            }
         }
 
         private void SetUIValuesFromPreset(WheelTextSetting setting)
@@ -168,6 +171,8 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
         private void SelectFont()
         {
+            if (CurrentWheelSetting == null) return;
+            
             FontDialog fontDlg = new FontDialog();
             DialogResult result = fontDlg.ShowDialog();
             string font;
@@ -176,6 +181,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 font = fontDlg.Font.Name;
                 var fontEdit = new StringBuilder(fontDlg.Font.Name);
                 font = fontEdit.ToString();
+
                 CurrentWheelSetting.FontName = font;
                 FontName = font;
             }

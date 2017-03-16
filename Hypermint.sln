@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.Shell", "src\Hypermint.Shell\Hypermint.Shell.csproj", "{989C2D81-B19B-463C-BFFC-343087E7E5F9}"
 EndProject
@@ -52,8 +52,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.WheelCreatorTests", "src\Modules\Hs.Hypermint.WheelCreatorTests\Hs.Hypermint.WheelCreatorTests.csproj", "{451D55B4-C384-4D6A-A082-E96482D3BC92}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.ImageEdit", "src\Modules\Hs.Hypermint.ImageEdit\Hs.Hypermint.ImageEdit.csproj", "{3FD3EAE8-56B5-4FEE-8362-1C597217C855}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.ServicesTests1", "src\Modules\Hs.Hypermint.ServicesTests1\Hs.Hypermint.ServicesTests1.csproj", "{9F19ACF9-C659-406E-A70B-02071C43C672}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.BaseTests", "src\Hypermint.BaseTests\Hypermint.BaseTests.csproj", "{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}"
 EndProject
@@ -155,10 +153,6 @@ Global
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F19ACF9-C659-406E-A70B-02071C43C672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F19ACF9-C659-406E-A70B-02071C43C672}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F19ACF9-C659-406E-A70B-02071C43C672}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F19ACF9-C659-406E-A70B-02071C43C672}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Release|Any CPU.ActiveCfg = Release|Any CPU

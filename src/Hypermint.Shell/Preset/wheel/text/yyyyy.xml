@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>yyyyy</Name>
+  <FontName>Arial-Bold</FontName>
+  <PreviewText>Simple wheel</PreviewText>
+  <TextColor>
+    <A>255</A>
+    <R>255</R>
+    <G>255</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>1</ScR>
+    <ScG>1</ScG>
+    <ScB>0</ScB>
+  </TextColor>
+  <TextStrokeColor>
+    <A>0</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>0</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </TextStrokeColor>
+  <ShadowColor>
+    <A>0</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>0</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </ShadowColor>
+  <Width>400</Width>
+  <Height>175</Height>
+  <Trim>true</Trim>
+  <Gravity>Center</Gravity>
+  <ArcAmount>10</ArcAmount>
+  <StrokeWidth>0</StrokeWidth>
+  <ShadowAmount>0</ShadowAmount>
+  <ShadowDistance>0</ShadowDistance>
+  <Swap>false</Swap>
+  <Repage>false</Repage>
+  <Shade>false</Shade>
+</Preset>

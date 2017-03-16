@@ -79,8 +79,7 @@
 
         <GridSplitter Grid.Column="1" Grid.Row="3" ResizeDirection="Rows" Cursor="SizeNS" HorizontalAlignment="Stretch" Margin="5,0,5,0"/>
 
-        <StatusBar  Grid.Row="5" Grid.Column="1" Margin="2" Grid.ColumnSpan="2"
-                   BorderThickness="2">
+        <StatusBar Grid.Row="5" Grid.Column="1" Margin="2" Grid.ColumnSpan="2" BorderThickness="2">
             <StatusBarItem Content="{Binding ErrorMessage}"></StatusBarItem>
         </StatusBar>
     </Grid>

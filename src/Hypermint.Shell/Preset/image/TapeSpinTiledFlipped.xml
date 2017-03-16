@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>TapeSpinTiledFlipped</Name>
+  <Width>1920</Width>
+  <Height>1080</Height>
+  <Png>true</Png>
+  <ResizeImage>true</ResizeImage>
+  <StretchImage>true</StretchImage>
+  <Description>spine</Description>
+  <TileEnabled>true</TileEnabled>
+  <TileHeight>800</TileHeight>
+  <TileWidth>500</TileWidth>
+  <FlipOn>true</FlipOn>
+  <FlipL>true</FlipL>
+</Preset>

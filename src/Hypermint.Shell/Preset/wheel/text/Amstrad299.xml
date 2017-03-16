@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>Amstrad299</Name>
+  <FontName>Amstrad CPC464</FontName>
+  <PreviewText>3D Boxing</PreviewText>
+  <TextColor>
+    <A>255</A>
+    <R>210</R>
+    <G>105</G>
+    <B>30</B>
+    <ScA>1</ScA>
+    <ScR>0.6444797</ScR>
+    <ScG>0.141263291</ScG>
+    <ScB>0.0129830325</ScB>
+  </TextColor>
+  <TextStrokeColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>255</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>1</ScB>
+  </TextStrokeColor>
+  <ShadowColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </ShadowColor>
+  <Width>400</Width>
+  <Height>186</Height>
+  <Trim>true</Trim>
+  <Gravity>Center</Gravity>
+  <ArcAmount>17</ArcAmount>
+  <StrokeWidth>2.5</StrokeWidth>
+  <ShadowX>0</ShadowX>
+  <ShadowY>0</ShadowY>
+  <ShadowPercentage>82</ShadowPercentage>
+  <ShadowSigma>3</ShadowSigma>
+  <Swap>false</Swap>
+  <Repage>false</Repage>
+  <Shade>false</Shade>
+  <ShadeOn>false</ShadeOn>
+  <ColorShade>false</ColorShade>
+  <ShadeAzimuth>0</ShadeAzimuth>
+  <ShadeElevation>62</ShadeElevation>
+</Preset>

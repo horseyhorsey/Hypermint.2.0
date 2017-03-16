@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>Roman Time</Name>
+  <FontName>Times New Roman</FontName>
+  <PreviewText>Roman Time</PreviewText>
+  <TextColor>
+    <A>255</A>
+    <R>106</R>
+    <G>247</G>
+    <B>192</B>
+    <ScA>1</ScA>
+    <ScR>0.144128472</ScR>
+    <ScG>0.9301109</ScG>
+    <ScB>0.5271151</ScB>
+  </TextColor>
+  <TextStrokeColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </TextStrokeColor>
+  <ShadowColor>
+    <A>0</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>0</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </ShadowColor>
+  <Width>400</Width>
+  <Height>175</Height>
+  <Trim>true</Trim>
+  <Gravity>Center</Gravity>
+  <ArcAmount>14</ArcAmount>
+  <StrokeWidth>1.2000000000000002</StrokeWidth>
+  <ShadowAmount>0</ShadowAmount>
+  <ShadowDistance>0</ShadowDistance>
+  <Swap>false</Swap>
+  <Repage>false</Repage>
+  <Shade>false</Shade>
+</Preset>

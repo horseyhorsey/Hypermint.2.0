@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Hs.Hypermint.Search.Resources">
+
+    <DataTemplate x:Key="GameSearchItemLong">
+        <Grid>
+            <StackPanel>
+                <Image Width="140" Height="120"
+                                       Source="{Binding SystemImage}"
+                                       HorizontalAlignment="Center">
+                </Image>
+                <Label Content="{Binding Game.System}"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Image Width="140" Height="80"
+                                       Source="{Binding WheelImage}"
+                                       HorizontalAlignment="Left">
+                </Image>
+                <Label Content="{Binding Game.Description}"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
+                                           FontSize="32" FontWeight="Light" Text="{Binding Game.Year}"/>
+                <TextBlock HorizontalAlignment="Right" FontSize="24" FontWeight="Light" Text="{Binding Game.Genre}"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

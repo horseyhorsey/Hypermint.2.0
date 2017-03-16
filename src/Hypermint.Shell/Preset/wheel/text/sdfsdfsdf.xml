@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>sdfsdfsdf</Name>
+  <FontName>Amstrad CPC464</FontName>
+  <PreviewText>Simple wheel</PreviewText>
+  <TextColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>255</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>1</ScB>
+  </TextColor>
+  <TextStrokeColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>255</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>1</ScB>
+  </TextStrokeColor>
+  <ShadowColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </ShadowColor>
+  <Width>400</Width>
+  <Height>175</Height>
+  <Trim>true</Trim>
+  <Gravity>Center</Gravity>
+  <ArcAmount>10</ArcAmount>
+  <StrokeWidth>1.5</StrokeWidth>
+  <ShadowX>0</ShadowX>
+  <ShadowY>0</ShadowY>
+  <ShadowPercentage>73</ShadowPercentage>
+  <ShadowSigma>3</ShadowSigma>
+  <Swap>false</Swap>
+  <Repage>false</Repage>
+  <Shade>false</Shade>
+  <ShadeOn>true</ShadeOn>
+  <ColorShade>false</ColorShade>
+  <ShadeAzimuth>0</ShadeAzimuth>
+  <ShadeElevation>62</ShadeElevation>
+</Preset>

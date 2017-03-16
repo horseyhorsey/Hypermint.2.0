@@ -179,11 +179,13 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
             if (!Directory.Exists(Path.GetDirectoryName(settingsPath))) return;
 
-            var name = Presets.CurrentItem.ToString();
+            if (Presets?.CurrentItem != null)
+            {
+                var name = Presets.CurrentItem.ToString();
 
-            ITextImageService ts = new TextImage();
-            ProcessWheelSetting = ts.DeserializePreset(settingsPath + name);
-
+                ITextImageService ts = new TextImage();
+                ProcessWheelSetting = ts.DeserializePreset(settingsPath + name);
+            }
         }
 
         private async void GeneratePreview()

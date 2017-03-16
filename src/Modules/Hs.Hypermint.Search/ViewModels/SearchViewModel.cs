@@ -2,7 +2,6 @@
 using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,97 +11,19 @@ using System.Windows.Data;
 using Hypermint.Base.Services;
 using Prism.Events;
 using Hypermint.Base;
-using System.Xml.Linq;
-using System.Xml;
 using System.IO;
 using System.Threading;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hypermint.Base.Constants;
-using System.Windows.Media.Imaging;
 using System.Collections;
 
 namespace Hs.Hypermint.Search.ViewModels
 {
     public class SearchViewModel : ViewModelBase
     {
-        public DelegateCommand<string> SearchGamesCommand { get; }
-        public DelegateCommand<string> SelectSystemsCommand { get; }
-        public DelegateCommand CancelCommand { get;}
-        public DelegateCommand LaunchGameCommand { get; private set; }
-        public DelegateCommand AddMultiSystemCommand { get; private set; }
-        public DelegateCommand<string> PageGamesCommand { get; private set; } 
-
-        #region Properties
-
-        CancellationTokenSource tokenSource = new CancellationTokenSource();
-
-        private IMainMenuRepo _mainmenuRepo;
-        private ICollectionView systems;
-        private IEventAggregator _eventAggregator;
-        private ISettingsRepo _settings;
-        private IGameLaunch _gameLaunch;
-        private IHyperspinXmlService _xmlService;
-
-        private bool canSearch = true;
-
-        private Systems _systems = new Systems();
-        public ICollectionView Systems
-        {
-            get { return systems; }
-            set { SetProperty(ref systems, value); }
-        }
-        private List<GameSearch> searchedGames;
-
-        public int GamesFoundCount { get; set; }
-        private int pageCount;
-        private int currentPage;
-
-        private string pageInfo;
-        public string PageInfo
-        {
-            get { return pageInfo; }
-            set { SetProperty(ref pageInfo, value); }
-        }
-
-        private bool enabledSearchOn = true;
-        public bool EnabledSearchOn
-        {
-            get { return enabledSearchOn; }
-            set { SetProperty(ref enabledSearchOn, value); }
-        }
-
-        private bool cloneSearchOn = true;
-        public bool CloneSearchOn
-        {
-            get { return cloneSearchOn; }
-            set { SetProperty(ref cloneSearchOn, value); }
-        }
-
-        /// <summary>
-        /// Full collection view list
-        /// </summary>
-        private ICollectionView foundGmes;
-        public ICollectionView FoundGames
-        {
-            get { return foundGmes; }
-            set { SetProperty(ref foundGmes, value); }
-        }
-
-        private ICollectionView filteredGames;
-        private ISelectedService _selectedSrv;
-
-        public ICollectionView FilteredGames
-        {
-            get { return filteredGames; }
-            set { SetProperty(ref filteredGames, value); }
-        }
-
-        public DelegateCommand<IList> SelectionChanged { get; set; }
-        public DelegateCommand<IList> ListBoxChanged { get; private set; } 
-        #endregion
-
-        public SearchViewModel(IMainMenuRepo mainMenu, 
-            IEventAggregator eventAggregator, 
+        #region Constructors
+        public SearchViewModel(IMainMenuRepo mainMenu,
+            IEventAggregator eventAggregator,
             ISettingsRepo settings,
             IHyperspinXmlService xmlService,
             ISelectedService selectedSrv,
@@ -115,13 +36,16 @@ namespace Hs.Hypermint.Search.ViewModels
             _xmlService = xmlService;
             _selectedSrv = selectedSrv;
 
+            //Search for games with the SearchString from this Vm.
             SearchGamesCommand = new DelegateCommand<string>(async x =>
             {
+                x = SearchString;
+
                 if (x.Length > 3)
                 {
                     await ScanForGamesAsync(x);
                 }
-            }, o => canSearch);            
+            }, o => canSearch);
 
             CancelCommand = new DelegateCommand(() =>
             {
@@ -185,15 +109,123 @@ namespace Hs.Hypermint.Search.ViewModels
 
                     }
 
-                });            
+                });
 
             LaunchGameCommand = new DelegateCommand(LaunchGame);
 
+            DockSystemsCommand = new DelegateCommand(() => { SystemsVisible = !SystemsVisible; });
+
             _eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => SystemsUpdated(x));
-            
+
+        }
+        #endregion
+
+        #region Properties
+
+        private ICollectionView systems;
+        public ICollectionView Systems
+        {
+            get { return systems; }
+            set { SetProperty(ref systems, value); }
+        }
+        public int GamesFoundCount { get; set; }
+
+        private string pageInfo;
+        public string PageInfo
+        {
+            get { return pageInfo; }
+            set { SetProperty(ref pageInfo, value); }
         }
 
-        #region Methods
+        private bool enabledSearchOn = true;
+        public bool EnabledSearchOn
+        {
+            get { return enabledSearchOn; }
+            set { SetProperty(ref enabledSearchOn, value); }
+        }
+
+        private bool cloneSearchOn = true;
+        public bool CloneSearchOn
+        {
+            get { return cloneSearchOn; }
+            set { SetProperty(ref cloneSearchOn, value); }
+        }
+
+        /// <summary>
+        /// Full collection view list
+        /// </summary>
+        private ICollectionView foundGmes;
+        public ICollectionView FoundGames
+        {
+            get { return foundGmes; }
+            set { SetProperty(ref foundGmes, value); }
+        }
+
+        private ICollectionView filteredGames;
+        public ICollectionView FilteredGames
+        {
+            get { return filteredGames; }
+            set { SetProperty(ref filteredGames, value); }
+        }
+
+        private List<GameSearch> searchedGames;
+
+        private string _searchString;
+        public string SearchString
+        {
+            get { return _searchString; }
+            set { SetProperty(ref _searchString, value); }
+        }
+
+        private bool systemsVisible = true;
+        public bool SystemsVisible
+        {
+            get { return systemsVisible; }
+            set { SetProperty(ref systemsVisible, value); }
+        }
+
+
+        #endregion
+
+        #region Fields
+        private bool canSearch = true;
+        private Systems _systems = new Systems();
+
+        /// <summary>
+        /// The current page count
+        /// </summary>
+        private int pageCount;
+
+        /// <summary>
+        /// The current search page
+        /// </summary>
+        private int currentPage;
+        CancellationTokenSource tokenSource = new CancellationTokenSource();
+        #endregion
+
+        #region Repos
+        private IMainMenuRepo _mainmenuRepo;
+        private IEventAggregator _eventAggregator;
+        private ISettingsRepo _settings;
+        private IGameLaunch _gameLaunch;
+        private IHyperspinXmlService _xmlService;
+        private ISelectedService _selectedSrv;
+        #endregion
+
+        #region Commands
+        public DelegateCommand<string> SearchGamesCommand { get; }
+        public DelegateCommand<string> SelectSystemsCommand { get; }
+        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand LaunchGameCommand { get; private set; }
+        public DelegateCommand AddMultiSystemCommand { get; private set; }
+        public DelegateCommand<string> PageGamesCommand { get; private set; }
+        public DelegateCommand<IList> SelectionChanged { get; set; }
+        public DelegateCommand<IList> ListBoxChanged { get; private set; }
+        public DelegateCommand DockSystemsCommand { get; private set; }     
+
+        #endregion
+
+        #region Support Methods
         private void LaunchGame()
         {
             if (FoundGames != null)
@@ -314,7 +346,6 @@ namespace Hs.Hypermint.Search.ViewModels
             SearchGamesCommand.RaiseCanExecuteChanged();
 
         }
-
         private void PageGames(string direction)
         {
             if (GamesFoundCount == 0) return;
@@ -356,7 +387,6 @@ namespace Hs.Hypermint.Search.ViewModels
 
             PageInfo = currentPage + " | " + pageCount + "  Games found: " + GamesFoundCount;
         }
-
         private void FilteredGames_CurrentChanged(object sender, EventArgs e)
         {
             _selectedSrv.SelectedGames.Clear();
@@ -370,13 +400,15 @@ namespace Hs.Hypermint.Search.ViewModels
         #endregion
     }
 
+    #region Support classes
     public class GameSearch
-    {        
+    {
         public Game Game { get; set; }
         public string WheelImage { get; set; }
 
         public string SystemImage { get; set; }
     }
 
+    #endregion   
 }
 

@@ -21,8 +21,23 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 {
     public class SimpleWheelViewModel : ViewModelBase
     {
+        public SimpleWheelViewModel(ISelectedService selectedService, IEventAggregator ea)
+        {
+            _selectedService = selectedService;
+            _eventAggregator = ea;
+
+            Patterns = Enum.GetNames(typeof(WheelCreator.Patterns));
+
+            _eventAggregator.GetEvent<GenerateWheelEvent>().Subscribe(x =>
+            {
+                //GenerateWheelSource = new BitmapImage(new Uri(Path.GetFullPath(x)));
+                GenerateWheelSource = SelectedService.SetBitmapFromUri(new Uri(Path.GetFullPath(x)));
+            });
+        }
+
         private ISelectedService _selectedService;
         private IEventAggregator _eventAggregator;
+
         #region Commands        
         public DelegateCommand SelectFontCommand { get; private set; } 
         #endregion
@@ -98,22 +113,6 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             base.OnPropertyChanged(propertyName);
         }
 
-        public SimpleWheelViewModel(ISelectedService selectedService, IEventAggregator ea)
-        {
-            _selectedService = selectedService;
-            _eventAggregator = ea;                   
-
-            Patterns = Enum.GetNames(typeof(WheelCreator.Patterns));
-
-            _eventAggregator.GetEvent<GenerateWheelEvent>().Subscribe(x =>
-            {
-
-                //GenerateWheelSource = new BitmapImage(new Uri(Path.GetFullPath(x)));
-
-                GenerateWheelSource = SelectedService.SetBitmapFromUri(new Uri(Path.GetFullPath(x)));
-            });
-        }
-
         private System.Drawing.Color ColorFromMediaColor(System.Windows.Media.Color clr)
         {
             return System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B);
@@ -180,5 +179,6 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
             return fontFamilies;
         }
+        
     }
 }

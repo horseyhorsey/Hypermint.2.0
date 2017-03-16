@@ -230,7 +230,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 NegativeButtonText = "Cancel"
             };
 
-            var msg = "Search all systems for favorites. If a system was built previosly as a multi system it will be skipped.";
+            var msg = "Search all systems for favorites. If a system was built previosly as a multi system, * it will be skipped. * Manual deletion of existing Favourites database & media links.";
             var result = await _dialogService.ShowMessageAsync(this, "Scan all favorites", msg,
                 MessageDialogStyle.AffirmativeAndNegative, mahSettings);
 

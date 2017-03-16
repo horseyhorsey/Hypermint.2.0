@@ -56,16 +56,16 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(ModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.NavBar.NavBarModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MultiSystem.MultiSystemModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.FilesViewer.FilesViewModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.WheelCreator.WheelModuleInit));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.FilesViewer.FilesViewModule));            
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MediaPane.MediaPaneModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.IntroVideos.IntroVideosModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Audits.AuditsModule));
             moduleCatalog.AddModule(typeof(GameLaunchModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.HyperspinFile.HyperspinFileModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Search.SearchModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.WheelCreator.WheelModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.RocklaunchStats.RocklaunchStatsModule));            
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.ImageEdit.ImageEditModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.ImageEdit.ImageEditModule));            
         }
 
         protected override void ConfigureContainer()

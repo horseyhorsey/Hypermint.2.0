@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>TiledWheel</Name>
+  <Width>1920</Width>
+  <Height>1080</Height>
+  <Png>true</Png>
+  <ResizeImage>true</ResizeImage>
+  <StretchImage>true</StretchImage>
+  <Description>wheel</Description>
+  <TileEnabled>true</TileEnabled>
+  <TileHeight>150</TileHeight>
+  <TileWidth>200</TileWidth>
+  <FlipOn>false</FlipOn>
+  <FlipL>true</FlipL>
+</Preset>

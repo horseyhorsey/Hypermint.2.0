@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>ArialRodHull</Name>
+  <FontName>Arial</FontName>
+  <PreviewText>Rod Hulls Arial</PreviewText>
+  <TextColor>
+    <A>255</A>
+    <R>127</R>
+    <G>255</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>0.212230757</ScR>
+    <ScG>1</ScG>
+    <ScB>0</ScB>
+  </TextColor>
+  <TextStrokeColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </TextStrokeColor>
+  <ShadowColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </ShadowColor>
+  <Width>400</Width>
+  <Height>175</Height>
+  <Trim>true</Trim>
+  <Gravity>Center</Gravity>
+  <ArcAmount>0</ArcAmount>
+  <StrokeWidth>1.2</StrokeWidth>
+  <ShadowX>0</ShadowX>
+  <ShadowY>0</ShadowY>
+  <ShadowPercentage>50</ShadowPercentage>
+  <ShadowSigma>2</ShadowSigma>
+  <Swap>false</Swap>
+  <Repage>false</Repage>
+  <Shade>false</Shade>
+  <ShadeOn>true</ShadeOn>
+  <ColorShade>false</ColorShade>
+  <ShadeAzimuth>0</ShadeAzimuth>
+  <ShadeElevation>100</ShadeElevation>
+</Preset>

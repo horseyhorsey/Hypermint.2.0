@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preset>
+  <Name>StdImpact</Name>
+  <FontName>Impact</FontName>
+  <PreviewText>Std Impact</PreviewText>
+  <TextColor>
+    <A>255</A>
+    <R>207</R>
+    <G>20</G>
+    <B>26</B>
+    <ScA>1</ScA>
+    <ScR>0.6239604</ScR>
+    <ScG>0.00699541</ScG>
+    <ScB>0.010329823</ScB>
+  </TextColor>
+  <TextStrokeColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </TextStrokeColor>
+  <ShadowColor>
+    <A>255</A>
+    <R>0</R>
+    <G>0</G>
+    <B>0</B>
+    <ScA>1</ScA>
+    <ScR>0</ScR>
+    <ScG>0</ScG>
+    <ScB>0</ScB>
+  </ShadowColor>
+  <Width>250</Width>
+  <Height>175</Height>
+  <Trim>true</Trim>
+  <Gravity>Center</Gravity>
+  <ArcAmount>17</ArcAmount>
+  <StrokeWidth>3.5</StrokeWidth>
+  <ShadowX>10</ShadowX>
+  <ShadowY>10</ShadowY>
+  <ShadowPercentage>85</ShadowPercentage>
+  <ShadowSigma>3</ShadowSigma>
+  <Swap>false</Swap>
+  <Repage>false</Repage>
+  <Shade>false</Shade>
+  <ShadeOn>true</ShadeOn>
+  <ColorShade>false</ColorShade>
+  <ShadeAzimuth>151</ShadeAzimuth>
+  <ShadeElevation>71</ShadeElevation>
+</Preset>
