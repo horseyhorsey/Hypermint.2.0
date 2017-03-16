@@ -7,7 +7,6 @@ using System.IO;
 using System.Windows.Data;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Base;
-using System.Diagnostics;
 using Hypermint.Base.Services;
 using System.Windows.Media.Imaging;
 using System;
@@ -24,6 +23,83 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
     public class SystemsViewModel : ViewModelBase, IDropTarget
     {
+
+        #region Constructors
+        public SystemsViewModel()
+        {
+            _eventAggregator.GetEvent<AddNewSystemEvent>().Publish("SystemsView");
+        }
+
+        public SystemsViewModel(IMainMenuRepo main,
+            IEventAggregator eventAggregator,
+            ISettingsRepo settings,
+            IFileFolderService fileService,
+            IDialogCoordinator dialogService,
+            ISelectedService selectedService)
+        {
+            _mainMenuRepo = main;
+            _eventAggregator = eventAggregator;
+
+            _settingsRepo = settings;
+            _settingsRepo.LoadHypermintSettings();
+
+            _selectedService = selectedService;
+            _dialogService = dialogService;
+            _fileFolderService = fileService;
+
+            // Setup the main menu database to read in all systems
+            _mainMenuXmlPath = "";
+
+            _mainMenuXmlPath = Path.Combine(
+                    _settingsRepo.HypermintSettings.HsPath, Root.Databases,
+                    @"Main Menu\Main Menu.xml");
+
+            UpdateSystems(_mainMenuXmlPath);
+
+            _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
+            _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterSystemsByText);
+
+            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);
+
+            AddSystemCommand = new DelegateCommand<string>(async x =>
+            {
+                if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
+
+                await AddSystemAsync();
+            });
+
+            CloseDialogCommand = new DelegateCommand(async () =>
+            {
+                await _dialogService.HideMetroDialogAsync(this, customDialog);
+            });
+
+            SelectDatabaseCommand = new DelegateCommand(() =>
+            {
+                if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
+
+                PickedDatabaseXml =
+                    _fileFolderService.setFileDialog(_settingsRepo.HypermintSettings.HsPath + "\\Databases");
+
+                ShortDbName = Path.GetFileNameWithoutExtension(PickedDatabaseXml);
+            });
+
+            SaveNewSystemCommand = new DelegateCommand(() =>
+            {
+                if (string.IsNullOrWhiteSpace(NewSystemName)) return;
+
+                bool createFromExisting = false;
+
+                if (!string.IsNullOrEmpty(PickedDatabaseXml))
+                    createFromExisting = true;
+
+                SaveNewSystem(createFromExisting);
+
+            });
+
+        }
+
+        #endregion
+
         #region Properties
         private ICollectionView _systemItems;
         public ICollectionView SystemItems
@@ -100,98 +176,63 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         public DelegateCommand<string> AddSystemCommand { get; private set; }
         public DelegateCommand CloseDialogCommand { get; private set; }
         public DelegateCommand SelectDatabaseCommand { get; private set; }
-        public DelegateCommand SaveNewSystemCommand { get; private set; } 
+        public DelegateCommand SaveNewSystemCommand { get; private set; }
 
         #endregion
 
-        public SystemsViewModel()
+        #region Public Methods
+        public void DragOver(IDropInfo dropInfo)
         {
-            _eventAggregator.GetEvent<AddNewSystemEvent>().Publish("SystemsView");
-        }
+            var sourceItem = dropInfo.Data as MainMenu;
+            var targetItem = dropInfo.TargetItem as MainMenu;
 
-        public SystemsViewModel(IMainMenuRepo main, 
-            IEventAggregator eventAggregator,
-            ISettingsRepo settings,
-            IFileFolderService fileService,
-            IDialogCoordinator dialogService,
-            ISelectedService selectedService)
-        {
-            _mainMenuRepo = main;
-            _eventAggregator = eventAggregator;
-
-            _settingsRepo = settings;
-            _settingsRepo.LoadHypermintSettings();
-
-            _selectedService = selectedService;
-            _dialogService = dialogService;
-            _fileFolderService = fileService;            
-
-            // Setup the main menu database to read in all systems
-            _mainMenuXmlPath = "";
-
-            _mainMenuXmlPath = Path.Combine(
-                    _settingsRepo.HypermintSettings.HsPath, Root.Databases,
-                    @"Main Menu\Main Menu.xml");
-
-            UpdateSystems(_mainMenuXmlPath);
-
-            _eventAggregator.GetEvent<MainMenuSelectedEvent>().Subscribe(UpdateSystems);
-            _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterSystemsByText);
-
-            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);            
-
-            AddSystemCommand = new DelegateCommand<string>(async x =>
+            if (sourceItem != null && targetItem != null)
             {
-                if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
-
-                await AddSystemAsync();
-            });
-
-            CloseDialogCommand = new DelegateCommand(async () =>
-            {
-                await _dialogService.HideMetroDialogAsync(this, customDialog);
-            });
-
-            SelectDatabaseCommand = new DelegateCommand(() =>
-            {
-                if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
-
-                PickedDatabaseXml = 
-                    _fileFolderService.setFileDialog(_settingsRepo.HypermintSettings.HsPath + "\\Databases");
-
-                ShortDbName = Path.GetFileNameWithoutExtension(PickedDatabaseXml);
-            });
-
-            SaveNewSystemCommand = new DelegateCommand(() => 
-            {
-                if (string.IsNullOrWhiteSpace(NewSystemName)) return;
-
-                bool createFromExisting = false;
-
-                if (!string.IsNullOrEmpty(PickedDatabaseXml))
-                    createFromExisting = true;
-
-                SaveNewSystem(createFromExisting);
-
-            });
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                dropInfo.Effects = DragDropEffects.Copy;
+            }
 
         }
+        public void Drop(IDropInfo dropInfo)
+        {
+            var sourceItem = dropInfo.Data as MainMenu;
+            var targetItem = dropInfo.TargetItem as MainMenu;
 
+            var AddInIndex = _mainMenuRepo.Systems.IndexOf(targetItem);
+
+            if (AddInIndex == 0)
+                AddInIndex = 1;
+
+            _mainMenuRepo.Systems.Remove(sourceItem);
+            _mainMenuRepo.Systems.Insert(AddInIndex, sourceItem);
+        }
+        #endregion
+
+        #region Support Methods
+
+        /// <summary>
+        /// Saves a new system to the main menu
+        /// </summary>
+        /// <param name="createFromExistingDb"></param>
         private void SaveNewSystem(bool createFromExistingDb)
         {
+            //Add system to the list
             _mainMenuRepo.Systems.Add(new MainMenu()
             {
                 Enabled = 1,
                 Name = NewSystemName
             });
 
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Hs.Hypermint.SidebarSystems.systemSettings.ini";
+            //Set the settings file for this system
+            var settingsFile = _settingsRepo.HypermintSettings.HsPath + "\\Settings\\" + NewSystemName + ".ini";
 
             //Create settings file for system if not already existing.
-            var settingsFile = _settingsRepo.HypermintSettings.HsPath + "\\Settings\\" + NewSystemName + ".ini";
             if (!File.Exists(settingsFile))
             {
+                //Load templated hyperspin settings ini from embedded resource
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = "Hs.Hypermint.SidebarSystems.systemSettings.ini";
+
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                 using (var reader = new StreamReader(stream))
                 using (var textFile = File.CreateText(settingsFile))
@@ -204,43 +245,45 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 }
             }
 
-            //Create media dirs
             CreateMediaDirectorysForNewSystem(_settingsRepo.HypermintSettings.HsPath, NewSystemName);
 
             //Create Database file or directory
             string dbDir = _settingsRepo.HypermintSettings.HsPath + "\\Databases\\";
-            if (!createFromExistingDb)
-            {
-                if (!Directory.Exists(dbDir + NewSystemName))
-                {
-                    Directory.CreateDirectory(dbDir + NewSystemName);
-                    File.Create(dbDir + NewSystemName + "\\" + NewSystemName + ".xml");
-                }
-            }
-            else
-            {
-                if (!Directory.Exists(dbDir + NewSystemName))
-                {
-                    Directory.CreateDirectory(dbDir + NewSystemName);                    
-                }
 
+            if (!Directory.Exists(dbDir + NewSystemName))
+            {
+                Directory.CreateDirectory(dbDir + NewSystemName);
+            }
+
+            if (!createFromExistingDb) //Create a blank database with new system name.
+            {
+                File.Create(dbDir + NewSystemName + "\\" + NewSystemName + ".xml");
+            }
+            else // Create a new database from an existing hyperspin xml
+            {
                 if (!File.Exists(dbDir + NewSystemName + "\\" + NewSystemName + ".xml"))
                 {
                     File.Copy(PickedDatabaseXml, dbDir + NewSystemName + "\\" + NewSystemName + ".xml");
-                }               
-
+                }
             }
 
             _dialogService.HideMetroDialogAsync(this, customDialog);
         }
-
+        /// <summary>
+        /// Generate directorys for a hyperspin system
+        /// </summary>
+        /// <param name="hsPath">Path to hyperspin</param>
+        /// <param name="systemName">The system name</param>
         private void CreateMediaDirectorysForNewSystem(string hsPath, string systemName)
         {
             var newSystemMediaPath = Path.Combine(hsPath, Root.Media, systemName);
 
             CreateDefaultHyperspinFolders(newSystemMediaPath);
         }
-
+        /// <summary>
+        /// Creates all needed folders for a hyperspin system
+        /// </summary>
+        /// <param name="hyperSpinSystemMediaDirectory"></param>
         private void CreateDefaultHyperspinFolders(string hyperSpinSystemMediaDirectory)
         {
             for (int i = 1; i < 5; i++)
@@ -261,7 +304,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.WheelSounds);
             Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Video);
         }
-
         private async Task AddSystemAsync()
         {
             customDialog = new CustomDialog() { Title = "Add new system" };
@@ -270,7 +312,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }
-
         private void SaveMainMenu()
         {
             if (_selectedService.CurrentMainMenu == null) return;
@@ -283,9 +324,8 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             catch (Exception) { }
 
         }
-
         private void UpdateSystems(string mainMenuXml)
-        {            
+        {
             if (File.Exists(mainMenuXml))
             {
                 _mainMenuXmlPath = mainMenuXml;
@@ -300,10 +340,9 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 SystemsHeader = "Systems: " + SystemsCount;
 
                 _eventAggregator.GetEvent<SystemsGenerated>().Publish("");
-                
+
             }
         }
-
         /// <summary>
         /// Filter the systems list
         /// </summary>
@@ -333,7 +372,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             SystemItems.CurrentChanged += SystemItems_CurrentChanged;
 
         }
-
         private void SystemItems_CurrentChanged(object sender, System.EventArgs e)
         {
             MainMenu system = SystemItems.CurrentItem as MainMenu;
@@ -348,12 +386,11 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                     _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
 
                     SetSystemImage();
-                    
+
                     this._eventAggregator.GetEvent<SystemSelectedEvent>().Publish(system.Name);
                 }
             }
         }
-
         /// <summary>
         /// Set wheel image for the system
         /// </summary>
@@ -370,39 +407,13 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 _selectedService.SystemImage = null;
 
         }
-
         private BitmapImage setImage(string imagePath)
         {
             Uri uriSource;
             uriSource = new Uri(imagePath);
             return new BitmapImage(uriSource);
         }
+        #endregion
 
-        public void DragOver(IDropInfo dropInfo)
-        {
-            var sourceItem = dropInfo.Data as MainMenu;
-            var targetItem = dropInfo.TargetItem as MainMenu;
-
-            if (sourceItem != null && targetItem != null)
-            {
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-                dropInfo.Effects = DragDropEffects.Copy;
-            }
-
-        }
-
-        public void Drop(IDropInfo dropInfo)
-        {
-            var sourceItem = dropInfo.Data as MainMenu;
-            var targetItem = dropInfo.TargetItem as MainMenu;
-
-            var AddInIndex = _mainMenuRepo.Systems.IndexOf(targetItem);
-
-            if (AddInIndex == 0)
-                AddInIndex = 1;
-
-            _mainMenuRepo.Systems.Remove(sourceItem);
-            _mainMenuRepo.Systems.Insert(AddInIndex, sourceItem);
-        }
     }
 }
