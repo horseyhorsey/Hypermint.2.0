@@ -14,9 +14,27 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 {
     public class ImagePresetViewModel : ViewModelBase
     {
-        private const string presetPath = "preset\\image\\";
+        private const string presetPath = "preset\\image\\";        
 
-        public DelegateCommand SavePresetCommand { get; private set; }
+        #region Constructors
+        public ImagePresetViewModel(IEventAggregator eventAgg)
+        {
+            _eventAgg = eventAgg;
+
+            SavePresetCommand = new DelegateCommand(() =>
+            {
+                _eventAgg.GetEvent<ImagePresetRequestEvent>().Publish("");
+            });
+
+            _eventAgg.GetEvent<ImagePresetRequestedEvent>().Subscribe((x) =>
+            {
+                SavePreset(x);
+            });
+
+            GetPresets("");
+
+        }
+        #endregion
 
         #region Properties
         private ICollectionView presets;
@@ -38,41 +56,11 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         private IEventAggregator _eventAgg;
         #endregion
 
-        public ImagePresetViewModel(IEventAggregator eventAgg)
-        {
-            _eventAgg = eventAgg;
+        #region Commands
+        public DelegateCommand SavePresetCommand { get; private set; }
+        #endregion
 
-            SavePresetCommand = new DelegateCommand(() =>
-            {
-                _eventAgg.GetEvent<ImagePresetRequestEvent>().Publish("");
-            });
-
-            _eventAgg.GetEvent<ImagePresetRequestedEvent>().Subscribe((x) =>
-            {
-                SavePreset(x);
-            });
-
-            GetPresets("");
-            
-        }
-
-        private void GetPresets(string selectedName = "")
-        {
-            var imgPresets = GetImagePresets();
-
-            Presets = new ListCollectionView(imgPresets);
-
-            if (imgPresets.Length == 0) return;
-
-            Presets.CurrentChanged += Presets_CurrentChanged;
-
-            if (!string.IsNullOrWhiteSpace(selectedName))
-                Presets.MoveCurrentTo(selectedName);
-
-            _eventAgg.GetEvent<ImagePresetsUpdatedEvent>().Publish("");            
-
-        }
-
+        #region Public Methods
         public string[] GetImagePresets()
         {
             var imagePresets = Directory.GetFiles(presetPath, "*.xml");
@@ -86,20 +74,6 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
             return imagePresets;
         }
-
-        private void Presets_CurrentChanged(object sender, EventArgs e)
-        {
-            if (!Directory.Exists(Path.GetDirectoryName(presetPath)))
-                Directory.CreateDirectory(presetPath);
-
-            PresetNameText = Presets.CurrentItem.ToString().Replace(".xml","");
-
-            var preset = DeserializePreset(presetPath + PresetNameText + ".xml");
-
-            _eventAgg.GetEvent<ImagePresetUpdateUiEvent>().Publish(preset);
-            
-        }        
-
         public ImageEditPreset DeserializePreset(string presetFile)
         {
             if (!File.Exists(presetFile)) return null;
@@ -120,12 +94,42 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             {
                 return null;
             }
-            
-        }
 
+        }
+        #endregion        
+
+        #region Support Methods
+        private void GetPresets(string selectedName = "")
+        {
+            var imgPresets = GetImagePresets();
+
+            Presets = new ListCollectionView(imgPresets);
+
+            if (imgPresets.Length == 0) return;
+
+            Presets.CurrentChanged += Presets_CurrentChanged;
+
+            if (!string.IsNullOrWhiteSpace(selectedName))
+                Presets.MoveCurrentTo(selectedName);
+
+            _eventAgg.GetEvent<ImagePresetsUpdatedEvent>().Publish("");
+
+        }
+        private void Presets_CurrentChanged(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(Path.GetDirectoryName(presetPath)))
+                Directory.CreateDirectory(presetPath);
+
+            PresetNameText = Presets.CurrentItem.ToString().Replace(".xml", "");
+
+            var preset = DeserializePreset(presetPath + PresetNameText + ".xml");
+
+            _eventAgg.GetEvent<ImagePresetUpdateUiEvent>().Publish(preset);
+
+        }
         private void SavePreset(object x)
         {
-            var presetFromUi = (ImageEditPreset) x;
+            var presetFromUi = (ImageEditPreset)x;
 
             if (string.IsNullOrWhiteSpace(PresetNameText)) return;
 
@@ -147,6 +151,8 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             }
 
             GetPresets(PresetNameText + ".xml");
-        }
+        } 
+        #endregion
+
     }
 }

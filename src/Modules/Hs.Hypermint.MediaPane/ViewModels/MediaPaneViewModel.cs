@@ -9,13 +9,76 @@ using Hypermint.Base.Interfaces;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Prism.Commands;
-using System.Windows.Documents;
-using System.Windows.Controls;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
 {
     public class MediaPaneViewModel : ViewModelBase
     {
+        #region Constructors
+        public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService,
+            ISettingsRepo settingsRepo, IPdfService pdfService)
+        {
+            _eventAggregator = eventAggregator;
+            _selectedService = selectedService;
+            _settingsRepo = settingsRepo;
+            _pdfService = pdfService;
+
+            PagePdfCommand = new DelegateCommand<string>((x) =>
+            {
+                PagePdf(x);
+            });
+
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(
+                (x) =>
+                {
+                    WheelSource = null;
+                    VideoSource = null;
+                    IsVideoSource = false;
+
+                    SetImage(x);
+                });
+
+            _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe((x) =>
+            {
+                IsVideoSource = false;
+
+                SetMediaFromFileType(x);
+            });
+
+            //_eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
+
+            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetMediaFromFileType);
+
+            ImageEditCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("CreateImageView");
+
+                _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath);
+            });
+        }
+
+        private void PagePdf(string direction)
+        {
+            if (direction == "forward")
+            {
+                if (CurrentPage < PdfPageCount)
+                {
+                    CurrentPage++;
+                }
+            }
+            else
+            {
+                if (CurrentPage > 1)
+                {
+                    CurrentPage--;
+                }
+            }
+
+            SetPdfImage(currentPdfFile, CurrentPage - 1);
+        }
+
+        #endregion
+
         #region Properties
         private ImageSource wheelSource;
         public ImageSource WheelSource
@@ -116,70 +179,6 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         #region Commands
         public DelegateCommand<string> PagePdfCommand { get; private set; }
         public DelegateCommand ImageEditCommand { get; private set; }
-        #endregion
-
-        #region Constructors
-        public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService,
-            ISettingsRepo settingsRepo, IPdfService pdfService)
-        {
-            _eventAggregator = eventAggregator;
-            _selectedService = selectedService;
-            _settingsRepo = settingsRepo;
-            _pdfService = pdfService;
-
-            PagePdfCommand = new DelegateCommand<string>((x) =>
-            {
-                PagePdf(x);
-            });
-
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(
-                (x) =>
-                {
-                    WheelSource = null;
-                    VideoSource = null;
-                    IsVideoSource = false;
-
-                    SetImage(x);
-                 });
-
-            _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe((x) =>
-            {
-                IsVideoSource = false;
-
-                SetMediaFromFileType(x);
-            });
-
-            //_eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
-
-            _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetMediaFromFileType);
-
-            ImageEditCommand = new DelegateCommand(() =>
-            {
-                _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("CreateImageView");
-
-                _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath);
-            });
-        }
-
-        private void PagePdf(string direction)
-        {
-            if (direction == "forward")
-            {
-                if (CurrentPage < PdfPageCount)
-                {
-                    CurrentPage++;
-                }
-            }
-            else
-            {
-                if (CurrentPage > 1)
-                {
-                    CurrentPage--;
-                }
-            }
-
-            SetPdfImage(currentPdfFile, CurrentPage - 1);
-        }
 
         #endregion
 

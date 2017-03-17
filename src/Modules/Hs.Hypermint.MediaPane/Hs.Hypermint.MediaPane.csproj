@@ -109,6 +109,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\MediaPaneControlsViewModel.cs" />
     <Compile Include="ViewModels\WebBrowserUtility.cs" />
     <Compile Include="Views\BezelEditView.xaml.cs">
       <DependentUpon>BezelEditView.xaml</DependentUpon>
@@ -131,7 +132,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\BezelEditViewModel.cs" />
-    <Compile Include="ViewModels\MediaPaneControlsViewModel.cs" />
     <Compile Include="ViewModels\MediaPaneViewModel.cs" />
     <Compile Include="Views\MediaPaneView.xaml.cs">
       <DependentUpon>MediaPaneView.xaml</DependentUpon>

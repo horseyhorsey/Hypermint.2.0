@@ -19,59 +19,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 {
     public class CreateImageViewModel : ViewModelBase
     {
-        private IEventAggregator _eventAggregator;
-
-        public DelegateCommand GeneratePreviewCommand { get; private set; }
-        public DelegateCommand SaveImageCommand { get; private set; } 
-
-        private ImageSource imageEditSource;
-        public ImageSource ImageEditSource
-        {
-            get { return imageEditSource; }
-            set { SetProperty(ref imageEditSource, value); }
-        }
-
-        private ImageEditPreset currentSetting;
-        public ImageEditPreset CurrentSetting
-        {
-            get { return currentSetting; }
-            set { SetProperty(ref currentSetting, value); }
-        }
-
-        private string imagePreviewHeader = "Image Preview";
-        public string ImagePreviewHeader
-        {
-            get { return imagePreviewHeader; }
-            set { SetProperty(ref imagePreviewHeader, value); }
-        }
-
-        private ICollectionView mediaExportTypes;
-        public ICollectionView MediaExportTypes
-        {
-            get { return mediaExportTypes; }
-            set { SetProperty(ref mediaExportTypes, value); }
-        }
-
-        private string author;
-        public string Author
-        {
-            get { return author; }
-            set { SetProperty(ref author, value); }
-        }
-
-        private string ratio;
-        public string Ratio
-        {
-            get { return ratio; }
-            set { SetProperty(ref ratio, value); }
-        }
-
-        public string currentImageFileSource { get; set; }
-
-        private ISettingsRepo _settings;
-        private ISelectedService _selected;
-        private IImageEditService _imageEdit;
-
+        #region Constructors
         public CreateImageViewModel(IEventAggregator eventAggregator,
             ISettingsRepo settings, ISelectedService selected, IImageEditService imageEdit)
         {
@@ -127,19 +75,79 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             });
 
             _eventAggregator.GetEvent<ImagePresetUpdateUiEvent>().Subscribe(x =>
-            {                
+            {
                 SetUIValuesFromPreset((ImageEditPreset)x);
             });
 
             SaveImageCommand = new DelegateCommand(() =>
             {
-                var outputFileName = CreateNewImageFileName();                
+                var outputFileName = CreateNewImageFileName();
 
-                CreateImage(outputFileName,CurrentSetting.Png);
+                CreateImage(outputFileName, CurrentSetting.Png);
             });
 
         }
+        #endregion
 
+        #region Commands
+        public DelegateCommand GeneratePreviewCommand { get; private set; }
+        public DelegateCommand SaveImageCommand { get; private set; } 
+        #endregion
+
+        #region Properties
+        private ImageSource imageEditSource;
+        public ImageSource ImageEditSource
+        {
+            get { return imageEditSource; }
+            set { SetProperty(ref imageEditSource, value); }
+        }
+
+        private ImageEditPreset currentSetting;
+        public ImageEditPreset CurrentSetting
+        {
+            get { return currentSetting; }
+            set { SetProperty(ref currentSetting, value); }
+        }
+
+        private string imagePreviewHeader = "Image Preview";
+        public string ImagePreviewHeader
+        {
+            get { return imagePreviewHeader; }
+            set { SetProperty(ref imagePreviewHeader, value); }
+        }
+
+        private ICollectionView mediaExportTypes;
+        public ICollectionView MediaExportTypes
+        {
+            get { return mediaExportTypes; }
+            set { SetProperty(ref mediaExportTypes, value); }
+        }
+
+        private string author;
+        public string Author
+        {
+            get { return author; }
+            set { SetProperty(ref author, value); }
+        }
+
+        private string ratio;
+        public string Ratio
+        {
+            get { return ratio; }
+            set { SetProperty(ref ratio, value); }
+        }
+
+        public string currentImageFileSource { get; set; }
+        #endregion
+
+        #region Fields
+        private ISettingsRepo _settings;
+        private ISelectedService _selected;
+        private IImageEditService _imageEdit;
+        private IEventAggregator _eventAggregator; 
+        #endregion
+
+        #region Support Methods
         private void UpdateImagePreviewHeader()
         {
             ImagePreviewHeader =
@@ -161,9 +169,9 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             }
             catch (Exception ex)
             {
-                
+
             }
-            
+
         }
 
         private void SetUIValuesFromPreset(ImageEditPreset setting)
@@ -179,7 +187,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
             var parent = RlStaticMethods.GetParentMediaType(layerName);
 
-            string rlMediaFilePath = 
+            string rlMediaFilePath =
                 Path.Combine(
                 _settings.HypermintSettings.RlMediaPath,
                 parent, _selected.CurrentSystem,
@@ -188,40 +196,6 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             outPutFileName = RlStaticMethods.CreateFileNameForRlImage(layerName, "", CurrentSetting.Description, "");
 
             return GetNewFileNameIfExists(layerName, outPutFileName, rlMediaFilePath);
-        }
-
-        /// <summary>
-        /// Create image 
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        public string CreateImagePreview(bool isPng = false)
-        {            
-            var newExt = ".jpg";
-            if (isPng)
-                newExt = ".png";            
-            
-            string newPath = "Preview" + newExt;            
-
-            _imageEdit.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, newPath, isPng);
-
-            return newPath;
-
-        }
-
-        public void CreateImage(string outputFileName, bool isPng)
-        {
-            var newExt = ".jpg";
-            if (isPng)
-                newExt = ".png";
-
-            var path = Path.GetDirectoryName(outputFileName);
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);                        
-
-            _imageEdit.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, outputFileName + newExt, isPng);            
-
         }
 
         private string GetNewFileNameIfExists(string layerName, string outPutFileName, string rlMediaFilePath)
@@ -258,6 +232,44 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             #endregion
             return rlMediaFilePath + "\\" + outPutFileName;
         }
-    }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Create image 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public string CreateImagePreview(bool isPng = false)
+        {
+            var newExt = ".jpg";
+            if (isPng)
+                newExt = ".png";
+
+            string newPath = "Preview" + newExt;
+
+            _imageEdit.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, newPath, isPng);
+
+            return newPath;
+
+        }
+        public void CreateImage(string outputFileName, bool isPng)
+        {
+            var newExt = ".jpg";
+            if (isPng)
+                newExt = ".png";
+
+            var path = Path.GetDirectoryName(outputFileName);
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            _imageEdit.ConvertImageUsingPreset(CurrentSetting, currentImageFileSource, outputFileName + newExt, isPng);
+
+        }
+    } 
+    #endregion
 
 }

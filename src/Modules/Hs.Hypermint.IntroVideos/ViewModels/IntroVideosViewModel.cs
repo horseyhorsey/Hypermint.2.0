@@ -5,7 +5,6 @@ using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
-using Hypermint.Base.Models;
 using Hypermint.Base.Services;
 using MediaToolkit.Model;
 using Prism.Commands;
@@ -15,8 +14,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Data;
 
@@ -24,95 +21,22 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 {
     public class IntroVideosViewModel : ViewModelBase, IDropTarget
     {
-        #region Properties      
 
-        private string selectedAvailableHeader;
-        public string SelectedAvailableHeader
-        {
-            get { return selectedAvailableHeader; }
-            set { SetProperty(ref selectedAvailableHeader, value); }
-        }
-
-        private string selectedprocessHeader;
-        public string SelectedprocessHeader
-        {
-            get { return selectedprocessHeader; }
-            set { SetProperty(ref selectedprocessHeader, value); }
-        }
-
-        private int randomCount = 12;
-        public int RandomCount
-        {
-            get { return randomCount; }
-            set { SetProperty(ref randomCount, value); }
-        }
-
-        public int SelectedAvailableItemsCount { get; private set; }
-        public int SelectedprocessItemsCount { get; private set; }
-
-        private string videosAvailableHeader = "Videos Available";
-        public string VideosAvailableHeader
-        {
-            get { return videosAvailableHeader; }
-            set { SetProperty(ref videosAvailableHeader, value); }
-        }
-
-        public List<IntroVideo> SelectedAvailableVideos = new List<IntroVideo>();
-        public List<IntroVideo> SelectedProcessVideos = new List<IntroVideo>();
-
-        #region Collections
-        private ICollectionView videoList;
-        public ICollectionView VideoList
-        {
-            get { return videoList; }
-            set { SetProperty(ref videoList, value); }
-        }
-
-        private ICollectionView videoToProcessList;
-        public ICollectionView VideoToProcessList
-        {
-            get { return videoToProcessList; }
-            set { SetProperty(ref videoToProcessList, value); }
-        }
-
-        private List<IntroVideo> scannedVideos;
-        private List<IntroVideo> processVideos;
-        #endregion    
-
-        #endregion        
-
-        #region Services
-        private IRegionManager _regionManager;
-        private IEventAggregator _eventAggregator;
-        private IFileFolderChecker _fileFolderChecker;
-        private ISettingsRepo _settings;
-        private ISelectedService _selectedService;
-        #endregion
-
-        #region Commands
-        public DelegateCommand RandomVideoCommand { get; private set; }
-        public DelegateCommand<IList> SelectionAvailableChanged { get; set; }
-        public DelegateCommand<IList> SelectionProcessChanged { get; set; }
-        public DelegateCommand AddSelectedCommand { get; private set; }
-        public DelegateCommand<string> RemoveVideosCommand { get; private set; }
-        public DelegateCommand ScanFormatCommand { get; private set; }
-        #endregion
-
-
-        public IntroVideosViewModel(IRegionManager manager, 
-            IFileFolderChecker fileChecker,
-            IEventAggregator ea, ISettingsRepo settings,
-            ISelectedService selected)
+        #region Constructors
+        public IntroVideosViewModel(IRegionManager manager,
+    IFileFolderChecker fileChecker,
+    IEventAggregator ea, ISettingsRepo settings,
+    ISelectedService selected)
         {
             _regionManager = manager;
             _fileFolderChecker = fileChecker;
             _eventAggregator = ea;
             _settings = settings;
-            _selectedService = selected;                        
+            _selectedService = selected;
 
             processVideos = new List<IntroVideo>();
             scannedVideos = new List<IntroVideo>();
-            VideoToProcessList = new ListCollectionView(processVideos);            
+            VideoToProcessList = new ListCollectionView(processVideos);
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(x => SystemChanged(x));
 
@@ -134,7 +58,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
             RandomVideoCommand = new DelegateCommand(GrabRandomVideos);
             AddSelectedCommand = new DelegateCommand(AddVideos);
-            ScanFormatCommand = new DelegateCommand(ScanFormat);            
+            ScanFormatCommand = new DelegateCommand(ScanFormat);
 
             try
             {
@@ -142,10 +66,10 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message); 
+                Console.WriteLine(ex.Message);
                 throw;
             }
-            
+
 
             SelectionAvailableChanged = new DelegateCommand<IList>(items =>
             {
@@ -229,6 +153,83 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             });
 
         }
+        #endregion
+
+        #region Properties      
+
+        private string selectedAvailableHeader;
+        public string SelectedAvailableHeader
+        {
+            get { return selectedAvailableHeader; }
+            set { SetProperty(ref selectedAvailableHeader, value); }
+        }
+
+        private string selectedprocessHeader;
+        public string SelectedprocessHeader
+        {
+            get { return selectedprocessHeader; }
+            set { SetProperty(ref selectedprocessHeader, value); }
+        }
+
+        private int randomCount = 12;
+        public int RandomCount
+        {
+            get { return randomCount; }
+            set { SetProperty(ref randomCount, value); }
+        }
+
+        public int SelectedAvailableItemsCount { get; private set; }
+        public int SelectedprocessItemsCount { get; private set; }
+
+        private string videosAvailableHeader = "Videos Available";
+        public string VideosAvailableHeader
+        {
+            get { return videosAvailableHeader; }
+            set { SetProperty(ref videosAvailableHeader, value); }
+        }
+
+        public List<IntroVideo> SelectedAvailableVideos = new List<IntroVideo>();
+        public List<IntroVideo> SelectedProcessVideos = new List<IntroVideo>();
+
+        #region Collections
+        private ICollectionView videoList;
+        public ICollectionView VideoList
+        {
+            get { return videoList; }
+            set { SetProperty(ref videoList, value); }
+        }
+
+        private ICollectionView videoToProcessList;
+        public ICollectionView VideoToProcessList
+        {
+            get { return videoToProcessList; }
+            set { SetProperty(ref videoToProcessList, value); }
+        }
+
+        private List<IntroVideo> scannedVideos;
+        private List<IntroVideo> processVideos;
+        #endregion    
+
+        #endregion        
+
+        #region Services
+        private IRegionManager _regionManager;
+        private IEventAggregator _eventAggregator;
+        private IFileFolderChecker _fileFolderChecker;
+        private ISettingsRepo _settings;
+        private ISelectedService _selectedService;
+        #endregion
+
+        #region Commands
+        public DelegateCommand RandomVideoCommand { get; private set; }
+        public DelegateCommand<IList> SelectionAvailableChanged { get; set; }
+        public DelegateCommand<IList> SelectionProcessChanged { get; set; }
+        public DelegateCommand AddSelectedCommand { get; private set; }
+        public DelegateCommand<string> RemoveVideosCommand { get; private set; }
+        public DelegateCommand ScanFormatCommand { get; private set; }
+        #endregion
+
+        #region Public Methods
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -248,15 +249,16 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             var sourceItem = dropInfo.Data as IntroVideo;
             var targetItem = dropInfo.TargetItem as IntroVideo;
 
-            var AddInIndex = processVideos.IndexOf(targetItem);                        
+            var AddInIndex = processVideos.IndexOf(targetItem);
 
             processVideos.Remove(sourceItem);
             processVideos.Insert(AddInIndex, sourceItem);
 
             VideoToProcessList = new ListCollectionView(processVideos);
-        }
+        } 
+        #endregion
 
-        #region Methods
+        #region Support Methods
 
         /// <summary>
         /// Update the video list for this system
@@ -399,7 +401,6 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             VideoList.Refresh();
             VideoToProcessList.Refresh();
         }
-
         private void ScanFormat()
         {
             foreach (var video in processVideos)
