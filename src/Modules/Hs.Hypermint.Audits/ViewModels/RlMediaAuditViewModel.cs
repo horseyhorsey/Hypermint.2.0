@@ -68,6 +68,12 @@ namespace Hs.Hypermint.Audits.ViewModels
                     _eventAggregator.GetEvent<RequestOpenFolderEvent>().Publish(path);
             });
 
+            LaunchGameCommand = new DelegateCommand(() =>
+            {
+                _gameLaunch.RocketLaunchGame(_settingsRepo.HypermintSettings.RlPath, _selectedService.CurrentSystem, _selectedService.CurrentRomname, _settingsRepo.HypermintSettings.HsPath);
+
+            });
+
             _eventAggregator.GetEvent<RlAuditUpdateEvent>().Subscribe(FilesDroppedEventHandler);
 
         }
@@ -143,6 +149,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         public DelegateCommand BezelEditCommand { get; private set; }
         public DelegateCommand<string> LaunchRlMode { get; private set; }
         public DelegateCommand OpenFolderCommand { get; private set; }
+        public DelegateCommand LaunchGameCommand { get; private set; }
         #endregion        
 
         #region Support Methods

@@ -24,7 +24,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
             IEventAggregator eventAggregator, IAuditer auditer,
             IDialogCoordinator dialogService,
-            ISelectedService selectedService,
+            ISelectedService selectedService,IGameLaunch gameLaunch,
             ISearchYoutube youtube)
         {
             _eventAggregator = eventAggregator;
@@ -35,6 +35,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             _selectedService = selectedService;
             _youtube = youtube;
             _dialogService = dialogService;
+            _gameLaunch = gameLaunch;
 
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(GamesUpdated);
@@ -101,6 +102,12 @@ namespace Hs.Hypermint.Audits.ViewModels
                 _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("YoutubeView");
             });
 
+            LaunchGameCommand = new DelegateCommand(() =>
+            {
+                _gameLaunch.RocketLaunchGame(_settings.HypermintSettings.RlPath, _selectedService.CurrentSystem, _selectedService.CurrentRomname, _settings.HypermintSettings.HsPath);
+
+            });
+
             // Run the auditer for hyperspin
             RunAuditCommand = new DelegateCommand(
                 async () => await RunScan());
@@ -135,6 +142,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         private ISelectedService _selectedService;
         public DelegateCommand SearchYoutubeCommand { get; private set; }
         public DelegateCommand RunAuditCommand { get; private set; }
+        public DelegateCommand LaunchGameCommand { get; private set; }        
 
         #endregion
 
@@ -210,6 +218,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private ICollectionView _auditList;
         private IDialogCoordinator _dialogService;
+        private IGameLaunch _gameLaunch;
 
         public ICollectionView AuditList
         {

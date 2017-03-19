@@ -31,5 +31,17 @@
                        metro:TextBoxHelper.Watermark="Filter games" MaxHeight="16"
                  Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
 
+        <!--GAME LAUNCHING-->
+        <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                Command="{Binding LaunchGameCommand}"
+                ToolTip="Launch selected game." Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="20" Height="18" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
     </DockPanel>
 </UserControl>
