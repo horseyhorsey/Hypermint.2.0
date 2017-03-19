@@ -323,7 +323,7 @@ namespace Hs.Hypermint.Search.ViewModels
 
                         }
                     }
-                    catch (Exception ex) { }
+                    catch (Exception) { }
                 }
 
                 FoundGames = new ListCollectionView(searchedGames);

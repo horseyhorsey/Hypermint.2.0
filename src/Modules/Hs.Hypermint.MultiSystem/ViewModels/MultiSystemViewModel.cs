@@ -107,7 +107,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         public DelegateCommand BuildMultiSystemCommand { get; private set; }
         public DelegateCommand ScanFavoritesCommand { get; private set; }
         public DelegateCommand<string> OpenSearchCommand { get; private set; }
-        public DelegateCommand CloseCommand { get; private set; }                
+        public DelegateCommand CloseCommand { get; private set; }
         #endregion
 
         #region Services
@@ -230,7 +230,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 NegativeButtonText = "Cancel"
             };
 
-            var msg = "Search all systems for favorites. If a system was built previosly as a multi system, * it will be skipped. * Manual deletion of existing Favourites database & media links.";
+            var msg = "Search all systems for favorites. If a system is a existing multi system it will be skipped.";
             var result = await _dialogService.ShowMessageAsync(this, "Scan all favorites", msg,
                 MessageDialogStyle.AffirmativeAndNegative, mahSettings);
 
@@ -259,19 +259,21 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                     {
                         favoritesList = _favoriteService.GetFavoritesForSystem(system.Name, hsPath);
 
-                        var games = _xmlService.SearchRomStringsListFromXml(favoritesList, system.Name,
-                            hsPath);
-
-                        foreach (Game game in games)
+                        if (favoritesList.Count > 0)
                         {
-                            progressResult.SetMessage("System : " + game.RomName);
-                            await ScanGames(game, tempGames);
-                        }
+                            var games = _xmlService.SearchRomStringsListFromXml(favoritesList, system.Name,
+                                                        hsPath);
+                            foreach (Game game in games)
+                            {
+                                progressResult.SetMessage("System : " + game.RomName);
+                                await ScanGames(game, tempGames);
+                            }
 
+                        }
                     }
                 }
             }
-            catch { }
+            catch(Exception e) { System.Windows.MessageBox.Show(e.Message); }
             finally
             {
                 await progressResult.CloseAsync();
@@ -325,7 +327,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private void SelectSettings()
         {
             var hsPath = _settingsService.HypermintSettings.HsPath;
-            SettingsTemplate = _fileFolderService.setFileDialog(hsPath);
+            SettingsTemplate = _fileFolderService.SetFileDialog(hsPath);
         }
         /// <summary>
         /// Remove a single item when X is clicked for a game
@@ -453,7 +455,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         }
 
         private void GenerateMediaItems(string hsPath)
-        {            
+        {
             foreach (var game in _multiSystemRepo.MultiSystemList)
             {
                 CopyArtworks(ref hsPath, game);

@@ -1,7 +1,6 @@
 ﻿using Hs.RocketLauncher.AuditBase;
 using Hypermint.Base;
 using Hypermint.Base.Base;
-using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
@@ -14,7 +13,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -22,6 +20,60 @@ namespace Hs.Hypermint.Audits.ViewModels
 {
     public class RlMediaAuditViewModel : ViewModelBase
     {
+        #region Constructors
+        public RlMediaAuditViewModel(IEventAggregator eventAggregator,
+              IRegionManager regionManager, IGameRepo gameRepo,
+              IAuditerRl rocketAuditer, ISettingsRepo settings, IGameLaunch gameLaunch,
+              ISelectedService selectedService, IDialogCoordinator dialogService)
+        {
+            _eventAggregator = eventAggregator;
+            _gameRepo = gameRepo;
+            _rocketAuditer = rocketAuditer;
+            _settingsRepo = settings;
+            _dialogService = dialogService;
+            _regionManager = regionManager;
+            _selectedService = selectedService;
+            _gameLaunch = gameLaunch;
+
+            AuditHeader = "Rocketlaunch Audit";
+
+            _rocketAuditer.RlAudits = new RocketLauncherAudits();
+            _rocketAuditer.RlAuditsDefault = new RocketLauncherAudits();
+
+            CurrentCellChanged = new DelegateCommand<object>(
+             selectedGameCell =>
+             {
+                 CurrenCellChanged(selectedGameCell);
+             });
+
+            BezelScanCommand = new DelegateCommand(ScanBezel);
+            PauseMediaScanCommand = new DelegateCommand(ScanPauseMedia);
+            FadeScanCommand = new DelegateCommand(ScanFadeLayers);
+
+            _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
+
+            LaunchRlMode = new DelegateCommand<string>((x) =>
+            {
+                _gameLaunch.RocketLaunchGameWithMode(
+                    _settingsRepo.HypermintSettings.RlPath,
+                    _selectedSystem, _selectedService.CurrentRomname, x);
+            });
+
+            OpenFolderCommand = new DelegateCommand(() =>
+            {
+                var path = Path.Combine(_settingsRepo.HypermintSettings.RlMediaPath,
+                    "Fade", _selectedSystem, _selectedService.CurrentRomname);
+
+                if (Directory.Exists(path))
+                    _eventAggregator.GetEvent<RequestOpenFolderEvent>().Publish(path);
+            });
+
+            _eventAggregator.GetEvent<RlAuditUpdateEvent>().Subscribe(FilesDroppedEventHandler);
+
+        }
+        #endregion
+
+        #region Fields
         private IEventAggregator _eventAggregator;
         private IGameRepo _gameRepo;
         private IAuditerRl _rocketAuditer;
@@ -29,6 +81,10 @@ namespace Hs.Hypermint.Audits.ViewModels
         private IDialogCoordinator _dialogService;
         private IRegionManager _regionManager;
         private ISelectedService _selectedService;
+        private CustomDialog customDialog;
+        private IGameLaunch _gameLaunch;
+        private IFolderExplore _fExplorer; 
+        #endregion
 
         #region Properties
 
@@ -75,81 +131,29 @@ namespace Hs.Hypermint.Audits.ViewModels
             get { return auditListDefaults; }
             set { SetProperty(ref auditListDefaults, value); }
         }
-        #endregion
-
-        private CustomDialog customDialog;
-        private IGameLaunch _gameLaunch;
-        private IFolderExplore _fExplorer;
 
         public RocketLaunchAudit SelectedGame { get; set; }
+        #endregion
 
+        #region Commands
         public DelegateCommand BezelScanCommand { get; }
         public DelegateCommand<object> CurrentCellChanged { get; set; }
         public DelegateCommand PauseMediaScanCommand { get; private set; }
         public DelegateCommand FadeScanCommand { get; private set; }
         public DelegateCommand BezelEditCommand { get; private set; }
         public DelegateCommand<string> LaunchRlMode { get; private set; }
-        public DelegateCommand OpenFolderCommand { get; private set; } 
+        public DelegateCommand OpenFolderCommand { get; private set; }
+        #endregion        
 
-        public RlMediaAuditViewModel(IEventAggregator eventAggregator,
-              IRegionManager regionManager, IGameRepo gameRepo,
-              IAuditerRl rocketAuditer, ISettingsRepo settings, IGameLaunch gameLaunch,
-              ISelectedService selectedService, IDialogCoordinator dialogService)
-        {
-            _eventAggregator = eventAggregator;
-            _gameRepo = gameRepo;
-            _rocketAuditer = rocketAuditer;
-            _settingsRepo = settings;
-            _dialogService = dialogService;
-            _regionManager = regionManager;
-            _selectedService = selectedService;
-            _gameLaunch = gameLaunch;
-
-            AuditHeader = "Rocketlaunch Audit";
-
-            _rocketAuditer.RlAudits = new RocketLauncherAudits();
-            _rocketAuditer.RlAuditsDefault = new RocketLauncherAudits();
-
-            CurrentCellChanged = new DelegateCommand<object>(
-             selectedGameCell =>
-             {
-                 CurrenCellChanged(selectedGameCell);
-             });
-
-            BezelScanCommand = new DelegateCommand(ScanBezel);
-            PauseMediaScanCommand = new DelegateCommand(ScanPauseMedia);
-            FadeScanCommand = new DelegateCommand(ScanFadeLayers);
-
-            _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);            
-
-            LaunchRlMode = new DelegateCommand<string>((x) =>
-            {
-                _gameLaunch.RocketLaunchGameWithMode(
-                    _settingsRepo.HypermintSettings.RlPath,
-                    _selectedSystem, _selectedService.CurrentRomname, x);
-            });
-
-            OpenFolderCommand = new DelegateCommand(() =>
-            {
-                var path = Path.Combine(_settingsRepo.HypermintSettings.RlMediaPath,
-                    "Fade", _selectedSystem, _selectedService.CurrentRomname);
-
-                if (Directory.Exists(path))
-                    _eventAggregator.GetEvent<RequestOpenFolderEvent>().Publish(path);
-            });
-
-            _eventAggregator.GetEvent<RlAuditUpdateEvent>().Subscribe(FilesDroppedEventHandler);
-
-        }
-
+        #region Support Methods
         private void FilesDroppedEventHandler(object x)
         {
             var values = (string[])x;
 
             RocketLaunchAudit game;
-            if (values[0] == "_Default")            
+            if (values[0] == "_Default")
                 game = _rocketAuditer.RlAuditsDefault
-                    .Where(r => r.RomName == values[0]).Single();            
+                    .Where(r => r.RomName == values[0]).Single();
             else
                 game = _rocketAuditer.RlAudits
                 .Where(r => r.RomName == values[0]).Single();
@@ -212,7 +216,6 @@ namespace Hs.Hypermint.Audits.ViewModels
 
             AuditList.Refresh();
         }
-
         private void CurrenCellChanged(object selectedGameCell)
         {
             //_eventAggregator.GetEvent<ClearRlFilesEvent>().Publish("");
@@ -228,7 +231,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 SelectedGame = dg.CurrentItem as RocketLaunchAudit;
                 _selectedService.CurrentRomname = SelectedGame.RomName;
 
-                AuditHeader = "Rocketlaunch Audit : " 
+                AuditHeader = "Rocketlaunch Audit : "
                     + _selectedService.CurrentRomname + " Selected ";
 
             }
@@ -247,7 +250,6 @@ namespace Hs.Hypermint.Audits.ViewModels
             _eventAggregator.GetEvent<UpdateFilesEvent>()
                 .Publish(new string[] { currentColumnHeader, SelectedGame.RomName });
         }
-
         private void ScanPauseMedia()
         {
             if (AuditList != null)
@@ -289,7 +291,6 @@ namespace Hs.Hypermint.Audits.ViewModels
                 AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
             }
         }
-
         private void ScanFadeLayers()
         {
             if (AuditList != null)
@@ -305,7 +306,6 @@ namespace Hs.Hypermint.Audits.ViewModels
             }
 
         }
-
         /// <summary>
         /// Scan the bezels folder for all cards, bezels & backgrounds.
         /// </summary>
@@ -325,7 +325,6 @@ namespace Hs.Hypermint.Audits.ViewModels
                 AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
             }
         }
-
         private void GamesUpdated(string systemName)
         {
             if (Directory.Exists(_settingsRepo.HypermintSettings.RlPath))
@@ -339,36 +338,35 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                     if (_gameRepo.GamesList != null)
                     {
-                            _rocketAuditer.RlAudits.Clear();
-                            _rocketAuditer.RlAuditsDefault.Clear();
+                        _rocketAuditer.RlAudits.Clear();
+                        _rocketAuditer.RlAuditsDefault.Clear();
 
-                            _rocketAuditer.RlAuditsDefault.Add(new RocketLaunchAudit()
+                        _rocketAuditer.RlAuditsDefault.Add(new RocketLaunchAudit()
+                        {
+                            RomName = "_Default",
+                            Description = ""
+                        });
+
+                        foreach (var game in _gameRepo.GamesList)
+                        {
+                            _rocketAuditer.RlAudits.Add(new RocketLaunchAudit
                             {
-                                RomName = "_Default",
-                                Description = ""
+                                RomName = game.RomName,
+                                Description = game.Description,
+
                             });
+                        }
 
-                            foreach (var game in _gameRepo.GamesList)
-                            {
-                                _rocketAuditer.RlAudits.Add(new RocketLaunchAudit
-                                {
-                                    RomName = game.RomName,
-                                    Description = game.Description,
+                        _rocketAuditer.ScanRocketLaunchMedia(systemName, _settingsRepo.HypermintSettings.RlMediaPath);
 
-                                });
-                            }
+                        AuditListDefaults = new ListCollectionView(_rocketAuditer.RlAuditsDefault);
+                        AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
 
-                            _rocketAuditer.ScanRocketLaunchMedia(systemName, _settingsRepo.HypermintSettings.RlMediaPath);
-
-                            AuditListDefaults = new ListCollectionView(_rocketAuditer.RlAuditsDefault);
-                            AuditList = new ListCollectionView(_rocketAuditer.RlAudits);
-                        
                     }
                 }
             }
 
         }
-
         private void SetAuditGameFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(AuditList);
@@ -383,7 +381,6 @@ namespace Hs.Hypermint.Audits.ViewModels
                     return g.Description.ToUpper().Contains(FilterText.ToUpper()); ;
             };
         }
-
         protected override void OnPropertyChanged(string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -392,7 +389,8 @@ namespace Hs.Hypermint.Audits.ViewModels
             {
                 SetAuditGameFilter();
             }
-        }
+        } 
+        #endregion
 
     }
 }

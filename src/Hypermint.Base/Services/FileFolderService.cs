@@ -1,25 +1,20 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Hypermint.Base.Services
 {
     public class FileFolderService : IFileFolderService
     {
+        #region Properties        
+        public string SelectedFolder { get; set; }
+        #endregion
 
-        private string setFolder;
-        public string SelectedFolder
-        {
-            get
-            {
-                return setFolder;
-            }
-            set
-            {
-                setFolder = value;
-            }
-        }
-
-        public string setFileDialog(string initialDirectory = "")
+        #region Public Methods
+        /// <summary>
+        /// Opens a file dialog to pick file
+        /// </summary>
+        /// <param name="initialDirectory">The initial directory to open the dialog</param>
+        /// <returns></returns>
+        public string SetFileDialog(string initialDirectory = "")
         {
             var fileBrowserDialog = new OpenFileDialog();
 
@@ -29,15 +24,17 @@ namespace Hypermint.Base.Services
                 fileBrowserDialog.InitialDirectory = initialDirectory;
 
             var result = fileBrowserDialog.ShowDialog();
-            
+
             if (result == DialogResult.OK)
                 return fileBrowserDialog.FileName;
             else return "";
 
-            
         }
 
-        public void setFolderDialog()
+        /// <summary>
+        /// Opens a folder browser and sets SelectedFolder
+        /// </summary>
+        public void SetFolderDialog()
         {
             var folderBrowserDialog = new FolderBrowserDialog();
             var result = folderBrowserDialog.ShowDialog();
@@ -45,7 +42,8 @@ namespace Hypermint.Base.Services
             if (result == DialogResult.OK)
                 SelectedFolder = folderBrowserDialog.SelectedPath;
 
-        }
+        } 
+        #endregion
 
     }
 }

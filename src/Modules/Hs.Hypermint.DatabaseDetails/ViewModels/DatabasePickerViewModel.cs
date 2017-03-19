@@ -6,28 +6,27 @@ using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class DatabasePickerViewModel : ViewModelBase
     {
+        #region Constructors
         public DatabasePickerViewModel(ISettingsRepo settingsRepo,
-     IFolderExplore folderService, ISelectedService selectedService,
-     IFileFolderChecker fileFolderCheck, IGenreRepo genreRepo,
-     IEventAggregator eventAggregator)
+  IFolderExplore folderService, ISelectedService selectedService,
+  IFileFolderChecker fileFolderCheck, IGenreRepo genreRepo,
+  IEventAggregator eventAggregator)
         {
             _settingsRepo = settingsRepo;
             _folderExploreService = folderService;
             _selectedService = selectedService;
             _fileFolderCheck = fileFolderCheck;
             _genreRepo = genreRepo;
-            _eventAggregator = eventAggregator;            
+            _eventAggregator = eventAggregator;
 
             if (_genreRepo.GenreList == null)
             {
@@ -42,9 +41,10 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
 
             //SystemDatabases.CurrentChanged += SystemDatabases_CurrentChanged;
-        }
+        } 
+        #endregion
 
-        #region Services
+        #region Fields
         private ISettingsRepo _settingsRepo;
         private IFolderExplore _folderExploreService;
         private ISelectedService _selectedService;
@@ -73,7 +73,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand<string> OpenFolderCommand { get; set; }
         #endregion
 
-        #region Methods
+        #region Support Methods
         private void OpenFolder(string hyperspinDirType)
         {
             switch (hyperspinDirType)
@@ -151,22 +151,18 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         }
 
-        #endregion
-
-        #region Events
         private void SystemDatabases_CurrentChanged(object sender, EventArgs e)
         {
             try
             {
-                var systemDatabaseName = (string)SystemDatabases.CurrentItem;                
+                var systemDatabaseName = (string)SystemDatabases.CurrentItem;
 
                 _eventAggregator.GetEvent<SystemDatabaseChanged>().Publish(systemDatabaseName);
             }
             catch (Exception) { }
-
-
         }
-        #endregion
+
+        #endregion        
 
     }
 }

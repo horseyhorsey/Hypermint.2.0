@@ -5,12 +5,15 @@ namespace Hypermint.Base.Paths
 {
     public static class Installation
     {
-        public static string HsPath { get; set; }        
         /// <summary>
-        /// Search for "Hyperspin" or "Rocketlauncher" directory on hard drives
+        /// Hyperspin path
         /// </summary>
-        /// <param name="directory"></param>
-        /// <returns></returns>
+        public static string HsPath { get; set; }      
+          
+        /// <summary>
+        /// Search for a frontend install on all drives root
+        /// </summary>
+        /// <param name="frontend">Frontend to search for eg Hyperspin, Rocketlauncher</param>        
         public static string SearchForInstall(string frontend)
         {
             string foundPath = string.Empty;

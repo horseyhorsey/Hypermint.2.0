@@ -14,13 +14,71 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Runtime.CompilerServices;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
     public class YoutubeViewModel : ViewModelBase
-    {
-        #region Services
+    {        
+
+        #region Constructors
+        public YoutubeViewModel(ISearchYoutube youtube,
+            IEventAggregator ea, ISelectedService selectedService)
+        {
+            _youtube = youtube;
+            _evtAggr = ea;
+            _selectedService = selectedService;
+
+            _evtAggr.GetEvent<GetVideosEvent>().Subscribe(async (x) =>
+            {
+
+                IsSearching = true;
+                VideosVisible = false;
+
+                SearchTermText = BuildSearchTerm();
+
+                await BuildVideoList(x);
+
+            });
+
+            OpenYtCommand = new DelegateCommand(() =>
+            {
+                var vid = VideoList.CurrentItem as YoutubeVideo;
+
+                if (vid != null)
+                {
+                    try
+                    {
+                        Process.Start(vid.VideoUrl);
+                    }
+                    catch (Exception) { }
+
+                }
+
+            });
+
+            AuditViewCommand = new DelegateCommand(() =>
+            {
+                _evtAggr.GetEvent<NavigateRequestEvent>().Publish("HsMediaAuditView");
+            });
+
+            SearchYtCommand = new DelegateCommand(async () =>
+            {
+                IsSearching = true;
+                VideosVisible = false;
+
+                await BuildVideoList(new object());
+
+            });
+
+            CancelSearchCommand = new DelegateCommand(() =>
+            {
+
+                cancelSource.Cancel();
+            });
+        }
+        #endregion
+
+        #region Fields
         private ICollectionView videoList;
         private ISearchYoutube _youtube;
         private IEventAggregator _evtAggr;
@@ -96,82 +154,15 @@ namespace Hs.Hypermint.Audits.ViewModels
         private CancellationTokenSource cancelSource;
         #endregion
 
-        protected override void OnPropertyChanged(string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-
-            switch (propertyName)
-            {
-                case "IncludeDescription":
-                case "IncludeRomname":
-                case "IncludeSystem":
-                    BuildSearchTerm();
-                    break;
-                default:
-                    break;
-            }
-        }
-
+        #region Commands
         public DelegateCommand OpenYtCommand { get; private set; }
         public DelegateCommand AuditViewCommand { get; private set; }
         public DelegateCommand SearchYtCommand { get; private set; }
-        public DelegateCommand CancelSearchCommand { get; private set; } 
+        public DelegateCommand CancelSearchCommand { get; private set; }
 
-        public YoutubeViewModel(ISearchYoutube youtube, 
-            IEventAggregator ea, ISelectedService selectedService)
-        {
-            _youtube = youtube;
-            _evtAggr = ea;
-            _selectedService = selectedService;
+        #endregion
 
-            _evtAggr.GetEvent<GetVideosEvent>().Subscribe(async (x) =>
-            {
-
-                IsSearching = true;
-                VideosVisible = false;
-
-                SearchTermText = BuildSearchTerm();
-
-                await BuildVideoList(x);
-
-            });
-
-            OpenYtCommand = new DelegateCommand(() =>
-            {
-                var vid = VideoList.CurrentItem as YoutubeVideo;
-
-                if (vid != null)
-                {
-                    try
-                    {
-                        Process.Start(vid.VideoUrl);
-                    }
-                    catch (Exception) { }
-                    
-                }
-
-            });
-
-            AuditViewCommand = new DelegateCommand(() =>
-            {
-                _evtAggr.GetEvent<NavigateRequestEvent>().Publish("HsMediaAuditView");
-            });
-
-            SearchYtCommand = new DelegateCommand(async () =>
-            {
-                IsSearching = true;
-                VideosVisible = false;
-
-                  await BuildVideoList(new object());
-
-            });
-
-            CancelSearchCommand = new DelegateCommand(() => {
-
-                cancelSource.Cancel();
-            });
-        }
-
+        #region Support Methods
         private string BuildSearchTerm()
         {
             var searchTerm = "";
@@ -194,7 +185,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 if (!isMainMenu(system))
                     searchTerm += _selectedService.CurrentDescription + " ";
 
-            SearchTermText = searchTerm;            
+            SearchTermText = searchTerm;
 
             return searchTerm.TrimEnd(' ').Replace(' ', '+');
         }
@@ -208,7 +199,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             YoutubeViewHeader = "YT Search: " + SearchTermText;
 
             await Task.Run(async () =>
-            {                
+            {
                 var links = await _youtube.SearchAsync(SearchTermText);
 
                 var ytVids = new List<YoutubeVideo>();
@@ -222,11 +213,11 @@ namespace Hs.Hypermint.Audits.ViewModels
                         else
                             break;
                     }
-                    
+
                 }
                 catch (Exception)
                 {
-                    
+
                 }
                 finally
                 {
@@ -240,8 +231,26 @@ namespace Hs.Hypermint.Audits.ViewModels
             }, cancelSource.Token);
 
         }
+
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case "IncludeDescription":
+                case "IncludeRomname":
+                case "IncludeSystem":
+                    BuildSearchTerm();
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
     }
 
+    #region Support Classes
     public class YoutubeVideo
     {
         public string Title { get; set; }
@@ -289,45 +298,45 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         public void SetVideoTitle()
         {
-            
+
         }
 
-//        var client = new WebClient();
+        //        var client = new WebClient();
 
-//                  
+        //                  
 
-//            try
-//            {
-//                var maxres = url + "/maxresdefault.jpg";
-//        client.DownloadFile(maxres, "ytThumb.jpg");
-//            }
-//            catch (Exception ex)
-//            {                          
-//            }
+        //            try
+        //            {
+        //                var maxres = url + "/maxresdefault.jpg";
+        //        client.DownloadFile(maxres, "ytThumb.jpg");
+        //            }
+        //            catch (Exception ex)
+        //            {                          
+        //            }
 
-//            try
-//            {
-//                var stdRes = url + "/0.jpg";
-//client.DownloadFile(stdRes, "ytThumb.jpg");
+        //            try
+        //            {
+        //                var stdRes = url + "/0.jpg";
+        //client.DownloadFile(stdRes, "ytThumb.jpg");
 
-//            }
-//            catch (Exception)
-//            {
-                
-//            }
+        //            }
+        //            catch (Exception)
+        //            {
 
-//            try
-//            {
-//                if (File.Exists("ytThumb.jpg"))
-                   
+        //            }
 
-//            }
-//            catch (Exception ex)
-//            {
+        //            try
+        //            {
+        //                if (File.Exists("ytThumb.jpg"))
 
-                
-//            }
-        
+
+        //            }
+        //            catch (Exception ex)
+        //            {
+
+
+        //            }     
+
     }
 
     public class UrlCheck
@@ -349,7 +358,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             }
             catch (WebException webException)
             {
-                
+
             }
             finally
             {
@@ -362,4 +371,6 @@ namespace Hs.Hypermint.Audits.ViewModels
             return result;
         }
     }
+
+    #endregion
 }

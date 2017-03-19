@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Hypermint.Base.Events;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using System.Linq;
@@ -21,101 +20,6 @@ namespace Hs.Hypermint.Audits.ViewModels
 {
     public class HsMediaAuditViewModel : ViewModelBase
     {
-        #region Fields
-        private IEventAggregator _eventAggregator;
-        private ISettingsRepo _settings;
-        private IGameRepo _gameRepo;
-        private IAuditer _auditer;
-        private ISearchYoutube _youtube;
-
-        public DelegateCommand<object> SelectionChanged { get; set; }
-        public DelegateCommand<object> CurrentCellChanged { get; set; }
-        private ISelectedService _selectedService;
-        public DelegateCommand SearchYoutubeCommand { get; private set; }
-        public DelegateCommand RunAuditCommand { get; private set; }
-
-        #endregion
-
-        #region Properties
-        private bool runningScan;
-        public bool RunningScan
-        {
-            get { return runningScan; }
-            set { SetProperty(ref runningScan, value); }
-        }
-
-        private string message = "Test Message";
-        public string Message
-        {
-            get { return message; }
-            set
-            {
-                SetProperty(ref message, value);
-            }
-        }
-
-        private string mediaAuditHeaderInfo = "Hyperspin Media Audit";
-        public string MediaAuditHeaderInfo
-        {
-            get { return mediaAuditHeaderInfo; }
-            set { SetProperty(ref mediaAuditHeaderInfo, value); }
-        }
-
-        private string currentColumnHeader;
-        public string CurrentColumnHeader
-        {
-            get { return currentColumnHeader; }
-            set { SetProperty(ref currentColumnHeader, value); }
-        }
-
-        private string currentColumnType;
-        public string CurrentColumnType
-        {
-            get { return currentColumnType; }
-            set { SetProperty(ref currentColumnType, value); }
-        }
-
-        private string filterText;
-        public string FilterText
-        {
-            get { return filterText; }
-            set { SetProperty(ref filterText, value); }
-        }
-
-        private bool isMainMenu = false;
-        public bool IsMainMenu
-        {
-            get { return isMainMenu; }
-            set
-            {
-                SetProperty(ref isMainMenu, value);
-
-            }
-        }
-
-        private bool isntMainMenu = true;
-        public bool IsntMainMenu
-        {
-            get { return isntMainMenu; }
-            set
-            {
-                SetProperty(ref isntMainMenu, value);
-            }
-        }
-
-        public AuditGame SelectedGame { get; set; }
-        public AuditMenu SelectedMenu { get; set; }
-
-        private ICollectionView _auditList;
-        private IDialogCoordinator _dialogService;
-
-        public ICollectionView AuditList
-        {
-            get { return _auditList; }
-            set { SetProperty(ref _auditList, value); }
-        }
-        #endregion
-
         #region ctors
         public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
             IEventAggregator eventAggregator, IAuditer auditer,
@@ -219,6 +123,102 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         #endregion
 
+        #region Fields
+        private IEventAggregator _eventAggregator;
+        private ISettingsRepo _settings;
+        private IGameRepo _gameRepo;
+        private IAuditer _auditer;
+        private ISearchYoutube _youtube;
+
+        public DelegateCommand<object> SelectionChanged { get; set; }
+        public DelegateCommand<object> CurrentCellChanged { get; set; }
+        private ISelectedService _selectedService;
+        public DelegateCommand SearchYoutubeCommand { get; private set; }
+        public DelegateCommand RunAuditCommand { get; private set; }
+
+        #endregion
+
+        #region Properties
+        private bool runningScan;
+        public bool RunningScan
+        {
+            get { return runningScan; }
+            set { SetProperty(ref runningScan, value); }
+        }
+
+        private string message = "Test Message";
+        public string Message
+        {
+            get { return message; }
+            set
+            {
+                SetProperty(ref message, value);
+            }
+        }
+
+        private string mediaAuditHeaderInfo = "Hyperspin Media Audit";
+        public string MediaAuditHeaderInfo
+        {
+            get { return mediaAuditHeaderInfo; }
+            set { SetProperty(ref mediaAuditHeaderInfo, value); }
+        }
+
+        private string currentColumnHeader;
+        public string CurrentColumnHeader
+        {
+            get { return currentColumnHeader; }
+            set { SetProperty(ref currentColumnHeader, value); }
+        }
+
+        private string currentColumnType;
+        public string CurrentColumnType
+        {
+            get { return currentColumnType; }
+            set { SetProperty(ref currentColumnType, value); }
+        }
+
+        private string filterText;
+        public string FilterText
+        {
+            get { return filterText; }
+            set { SetProperty(ref filterText, value); }
+        }
+
+        private bool isMainMenu = false;
+        public bool IsMainMenu
+        {
+            get { return isMainMenu; }
+            set
+            {
+                SetProperty(ref isMainMenu, value);
+
+            }
+        }
+
+        private bool isntMainMenu = true;
+        public bool IsntMainMenu
+        {
+            get { return isntMainMenu; }
+            set
+            {
+                SetProperty(ref isntMainMenu, value);
+            }
+        }
+
+        public AuditGame SelectedGame { get; set; }
+        public AuditMenu SelectedMenu { get; set; }
+
+        private ICollectionView _auditList;
+        private IDialogCoordinator _dialogService;
+
+        public ICollectionView AuditList
+        {
+            get { return _auditList; }
+            set { SetProperty(ref _auditList, value); }
+        }
+        #endregion
+
+        #region Support Methods
         private void UpdateAuditValuesAfterDrop(string[] romAndType)
         {
             var game = _auditer.AuditsGameList
@@ -275,9 +275,9 @@ namespace Hs.Hypermint.Audits.ViewModels
                 }
                 catch (Exception)
                 {
-                    
+
                 }
-                
+
             }
         }
 
@@ -384,7 +384,8 @@ namespace Hs.Hypermint.Audits.ViewModels
         private void SetMessage(string obj)
         {
             Message = obj;
-        }
+        } 
+        #endregion
 
     }
 }

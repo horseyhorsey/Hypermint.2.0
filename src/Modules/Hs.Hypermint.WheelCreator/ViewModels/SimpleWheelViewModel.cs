@@ -156,7 +156,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
                 _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
 

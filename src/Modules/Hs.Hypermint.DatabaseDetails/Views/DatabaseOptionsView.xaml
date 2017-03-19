@@ -20,33 +20,64 @@
         </Grid.ColumnDefinitions>
 
         <GroupBox Header="Edit" Grid.Row="2" Grid.ColumnSpan="2">
-            <DockPanel HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" LastChildFill="False">
 
-                <ComboBox MaxWidth="100" Width="100" MaxHeight="22" SelectedItem="{Binding SelectedItem}">
-                    <ComboBoxItem Content="Genre" IsSelected="True"/>
-                    <ComboBoxItem Content="Manufacturer"/>
-                    <ComboBoxItem Content="Rating"/>
-                    <ComboBoxItem Content="Year"/>
-                </ComboBox>
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
 
-                <TextBox Margin="10" MinWidth="150" Width="Auto" ToolTip="Select rows and apply this text" 
+                <!--EDIT MULTIPLE ROWS-->
+                <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
+
+                    <ComboBox MaxWidth="100" Width="100" MaxHeight="22" SelectedItem="{Binding SelectedItem}">
+                        <ComboBoxItem Content="Genre" IsSelected="True"/>
+                        <ComboBoxItem Content="Manufacturer"/>
+                        <ComboBoxItem Content="Rating"/>
+                        <ComboBoxItem Content="Year"/>
+                    </ComboBox>
+
+                    <TextBox Margin="10" MinWidth="150" Width="Auto" ToolTip="Select rows and apply this text" 
                          metro:TextBoxHelper.Watermark="Text to apply"
                          Text="{Binding ApplyString,UpdateSourceTrigger=PropertyChanged}"
                          />
-                
-                <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+
+                    <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         Height="40" Width="40"
                         Command="{Binding ApplyToCellsCommand}"
                         CommandParameter=""
                         HorizontalAlignment="Right" ToolTip="Apply">
-                    <Rectangle Width="15" Height="15"
+                        <Rectangle Width="15" Height="15"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-            </DockPanel>
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                    
+                </DockPanel>
+
+                <!--DESCRIPTION REPLACE-->
+                <DockPanel LastChildFill="False" Height="32" ToolTip="Descriptions replace">
+                    <!--PATTERN-->
+                    <TextBox Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}" Width="100" ToolTip="Matching text to replace from description" DockPanel.Dock="Left" Margin="3"
+                             metro:TextBoxHelper.ClearTextButton="True"                        
+                             metro:TextBoxHelper.Watermark="Pattern"/>
+                    <!--REPLACEMENT-->
+                    <TextBox Text="{Binding Replacement, UpdateSourceTrigger=PropertyChanged}" Width="100" 
+                             ToolTip="Text to replace with" DockPanel.Dock="Left" Margin="3" 
+                             metro:TextBoxHelper.ClearTextButton="True"                        
+                             metro:TextBoxHelper.Watermark="Replace"/>
+
+                    <Button Style="{DynamicResource MetroCircleButtonStyle}" DockPanel.Dock="Right"
+                        Height="30" Width="30"
+                        Command="{Binding ReplaceDescriptionCommand}"                        
+                        HorizontalAlignment="Right" ToolTip="Apply replacement">
+                        <Rectangle Width="15" Height="15"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                </DockPanel>
+            </StackPanel>
         </GroupBox>
     </Grid>
 

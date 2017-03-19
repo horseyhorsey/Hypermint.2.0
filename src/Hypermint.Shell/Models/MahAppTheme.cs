@@ -5,7 +5,7 @@ namespace Hypermint.Shell.Models
     public static class MahAppTheme
     {        
         /// <summary>
-        /// List for use in the combobox
+        /// List for use in the themes combobox
         /// </summary>
         public static List<string> AvailableThemes
         {

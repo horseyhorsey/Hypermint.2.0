@@ -9,7 +9,6 @@ using Hypermint.Base.Services;
 using Ionic.Zip;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -25,7 +24,83 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 {
     public class HyperspinFilesViewModel : ViewModelBase, IDropTarget
     {
-        #region Services
+        #region Constructors
+        public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings,
+            IAuditer auditRepo, IRegionManager regionManager,
+            IFolderExplore folderExplore, ITrashMaster trashMaster,
+            ISelectedService selectedService, IImageEditService imageEdit)
+        {
+            _eventAggregator = ea;
+            _settingsRepo = settings;
+            _auditRepo = auditRepo;
+            _selectedService = selectedService;
+            _imageEdit = imageEdit;
+            _regionManager = regionManager;
+            _folderExplore = folderExplore;
+            _trashMaster = trashMaster;
+
+            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe((x) =>
+            {
+                var views = _regionManager.Regions[RegionNames.ContentRegion].ActiveViews.ToList();
+                var activeViewName = views[0].ToString();
+
+                if (!activeViewName.Contains("HsMediaAuditView")) return;
+
+                SetCurrentName(x);
+
+                if (FilesForGame != null)
+                {
+                    if (FilesForGame.CurrentItem == null)
+                        _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+                    else
+                        FilesForGame_CurrentChanged(null, null);
+                }
+
+            });
+
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe((x) =>
+            {
+                UnusedMediaFiles = null;
+                FilesForGame = null;
+            });
+
+            //_eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Subscribe(BuildUnusedMediaList);
+
+            RemoveFileCommand = new DelegateCommand(() =>
+            {
+                var currentFile = FilesForGame.CurrentItem as MediaFile;
+
+                if (currentFile != null)
+                {
+                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+
+                    _trashMaster.HsFileToTrash(currentFile.FileName, GetSystemFolderName(columnHeader), columnHeader, _selectedService.CurrentRomname);
+
+                    try
+                    {
+                        SetCurrentName(new string[] { _selectedService.CurrentRomname, columnHeader });
+
+                        _eventAggregator.GetEvent<RefreshHsAuditEvent>().Publish("");
+                    }
+
+                    catch (Exception) { }
+
+                }
+            });
+
+            OpenFolderCommand = new DelegateCommand(OpenFolder);
+
+            OpenTrashFolderCommand = new DelegateCommand(() =>
+            {
+                var sys = GetSystemFolderName(columnHeader);
+
+                _folderExplore.OpenFolder(_trashMaster.GetHsTrashPath(sys, columnHeader));
+
+            });
+        }
+        #endregion
+
+        #region Fields
         private ISettingsRepo _settingsRepo;
         private IAuditer _auditRepo;
         private ISelectedService _selectedService;
@@ -75,115 +150,93 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             set { SetProperty(ref mediaTypeName, value); }
         }
 
-        #endregion        
+        #endregion
 
+        #region Commands
         public DelegateCommand RemoveFileCommand { get; private set; }
         public DelegateCommand OpenFolderCommand { get; private set; }
         public DelegateCommand OpenTrashFolderCommand { get; private set; }
+        #endregion
 
-        public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings,
-            IAuditer auditRepo, IRegionManager regionManager,
-            IFolderExplore folderExplore, ITrashMaster trashMaster,
-            ISelectedService selectedService, IImageEditService imageEdit)
+        #region Public Methods
+        public void DroppedFile(string[] filelist, string selectedColumn)
         {
-            _eventAggregator = ea;
-            _settingsRepo = settings;
-            _auditRepo = auditRepo;
-            _selectedService = selectedService;
-            _imageEdit = imageEdit;
-            _regionManager = regionManager;
-            _folderExplore = folderExplore;
-            _trashMaster = trashMaster;
+            int i;
+            string Filename, ext, filename3;
 
-            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe((x) =>
+            for (i = 0; i < filelist.Length; i++)
             {
-                var views = _regionManager.Regions[RegionNames.ContentRegion].ActiveViews.ToList();
-                var activeViewName = views[0].ToString();
+                Filename = System.IO.Path.GetFileName(filelist[i]);
+                ext = System.IO.Path.GetExtension(filelist[i]);
+                filename3 = System.IO.Path.GetFileNameWithoutExtension(filelist[i]);
 
-                if (!activeViewName.Contains("HsMediaAuditView")) return;
-
-                SetCurrentName(x);
-
-                if (FilesForGame != null)
+                switch (selectedColumn)
                 {
-                    if (FilesForGame.CurrentItem == null)
-                        _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
-                    else
-                        FilesForGame_CurrentChanged(null, null);
+                    case "Wheel":
+                    case "Artwork1":
+                    case "Artwork2":
+                    case "Artwork3":
+                    case "Artwork4":
+                    case "Backgrounds":
+                    case "Videos":
+                    case "Letters":
+                    case "GenreBg":
+                    case "Pointer":
+                    case "GenreWheel":
+                        wheel_drop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
+                        break;
+                    case "Theme":
+                        ThemeDrop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
+                        break;
+                    case "Special":
+                    case "Wheel Sounds":
+                    case "Sound Click":
+                        FileDrop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
+                        break;
+                    default:
+                        break;
                 }
-
-            });
-
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe((x) =>
-            {
-                UnusedMediaFiles = null;
-                FilesForGame = null;
-            });
-
-            //_eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Subscribe(BuildUnusedMediaList);
-
-            RemoveFileCommand = new DelegateCommand(() =>
-            {
-                var currentFile = FilesForGame.CurrentItem as MediaFile;
-
-                if (currentFile != null)
-                {
-                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");                    
-
-                    _trashMaster.HsFileToTrash(currentFile.FileName, GetSystemFolderName(columnHeader),columnHeader, _selectedService.CurrentRomname);
-                    
-                    try
-                    {                        
-                        SetCurrentName(new string[] { _selectedService.CurrentRomname, columnHeader });
-
-                        _eventAggregator.GetEvent<RefreshHsAuditEvent>().Publish("");
-                    }
-
-                    catch (Exception) { }
-
-                }
-            });
-
-            OpenFolderCommand = new DelegateCommand(OpenFolder);
-
-            OpenTrashFolderCommand = new DelegateCommand(() =>
-            {
-                var sys = GetSystemFolderName(columnHeader);
-
-                _folderExplore.OpenFolder(_trashMaster.GetHsTrashPath(sys, columnHeader));
-
-            });
+            }
         }
 
-        private void OpenFolder()
+        public void DragOver(IDropInfo dropInfo)
         {
-            string name = _selectedService.CurrentSystem;
 
-            if (_selectedService.IsMainMenu())
-                name = _selectedService.CurrentRomname;
-
-            string hsMediaPath = GetHsMediaPathDirectory(
-                _settingsRepo.HypermintSettings.HsPath,
-                 name,
-                 columnHeader);
-
-            _folderExplore.OpenFolder(hsMediaPath);
+            var dragFileList = ((DataObject)dropInfo.Data).GetFileDropList().Cast<string>();
+            dropInfo.Effects = dragFileList.Any(item =>
+            {
+                var extension = Path.GetExtension(item);
+                return extension != null;
+            }) ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
-        private string GetSystemFolderName(string mediaType)
+        public void Drop(IDropInfo dropInfo)
         {
-            string sysFolderName = _selectedService.CurrentSystem;
-
-            if (_selectedService.IsMainMenu())
+            var dragFileList = ((DataObject)dropInfo.Data).GetFileDropList().Cast<string>();
+            dropInfo.Effects = dragFileList.Any(item =>
             {
-                if (mediaType != "Wheel" && mediaType != "Theme" && mediaType != "Videos")
-                    sysFolderName = _selectedService.CurrentRomname;
+                var extension = Path.GetExtension(item);
+                return extension != null && extension.Equals(".*");
+            }) ? DragDropEffects.Copy : DragDropEffects.None;
+
+            DroppedFile(dragFileList.ToArray(), columnHeader);
+
+            SetCurrentName(new string[] { _selectedService.CurrentRomname, columnHeader });
+
+            if (FilesForGame != null)
+            {
+                FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;
+
+                if (FilesForGame.CurrentItem == null)
+                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+                else
+                    FilesForGame_CurrentChanged(null, null);
             }
 
-            return sysFolderName;
         }
+        #endregion        
 
-        #region Methods
+        #region Support Methods
         private void BuildUnusedMediaList(string obj)
         {
             UnusedWheels = new List<UnusedMediaFile>();
@@ -480,43 +533,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 Debug.WriteLine(ex.Message + ex.StackTrace);
             }
 
-        }
-
-        public void DragOver(IDropInfo dropInfo)
-        {
-
-            var dragFileList = ((DataObject)dropInfo.Data).GetFileDropList().Cast<string>();
-            dropInfo.Effects = dragFileList.Any(item =>
-            {
-                var extension = Path.GetExtension(item);
-                return extension != null;
-            }) ? DragDropEffects.Copy : DragDropEffects.None;
-        }
-
-        public void Drop(IDropInfo dropInfo)
-        {
-            var dragFileList = ((DataObject)dropInfo.Data).GetFileDropList().Cast<string>();
-            dropInfo.Effects = dragFileList.Any(item =>
-            {
-                var extension = Path.GetExtension(item);
-                return extension != null && extension.Equals(".*");
-            }) ? DragDropEffects.Copy : DragDropEffects.None;
-
-            DroppedFile(dragFileList.ToArray(), columnHeader);
-
-            SetCurrentName(new string[] { _selectedService.CurrentRomname, columnHeader });
-
-            if (FilesForGame != null)
-            {
-                FilesForGame.CurrentChanged += FilesForGame_CurrentChanged;
-
-                if (FilesForGame.CurrentItem == null)
-                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
-                else
-                    FilesForGame_CurrentChanged(null, null);
-            }
-
-        }
+        }        
 
         private string GetHsMediaPathDirectory(
             string hsPath, string systemName, string mediaType)
@@ -574,46 +591,6 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             }
         }
 
-        public void DroppedFile(string[] filelist, string selectedColumn)
-        {
-            int i;
-            string Filename, ext, filename3;
-
-            for (i = 0; i < filelist.Length; i++)
-            {
-                Filename = System.IO.Path.GetFileName(filelist[i]);
-                ext = System.IO.Path.GetExtension(filelist[i]);
-                filename3 = System.IO.Path.GetFileNameWithoutExtension(filelist[i]);
-
-                switch (selectedColumn)
-                {
-                    case "Wheel":
-                    case "Artwork1":
-                    case "Artwork2":
-                    case "Artwork3":
-                    case "Artwork4":
-                    case "Backgrounds":
-                    case "Videos":
-                    case "Letters":                    
-                    case "GenreBg":
-                    case "Pointer":
-                    case "GenreWheel":                                        
-                        wheel_drop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
-                        break;
-                    case "Theme":
-                        ThemeDrop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
-                        break;
-                    case "Special":
-                    case "Wheel Sounds":
-                    case "Sound Click":
-                        FileDrop(filelist[i], selectedColumn, _selectedService.CurrentRomname);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
         private void FileDrop(string file, string selectedColumn, string romName)
         {
             string ext = Path.GetExtension(file);
@@ -629,7 +606,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                  name,
                  columnHeader);
 
-            if (string.IsNullOrWhiteSpace(hsMediaPath)) return;            
+            if (string.IsNullOrWhiteSpace(hsMediaPath)) return;
 
             if (!Directory.Exists(hsMediaPath))
             {
@@ -823,6 +800,35 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                 im.Save(Path.Combine(path), ImageFormat.Png);
             }
         }
+
+        private void OpenFolder()
+        {
+            string name = _selectedService.CurrentSystem;
+
+            if (_selectedService.IsMainMenu())
+                name = _selectedService.CurrentRomname;
+
+            string hsMediaPath = GetHsMediaPathDirectory(
+                _settingsRepo.HypermintSettings.HsPath,
+                 name,
+                 columnHeader);
+
+            _folderExplore.OpenFolder(hsMediaPath);
+        }
+
+        private string GetSystemFolderName(string mediaType)
+        {
+            string sysFolderName = _selectedService.CurrentSystem;
+
+            if (_selectedService.IsMainMenu())
+            {
+                if (mediaType != "Wheel" && mediaType != "Theme" && mediaType != "Videos")
+                    sysFolderName = _selectedService.CurrentRomname;
+            }
+
+            return sysFolderName;
+        }        
+
         #endregion
 
     }

@@ -6,13 +6,26 @@ namespace Hypermint.Base.Services
 {
     public class AviSynthScripter : IAviSynthScripter
     {
+        #region Fields
         private string[] vidname;
         private string[] audioname;
         private string[] wheelName;
         private string[] wheelNameAlpha;
         private string[] audioDub;
         private string[] trimName;
+        #endregion
 
+        /// <summary>
+        /// Creates an Avi synth script
+        /// </summary>
+        /// <param name="VideoFiles">Array of videos</param>
+        /// <param name="options">Avi synth options</param>
+        /// <param name="systemName">system to create for</param>
+        /// <param name="overlay">use wheel overlay?</param>
+        /// <param name="overlayResize">resize overlay?</param>
+        /// <param name="wheelPath">path to wheel images</param>
+        /// <param name="exportScriptPath">where to export the avi synth script</param>
+        /// <returns></returns>
         public string CreateScript(string[] VideoFiles, AviSynthOption options,string systemName,
             bool overlay = false,bool overlayResize = false, string wheelPath = "", string exportScriptPath = @"exports\videos\")
         {
@@ -35,8 +48,7 @@ namespace Hypermint.Base.Services
                 {
                     vidname[i] = "V" + i + " = ffvideosource(" + "\"" + VideoFiles[i] + "\"" + ")";
                     audioname[i] = "A" + i + " = ffaudiosource(" + "\"" + VideoFiles[i] + "\"" + ")";
-                    audioDub[i] = "AudioDub" + "(V" + i + ",A" + i + ").Trim(" + options.StartFrame + "," + options.EndFrame + ")";
-                    
+                    audioDub[i] = "AudioDub" + "(V" + i + ",A" + i + ").Trim(" + options.StartFrame + "," + options.EndFrame + ")";                    
                 }
                 else
                 {
@@ -149,6 +161,12 @@ namespace Hypermint.Base.Services
             return scriptFile.Replace(".avs","");
         }
 
+        /// <summary>
+        /// Sets a trim name for avi synth
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="audioDub"></param>
+        /// <returns></returns>
         private string SetTrimName(int index, string audioDub)
         {
             return "Trim" + index + " = " + audioDub;

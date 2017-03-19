@@ -8,7 +8,7 @@
         <StackPanel>
             <metro:SplitButton Height="68"
                                   Name="SplitButton1"
-                                  Width="70"                           
+                                  Width="90"                 
                                   HorizontalAlignment="Center"
                                   Orientation="Vertical"
                                   DisplayMemberPath="{Binding ElementName=SplitButton0, Path=DisplayMemberPath}"
@@ -24,7 +24,7 @@
                 </metro:SplitButton.Icon>
             </metro:SplitButton>
 
-            <metro:SplitButton Height="68"
+            <!--<metro:SplitButton Height="68"
                                   Name="SplitButton2"
                                   Width="70"
                            
@@ -41,7 +41,7 @@
                                         Content="{DynamicResource appbar_alien}" />
                 </Viewbox>
             </metro:SplitButton.Icon>
-        </metro:SplitButton>
+        </metro:SplitButton>-->
 
             <Button Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
                         Command="{Binding OpenFolderCommand}"

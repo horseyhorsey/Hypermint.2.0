@@ -167,7 +167,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
                 UpdateImagePreviewHeader();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -199,8 +199,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         }
 
         private string GetNewFileNameIfExists(string layerName, string outPutFileName, string rlMediaFilePath)
-        {
-            #region FileChecking
+        {            
             bool flag = true;
             int c = 1;
             while (flag)
@@ -229,7 +228,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
                 else
                     flag = false;
             }
-            #endregion
+            
             return rlMediaFilePath + "\\" + outPutFileName;
         }
 

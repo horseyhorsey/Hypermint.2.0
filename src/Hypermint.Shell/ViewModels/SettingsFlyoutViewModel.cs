@@ -62,7 +62,7 @@ namespace Hypermint.Shell.ViewModels
         {
             var userPath = "";
 
-            _fileFolderService.setFolderDialog();
+            _fileFolderService.SetFolderDialog();
 
             if (!string.IsNullOrEmpty(_fileFolderService.SelectedFolder))
             {

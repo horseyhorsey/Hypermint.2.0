@@ -78,7 +78,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
 
                 PickedDatabaseXml =
-                    _fileFolderService.setFileDialog(_settingsRepo.HypermintSettings.HsPath + "\\Databases");
+                    _fileFolderService.SetFileDialog(_settingsRepo.HypermintSettings.HsPath + "\\Databases");
 
                 ShortDbName = Path.GetFileNameWithoutExtension(PickedDatabaseXml);
             });

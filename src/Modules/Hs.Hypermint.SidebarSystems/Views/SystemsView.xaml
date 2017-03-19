@@ -21,7 +21,7 @@
                 </Grid.RowDefinitions>
 
                 <DockPanel>
-                    <CheckBox Margin="5" Grid.Row="0" Content="Re-order"
+                    <CheckBox Margin="5" Grid.Row="0" Content="Re-order" ToolTip="Allow reordering of systems."
                               IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
 

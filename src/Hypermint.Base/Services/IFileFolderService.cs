@@ -4,8 +4,8 @@
     {        
         string SelectedFolder { get; set; }
 
-        void setFolderDialog();
+        void SetFolderDialog();
 
-        string setFileDialog(string initialDirectory = "");
+        string SetFileDialog(string initialDirectory = "");
     }
 }

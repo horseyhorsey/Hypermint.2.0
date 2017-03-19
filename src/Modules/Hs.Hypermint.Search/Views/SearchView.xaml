@@ -111,7 +111,7 @@
                     <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="2">
                         <!--Search Button-->
                         <Button Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" IsDefault="True"
-                        Background="Green"
+                        Background="Green" ToolTip="Search games"
                         Command="{Binding SearchGamesCommand}"
                         CommandParameter="{Binding ElementName=textField,Path=Text}"
                         Style="{DynamicResource MetroCircleButtonStyle}">
@@ -127,8 +127,9 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </Button>
+                        
                         <!--Cancel Search-->
-                        <Button Width="30" Height="30" VerticalAlignment="Center" 
+                        <Button Width="30" Height="30" VerticalAlignment="Center"  ToolTip="Cancel"
                         Command="{Binding CancelCommand}"                        
                     Background="{DynamicResource ValidationBrush5}"
                         Style="{DynamicResource MetroCircleButtonStyle}">

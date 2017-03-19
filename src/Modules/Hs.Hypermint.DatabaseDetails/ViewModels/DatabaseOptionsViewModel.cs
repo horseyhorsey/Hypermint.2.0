@@ -4,45 +4,15 @@ using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class DatabaseOptionsViewModel : ViewModelBase
     {
-        #region Services
-        private ISelectedService _selectedService;
-        private IGameRepo _gameRepo;
-        #endregion
-
-        #region Commands
-        public DelegateCommand ApplyToCellsCommand { get; private set; }
-
-        #endregion
-
-        private string applyString;
-        public string ApplyString
-        {
-            get { return applyString; }
-            set { SetProperty(ref applyString, value); }
-        }
-
-        private IEventAggregator _eventAggregator;
-
-        private ComboBoxItem selectedItem;
-        public ComboBoxItem SelectedItem
-        {
-            get { return selectedItem; }
-            set { SetProperty(ref selectedItem, value); }
-        }
-
+        #region Constructors
         public DatabaseOptionsViewModel(ISelectedService selectedService,
             IGameRepo gameRepo, IEventAggregator ea)
         {
@@ -51,8 +21,63 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _eventAggregator = ea;
 
             ApplyToCellsCommand = new DelegateCommand(ApplyToCells);
+
+            ReplaceDescriptionCommand = new DelegateCommand(ReplaceDescriptions);
+
+        }
+        #endregion
+
+        #region Properties
+        private string applyString;
+        public string ApplyString
+        {
+            get { return applyString; }
+            set { SetProperty(ref applyString, value); }
         }
 
+        private ComboBoxItem selectedItem;
+#warning Use another way to bind,  not relying on a Comboboxitem in the ViewModel
+        public ComboBoxItem SelectedItem
+        {
+            get { return selectedItem; }
+            set { SetProperty(ref selectedItem, value); }
+        }
+
+        private string _pattern;
+        /// <summary>
+        /// Gets or sets the pattern to search in a description.
+        /// </summary>
+        public string Pattern
+        {
+            get { return _pattern; }
+            set { SetProperty(ref _pattern, value); }
+        }
+
+        private string _replacement;
+        /// <summary>
+        /// Gets or sets the text to replace for a game description
+        /// </summary>
+        public string Replacement
+        {
+            get { return _replacement; }
+            set { SetProperty(ref _replacement, value); }
+        }
+
+        #endregion
+
+        #region Fields
+        private ISelectedService _selectedService;
+        private IGameRepo _gameRepo;
+        private IEventAggregator _eventAggregator;
+        #endregion
+
+        #region Commands
+        public DelegateCommand ApplyToCellsCommand { get; private set; }
+        public DelegateCommand ReplaceDescriptionCommand { get; private set; }        
+
+        #endregion
+
+        #region Support Methods
         /// <summary>
         /// Apply a given text to the selected cells column
         /// </summary>
@@ -91,5 +116,27 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _eventAggregator.GetEvent<MultipleCellsUpdated>().Publish("");
 
         }
+
+        /// <summary>
+        /// Replace all selected games descriptions from view models Pattern and Replacement properties.
+        /// </summary>
+        private void ReplaceDescriptions()
+        {
+            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
+            {
+                _selectedService.SelectedGames.ForEach((game) =>
+                {
+                    var index = _gameRepo.GamesList.IndexOf(game);
+
+                    _gameRepo.GamesList.ElementAt(index).Description = game.Description.Replace(Pattern, Replacement);
+
+                });
+
+                //Tell the main viewmodel we're done
+                _eventAggregator.GetEvent<MultipleCellsUpdated>().Publish("");
+            }                
+        }
+        #endregion
+
     }
 }

@@ -7,21 +7,19 @@ namespace Hypermint.Base.Services
 {
     public interface ISelectedService
     {
+        #region Properties
         string CurrentSystem { get; set; }
-
-        string CurrentMainMenu { get; set;}
-
+        string CurrentMainMenu { get; set; }
         string CurrentRomname { get; set; }
-
         string CurrentDescription { get; set; }
-
-        bool IsMainMenu();
-
         bool IsMultiSystem { get; set; }
-
         BitmapImage SystemImage { get; set; }
         ImageSource GameImage { get; set; }
-
         List<Game> SelectedGames { get; set; }
+        #endregion
+
+        #region Methods
+        bool IsMainMenu();
+        #endregion
     }
 }

@@ -16,49 +16,17 @@ using System.Xml;
 using Hypermint.Base.Models;
 using MahApps.Metro.Controls.Dialogs;
 using Hypermint.Base.Events;
-using GongSolutions.Wpf.DragDrop;
 using System.Threading.Tasks;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class DatabaseDetailsViewModel : ViewModelBase
     {
-
-        #region Properties
-        private ICollectionView _gameList;
-        public ICollectionView GamesList
-        {
-            get { return _gameList; }
-            set { SetProperty(ref _gameList, value); }
-        }                
-
-        public int SelectedItemsCount { get; private set; }
-
-        private string databaseHeaderInfo = "Database Editor";
-        public string DatabaseHeaderInfo
-        {
-            get { return databaseHeaderInfo; }
-            set { SetProperty(ref databaseHeaderInfo, value); }
-        }
-
-        #endregion
-
-        #region Commands & Event
-        private readonly IEventAggregator _eventAggregator;                        
-        public DelegateCommand AuditScanStart { get; private set; }
-        public DelegateCommand<IList> SelectionChanged { get; set; }
-        public DelegateCommand<string> EnableDbItemsCommand { get; set; }        
-        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
-        public DelegateCommand LaunchGameCommand { get; private set; }
-        public DelegateCommand ScanRomsCommand { get; private set; } 
-
-        #endregion
-
         #region Constructors
-        public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo, 
-            IHyperspinXmlService xmlService, ISelectedService selectedService, 
+        public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo,
+            IHyperspinXmlService xmlService, ISelectedService selectedService,
             IFavoriteService favoriteService, IGenreRepo genreRepo,
-            IEventAggregator eventAggregator, IGameLaunch gameLaunch,           
+            IEventAggregator eventAggregator, IGameLaunch gameLaunch,
             IMainMenuRepo memuRepo, IDialogCoordinator dialogService
             )
         {
@@ -67,9 +35,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _gameRepo = gameRepo;
             _eventAggregator = eventAggregator;
             _favouriteService = favoriteService;
-            _selectedService = selectedService;           
+            _selectedService = selectedService;
             _xmlService = xmlService;
-            _genreRepo = genreRepo;            
+            _genreRepo = genreRepo;
             _menuRepo = memuRepo;
             _dialogService = dialogService;
             _gameLaunch = gameLaunch;
@@ -86,7 +54,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
             }
 
-            EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);            
+            EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
 
             EnableFaveItemsCommand = new DelegateCommand<string>(EnableFaveItems);
 
@@ -97,7 +65,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     if (items == null)
                     {
                         SelectedItemsCount = 0;
-                        _selectedService.SelectedGames.Clear();                        
+                        _selectedService.SelectedGames.Clear();
                         return;
                     }
                     else
@@ -170,7 +138,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
             catch (Exception ex)
             {
-                
+
             }
 
         }
@@ -194,7 +162,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 {
 
                 }
-                
+
             }
         }
 
@@ -212,7 +180,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         #endregion
 
-        #region Services
+        #region Fields
         private IGameRepo _gameRepo;
         private ISettingsRepo _settingsRepo;
         private IFavoriteService _favouriteService;
@@ -223,9 +191,196 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private IGameLaunch _gameLaunch;
         private IMainMenuRepo _menuRepo;
         private IDialogCoordinator _dialogService;
+        private readonly IEventAggregator _eventAggregator;
         #endregion
 
-        #region Filter Methods
+        #region Properties
+        private ICollectionView _gameList;
+        public ICollectionView GamesList
+        {
+            get { return _gameList; }
+            set { SetProperty(ref _gameList, value); }
+        }                
+
+        public int SelectedItemsCount { get; private set; }
+
+        private string databaseHeaderInfo = "Database Editor";
+        public string DatabaseHeaderInfo
+        {
+            get { return databaseHeaderInfo; }
+            set { SetProperty(ref databaseHeaderInfo, value); }
+        }
+
+        #endregion
+
+        #region Commands        
+        public DelegateCommand AuditScanStart { get; private set; }
+        public DelegateCommand<IList> SelectionChanged { get; set; }
+        public DelegateCommand<string> EnableDbItemsCommand { get; set; }        
+        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
+        public DelegateCommand LaunchGameCommand { get; private set; }
+        public DelegateCommand ScanRomsCommand { get; private set; } 
+
+        #endregion                
+
+        #region Support Methods
+        /// <summary>
+        /// Update games list event handler
+        /// Published by selecting Systems in left system list        
+        /// </summary>
+        /// <param name="systemName"></param>
+        private async void UpdateGamesAsync(string dbName)
+        {
+            var hsPath = _settingsRepo.HypermintSettings.HsPath;
+            var system = _selectedService.CurrentSystem;
+
+            if (GamesList != null)
+            {
+                _gameRepo.GamesList.Clear();
+
+                if (Directory.Exists(hsPath))
+                {
+                    try
+                    {
+                        await PopulateGamesList(system, hsPath, dbName);
+
+                        //Publish after the gameslist is updated here
+                        _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(dbName);
+                    }
+                    catch (XmlException exception)
+                    {
+                        exception.GetBaseException();
+                        var msg = exception.Message;
+                        _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri + " : " + msg);
+                    }
+                    catch (Exception ex) { }
+                    finally
+                    {
+
+                    }
+
+                }
+            }
+
+        }
+        private async Task PopulateGamesList(string systemName, string hsPath, string dbName)
+        {
+            try
+            {
+                if (systemName.ToLower().Contains("main Menu"))
+                    await _gameRepo.GetGamesAsync (hsPath + @"\Databases\Main Menu\" + dbName + ".xml", systemName);
+                else
+                {
+                    await _gameRepo.GetGamesAsync(hsPath + @"\Databases\" + systemName + "\\" + dbName + ".xml", systemName);
+                }
+
+                GamesList = new ListCollectionView(_gameRepo.GamesList);
+
+                GamesList.CurrentChanged += GamesList_CurrentChanged;
+
+                GamesList.MoveCurrentToPrevious();
+
+                try
+                {
+                    GamesList.MoveCurrentToFirst();
+                }
+                catch (Exception)
+                {
+                    
+                }
+                
+            }
+            catch (XmlException exception)
+            {
+                exception.GetBaseException();
+                var msg = exception.Message;
+                _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri + " : " + msg);
+
+                _gameRepo.GamesList.Clear();
+            }
+
+           await updateFavoritesForGamesList();
+            
+        }
+        private async Task updateFavoritesForGamesList()
+        {
+            if (_selectedService != null)
+            {
+                await Task.Run(() =>
+                {
+                    var selectedSystemName = _selectedService.CurrentSystem;
+
+                    //_gameRepo.GamesList
+                    var favesList = _favouriteService.GetFavoritesForSystem
+                        (selectedSystemName, _settingsRepo.HypermintSettings.HsPath);
+
+                    foreach (var item in _gameRepo.GamesList)
+                    {
+                        if (favesList.Contains(item.RomName))
+                            item.IsFavorite = true;
+                    }
+                });
+                
+            }
+            
+        }        
+        private void EnableDbItems(string enabled)
+        {
+            var enableItems = Convert.ToInt32(enabled);
+            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
+            {
+                try
+                {
+                    foreach (var game in _selectedService.SelectedGames)
+                    {
+                        var gameIndex = _gameRepo.GamesList.IndexOf(game);
+                        _gameRepo.GamesList[gameIndex].GameEnabled = enableItems;                        
+                    }
+                                                               
+                    GamesList.Refresh();
+                }
+                catch (Exception) { }
+            }
+        }
+        private void EnableFaveItems(string enabled)
+        {
+            var enableItems = false;
+
+            if (enabled == "0")
+                enableItems = false;
+            else
+                enableItems = true;
+
+            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
+            {
+                try
+                {
+                    foreach (var game in _selectedService.SelectedGames)
+                    {
+                        var gameIndex = _gameRepo.GamesList.IndexOf(game);
+                        _gameRepo.GamesList[gameIndex].IsFavorite = enableItems;
+                    }
+
+                    GamesList.Refresh();
+                }
+                catch (Exception) { }
+            }
+        }
+        private void SetUpGamesListFromMainMenuDb()
+        {
+            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+            {
+                try
+                {
+                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
+                }
+                catch (Exception)
+                {
+                    //                
+                }
+            }
+        }
+
         /// <summary>
         /// Filter the current GamesList with textbox from filter controls
         /// </summary>
@@ -346,14 +501,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                     return textFiltered;
                 };
-           
+
             }
         }
-
         private void FilterRomClones(bool showClones)
         {
             if (GamesList != null)
-            {                                
+            {
                 var cv = CollectionViewSource.GetDefaultView(GamesList);
                 if (showClones)
                     //cv.Filter = null;
@@ -379,176 +533,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
         }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Update games list event handler
-        /// Published by selecting Systems in left system list        
-        /// </summary>
-        /// <param name="systemName"></param>
-        private async void UpdateGamesAsync(string dbName)
-        {
-            var hsPath = _settingsRepo.HypermintSettings.HsPath;
-            var system = _selectedService.CurrentSystem;
-
-            if (GamesList != null)
-            {
-                _gameRepo.GamesList.Clear();
-
-                if (Directory.Exists(hsPath))
-                {
-                    try
-                    {
-                        await PopulateGamesList(system, hsPath, dbName);
-
-                        //Publish after the gameslist is updated here
-                        _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(dbName);
-                    }
-                    catch (XmlException exception)
-                    {
-                        exception.GetBaseException();
-                        var msg = exception.Message;
-                        _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri + " : " + msg);
-                    }
-                    catch (Exception ex) { }
-                    finally
-                    {
-
-                    }
-
-                }
-            }
-
-        }
-
-        private async Task PopulateGamesList(string systemName, string hsPath, string dbName)
-        {
-            try
-            {
-                if (systemName.ToLower().Contains("main Menu"))
-                    await _gameRepo.GetGamesAsync (hsPath + @"\Databases\Main Menu\" + dbName + ".xml", systemName);
-                else
-                {
-                    await _gameRepo.GetGamesAsync(hsPath + @"\Databases\" + systemName + "\\" + dbName + ".xml", systemName);
-                }
-
-                GamesList = new ListCollectionView(_gameRepo.GamesList);
-
-                GamesList.CurrentChanged += GamesList_CurrentChanged;
-
-                GamesList.MoveCurrentToPrevious();
-
-                try
-                {
-                    GamesList.MoveCurrentToFirst();
-                }
-                catch (Exception)
-                {
-                    
-                }
-                
-            }
-            catch (XmlException exception)
-            {
-                exception.GetBaseException();
-                var msg = exception.Message;
-                _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(exception.SourceUri + " : " + msg);
-
-                _gameRepo.GamesList.Clear();
-            }
-
-           await updateFavoritesForGamesList();
-            
-        }
-
-        private async Task updateFavoritesForGamesList()
-        {
-            if (_selectedService != null)
-            {
-                await Task.Run(() =>
-                {
-                    var selectedSystemName = _selectedService.CurrentSystem;
-
-                    //_gameRepo.GamesList
-                    var favesList = _favouriteService.GetFavoritesForSystem
-                        (selectedSystemName, _settingsRepo.HypermintSettings.HsPath);
-
-                    foreach (var item in _gameRepo.GamesList)
-                    {
-                        if (favesList.Contains(item.RomName))
-                            item.IsFavorite = true;
-                    }
-                });
-                
-            }
-            
-        }        
-
-        private void EnableDbItems(string enabled)
-        {
-            var enableItems = Convert.ToInt32(enabled);
-            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
-            {
-                try
-                {
-                    foreach (var game in _selectedService.SelectedGames)
-                    {
-                        var gameIndex = _gameRepo.GamesList.IndexOf(game);
-                        _gameRepo.GamesList[gameIndex].GameEnabled = enableItems;                        
-                    }
-                                                               
-                    GamesList.Refresh();
-                }
-                catch (Exception) { }
-            }
-        }
-
-        private void EnableFaveItems(string enabled)
-        {
-            var enableItems = false;
-
-            if (enabled == "0")
-                enableItems = false;
-            else
-                enableItems = true;
-
-            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
-            {
-                try
-                {
-                    foreach (var game in _selectedService.SelectedGames)
-                    {
-                        var gameIndex = _gameRepo.GamesList.IndexOf(game);
-                        _gameRepo.GamesList[gameIndex].IsFavorite = enableItems;
-                    }
-
-                    GamesList.Refresh();
-                }
-                catch (Exception) { }
-            }
-        }
-
-        private void SetUpGamesListFromMainMenuDb()
-        {
-            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
-            {
-                try
-                {
-                    _gameRepo.GetGames(_settingsRepo.HypermintSettings.HsPath + @"\Databases\Main Menu\Main Menu.xml");
-                }
-                catch (Exception)
-                {
-                    //                
-                }
-            }
-        }        
-
-        #endregion
-
-        #region Events
         private void GamesList_CurrentChanged(object sender, EventArgs e)
-        {            
+        {
             if (GamesList != null)
             {
                 Game game = GamesList.CurrentItem as Game;
@@ -558,12 +544,12 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
         }
-
         protected override void OnPropertyChanged(string propertyName)
-        {            
+        {
             base.OnPropertyChanged(propertyName);
         }
 
         #endregion
+
     }
 }

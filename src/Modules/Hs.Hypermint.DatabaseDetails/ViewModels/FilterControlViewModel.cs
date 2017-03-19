@@ -3,8 +3,6 @@ using Hypermint.Base.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Models;
 using Prism.Events;
-using System.Collections.Generic;
-using System;
 using Prism.Commands;
 using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
@@ -12,13 +10,44 @@ using Hypermint.Base.Interfaces;
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class FilterControlViewModel : ViewModelBase
-    {        
+    {
+        #region Constructors
+        public FilterControlViewModel(IEventAggregator eventAggregator,
+            ISelectedService selectedSrv
+            , ISettingsRepo settingsRepo,
+            IGameLaunch gameLaunch)
+        {
+            _eventAggregator = eventAggregator;
+            _selectedService = selectedSrv;
+            _settingsRepo = settingsRepo;
+            _gameLaunch = gameLaunch;
+
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(RemoveFilters);
+
+            LaunchGameCommand = new DelegateCommand(LaunchGame);
+
+            AddMultiSystemCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedService.SelectedGames);
+            });
+        }
+        #endregion
+
+        #region Fields
         private IEventAggregator _eventAggregator;
 
-        public DelegateCommand LaunchGameCommand { get; private set; }
-        public DelegateCommand AddMultiSystemCommand { get; private set; }
-
         private bool systemChanging;
+
+        private ISelectedService _selectedService;
+        private ISettingsRepo _settingsRepo;
+        private IGameLaunch _gameLaunch;
+        #endregion
+
+        #region Commands
+        public DelegateCommand LaunchGameCommand { get; private set; }
+        public DelegateCommand AddMultiSystemCommand { get; private set; } 
+        #endregion        
+
         #region Properties
         private string filterText;
         public string FilterText
@@ -50,10 +79,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         }
 
         private bool showEnabledOnly;
-        private ISelectedService _selectedService;
-        private ISettingsRepo _settingsRepo;
-        private IGameLaunch _gameLaunch;
-
         public bool ShowEnabledOnly
         {
             get { return showEnabledOnly; }
@@ -61,26 +86,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         }
         #endregion
 
-        public FilterControlViewModel(IEventAggregator eventAggregator, 
-            ISelectedService selectedSrv
-            ,ISettingsRepo settingsRepo,
-            IGameLaunch gameLaunch)
-        {
-            _eventAggregator = eventAggregator;
-            _selectedService = selectedSrv;
-            _settingsRepo = settingsRepo;
-            _gameLaunch = gameLaunch;
-
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(RemoveFilters);
-
-            LaunchGameCommand = new DelegateCommand(LaunchGame);
-
-            AddMultiSystemCommand = new DelegateCommand(() =>
-            {
-                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedService.SelectedGames);
-            });            
-        }
-
+        #region Support Methods
         private void RemoveFilters(string obj)
         {
             systemChanging = true;
@@ -111,10 +117,10 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 };
 
                 _eventAggregator.GetEvent<GameFilteredEvent>().Publish(filterOptions);
-            }         
-                        
+            }
+
         }
-        
+
         private void LaunchGame()
         {
             if (_selectedService.SelectedGames == null) return;
@@ -128,7 +134,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
             }
-        }
+        } 
+        #endregion
 
     }
 

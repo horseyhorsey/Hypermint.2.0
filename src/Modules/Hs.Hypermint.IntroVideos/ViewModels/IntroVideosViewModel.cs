@@ -411,8 +411,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
                     {
                         if (_fileFolderChecker.FileExists(video.FileName))
                         {
-                            var inputFile = new MediaFile { Filename = video.FileName };
-                            var GetFrameSize = "";
+                            var inputFile = new MediaFile { Filename = video.FileName };                            
 
                             try
                             {
@@ -425,7 +424,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
                                     engine.Dispose();
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
 
                             }
