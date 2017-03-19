@@ -38,8 +38,8 @@ namespace Hypermint.Shell.ViewModels
         }
 
         private void Navigate(string uri)
-        {            
-            
+        {
+            _eventAggregator.GetEvent<NavigateRequestEvent>().Publish(uri);
         }
 
         void IDropTarget.DragOver(IDropInfo dropInfo)

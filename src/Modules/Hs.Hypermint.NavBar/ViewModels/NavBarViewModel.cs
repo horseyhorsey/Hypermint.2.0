@@ -187,20 +187,32 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     _regionManager.RequestNavigate(RegionNames.FilesRegion, "HyperspinFilesView");
                     break;
                 case "RlMediaAuditView":
-                    CurrentView += "RocketLaunch media audit";
-                    _regionManager.RequestNavigate(RegionNames.FilesRegion, "FilesView");
+                    if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                    {
+                        CurrentView += "RocketLaunch media audit";
+                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "FilesView");
+                    }                       
                     break;
                 case "IntroVideosView":
-                    CurrentView += "Hyperspin video intros";
-                    _regionManager.RequestNavigate(RegionNames.FilesRegion, "ProcessOptionsView");
+                    if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                    {
+                        CurrentView += "Hyperspin video intros";
+                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "ProcessOptionsView");
+                    }                    
                     break;
                 case "MultiSystemView":
-                    CurrentView += "Hyperspin multiple system generator";
-                    RemoveAllFilesRegionViews();
+                    if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                    {
+                        CurrentView += "Hyperspin multiple system generator";
+                        RemoveAllFilesRegionViews();
+                    }
                     break;
                 case "SimpleWheelView":
-                    CurrentView += "Simple wheel creator";
-                    _regionManager.RequestNavigate("FilesRegion", "WheelProcessView");
+                    if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                    {
+                        CurrentView += "Simple wheel creator";
+                        _regionManager.RequestNavigate("FilesRegion", "WheelProcessView");
+                    }
                     break;
                 case "StatsView":
                     CurrentView += "Rocketlaunch stats";
@@ -214,7 +226,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
             }
 
-            if (uri != "WebBrowseView" && uri != "DatabaseDetailsView")
+            if (CurrentView != "Views: " && uri != "WebBrowseView" && uri != "DatabaseDetailsView")
                 _regionManager.RequestNavigate("ContentRegion", uri);
 
         }

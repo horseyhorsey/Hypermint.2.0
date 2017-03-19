@@ -21,7 +21,7 @@
         <Button Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
                     Visibility="{Binding IsMainMenu,
                     UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVisConverter}}"
-                ToolTip="Search games">
+                ToolTip="Search games (CTRL+1)">
         <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -33,7 +33,7 @@
         <Button Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"
                     Visibility="{Binding IsNotMainMenu,
                     UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVisConverter}}"
-                ToolTip="Database Editor">
+                ToolTip="Database Editor (CTRL+1)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -44,7 +44,7 @@
 
         <!--MultiSystem-->
         <Button Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView"
-                ToolTip="Multi system">
+                ToolTip="Multi system (CTRL+2)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -55,7 +55,7 @@
         
         <!--Hyperspin Audits-->
         <Button Command="{Binding NavigateCommand}" CommandParameter="HsMediaAuditView"
-                ToolTip="Hyperspin audit">
+                ToolTip="Hyperspin audit (CTRL+3)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -66,7 +66,7 @@
 
         <!--Rocketlaunch audits-->
         <Button Command="{Binding NavigateCommand}" CommandParameter="RlMediaAuditView"
-                ToolTip="Rocketlaunch audit" IsEnabled="{Binding IsRlEnabled}">
+                ToolTip="Rocketlaunch audit (CTRL+4)" IsEnabled="{Binding IsRlEnabled}">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -77,7 +77,7 @@
 
         <!--Wheel Creator-->
         <Button Command="{Binding NavigateCommand}" CommandParameter="SimpleWheelView"
-                ToolTip="Simple wheel">
+                ToolTip="Simple wheel (CTRL+5)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -88,7 +88,7 @@
 
         <!--System Intros-->
         <Button Command="{Binding NavigateCommand}" CommandParameter="IntroVideosView"
-                ToolTip="System intros">
+                ToolTip="System intros (CTRL+6)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>
@@ -99,7 +99,7 @@
 
         <!--Rocketlaunch Stats-->
         <Button Command="{Binding NavigateCommand}" 
-                CommandParameter="StatsView" ToolTip="RocketLaunch Stats">
+                CommandParameter="StatsView" ToolTip="RocketLaunch Stats (CTRL+7)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                 <Rectangle.OpacityMask>

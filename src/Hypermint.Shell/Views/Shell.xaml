@@ -9,7 +9,7 @@
         xmlns:local="clr-namespace:Hypermint.Shell"        
         xmlns:base="clr-namespace:Hypermint.Base;assembly=Hypermint.Base"
         xmlns:constants="clr-namespace:Hypermint.Base.Constants;assembly=Hypermint.Base"                    
-        mc:Ignorable="d"                    
+        mc:Ignorable="d"             
         Title="HyperMint 2.0" Height="768" Width="1280" GlowBrush="{DynamicResource AccentColorBrush}"
                      TitleCaps="False" ShowMaxRestoreButton="True"
                       ShowCloseButton="True" ShowMinButton="True"
@@ -28,6 +28,16 @@
             CommandParameter="{x:Static constants:FlyoutNames.SettingsFlyout}"></Button>
         </metro:WindowCommands>
     </metro:MetroWindow.RightWindowCommands>
+
+    <metro:MetroWindow.InputBindings>
+        <KeyBinding Gesture="CTRL+1" Command="{Binding NavigateCommand}" CommandParameter="DatabaseDetailsView"/>
+        <KeyBinding Gesture="CTRL+2" Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView"/>
+        <KeyBinding Gesture="CTRL+3" Command="{Binding NavigateCommand}" CommandParameter="HsMediaAuditView"/>
+        <KeyBinding Gesture="CTRL+4" Command="{Binding NavigateCommand}" CommandParameter="RlMediaAuditView"/>
+        <KeyBinding Gesture="CTRL+5" Command="{Binding NavigateCommand}" CommandParameter="SimpleWheelView"/>
+        <KeyBinding Gesture="CTRL+6" Command="{Binding NavigateCommand}" CommandParameter="IntroVideosView"/>
+        <KeyBinding Gesture="CTRL+7" Command="{Binding NavigateCommand}" CommandParameter="StatsView"/>
+    </metro:MetroWindow.InputBindings>
 
     <!--Flyouts-->
     <metro:MetroWindow.Flyouts>
