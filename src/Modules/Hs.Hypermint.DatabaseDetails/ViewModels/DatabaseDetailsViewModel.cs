@@ -120,64 +120,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         }
 
-        private void ScanRoms()
-        {
-            if (!Directory.Exists(_settingsRepo.HypermintSettings.RlPath)) return;
-
-            try
-            {
-                if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
-                {
-                    _gameRepo.ScanForRoms(
-                        _settingsRepo.HypermintSettings.RlPath,
-                        _selectedService.CurrentSystem);
-                }
-
-                if (GamesList != null)
-                    GamesList.Refresh();
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-        }
-
-        private void LaunchGame()
-        {
-            if (_selectedService.SelectedGames == null) return;
-
-            if (_selectedService.SelectedGames.Count != 0)
-            {
-                var rlPath = _settingsRepo.HypermintSettings.RlPath;
-                var hsPath = _settingsRepo.HypermintSettings.HsPath;
-                var sysName = _selectedService.SelectedGames[0].System;
-                var romName = _selectedService.SelectedGames[0].RomName;
-
-                try
-                {
-                    _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-            }
-        }
-
-        private void SystemDatabaseChangedHandler(string systemName)
-        {
-            UpdateGamesAsync(systemName);
-        }
-
-        private void SaveCurrentMainMenuItems(string xml)
-        {
-            if (_menuRepo.Systems != null || _menuRepo.Systems.Count > 0)
-                _xmlService.SerializeMainMenuXml(
-                    _menuRepo.Systems, _settingsRepo.HypermintSettings.HsPath, xml);
-        }
-
         #endregion
 
         #region Fields
@@ -380,7 +322,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
         }
-
         /// <summary>
         /// Filter the current GamesList with textbox from filter controls
         /// </summary>
@@ -547,6 +488,60 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
+        }
+        private void ScanRoms()
+        {
+            if (!Directory.Exists(_settingsRepo.HypermintSettings.RlPath)) return;
+
+            try
+            {
+                if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                {
+                    _gameRepo.ScanForRoms(
+                        _settingsRepo.HypermintSettings.RlPath,
+                        _selectedService.CurrentSystem);
+                }
+
+                if (GamesList != null)
+                    GamesList.Refresh();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+        private void LaunchGame()
+        {
+            if (_selectedService.SelectedGames == null) return;
+
+            if (_selectedService.SelectedGames.Count != 0)
+            {
+                var rlPath = _settingsRepo.HypermintSettings.RlPath;
+                var hsPath = _settingsRepo.HypermintSettings.HsPath;
+                var sysName = _selectedService.SelectedGames[0].System;
+                var romName = _selectedService.SelectedGames[0].RomName;
+
+                try
+                {
+                    _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
+        }
+        private void SystemDatabaseChangedHandler(string systemName)
+        {
+            UpdateGamesAsync(systemName);
+        }
+        private void SaveCurrentMainMenuItems(string xml)
+        {
+            if (_menuRepo.Systems != null || _menuRepo.Systems.Count > 0)
+                _xmlService.SerializeMainMenuXml(
+                    _menuRepo.Systems, _settingsRepo.HypermintSettings.HsPath, xml);
         }
 
         #endregion

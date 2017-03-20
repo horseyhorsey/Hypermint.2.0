@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="Hs.Hypermint.MultiSystem.Views.SaveMultiSystemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hs.Hypermint.MultiSystem.Views"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"  
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="550">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--NAMING AND SETTINGS-->
+        <DockPanel Grid.Row="0">
+
+            <!--MULTI SYSTEM NAME-->
+            <TextBox metro:TextBoxHelper.ClearTextButton="True" 
+                 ToolTip="Specify name for multi system"
+                 metro:TextBoxHelper.Watermark="New system name"
+                 Text="{Binding MultiSystemName,UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
+                 Width="206" Height="25" VerticalAlignment="Top" IsEnabled="True"/>
+
+            <!--HYPERSPIN SETTINGS FILES-->
+            <TextBox metro:TextBoxHelper.Watermark="Choose settings file" Height="25" Margin="5" 
+                 ToolTip="Pick an existing settings file for template for this system" TextWrapping="Wrap" 
+                Text="{Binding SettingsTemplate}"
+                 VerticalAlignment="Top" HorizontalAlignment="Left" Width="278" IsEnabled="True"/>
+
+            <!--LOAD SELECT SETTINGS-->
+            <Button Grid.Row="5" Grid.Column="2" Height="28" Width="28" HorizontalAlignment="Left" Margin="3" 
+                Command="{Binding SelectSettingsCommand}" VerticalAlignment="Top" ToolTip="Pick an existing settings file for template for this system" 
+                        Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="20" Height="20" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_folder}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+        </DockPanel>
+
+        <!--Toggle Switches-->
+        <DockPanel Grid.Row="1">
+            <!--COPY MEDIA-->
+            <metro:ToggleSwitch Header="Copy media" OnLabel="Yes"
+                                        IsChecked="{Binding CopyMedia}"
+                                        OffLabel="No" Width="90" Margin="5"
+                                        ToolTip="Find &amp; copy media"/>
+
+            <!--COPY THEME-->
+            <metro:ToggleSwitch Width="90" Header="Theme" OnLabel="Yes" OffLabel="No" Margin="5"
+                  ToolTip="If a theme.zip doesn't exist for a game, copy the systems default.zip theme in place, so you have a theme for each game"                   
+                  IsChecked="{Binding DefaultTheme}" IsEnabled="{Binding CopyMedia}"/>
+
+            <!--SYMBOLIC LINKS-->
+            <metro:ToggleSwitch Header="Media link" IsEnabled="{Binding CopyMedia}" OffLabel="No"
+                              IsChecked="{Binding CreateSymbolicLinks}"
+                              ToolTip="Create symbolic links for media. (Run as admin). Disable to just copy found media"
+                              VerticalAlignment="Top"  Width="90" Margin="5"/>
+
+            <!--RL ROM MAP-->
+            <metro:ToggleSwitch Header="Rom Map" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
+                  ToolTip="Creates a Games.ini for Rocketlauncher rom mapping."
+                  IsChecked="{Binding CreateRomMap}"/>
+
+            <!--GENRE LISTS-->
+            <metro:ToggleSwitch HorizontalAlignment="Left" Header="Genre lists" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
+                                        ToolTip="Create genre lists for this system." IsChecked="{Binding CreateGenres}"/>
+        </DockPanel>
+        
+        <!--PROGRESS-->
+        <TextBlock Grid.Row="2" Text="{Binding ProgressMessage}" FontSize="32" Height="50"
+                   VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+        <!--SAVE AND EXIT-->
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center">
+
+            <Button Width="35" Height="35" VerticalAlignment="Top" Margin="15" 
+                        Command="{Binding BuildMultiSystemCommand}"
+                        CommandParameter="" Background="Green"
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10" Height="10" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_disk}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <Button Width="35" Height="35" VerticalAlignment="Top" Margin="15" 
+                        Command="{Binding CancelBuildCommand}"                        
+                    Background="{DynamicResource ValidationBrush5}"
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10"
+                               Height="10"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_cancel}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <Button Width="35" Height="35" VerticalAlignment="Top" Margin="15" 
+                        Command="{Binding CloseCommand}"                        
+                    Background="{DynamicResource ValidationBrush5}"
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+                <Rectangle Width="10"
+                               Height="10"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_close}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

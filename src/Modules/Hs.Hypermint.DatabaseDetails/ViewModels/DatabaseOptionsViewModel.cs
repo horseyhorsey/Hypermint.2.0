@@ -118,10 +118,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         }
 
         /// <summary>
-        /// Replace all selected games descriptions from view models Pattern and Replacement properties.
-        /// </summary>
+        /// Replace all selected games descriptions from view models Pattern and Replacement properties.        
+        /// </summary>       
         private void ReplaceDescriptions()
         {
+#warning Check that when renaming descriptions it doesn't break anything for frontend or launcher
             if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
             {
                 _selectedService.SelectedGames.ForEach((game) =>

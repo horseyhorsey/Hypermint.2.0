@@ -317,6 +317,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             await Task.Run(() => Thread.Sleep(time));
         }
+
         #endregion
 
     }

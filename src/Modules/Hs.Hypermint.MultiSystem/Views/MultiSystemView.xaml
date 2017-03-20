@@ -3,21 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-            xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-              dialog:DialogParticipation.Register="{Binding}"  
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:uc="clr-namespace:Hs.Hypermint.MultiSystem.User_Controls">
 
     <GroupBox Header="{Binding MultiSystemHeader,UpdateSourceTrigger=PropertyChanged}">
         <Grid x:Name="root">
             <Grid.RowDefinitions>
-                <RowDefinition Height="38"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="65"></RowDefinition>
+                <RowDefinition Height="38"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <!---->
-            <!--Top tools-->
-            <DockPanel>
 
+            <!--TOP GRID OPTIONS-->
+            <DockPanel>
                 <!--Add all favorites-->
                 <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
                         Command="{Binding ScanFavoritesCommand}"
@@ -48,48 +47,15 @@
                     </Rectangle>
                 </Button>
 
-                <TextBlock HorizontalAlignment="Left" Margin="5" TextWrapping="Wrap"
-                   Text="Multi-System Name" Height="16" VerticalAlignment="Center"/>
-
-                <TextBox metro:TextBoxHelper.ClearTextButton="True" 
-                 ToolTip="Specify name for multi system"
-                 metro:TextBoxHelper.Watermark="New system name"
-                 Text="{Binding MultiSystemName,UpdateSourceTrigger=PropertyChanged}"
-                 Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
-                 Width="206" Height="25" VerticalAlignment="Top" IsEnabled="True"/>
-
-                <TextBlock TextWrapping="Wrap" Margin="5" VerticalAlignment="Center"
-                   Text="Default HS Settings"/>
-
-                <TextBox metro:TextBoxHelper.Watermark="Choose settings file" 
-                 ToolTip="Pick an existing settings file for template for this system" 
-                 Height="25" Margin="5" TextWrapping="Wrap" 
-                Text="{Binding SettingsTemplate}"
-                 VerticalAlignment="Top" HorizontalAlignment="Left" Width="278" IsEnabled="True"/>
-
-                <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
-                Command="{Binding SelectSettingsCommand}"
-                VerticalAlignment="Top" ToolTip="Pick an existing settings file for template for this system" 
-                Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
-                    <Rectangle Width="20"
-                       Height="20"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill"
-                                 Visual="{DynamicResource appbar_folder}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
+                <!--SAVE MULIT SYSTEM BUTTON-->
+                <uc:ucSaveMultiSystem Margin="3" HorizontalAlignment="Right"/>
+                
             </DockPanel>
 
-            <!--Multi systems list-->
+            <!--MULIT SYSTEM LIST-->
             <DataGrid Grid.Row="1" CanUserAddRows="False" IsReadOnly="True" ItemsSource="{Binding MultiSystemList}"
                       BorderThickness="2" AutoGenerateColumns="False">
 
-                <DataGrid.Resources>
-
-                </DataGrid.Resources>
-                
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="X">
                         <DataGridTemplateColumn.CellTemplate>
@@ -124,47 +90,6 @@
                     <DataGridTextColumn Header="System" Binding="{Binding System}"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
-            <DockPanel Grid.Row="2">
-                <!--Toggle Switches-->
-                <DockPanel>
-                    <metro:ToggleSwitch Header="Copy media" OnLabel="Yes"
-                                        IsChecked="{Binding CopyMedia}"
-                                        OffLabel="No" Width="90" Margin="5"
-                                        ToolTip="Find &amp; copy media"/>
-                    
-                    <metro:ToggleSwitch Width="90" Header="Theme" OnLabel="Yes" OffLabel="No" Margin="5"
-                  ToolTip="If a theme.zip doesn't exist for a game, copy the systems default.zip theme in place, so you have a theme for each game"                   
-                  IsChecked="{Binding DefaultTheme}" IsEnabled="{Binding CopyMedia}"/>
-                    <metro:ToggleSwitch Header="Rom Map" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
-                  ToolTip="Creates a Games.ini for Rocketlauncher rom mapping."
-                  IsChecked="{Binding CreateRomMap}"/>
-
-                    <metro:ToggleSwitch Header="Genre lists" OnLabel="Yes" OffLabel="No" Width="90" Margin="5"
-                                        ToolTip="Create genre lists for this system."
-                  IsChecked="{Binding CreateGenres}"/>
-
-                    <CheckBox Content="Copy media as links" IsEnabled="{Binding CopyMedia}"
-                              IsChecked="{Binding CreateSymbolicLinks}"
-                              ToolTip="Create symbolic links for media. (Run as admin). Disable to just copy found media"
-                              VerticalAlignment="Bottom" Height="20" Margin="5"/>
-                    <!--Build Multi System-->
-                    <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3"
-                            Command="{Binding BuildMultiSystemCommand}"
-                VerticalAlignment="Bottom" ToolTip="Run builder" 
-                Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
-                        <Rectangle Width="16"
-                       Height="16"
-                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill"
-                                 Visual="{DynamicResource appbar_brick}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>
-
-                </DockPanel>
-            </DockPanel>
 
         </Grid>
     </GroupBox>

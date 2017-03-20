@@ -61,9 +61,10 @@
                                    Header="Add to genre"/>
         </StackPanel>
 
-        <TextBox Grid.Row="3" Height="28" Text="{Binding DbName}"></TextBox>
+        <TextBox Grid.Row="3" Height="28" Text="{Binding DbName}"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2">
+            
             <Button Width="50" Height="50" VerticalAlignment="Top" Margin="15" 
                         Command="{Binding SaveXmlCommand}"
                         CommandParameter=""
@@ -92,6 +93,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
+            
         </StackPanel>
     </Grid>
 </UserControl>

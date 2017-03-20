@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Hs.Hypermint.MultiSystem.User_Controls.ucSaveMultiSystem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hs.Hypermint.MultiSystem.User_Controls"
+             mc:Ignorable="d">
+    <Grid>
+        <!--Save Multi System-->
+        <Button Grid.Row="5" Grid.Column="2" Height="28" Width="28"  HorizontalAlignment="Left" Margin="3"
+                            Command="{Binding BuildMultiSystemCommand}" VerticalAlignment="Bottom" ToolTip="Run builder" 
+                            Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_brick}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+    </Grid>
+</UserControl>

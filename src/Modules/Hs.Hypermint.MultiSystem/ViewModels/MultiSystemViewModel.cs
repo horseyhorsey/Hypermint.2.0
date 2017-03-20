@@ -17,6 +17,7 @@ using Hypermint.Base.Services;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using Hs.Hypermint.MultiSystem.Dialog;
+using Hs.Hypermint.MultiSystem.Views;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -41,55 +42,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             set { SetProperty(ref multiSystemList, value); }
         }
 
-        private string multiSystemName;
-        public string MultiSystemName
-        {
-            get { return multiSystemName; }
-            set { SetProperty(ref multiSystemName, value); }
-        }
-
-        private string settingsTemplate;
-        public string SettingsTemplate
-        {
-            get { return settingsTemplate; }
-            set { SetProperty(ref settingsTemplate, value); }
-        }
-
-        private bool createGenres;
-        public bool CreateGenres
-        {
-            get { return createGenres; }
-            set { SetProperty(ref createGenres, value); }
-        }
-
-        private bool createRomMap;
-        public bool CreateRomMap
-        {
-            get { return createRomMap; }
-            set { SetProperty(ref createRomMap, value); }
-        }
-
-        private bool defaultTheme;
-        public bool DefaultTheme
-        {
-            get { return defaultTheme; }
-            set { SetProperty(ref defaultTheme, value); }
-        }
-
-        private bool copyMedia;
-        public bool CopyMedia
-        {
-            get { return copyMedia; }
-            set { SetProperty(ref copyMedia, value); }
-        }
-
-        private bool createSymbolicLinks = true;
-        public bool CreateSymbolicLinks
-        {
-            get { return createSymbolicLinks; }
-            set { SetProperty(ref createSymbolicLinks, value); }
-        }
-
         private string multiSystemHeader = "Multi System Generator: 0";// Multi system generator;
         public string MultiSystemHeader
         {
@@ -103,7 +55,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private IEventAggregator _eventAggregator;
         public DelegateCommand<Game> RemoveGameCommand { get; set; }
         public DelegateCommand ClearListCommand { get; private set; }
-        public DelegateCommand SelectSettingsCommand { get; private set; }
         public DelegateCommand BuildMultiSystemCommand { get; private set; }
         public DelegateCommand ScanFavoritesCommand { get; private set; }
         public DelegateCommand<string> OpenSearchCommand { get; private set; }
@@ -119,7 +70,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private IFavoriteService _favoriteService;
         private IDialogCoordinator _dialogService;
         private CustomDialog customDialog;
-
         #endregion
 
         #region Constructors
@@ -150,11 +100,9 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             CloseCommand = new DelegateCommand(async () =>
             {
                 await _dialogService.HideMetroDialogAsync(this, customDialog);
-            });
+            });            
 
-            SelectSettingsCommand = new DelegateCommand(SelectSettings);
-
-            BuildMultiSystemCommand = new DelegateCommand(BuildMultiSystem);
+            BuildMultiSystemCommand = new DelegateCommand(OpenBuildMultiSystemDialog);
 
             ScanFavoritesCommand = new DelegateCommand(ScanFavoritesAsync);
 
@@ -273,7 +221,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                     }
                 }
             }
-            catch(Exception e) { System.Windows.MessageBox.Show(e.Message); }
+            catch (Exception e) { System.Windows.MessageBox.Show(e.Message); }
             finally
             {
                 await progressResult.CloseAsync();
@@ -306,29 +254,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             });
         }
 
-        private bool CanBuildSystem()
-        {
-            if (!string.IsNullOrEmpty(MultiSystemName))
-            {
-                if (_multiSystemRepo.MultiSystemList.Count > 0)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-        private void SelectSettings()
-        {
-            var hsPath = _settingsService.HypermintSettings.HsPath;
-            SettingsTemplate = _fileFolderService.SetFileDialog(hsPath);
-        }
         /// <summary>
         /// Remove a single item when X is clicked for a game
         /// </summary>
@@ -363,214 +288,15 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 _multiSystemRepo.MultiSystemList.Count);
 
         }
-        /// <summary>
-        /// Builds a database from the list.
-        /// Creates all media folders and options to create symbolic links rather than duplicate media
-        /// </summary>
-        private void BuildMultiSystem()
+
+        private async void OpenBuildMultiSystemDialog()
         {
-            if (!CanBuildSystem()) return;
+            customDialog = new CustomDialog() { Title = "Save MultiSystem" };
 
-            var hsPath = _settingsService.HypermintSettings.HsPath;
+            customDialog.Content = new SaveMultiSystemView { DataContext = new SaveMultiSystemViewModel(_dialogService, customDialog,_eventAggregator,_settingsService
+                ,_multiSystemRepo, _xmlService,_mainmenuRepo,_fileFolderService) };
 
-            var systemDbPath = Path.Combine(hsPath, Root.Databases, MultiSystemName);
-
-            if (!Directory.Exists(systemDbPath))
-                Directory.CreateDirectory(systemDbPath);
-            //Create the multisystem XML
-            try
-            {
-                _xmlService.SerializeHyperspinXml(
-                _multiSystemRepo.MultiSystemList, MultiSystemName,
-                hsPath, "", true);
-            }
-            catch (Exception e)
-            {
-                _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Saving xml: " + e.Message);
-                return;
-            }
-
-            // Add the new system to the main menu if it doesn't already exist
-            // then serialize.
-            bool nameExists = false;
-            foreach (var item in _mainmenuRepo.Systems)
-            {
-                if (item.Name == MultiSystemName)
-                    nameExists = true;
-            }
-            var newMenuItem = new MainMenu(MultiSystemName, 1);
-            if (!nameExists)
-            {
-                _mainmenuRepo.Systems.Add(newMenuItem);
-                _xmlService.SerializeMainMenuXml(_mainmenuRepo.Systems, hsPath);
-            }
-            // Generate the genre database for this new system
-            if (CreateGenres)
-            {
-                try
-                {
-                    _xmlService.SerializeGenreXml(_multiSystemRepo.MultiSystemList, MultiSystemName, hsPath);
-                }
-                catch (Exception e) { _eventAggregator.GetEvent<ErrorMessageEvent>().Publish("Saving Genres: " + e.Message); };
-
-            }
-
-            // Copy the settings template
-            if (File.Exists(SettingsTemplate))
-            {
-                var settingsIniPath = Path.Combine(hsPath, Root.Settings, MultiSystemName + ".ini");
-
-                if (File.Exists(settingsIniPath))
-                    File.Delete(settingsIniPath);
-
-                File.Copy(settingsTemplate, settingsIniPath);
-            }
-
-            CreateMediaDirectorysForNewSystem(hsPath);
-
-            if (CopyMedia)
-                GenerateMediaItems(hsPath);
-
-            if (CreateRomMap)
-            {
-                try
-                {
-                    var rlPath = _settingsService.HypermintSettings.RlPath;
-                    if (!Directory.Exists(rlPath)) { return; }
-
-                    var iniPath = rlPath + "\\Settings\\" + MultiSystemName;
-
-                    if (!Directory.Exists(iniPath))
-                        Directory.CreateDirectory(iniPath);
-
-                    RocketlaunchRomMap.CreateGamesIni(
-                            _multiSystemRepo.MultiSystemList, iniPath);
-                }
-                catch (Exception)
-                {
-
-                }
-
-            }
-        }
-
-        private void GenerateMediaItems(string hsPath)
-        {
-            foreach (var game in _multiSystemRepo.MultiSystemList)
-            {
-                CopyArtworks(ref hsPath, game);
-                CopyThemes(ref hsPath, game);
-                CopyVideos(ref hsPath, game);
-                CopyWheels(ref hsPath, game);
-            }
-        }
-
-        private void CopyVideos(ref string hsPath, Game game)
-        {
-            var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Video, game.RomName + ".mp4");
-            var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Video, game.RomName + ".mp4");
-
-            if (!File.Exists(tempSymlinkFile))
-            {
-                if (File.Exists(FileToLink))
-                {
-                    SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-                    return;
-                }
-            }
-
-            FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Video, game.RomName + ".flv");
-            tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Video, game.RomName + ".flv");
-
-            if (File.Exists(FileToLink))
-            {
-                if (CreateSymbolicLinks)
-                    SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-                else
-                    File.Copy(FileToLink, tempSymlinkFile, true);
-            }
-        }
-
-        private void CopyArtworks(ref string hsPath, Game game)
-        {
-            for (int i = 1; i < 5; i++)
-            {
-                var FileToLink = Path.Combine(hsPath, Root.Media, game.System, "Images\\Artwork" + i, game.RomName + ".png");
-                var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, "Images\\Artwork" + i, game.RomName + ".png");
-
-                if (!File.Exists(tempSymlinkFile))
-                {
-                    if (File.Exists(FileToLink))
-                    {
-                        if (CreateSymbolicLinks)
-                            SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-                        else
-                            File.Copy(FileToLink, tempSymlinkFile, true);
-                    }
-                }
-            }
-        }
-
-        private void CopyWheels(ref string hsPath, Game game)
-        {
-            var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Images.Wheels, game.RomName + ".png");
-            var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Images.Wheels, game.RomName + ".png");
-
-            if (File.Exists(FileToLink))
-            {
-                if (CreateSymbolicLinks)
-                    SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-                else
-                    File.Copy(FileToLink, tempSymlinkFile, true);
-            }
-        }
-
-        private void CopyThemes(ref string hsPath, Game game)
-        {
-            var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Themes, game.RomName + ".zip");
-            var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Themes, game.RomName + ".zip");
-
-            if (DefaultTheme)
-            {
-                if (!File.Exists(tempSymlinkFile))
-                {
-                    if (!File.Exists(FileToLink))
-                        FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Themes, "default.zip");
-                }
-            }
-
-            if (CreateSymbolicLinks)
-                SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-            else
-                File.Copy(FileToLink, tempSymlinkFile, true);
-        }
-
-        private void CreateMediaDirectorysForNewSystem(string hsPath)
-        {
-            var newSystemMediaPath = Path.Combine(hsPath, Root.Media, MultiSystemName);
-
-            CreateDefaultHyperspinFolders(newSystemMediaPath);
-        }
-
-        private static void CreateDefaultHyperspinFolders(string hyperSpinSystemMediaDirectory)
-        {
-            for (int i = 1; i < 5; i++)
-            {
-                Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\Images\\Artwork" + i);
-            }
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Backgrounds);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.GenreBackgrounds);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.GenreWheel);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Letters);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Pointer);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Special);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Wheels);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Themes);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.BackgroundMusic);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.SystemExit);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.SystemStart);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.WheelSounds);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Video);
+            await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }
 
         private async Task ShowCancelGamesSearch()

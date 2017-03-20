@@ -3,18 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-              xmlns:ddrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+             xmlns:ddrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:local="clr-namespace:Hs.Hypermint.DatabaseDetails.Controls" 
              xmlns:prism="http://prismlibrary.com/"
-                          xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-
              prism:ViewModelLocator.AutoWireViewModel="True"  
              xmlns:sss="clr-namespace:Hs.Hypermint.DatabaseDetails"
              xmlns:views="clr-namespace:Hs.Hypermint.DatabaseDetails.Views"
-          xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-            dialog:DialogParticipation.Register="{Binding}"              
-             mc:Ignorable="d" >
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" dialog:DialogParticipation.Register="{Binding}"              
+             mc:Ignorable="d">
+    
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
             <Grid.RowDefinitions>
