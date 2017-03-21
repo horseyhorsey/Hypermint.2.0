@@ -19,7 +19,7 @@ using System.Collections;
 
 namespace Hs.Hypermint.Search.ViewModels
 {
-    public class SearchViewModel : ViewModelBase
+    public class SearchViewModel : HyperMintModelBase
     {
         #region Constructors
         public SearchViewModel(IMainMenuRepo mainMenu,
@@ -27,14 +27,10 @@ namespace Hs.Hypermint.Search.ViewModels
             ISettingsRepo settings,
             IHyperspinXmlService xmlService,
             ISelectedService selectedSrv,
-            IGameLaunch gameLaunch)
+            IGameLaunch gameLaunch): base(eventAggregator,selectedSrv,gameLaunch,settings)
         {
             _mainmenuRepo = mainMenu;
-            _eventAggregator = eventAggregator;
-            _settings = settings;
-            _gameLaunch = gameLaunch;
-            _xmlService = xmlService;
-            _selectedSrv = selectedSrv;
+            _xmlService = xmlService;            
 
             //Search for games with the SearchString from this Vm.
             SearchGamesCommand = new DelegateCommand<string>(async x =>
@@ -55,11 +51,6 @@ namespace Hs.Hypermint.Search.ViewModels
             });
 
             PageGamesCommand = new DelegateCommand<string>(x => PageGames(x));
-
-            AddMultiSystemCommand = new DelegateCommand(() =>
-            {
-                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedSrv.SelectedGames);
-            });
 
             SelectSystemsCommand = new DelegateCommand<string>(x =>
             {
@@ -88,19 +79,19 @@ namespace Hs.Hypermint.Search.ViewModels
                 {
                     if (items == null)
                     {
-                        _selectedSrv.SelectedGames.Clear();
+                        _selectedService.SelectedGames.Clear();
                         return;
                     }
 
                     try
                     {
-                        _selectedSrv.SelectedGames.Clear();
+                        _selectedService.SelectedGames.Clear();
                         foreach (var item in items)
                         {
                             var game = item as GameSearch;
 
                             if (game.Game.RomName != null)
-                                _selectedSrv.SelectedGames.Add(game.Game);
+                                _selectedService.SelectedGames.Add(game.Game);
                         };
                     }
                     catch (Exception)
@@ -109,9 +100,7 @@ namespace Hs.Hypermint.Search.ViewModels
 
                     }
 
-                });
-
-            LaunchGameCommand = new DelegateCommand(LaunchGame);
+                });            
 
             DockSystemsCommand = new DelegateCommand(() => { SystemsVisible = !SystemsVisible; });
 
@@ -184,11 +173,13 @@ namespace Hs.Hypermint.Search.ViewModels
             set { SetProperty(ref systemsVisible, value); }
         }
 
-
         #endregion
 
         #region Fields
-        private bool canSearch = true;
+        private bool canSearch = true;        
+        private IMainMenuRepo _mainmenuRepo;
+        private IHyperspinXmlService _xmlService;
+
         private Systems _systems = new Systems();
 
         /// <summary>
@@ -200,24 +191,14 @@ namespace Hs.Hypermint.Search.ViewModels
         /// The current search page
         /// </summary>
         private int currentPage;
-        CancellationTokenSource tokenSource = new CancellationTokenSource();
-        #endregion
 
-        #region Repos
-        private IMainMenuRepo _mainmenuRepo;
-        private IEventAggregator _eventAggregator;
-        private ISettingsRepo _settings;
-        private IGameLaunch _gameLaunch;
-        private IHyperspinXmlService _xmlService;
-        private ISelectedService _selectedSrv;
+        CancellationTokenSource tokenSource = new CancellationTokenSource();
         #endregion
 
         #region Commands
         public DelegateCommand<string> SearchGamesCommand { get; }
         public DelegateCommand<string> SelectSystemsCommand { get; }
         public DelegateCommand CancelCommand { get; }
-        public DelegateCommand LaunchGameCommand { get; private set; }
-        public DelegateCommand AddMultiSystemCommand { get; private set; }
         public DelegateCommand<string> PageGamesCommand { get; private set; }
         public DelegateCommand<IList> SelectionChanged { get; set; }
         public DelegateCommand<IList> ListBoxChanged { get; private set; }
@@ -225,26 +206,7 @@ namespace Hs.Hypermint.Search.ViewModels
 
         #endregion
 
-        #region Support Methods
-        private void LaunchGame()
-        {
-            if (FoundGames != null)
-            {
-                var selectedGame = _selectedSrv.SelectedGames.FirstOrDefault();
-
-                if (selectedGame != null)
-                {
-                    var rlPath = _settings.HypermintSettings.RlPath;
-                    var hsPath = _settings.HypermintSettings.HsPath;
-
-                    var sysName = selectedGame.System;
-                    var romName = selectedGame.RomName;
-
-                    _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
-                }
-            }
-        }
-
+        #region Support Methods        
         private void SystemsUpdated(string system)
         {
 
@@ -298,12 +260,12 @@ namespace Hs.Hypermint.Search.ViewModels
                         if (system.Enabled == 1)
                         {
                             var games = _xmlService.SearchGames(
-                                _settings.HypermintSettings.HsPath,
+                                _settingsRepo.HypermintSettings.HsPath,
                                 system.Name, searchTerm,CloneSearchOn,EnabledSearchOn);
 
                             foreach (var game in games)
                             {
-                                var mediaPath = Path.Combine(_settings.HypermintSettings.HsPath, Root.Media);
+                                var mediaPath = Path.Combine(_settingsRepo.HypermintSettings.HsPath, Root.Media);
 
                                 game.GameEnabled = 1;
 
@@ -389,12 +351,12 @@ namespace Hs.Hypermint.Search.ViewModels
         }
         private void FilteredGames_CurrentChanged(object sender, EventArgs e)
         {
-            _selectedSrv.SelectedGames.Clear();
+            _selectedService.SelectedGames.Clear();
 
             var game = FilteredGames.CurrentItem as GameSearch;
 
             if (game != null)
-                _selectedSrv.SelectedGames.Add(game.Game);
+                _selectedService.SelectedGames.Add(game.Game);
 
         }
         #endregion
