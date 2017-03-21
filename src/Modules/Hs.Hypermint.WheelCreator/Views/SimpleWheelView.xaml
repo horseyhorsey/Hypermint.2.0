@@ -15,7 +15,7 @@
     <GroupBox Header="Simple wheel creator">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -23,6 +23,7 @@
                 <TabItem Header="Text">
 
                     <Grid>
+                        
                         <views:TextWheelView/>
 
                         <GroupBox Header="Annotate" Visibility="Collapsed">

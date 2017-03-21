@@ -8,95 +8,99 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="60"/>
-            <ColumnDefinition MaxWidth="400"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <!--Preview-->
         <Label Content="Preview" VerticalAlignment="Center"/>
-        <DockPanel Grid.Column="1">
+        
+        <DockPanel Grid.Column="1" LastChildFill="True">
 
-            <Button Grid.Column="1" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
+            <TextBox Margin="5" Grid.Column="1" Text="{Binding CurrentWheelSetting.PreviewText,UpdateSourceTrigger=PropertyChanged}"
+                                             MaxHeight="25">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding GeneratePreviewCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+        </DockPanel>
+
+        <!--PREVIEW COMMAND-->
+        <Button Grid.Column="2" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2"
                         Background="{DynamicResource HighlightBrush}"
                         Command="{Binding GeneratePreviewCommand}"
                          Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}"
                         ToolTip="Generate preview">
-                <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_eye}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
-
-            <TextBox Margin="5" Grid.Column="1" Text="{Binding CurrentWheelSetting.PreviewText,UpdateSourceTrigger=PropertyChanged}"
-                                             MaxHeight="25" MinWidth="200" ></TextBox>
-        </DockPanel>
+            <Rectangle Width="13" Height="13" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_eye}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
 
         <!--Presets-->
         <Label Content="Preset" Grid.Row="1" VerticalAlignment="Center"/>
-        <DockPanel Margin="5" Grid.Row="1" Grid.Column="1">
+        <DockPanel Margin="5" Grid.Row="1" Grid.Column="1" LastChildFill="True">
             <ComboBox Height="20" Width="100" ItemsSource="{Binding Presets}"></ComboBox>
 
-            <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
-                                    VerticalAlignment="Center" Margin="2" 
-                                    Background="{DynamicResource AccentColorBrush}"
-                                    Height="25" Width="25" 
-                                    Command="{Binding SavePresetCommand}"
-                                    Style="{DynamicResource AccentedSquareButtonStyle}"
-                                    ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name">
-                <Rectangle Width="13" Height="13"
-                                           Fill="{Binding Path=Foreground, 
-                                    RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
-
-            <TextBox Margin="5" Text="{Binding CurrentWheelSetting.Name,UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Text="{Binding CurrentWheelSetting.Name,UpdateSourceTrigger=PropertyChanged}"
                                              MaxHeight="25"/>
         </DockPanel>
 
+        <Button HorizontalAlignment="Left" Grid.Row="1" Grid.Column="2" Height="25" Width="25" 
+                                    VerticalAlignment="Center" Margin="2" 
+                                    Background="{DynamicResource AccentColorBrush}"                
+                                    Command="{Binding SavePresetCommand}"
+                                    Style="{DynamicResource AccentedSquareButtonStyle}"
+                                    ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name">
+            <Rectangle Width="13" Height="13"
+                                           Fill="{Binding Path=Foreground, 
+                                    RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
         <!--Fonts-->
         <Label Content="Font" Grid.Row="2" VerticalAlignment="Center"/>
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+        <DockPanel Grid.Row="2" Grid.Column="1" LastChildFill="True" Margin="5">
 
-            <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
+            <ComboBox SelectedValue="{Binding CurrentWheelSetting.Gravity, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gravitation"
+                                  ItemsSource="{Binding GravityOptions}"
+                                  VerticalAlignment="Center" Height="20" HorizontalAlignment="Left" Margin="5" Width="75" >
+            </ComboBox>
+
+            <TextBox Height="20" Text="{Binding FontName, UpdateSourceTrigger=PropertyChanged}"
+                                         VerticalAlignment="Center"/>
+        </DockPanel>
+
+        <Button Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left"
                                     VerticalAlignment="Center" Margin="2" 
                                     Background="{DynamicResource AccentColorBrush}"
                                     Height="25" Width="25" 
                                     Command="{Binding SelectFontCommand}"
                                     Style="{DynamicResource AccentedSquareButtonStyle}"
                                     ToolTip="Run &quot;convert -list font &gt;fonts.txt&quot; in the Imagemagick directory if your font doesnt work to get the correct name">
-                <Rectangle Width="13" Height="13"
+            <Rectangle Width="13" Height="13"
                                            Fill="{Binding Path=Foreground, 
                                     RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_text_serif}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
-
-            <TextBox HorizontalAlignment="Left" Height="20"  Width="160"
-                                 Text="{Binding FontName, UpdateSourceTrigger=PropertyChanged}"
-                                         VerticalAlignment="Center"/>
-
-            <ComboBox SelectedValue="{Binding CurrentWheelSetting.Gravity, UpdateSourceTrigger=PropertyChanged}"
-                                  ItemsSource="{Binding GravityOptions}"
-                                  VerticalAlignment="Center" Height="20" HorizontalAlignment="Left" Margin="5" Width="75" >
-            </ComboBox>
-
-        </StackPanel>
+                <Rectangle.OpacityMask>
+                    <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_text_serif}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
 
         <!--Colors-->
         <Label Content="Fill" Grid.Row="3" VerticalAlignment="Center"/>

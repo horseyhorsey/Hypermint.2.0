@@ -4,6 +4,7 @@ using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
+using Hypermint.Base.Helpers;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using Ionic.Zip;
@@ -41,12 +42,11 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe((x) =>
             {
-                var views = _regionManager.Regions[RegionNames.ContentRegion].ActiveViews.ToList();
-                var activeViewName = views[0].ToString();
+                string activeViewName = RegionHelper.GetCurrentViewName(_regionManager);
 
-                if (!activeViewName.Contains("HsMediaAuditView")) return;
+                if (!activeViewName.Contains("HsMediaAuditView") || !activeViewName.Contains("DatabaseDetailsView"))
 
-                SetCurrentName(x);
+                    SetCurrentName(x);
 
                 if (FilesForGame != null)
                 {
@@ -98,6 +98,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
             });
         }
+
         #endregion
 
         #region Fields
@@ -827,7 +828,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             }
 
             return sysFolderName;
-        }        
+        }
 
         #endregion
 

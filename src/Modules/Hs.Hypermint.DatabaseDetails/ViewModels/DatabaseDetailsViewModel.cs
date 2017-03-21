@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
-    public class DatabaseDetailsViewModel : ViewModelBase
+    public class DatabaseDetailsViewModel : HyperMintModelBase
     {
         #region Constructors
         public DatabaseDetailsViewModel(ISettingsRepo settings, IGameRepo gameRepo,
@@ -28,19 +28,16 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             IFavoriteService favoriteService, IGenreRepo genreRepo,
             IEventAggregator eventAggregator, IGameLaunch gameLaunch,
             IMainMenuRepo memuRepo, IDialogCoordinator dialogService
-            )
+            ):base(eventAggregator,selectedService,gameLaunch,settings)
         {
             if (gameRepo == null) throw new ArgumentNullException(nameof(gameRepo));
-            _settingsRepo = settings;
-            _gameRepo = gameRepo;
-            _eventAggregator = eventAggregator;
-            _favouriteService = favoriteService;
-            _selectedService = selectedService;
+            
+            _gameRepo = gameRepo;            
+            _favouriteService = favoriteService;            
             _xmlService = xmlService;
             _genreRepo = genreRepo;
             _menuRepo = memuRepo;
-            _dialogService = dialogService;
-            _gameLaunch = gameLaunch;
+            _dialogService = dialogService;            
 
             _selectedService.CurrentSystem = "Main Menu";
 
@@ -53,6 +50,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 GamesList = new ListCollectionView(_gameRepo.GamesList);
                 GamesList.CurrentChanged += GamesList_CurrentChanged;
             }
+
+            ScanRomsCommand = new DelegateCommand(ScanRoms);
 
             EnableDbItemsCommand = new DelegateCommand<string>(EnableDbItems);
 
@@ -76,6 +75,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     try
                     {
                         _selectedService.SelectedGames.Clear();
+
                         foreach (var item in items)
                         {
                             var game = item as Game;
@@ -87,8 +87,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                             DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
                         else if (SelectedItemsCount == 1)
                         {
-                            var game = items[0] as Game;
-                            DatabaseHeaderInfo = "Selected item: " + game.RomName;
+                            _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
                         }
                         else
                             DatabaseHeaderInfo = "";
@@ -109,31 +108,20 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 if (GamesList != null)
                     GamesList.Refresh();
             });
-
             _eventAggregator.GetEvent<SystemDatabaseChanged>().Subscribe(SystemDatabaseChangedHandler);
-
-            _eventAggregator.GetEvent<SaveMainMenuEvent>().Subscribe(SaveCurrentMainMenuItems);
-
-            LaunchGameCommand = new DelegateCommand(LaunchGame);
-
-            ScanRomsCommand = new DelegateCommand(ScanRoms);
+            _eventAggregator.GetEvent<SaveMainMenuEvent>().Subscribe(SaveCurrentMainMenuItems);            
 
         }
 
         #endregion
 
         #region Fields
-        private IGameRepo _gameRepo;
-        private ISettingsRepo _settingsRepo;
-        private IFavoriteService _favouriteService;
-        private ISelectedService _selectedService;
-        private IFolderExplore _folderExploreService;
+        private IGameRepo _gameRepo;        
+        private IFavoriteService _favouriteService;        
         private IHyperspinXmlService _xmlService;
-        private IGenreRepo _genreRepo;
-        private IGameLaunch _gameLaunch;
+        private IGenreRepo _genreRepo;        
         private IMainMenuRepo _menuRepo;
-        private IDialogCoordinator _dialogService;
-        private readonly IEventAggregator _eventAggregator;
+        private IDialogCoordinator _dialogService;        
         #endregion
 
         #region Properties
@@ -159,8 +147,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public DelegateCommand AuditScanStart { get; private set; }
         public DelegateCommand<IList> SelectionChanged { get; set; }
         public DelegateCommand<string> EnableDbItemsCommand { get; set; }        
-        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }
-        public DelegateCommand LaunchGameCommand { get; private set; }
+        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }        
         public DelegateCommand ScanRomsCommand { get; private set; } 
 
         #endregion                
@@ -477,17 +464,25 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// When games are changed in the list publish the selected game to display media in pane
+        /// </summary>
+        /// <param name="sender">ICollection</param>
+        /// <param name="e"></param>
         private void GamesList_CurrentChanged(object sender, EventArgs e)
         {
             if (GamesList != null)
             {
                 Game game = GamesList.CurrentItem as Game;
+
                 if (game != null)
                 {
                     _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { game.RomName, "" });
                 }
             }
         }
+
         protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
@@ -514,28 +509,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
 
         }
-        private void LaunchGame()
-        {
-            if (_selectedService.SelectedGames == null) return;
-
-            if (_selectedService.SelectedGames.Count != 0)
-            {
-                var rlPath = _settingsRepo.HypermintSettings.RlPath;
-                var hsPath = _settingsRepo.HypermintSettings.HsPath;
-                var sysName = _selectedService.SelectedGames[0].System;
-                var romName = _selectedService.SelectedGames[0].RomName;
-
-                try
-                {
-                    _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
-                }
-                catch (Exception ex)
-                {
-
-                }
-
-            }
-        }
         private void SystemDatabaseChangedHandler(string systemName)
         {
             UpdateGamesAsync(systemName);
@@ -546,8 +519,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 _xmlService.SerializeMainMenuXml(
                     _menuRepo.Systems, _settingsRepo.HypermintSettings.HsPath, xml);
         }
-
         
-
     }
 }

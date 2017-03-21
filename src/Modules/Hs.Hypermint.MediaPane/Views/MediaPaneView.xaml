@@ -26,7 +26,7 @@
                           Margin="5" Source="{Binding VideoSource}">
                     <ContextMenuService.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Open"></MenuItem>
+                            <MenuItem Header="Open with windows"></MenuItem>
                             <MenuItem x:Name="previewVideoTrim" Header="Trim >" >
                                 <Controls:NumericUpDown Value="30"/>
                                 <RadioButton x:Name="vidReplace" Content="Replace" ToolTip="Move original to rubbish, replace with trimmed video."/>
@@ -216,6 +216,7 @@
                     <TextBlock x:Name="media_wheelTime" TextWrapping="Wrap" Width="108" VerticalAlignment="Center"/>
 
                 </StackPanel>
+                
                 <!--Context right click menu-->
                 <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
                 <!--

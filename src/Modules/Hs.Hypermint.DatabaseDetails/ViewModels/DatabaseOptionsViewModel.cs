@@ -125,13 +125,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 #warning Check that when renaming descriptions it doesn't break anything for frontend or launcher
             if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
             {
-                _selectedService.SelectedGames.ForEach((game) =>
+                try
                 {
-                    var index = _gameRepo.GamesList.IndexOf(game);
+                    _selectedService.SelectedGames.ForEach((game) =>
+                    {
+                        var index = _gameRepo.GamesList.IndexOf(game);
 
-                    _gameRepo.GamesList.ElementAt(index).Description = game.Description.Replace(Pattern, Replacement);
+                        _gameRepo.GamesList.ElementAt(index).Description = game.Description.Replace(Pattern, Replacement);
 
-                });
+                    });
+                }
+                catch (Exception) { }
 
                 //Tell the main viewmodel we're done
                 _eventAggregator.GetEvent<MultipleCellsUpdated>().Publish("");

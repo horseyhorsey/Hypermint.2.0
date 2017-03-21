@@ -9,6 +9,8 @@ using Hypermint.Base.Interfaces;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Prism.Commands;
+using Hypermint.Base.Helpers;
+using Prism.Regions;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
 {
@@ -16,12 +18,13 @@ namespace Hs.Hypermint.MediaPane.ViewModels
     {
         #region Constructors
         public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService,
-            ISettingsRepo settingsRepo, IPdfService pdfService)
+            ISettingsRepo settingsRepo, IPdfService pdfService, IRegionManager rm)
         {
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
             _settingsRepo = settingsRepo;
             _pdfService = pdfService;
+            _regionManager = rm;
 
             PagePdfCommand = new DelegateCommand<string>((x) =>
             {
@@ -40,13 +43,16 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             _eventAggregator.GetEvent<SetMediaFileRlEvent>().Subscribe((x) =>
             {
-                IsVideoSource = false;
+                string activeViewName = RegionHelper.GetCurrentViewName(_regionManager);
 
-                SetMediaFromFileType(x);
+                if (!activeViewName.Contains("HsMediaAuditView") || !activeViewName.Contains("DatabaseDetailsView"))
+                {
+                    IsVideoSource = false;
+                    SetMediaFromFileType(x);
+                }
             });
 
-            //_eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
-
+            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(SetMediaForGameHs);
             _eventAggregator.GetEvent<PreviewGeneratedEvent>().Subscribe(SetMediaFromFileType);
 
             ImageEditCommand = new DelegateCommand(() =>
@@ -55,27 +61,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
                 _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath);
             });
-        }
-
-        private void PagePdf(string direction)
-        {
-            if (direction == "forward")
-            {
-                if (CurrentPage < PdfPageCount)
-                {
-                    CurrentPage++;
-                }
-            }
-            else
-            {
-                if (CurrentPage > 1)
-                {
-                    CurrentPage--;
-                }
-            }
-
-            SetPdfImage(currentPdfFile, CurrentPage - 1);
-        }
+        }        
 
         #endregion
 
@@ -174,6 +160,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         private ISettingsRepo _settingsRepo;
         private IPdfService _pdfService;
         private string currentPdfFile;
+        private IRegionManager _regionManager;
         #endregion
 
         #region Commands
@@ -182,145 +169,9 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
         #endregion
 
-        #region Methods
-        private void SetMediaForGameHs(string[] selectedOptions)
-        {
-            WheelSource = null;
-            VideoSource = null;
-            IsVideoSource = false;
-            IsImageSource = false;
-            IsPdf = false;
+        #region Support Methods
 
-            var hsPath = _settingsRepo.HypermintSettings.HsPath;
-            var romName = selectedOptions[0];
-
-            _selectedService.CurrentRomname = romName;
-
-            MediaPaneHeader = "Media View: " + selectedOptions[1];
-
-            var mediaTypePath = Images.Wheels;
-
-            if (!string.IsNullOrEmpty(selectedOptions[1]))
-            {
-                mediaTypePath = getMediaPath(selectedOptions[1]);
-            }
-
-            var imagePath = Path.Combine(
-                hsPath, Root.Media, _selectedService.CurrentSystem,
-                mediaTypePath, romName + ".png");
-
-            if (selectedOptions[1] == "Videos")
-            {
-                SetVideo(imagePath);
-                return;
-            }
-
-            if (selectedOptions[1].Contains("Sound") || selectedOptions[1] == "MusicBg")
-            {
-                SetSound(imagePath);
-                return;
-            }
-
-            if (!File.Exists(imagePath))
-            {
-                WheelSource = _selectedService.SystemImage;
-                IsImageSource = true;
-            }
-            else
-            {
-                IsImageSource = true;
-                currentImagePath = imagePath;
-                _selectedService.GameImage =
-                    SelectedService.SetBitmapFromUri(new Uri(imagePath));
-                WheelSource = _selectedService.GameImage;
-
-                MediaPaneHeader += " | " + Path.GetFileName(imagePath) + " W:" + Math.Round(WheelSource.Width) + " H:" + Math.Round(WheelSource.Height);
-            }
-
-        }
-
-        private void SetImageWheelPreview(string imagePath)
-        {
-            WheelSource = null;
-            VideoSource = null;
-            IsVideoSource = false;
-
-            if (File.Exists(imagePath))
-            {
-                IsImageSource = true;
-
-                var fullpath = Path.GetFullPath(imagePath);
-
-                currentImagePath = fullpath;
-
-                _selectedService.GameImage =
-                    SelectedService.SetBitmapFromUri(new Uri(currentImagePath));
-                WheelSource = _selectedService.GameImage;
-
-                MediaPaneHeader = "Media View | " + currentImagePath + " W:" + Math.Round(WheelSource.Width) + " H:" + Math.Round(WheelSource.Height);
-            }
-        }
-
-        private void SetSound(string soundPath)
-        {
-            var soundsPath = soundPath.Replace(".png", ".mp3");
-
-            if (File.Exists(soundsPath))
-            {
-                SetVideoSource(soundsPath);
-            }
-        }
-
-        private void SetVideo(string pathToImage)
-        {
-            // Check if there is an mp4 or Flv.
-            // If none exists then use the original image path instead.
-            var videoPath = pathToImage.Replace(".png", ".mp4");
-
-            if (!File.Exists(videoPath))
-            {
-                videoPath = videoPath.Replace(".mp4", ".flv");
-
-                if (!File.Exists(videoPath))
-                {
-                    if (File.Exists(pathToImage))
-                    {
-                        IsImageSource = true;
-                        currentImagePath = pathToImage;
-                        MediaPaneHeader += " | " + Path.GetFileName(pathToImage);
-                        _selectedService.GameImage = SelectedService.SetBitmapFromUri(new Uri(pathToImage));
-                        WheelSource = _selectedService.GameImage;
-                        IsVideoSource = false;
-                    }
-                }
-                else
-                {
-                    SetVideoSource(videoPath);
-                }
-
-            }
-            else
-            {
-                SetVideoSource(videoPath);
-            }
-
-        }
-
-        private void SetVideoSource(string videoPath)
-        {
-            try
-            {
-                VideoSource = new Uri(videoPath);
-                MediaPaneHeader = "Media View | " + Path.GetFileName(videoPath);
-                IsVideoSource = true;
-            }
-            catch (Exception ex)
-            {
-                MediaPaneHeader = "Media View | " + ex.Message;
-            }
-        }
-
-        private string getMediaPath(string mediaType)
+        private string GetMediaPath(string mediaType)
         {
             var imagePath = "";
 
@@ -377,12 +228,160 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             return imagePath;
         }
+        private void PagePdf(string direction)
+        {
+            if (direction == "forward")
+            {
+                if (CurrentPage < PdfPageCount)
+                {
+                    CurrentPage++;
+                }
+            }
+            else
+            {
+                if (CurrentPage > 1)
+                {
+                    CurrentPage--;
+                }
+            }
 
+            SetPdfImage(currentPdfFile, CurrentPage - 1);
+        }
+        private void SetMediaForGameHs(string[] selectedOptions)
+        {
+            WheelSource = null;
+            VideoSource = null;
+            IsVideoSource = false;
+            IsImageSource = false;
+            IsPdf = false;
+
+            var hsPath = _settingsRepo.HypermintSettings.HsPath;
+            var romName = selectedOptions[0];
+
+            _selectedService.CurrentRomname = romName;
+
+            MediaPaneHeader = "Media View: " + selectedOptions[1];
+
+            var mediaTypePath = Images.Wheels;
+
+            if (!string.IsNullOrEmpty(selectedOptions[1]))
+            {
+                mediaTypePath = GetMediaPath(selectedOptions[1]);
+            }
+
+            //Set the image path TODO: Adjust for Multi-System
+            var imagePath = Path.Combine( hsPath, Root.Media, _selectedService.CurrentSystem, mediaTypePath, romName + ".png");
+
+            if (selectedOptions[1] == "Videos")
+            {
+                SetVideo(imagePath);
+                return;
+            }
+
+            if (selectedOptions[1].Contains("Sound") || selectedOptions[1] == "MusicBg")
+            {
+                SetSound(imagePath);
+                return;
+            }
+
+            if (!File.Exists(imagePath))
+            {
+                WheelSource = _selectedService.SystemImage;
+                IsImageSource = true;
+            }
+            else
+            {
+                IsImageSource = true;
+                currentImagePath = imagePath;
+                _selectedService.GameImage =
+                    SelectedService.SetBitmapFromUri(new Uri(imagePath));
+                WheelSource = _selectedService.GameImage;
+
+                MediaPaneHeader += " | " + Path.GetFileName(imagePath) + " W:" + Math.Round(WheelSource.Width) + " H:" + Math.Round(WheelSource.Height);
+            }
+
+        }
+        private void SetImageWheelPreview(string imagePath)
+        {
+            WheelSource = null;
+            VideoSource = null;
+            IsVideoSource = false;
+
+            if (File.Exists(imagePath))
+            {
+                IsImageSource = true;
+
+                var fullpath = Path.GetFullPath(imagePath);
+
+                currentImagePath = fullpath;
+
+                _selectedService.GameImage =
+                    SelectedService.SetBitmapFromUri(new Uri(currentImagePath));
+                WheelSource = _selectedService.GameImage;
+
+                MediaPaneHeader = "Media View | " + currentImagePath + " W:" + Math.Round(WheelSource.Width) + " H:" + Math.Round(WheelSource.Height);
+            }
+        }
+        private void SetSound(string soundPath)
+        {
+            var soundsPath = soundPath.Replace(".png", ".mp3");
+
+            if (File.Exists(soundsPath))
+            {
+                SetVideoSource(soundsPath);
+            }
+        }
+        private void SetVideo(string pathToImage)
+        {
+            // Check if there is an mp4 or Flv.
+            // If none exists then use the original image path instead.
+            var videoPath = pathToImage.Replace(".png", ".mp4");
+
+            if (!File.Exists(videoPath))
+            {
+                videoPath = videoPath.Replace(".mp4", ".flv");
+
+                if (!File.Exists(videoPath))
+                {
+                    if (File.Exists(pathToImage))
+                    {
+                        IsImageSource = true;
+                        currentImagePath = pathToImage;
+                        MediaPaneHeader += " | " + Path.GetFileName(pathToImage);
+                        _selectedService.GameImage = SelectedService.SetBitmapFromUri(new Uri(pathToImage));
+                        WheelSource = _selectedService.GameImage;
+                        IsVideoSource = false;
+                    }
+                }
+                else
+                {
+                    SetVideoSource(videoPath);
+                }
+
+            }
+            else
+            {
+                SetVideoSource(videoPath);
+            }
+
+        }
+        private void SetVideoSource(string videoPath)
+        {
+            try
+            {
+                VideoSource = new Uri(videoPath);
+                MediaPaneHeader = "Media View | " + Path.GetFileName(videoPath);
+                IsVideoSource = true;
+            }
+            catch (Exception ex)
+            {
+                MediaPaneHeader = "Media View | " + ex.Message;
+            }
+        }        
         private void SetImage(string obj)
         {
             WheelSource = _selectedService.SystemImage;
         }
-
         private void SetText(string file)
         {
             using (var sr = new StreamReader(file))
@@ -393,14 +392,12 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             }
         }
-
         private void SetPdfPageCount(string file)
         {
             if (!File.Exists(file)) return;
 
             PdfPageCount = _pdfService.GetNumberOfPdfPages(file);
         }
-
         private void SetPdfImage(string file, int pageNumber = 0)
         {
             if (!File.Exists(file)) return;
@@ -416,7 +413,6 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             MediaPaneHeader = "Media View | " + file;
 
         }
-
         private void SetMediaFromFileType(string file)
         {
             IsTextSource = false;

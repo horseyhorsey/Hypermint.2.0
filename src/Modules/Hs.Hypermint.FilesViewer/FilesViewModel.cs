@@ -588,6 +588,7 @@ namespace Hs.Hypermint.FilesViewer
 
                 if (fileToDisplay != null)
                 {
+                    //If the final contains the name bezel then display the view to edit it.
                     if (fileToDisplay.Name.ToLower().Contains("bezel") && fileToDisplay.Extension.ToLower() == ".png")
                     {
                         if (RlStaticMethods.GetMediaFormatFromFile(fileToDisplay.FullPath) == "image")
@@ -616,7 +617,6 @@ namespace Hs.Hypermint.FilesViewer
             }
 
         }
-
         private void CardPositionsArray_CurrentChanged(object sender, EventArgs e)
         {
             if (MediaType != "Cards") return;
