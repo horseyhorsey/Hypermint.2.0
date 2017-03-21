@@ -1,4 +1,5 @@
-﻿using Hs.RocketLauncher.AuditBase;
+﻿using Hs.HyperSpin.Database;
+using Hs.RocketLauncher.AuditBase;
 using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Events;
@@ -9,6 +10,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -18,22 +20,19 @@ using System.Windows.Data;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
-    public class RlMediaAuditViewModel : ViewModelBase
+    public class RlMediaAuditViewModel : HyperMintModelBase
     {
         #region Constructors
         public RlMediaAuditViewModel(IEventAggregator eventAggregator,
               IRegionManager regionManager, IGameRepo gameRepo,
               IAuditerRl rocketAuditer, ISettingsRepo settings, IGameLaunch gameLaunch,
-              ISelectedService selectedService, IDialogCoordinator dialogService)
-        {
-            _eventAggregator = eventAggregator;
+              ISelectedService selectedService, IDialogCoordinator dialogService):base(eventAggregator,selectedService,gameLaunch,settings)
+        {            
             _gameRepo = gameRepo;
-            _rocketAuditer = rocketAuditer;
-            _settingsRepo = settings;
+            _rocketAuditer = rocketAuditer;         
             _dialogService = dialogService;
             _regionManager = regionManager;
-            _selectedService = selectedService;
-            _gameLaunch = gameLaunch;
+            _selectedService = selectedService;            
 
             AuditHeader = "Rocketlaunch Audit";
 
@@ -68,28 +67,16 @@ namespace Hs.Hypermint.Audits.ViewModels
                     _eventAggregator.GetEvent<RequestOpenFolderEvent>().Publish(path);
             });
 
-            LaunchGameCommand = new DelegateCommand(() =>
-            {
-                _gameLaunch.RocketLaunchGame(_settingsRepo.HypermintSettings.RlPath, _selectedService.CurrentSystem, _selectedService.CurrentRomname, _settingsRepo.HypermintSettings.HsPath);
-
-            });
-
             _eventAggregator.GetEvent<RlAuditUpdateEvent>().Subscribe(FilesDroppedEventHandler);
 
         }
         #endregion
 
-        #region Fields
-        private IEventAggregator _eventAggregator;
+        #region Fields        
         private IGameRepo _gameRepo;
-        private IAuditerRl _rocketAuditer;
-        private ISettingsRepo _settingsRepo;
+        private IAuditerRl _rocketAuditer;        
         private IDialogCoordinator _dialogService;
         private IRegionManager _regionManager;
-        private ISelectedService _selectedService;
-        private CustomDialog customDialog;
-        private IGameLaunch _gameLaunch;
-        private IFolderExplore _fExplorer; 
         #endregion
 
         #region Properties
@@ -132,6 +119,8 @@ namespace Hs.Hypermint.Audits.ViewModels
         }
 
         private ICollectionView auditListDefaults;
+        private Game _selectedGame;
+
         public ICollectionView AuditListDefaults
         {
             get { return auditListDefaults; }
@@ -148,8 +137,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         public DelegateCommand FadeScanCommand { get; private set; }
         public DelegateCommand BezelEditCommand { get; private set; }
         public DelegateCommand<string> LaunchRlMode { get; private set; }
-        public DelegateCommand OpenFolderCommand { get; private set; }
-        public DelegateCommand LaunchGameCommand { get; private set; }
+        public DelegateCommand OpenFolderCommand { get; private set; }        
         #endregion        
 
         #region Support Methods
@@ -240,6 +228,12 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                 AuditHeader = "Rocketlaunch Audit : "
                     + _selectedService.CurrentRomname + " Selected ";
+
+                _selectedGame = new Game
+                {
+                    RomName = SelectedGame.RomName,
+                    Description = SelectedGame.Description,
+                };
 
             }
             catch (Exception) { return; }
@@ -396,7 +390,12 @@ namespace Hs.Hypermint.Audits.ViewModels
             {
                 SetAuditGameFilter();
             }
-        } 
+        }
+        public override void AddToMultiSystem()
+        {
+            //base.AddToMultiSystem();
+            _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(new List<Game>() { _selectedGame });
+        }
         #endregion
 
     }

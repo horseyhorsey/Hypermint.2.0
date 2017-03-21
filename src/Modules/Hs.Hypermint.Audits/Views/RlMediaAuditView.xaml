@@ -34,55 +34,34 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            
+
         </Grid.RowDefinitions>
 
         <GroupBox Header="{Binding AuditHeader}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
+                <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>-->
 
                 <!--RlAuditOptionView-->
-                <local:RlAuditOptionView Grid.RowSpan="3"/>
+                <!--<local:RlAuditOptionView Grid.RowSpan="3"/>-->
                 <Rectangle Grid.RowSpan="2" Grid.Column="1" Fill="{DynamicResource FlatButtonForegroundBrush}"/>
-
-                <DockPanel Grid.Column="1" >
-
-                    <TextBox Width="250" HorizontalAlignment="Left" Margin="2" Height="20"
-                             metro:TextBoxHelper.ClearTextButton="True"                  
-                       metro:TextBoxHelper.Watermark="Filter games"
-                 Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <!--GAME LAUNCHING-->
-                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
-                Command="{Binding LaunchGameCommand}"
-                ToolTip="Launch selected game." Height="30" Width="30"
-                Style="{DynamicResource AccentedSquareButtonStyle}">
-                        <Rectangle Width="20" Height="18" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </Button>
-                    
-                </DockPanel>
 
                 <TabControl Grid.Row="1" Grid.Column="1" >
                     <TabItem Header="Pause">
                         <dataGrids:DataGridPause/>
                     </TabItem>
-                    
+
                     <TabItem Header="Bezel-Cards" >
                         <dataGrids:DataGridBezel/>
                     </TabItem>
- 
+
                     <TabItem Header="Fade">
                         <dataGrids:DataGridFade/>
                     </TabItem>
@@ -97,8 +76,45 @@
                         </TabControl>
                     </TabItem>
                 </TabControl>
+
+                <DockPanel Grid.Column="1" Grid.Row="0" >
+
+                    <TextBox Width="250" HorizontalAlignment="Left" Margin="2" Height="20"
+                             metro:TextBoxHelper.ClearTextButton="True"                  
+                       metro:TextBoxHelper.Watermark="Filter games"
+                 Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <!--ADD TO MULTISYSTEM-->
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                Command="{Binding AddMultiSystemCommand}"
+                ToolTip="Add selected to multi system list" Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                        <Rectangle Width="20" Height="18" 
+                           Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                    <!--GAME LAUNCHING-->
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                Command="{Binding LaunchGameCommand}"
+                ToolTip="Launch selected game." Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                        <Rectangle Width="20" Height="18" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+
+                </DockPanel>
             </Grid>
+
+
+
         </GroupBox>
-        
+
     </Grid>
 </UserControl>

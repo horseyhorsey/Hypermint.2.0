@@ -9,44 +9,21 @@ using Hypermint.Base.Interfaces;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
-    public class FilterControlViewModel : ViewModelBase
+    public class FilterControlViewModel : HyperMintModelBase
     {
         #region Constructors
         public FilterControlViewModel(IEventAggregator eventAggregator,
             ISelectedService selectedSrv
             , ISettingsRepo settingsRepo,
-            IGameLaunch gameLaunch)
+            IGameLaunch gameLaunch) : base(eventAggregator,selectedSrv,gameLaunch,settingsRepo)
         {
-            _eventAggregator = eventAggregator;
-            _selectedService = selectedSrv;
-            _settingsRepo = settingsRepo;
-            _gameLaunch = gameLaunch;
-
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(RemoveFilters);
-
-            LaunchGameCommand = new DelegateCommand(LaunchGame);
-
-            AddMultiSystemCommand = new DelegateCommand(() =>
-            {
-                _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(_selectedService.SelectedGames);
-            });
         }
         #endregion
 
         #region Fields
-        private IEventAggregator _eventAggregator;
-
         private bool systemChanging;
-
-        private ISelectedService _selectedService;
-        private ISettingsRepo _settingsRepo;
-        private IGameLaunch _gameLaunch;
         #endregion
-
-        #region Commands
-        public DelegateCommand LaunchGameCommand { get; private set; }
-        public DelegateCommand AddMultiSystemCommand { get; private set; } 
-        #endregion        
 
         #region Properties
         private string filterText;
@@ -84,11 +61,24 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             get { return showEnabledOnly; }
             set { SetProperty(ref showEnabledOnly, value); }
         }
+
+        private bool _isMainMenu;
+        /// <summary>
+        /// Gets or sets if main menu. Used to disable some controls.
+        /// </summary>
+        public bool IsMainMenu
+        {
+            get { return _isMainMenu; }
+            set { SetProperty(ref _isMainMenu, value); }
+        }
+        
         #endregion
 
         #region Support Methods
         private void RemoveFilters(string obj)
         {
+            IsMainMenu = _selectedService.IsMainMenu();
+        
             systemChanging = true;
             FilterText = "";
             ShowClones = true;
@@ -120,21 +110,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
 
         }
-
-        private void LaunchGame()
-        {
-            if (_selectedService.SelectedGames == null) return;
-
-            if (_selectedService.SelectedGames.Count != 0)
-            {
-                var rlPath = _settingsRepo.HypermintSettings.RlPath;
-                var hsPath = _settingsRepo.HypermintSettings.HsPath;
-                var sysName = _selectedService.SelectedGames[0].System;
-                var romName = _selectedService.SelectedGames[0].RomName;
-
-                _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
-            }
-        } 
         #endregion
 
     }

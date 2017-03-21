@@ -332,7 +332,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 ICollectionView cv;
 
-                cv = CollectionViewSource.GetDefaultView(GamesList);
+                cv = CollectionViewSource.GetDefaultView(GamesList);                
 
                 var filter = gameFilter.FilterText;
                 var showClones = gameFilter.ShowClones;
@@ -443,6 +443,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     return textFiltered;
                 };
 
+                #endregion
+
+
             }
         }
         private void FilterRomClones(bool showClones)
@@ -544,7 +547,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     _menuRepo.Systems, _settingsRepo.HypermintSettings.HsPath, xml);
         }
 
-        #endregion
+        
 
     }
 }

@@ -61,7 +61,7 @@
                                    Header="Add to genre"/>
         </StackPanel>
 
-        <TextBox Grid.Row="3" Height="28" Text="{Binding DbName}"/>
+        <TextBox Grid.Row="3" Height="28" Margin="5" Text="{Binding DbName}"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2">
             

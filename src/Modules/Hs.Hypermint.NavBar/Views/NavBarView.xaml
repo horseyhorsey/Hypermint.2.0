@@ -43,7 +43,7 @@
         </Button>
 
         <!--MultiSystem-->
-        <Button Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView"
+        <Button Command="{Binding NavigateCommand}" CommandParameter="MultiSystemView" IsEnabled="{Binding IsRlEnabled}"
                 ToolTip="Multi system (CTRL+2)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
@@ -76,7 +76,7 @@
         </Button>
 
         <!--Wheel Creator-->
-        <Button Command="{Binding NavigateCommand}" CommandParameter="SimpleWheelView"
+        <Button Command="{Binding NavigateCommand}" CommandParameter="SimpleWheelView" IsEnabled="{Binding IsRlEnabled}"
                 ToolTip="Simple wheel (CTRL+5)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
@@ -87,7 +87,7 @@
         </Button>
 
         <!--System Intros-->
-        <Button Command="{Binding NavigateCommand}" CommandParameter="IntroVideosView"
+        <Button Command="{Binding NavigateCommand}" CommandParameter="IntroVideosView" IsEnabled="{Binding IsRlEnabled}"
                 ToolTip="System intros (CTRL+6)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
@@ -98,7 +98,7 @@
         </Button>
 
         <!--Rocketlaunch Stats-->
-        <Button Command="{Binding NavigateCommand}" 
+        <Button Command="{Binding NavigateCommand}" IsEnabled="{Binding IsRlEnabled}"
                 CommandParameter="StatsView" ToolTip="RocketLaunch Stats (CTRL+7)">
             <Rectangle Width="20" Height="20" 
                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">

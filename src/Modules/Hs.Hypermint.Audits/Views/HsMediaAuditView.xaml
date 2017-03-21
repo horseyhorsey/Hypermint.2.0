@@ -39,13 +39,13 @@
                 </Grid.Resources>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 
-                <auditcontrol:HsControlsView Grid.Row="2"/>
-                
+                <auditcontrol:HsControlsView Grid.Row="0"/>
+
+                <!--STANDARD GRID-->
                 <DataGrid Grid.Row="1" x:Name="DatabaseGrid"
                           Visibility="{Binding ElementName=root,
                     Path=DataContext.IsntMainMenu,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisConverter}}"
@@ -80,7 +80,8 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <DataGrid x:Name="DatabaseGridMainMenu" Grid.Row="1"
+                <!--MAIN MENU-->
+                <DataGrid x:Name="DatabaseGridMainMenu" Grid.Row="1" Margin="5"
                           Visibility="{Binding ElementName=root,Path=DataContext.IsMainMenu,
                     UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVisConverter}}"
                     Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False" 
@@ -113,10 +114,10 @@
                 </DataGrid>
 
             </Grid>
-            
-            
+
+
         </GroupBox>
-        
-        
+
+
     </Grid>
 </UserControl>

@@ -218,6 +218,10 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     CurrentView += "Rocketlaunch stats";
                     RemoveAllFilesRegionViews();
                     break;
+                case "YoutubeView":
+                    CurrentView += "Youtube search";
+                    RemoveAllFilesRegionViews();
+                    break;
                 case "CreateImageView":
                     CurrentView += "Image edit";
                     _regionManager.RequestNavigate("FilesRegion", "ImagePresetView");

@@ -15,27 +15,26 @@ using Hypermint.Base.Events;
 using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using System.Linq;
+using Hs.HyperSpin.Database;
+using System.Collections.Generic;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
-    public class HsMediaAuditViewModel : ViewModelBase
+    public class HsMediaAuditViewModel : HyperMintModelBase
     {
         #region ctors
         public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
             IEventAggregator eventAggregator, IAuditer auditer,
             IDialogCoordinator dialogService,
             ISelectedService selectedService,IGameLaunch gameLaunch,
-            ISearchYoutube youtube)
-        {
-            _eventAggregator = eventAggregator;
-            _settings = settings;
+            ISearchYoutube youtube):base(eventAggregator,selectedService,gameLaunch,settings)
+        {                        
             _auditer = auditer;
             _auditer.AuditsGameList = new AuditsGame();
-            _gameRepo = gameRepo;
-            _selectedService = selectedService;
+
+            _gameRepo = gameRepo;            
             _youtube = youtube;
-            _dialogService = dialogService;
-            _gameLaunch = gameLaunch;
+            _dialogService = dialogService;                                   
 
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(GamesUpdated);
@@ -61,7 +60,6 @@ namespace Hs.Hypermint.Audits.ViewModels
                             SelectedMenu = dg.CurrentItem as AuditMenu;
                             romName = SelectedMenu.RomName;
                             _selectedService.CurrentRomname = romName;
-
                         }
                         else
                         {
@@ -70,6 +68,12 @@ namespace Hs.Hypermint.Audits.ViewModels
                             _selectedService.CurrentRomname = romName;
                             _selectedService.CurrentDescription = description;
                         }
+
+                        _selectedGame = new Game
+                        {
+                            RomName = SelectedGame.RomName,
+                            Description = SelectedGame.Description,                            
+                        };
 
                     }
                     catch (Exception) { }
@@ -84,12 +88,14 @@ namespace Hs.Hypermint.Audits.ViewModels
                         romName + " : " +
                         CurrentColumnHeader;
 
+                        _eventAggregator.GetEvent<GameSelectedEvent>().Publish(
+                        new string[] { romName, CurrentColumnHeader }
+                        );
+
                     }
                     catch (Exception e) { }
 
-                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(
-                        new string[] { romName, CurrentColumnHeader }
-                        );
+
 
 
                 });
@@ -100,12 +106,6 @@ namespace Hs.Hypermint.Audits.ViewModels
             {
                 _eventAggregator.GetEvent<GetVideosEvent>().Publish(new object());
                 _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("YoutubeView");
-            });
-
-            LaunchGameCommand = new DelegateCommand(() =>
-            {
-                _gameLaunch.RocketLaunchGame(_settings.HypermintSettings.RlPath, _selectedService.CurrentSystem, _selectedService.CurrentRomname, _settings.HypermintSettings.HsPath);
-
             });
 
             // Run the auditer for hyperspin
@@ -126,24 +126,17 @@ namespace Hs.Hypermint.Audits.ViewModels
                 AuditList.Refresh();
             });
 
+            _selectedGame = new Game();
+
         }
 
         #endregion
 
-        #region Fields
-        private IEventAggregator _eventAggregator;
-        private ISettingsRepo _settings;
+        #region Fields                
         private IGameRepo _gameRepo;
         private IAuditer _auditer;
         private ISearchYoutube _youtube;
-
-        public DelegateCommand<object> SelectionChanged { get; set; }
-        public DelegateCommand<object> CurrentCellChanged { get; set; }
-        private ISelectedService _selectedService;
-        public DelegateCommand SearchYoutubeCommand { get; private set; }
-        public DelegateCommand RunAuditCommand { get; private set; }
-        public DelegateCommand LaunchGameCommand { get; private set; }        
-
+        private IDialogCoordinator _dialogService;
         #endregion
 
         #region Properties
@@ -217,14 +210,20 @@ namespace Hs.Hypermint.Audits.ViewModels
         public AuditMenu SelectedMenu { get; set; }
 
         private ICollectionView _auditList;
-        private IDialogCoordinator _dialogService;
-        private IGameLaunch _gameLaunch;
+        private Game _selectedGame;
 
         public ICollectionView AuditList
         {
             get { return _auditList; }
             set { SetProperty(ref _auditList, value); }
         }
+        #endregion
+
+        #region Commands
+        public DelegateCommand<object> SelectionChanged { get; set; }
+        public DelegateCommand<object> CurrentCellChanged { get; set; }
+        public DelegateCommand SearchYoutubeCommand { get; private set; }
+        public DelegateCommand RunAuditCommand { get; private set; }
         #endregion
 
         #region Support Methods
@@ -271,7 +270,6 @@ namespace Hs.Hypermint.Audits.ViewModels
                     break;
             }
         }
-
         protected override void OnPropertyChanged(string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -289,7 +287,6 @@ namespace Hs.Hypermint.Audits.ViewModels
 
             }
         }
-
         private void SetAuditGameFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(AuditList);
@@ -304,10 +301,9 @@ namespace Hs.Hypermint.Audits.ViewModels
                     return g.Description.ToUpper().Contains(FilterText.ToUpper()); ;
             };
         }
-
         private async Task RunScan(string option = "")
         {
-            var hsPath = _settings.HypermintSettings.HsPath;
+            var hsPath = _settingsRepo.HypermintSettings.HsPath;
 
             FilterText = "";
 
@@ -350,7 +346,6 @@ namespace Hs.Hypermint.Audits.ViewModels
             catch (Exception ex) { }
 
         }
-
         private void GamesUpdated(string systemName)
         {
             if (AuditList != null)
@@ -389,12 +384,17 @@ namespace Hs.Hypermint.Audits.ViewModels
 
             }
         }
-
         private void SetMessage(string obj)
         {
             Message = obj;
-        } 
+        }
         #endregion
+
+        public override void AddToMultiSystem()
+        {            
+            //base.AddToMultiSystem();
+            _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(new List<Game>() { _selectedGame });
+        }
 
     }
 }

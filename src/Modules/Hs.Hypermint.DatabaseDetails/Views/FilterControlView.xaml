@@ -6,43 +6,48 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <DockPanel>
-        <TextBox metro:TextBoxHelper.ClearTextButton="True"                        
+        
+        <!--GAME FILTER-->
+        <TextBox metro:TextBoxHelper.ClearTextButton="True"   Margin="5"                     
                        metro:TextBoxHelper.Watermark="Filter games"
                        Width="200"
                        Height="25"
                  Text="{Binding FilterText,UpdateSourceTrigger=PropertyChanged}"/>
-        
-        <CheckBox Margin="5" Content="Clones"
+
+        <!--CLONES FAVES & ENABLED-->
+        <CheckBox Margin="5" Content="Clones" ToolTip="Only show parent roms (no clones)"
                   IsChecked="{Binding ShowClones,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
-        <CheckBox Margin="5" Content="Favorites"
+        <CheckBox Margin="5" Content="Favorites" ToolTip="Only show favorites"
                   IsChecked="{Binding ShowFavoritesOnly,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
-        <CheckBox Margin="5" Content="Enabled"
+        <CheckBox Margin="5" Content="Enabled" ToolTip="Only show enabled games"
                   IsChecked="{Binding ShowEnabledOnly,UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
+        <!--ADD TO MULTISYSTEM-->
         <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
                 Command="{Binding AddMultiSystemCommand}"
-                ToolTip="Add selected to multi system list." Height="30" Width="30"
+                ToolTip="Add selected to multi system list" Height="30" Width="30"
                 Style="{DynamicResource AccentedSquareButtonStyle}">
-                <Rectangle Width="20" Height="18" 
+            <Rectangle Width="20" Height="18" 
                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
-            <!--GAME LAUNCHING-->
-            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <!--GAME LAUNCHING-->
+        <Button HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
                 Command="{Binding LaunchGameCommand}"
-                ToolTip="Launch selected game." Height="30" Width="30"
+                ToolTip="Launch selected game" Height="30" Width="30"
                 Style="{DynamicResource AccentedSquareButtonStyle}">
-                <Rectangle Width="20" Height="18" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
-        
+            <Rectangle Width="20" Height="18" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
     </DockPanel>
 </UserControl>

@@ -45,6 +45,7 @@
     </metro:MetroWindow.Flyouts>
 
     <Grid Margin="5">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="71*"/>
@@ -53,15 +54,14 @@
             <RowDefinition Height="204*"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!--SystemsSidebarRegion : Systems MainMenu Dbs-->
-
         <ContentControl prism:RegionManager.RegionName="SidebarRegion" Grid.RowSpan="6" Grid.Row="0"/>
-
 
         <metro:TransitioningContentControl x:Name="transitioning" Transition="LeftReplace"
             Grid.Row="0" Grid.Column="1" Margin="5,0" Grid.RowSpan="3"  Background="{DynamicResource AccentColorBrush}"

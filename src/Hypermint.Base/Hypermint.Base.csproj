@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationCommands.cs" />
+    <Compile Include="Base\HyperMintModelBase.cs" />
     <Compile Include="Base\PrismBaseModule.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Constants\FlyoutNames.cs" />

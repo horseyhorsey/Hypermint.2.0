@@ -16,6 +16,12 @@
     
     <GroupBox Header="{Binding DatabaseHeaderInfo}">
         <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
             <Grid.RowDefinitions>
                 <RowDefinition MaxHeight="42"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -23,22 +29,17 @@
                 <RowDefinition Height="90"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
+            <!--CONTROLS-->
             <Border Grid.RowSpan="4">
                 <Rectangle Fill="{DynamicResource AccentColorBrush}"
                    Grid.RowSpan="2" MinHeight="500" VerticalAlignment="Stretch"/>
             </Border>
-            <!--<local:DatabasePickerCtrl Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>-->
             <views:DatabaseControlsView Grid.Row="0" Margin="5" Grid.Column="0" Grid.RowSpan="4"
                                         VerticalAlignment="Top" HorizontalAlignment="Left"/>
-
+            
             <views:FilterControlView Grid.Row="0" Grid.Column="1"/>
 
-            <!--Games database datagrid-->
+            <!--GAMES DATAGRID-->
             <DataGrid x:Name="DatabaseGrid" 
                       Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" BorderThickness="2"
                       ItemsSource="{Binding GamesList}" AutoGenerateColumns="False"                        

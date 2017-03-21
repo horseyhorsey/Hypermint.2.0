@@ -41,7 +41,7 @@
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         IsEnabled="{Binding SaveEnabled}"
                         Command="{Binding EnableFaveItemsCommand}"
-                        CommandParameter="1"
+                        CommandParameter="0"
                         ToolTip="Enable selected items."
                         Height="30" Width="30" HorizontalAlignment="Left">
                     <Rectangle Width="15" Height="15"
