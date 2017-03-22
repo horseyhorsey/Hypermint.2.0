@@ -9,21 +9,21 @@ using Hypermint.Base.Services;
 namespace Hypermint.Shell.ViewModels
 {
     public class SettingsFlyoutViewModel : ViewModelBase
-    {        
+    {
 
         private ISettingsRepo _hyperMintSettings;
         public Setting HyperMintSettings
-        {            
+        {
             get { return _hyperMintSettings.HypermintSettings; }
             set { _hyperMintSettings.HypermintSettings = value; }
         }
 
         private IFileFolderService _fileFolderService;
 
-        public ObservableCollection<string> GuiThemes { get; set; }        
+        public ObservableCollection<string> GuiThemes { get; set; }
 
         #region Delegate Commands
-        public DelegateCommand SaveSettings { get; private set; }             
+        public DelegateCommand SaveSettings { get; private set; }
         public DelegateCommand<string> FindPath { get; set; }
         public DelegateCommand<string> UpdateProperty { get; set; }
         #endregion
@@ -31,12 +31,12 @@ namespace Hypermint.Shell.ViewModels
         #region Ctors
         public SettingsFlyoutViewModel(IFileFolderService findDir, ISettingsRepo settings)
         {
-           // if (settings == null) throw new ArgumentNullException("settings");
+            // if (settings == null) throw new ArgumentNullException("settings");
             //_eventAggregator = eventAggregator;     
             _hyperMintSettings = settings;
-            
+
             _fileFolderService = findDir;
-            
+
             //Loading this through other module. 
             getSavedHypermintSettings();
 
@@ -47,10 +47,10 @@ namespace Hypermint.Shell.ViewModels
 
             //Setup themes for combobox binding            
             GuiThemes = new ObservableCollection<string>(MahAppTheme.AvailableThemes);
-            
+
             //setup commands
             SaveSettings = new DelegateCommand(SaveGuiSettings);
-            FindPath = new DelegateCommand<string>(LocatePath);            
+            FindPath = new DelegateCommand<string>(LocatePath);
 
         }
 
@@ -109,69 +109,69 @@ namespace Hypermint.Shell.ViewModels
         private void saveHypermintSettings()
         {
             _hyperMintSettings.SaveHypermintSettings();
-            
+
         }
 
         #region Theme Properties            
-            private string _currentThemeColor;
-            public string CurrentThemeColor
+        private string _currentThemeColor;
+        public string CurrentThemeColor
+        {
+            get { return _currentThemeColor; }
+            set
             {
-                get { return _currentThemeColor; }
-                set
-                {
-                    SetProperty(ref _currentThemeColor, value);
-                    changeGuiTheme();
-                }
+                SetProperty(ref _currentThemeColor, value);
+                changeGuiTheme();
             }
+        }
 
-            private bool _isDarkTheme;
-        
+        private bool _isDarkTheme;
+
 
         public bool IsDarkTheme
+        {
+            get { return _isDarkTheme; }
+            set
             {
-                get { return _isDarkTheme; }
-                set
-                {
-                    SetProperty(ref _isDarkTheme, value);
-                    changeGuiTheme();
-                }
+                SetProperty(ref _isDarkTheme, value);
+                changeGuiTheme();
             }
+        }
         #endregion
 
         #region Theme Methods
-            private void changeGuiTheme()
+        private void changeGuiTheme()
+        {
+            string darkOrLight = string.Empty;
+            if (IsDarkTheme)
+                darkOrLight = "BaseDark";
+            else
+                darkOrLight = "BaseLight";
+
+            // now set the theme
+            try
             {
-                string darkOrLight = string.Empty;
-                if (IsDarkTheme)
-                    darkOrLight = "BaseDark";
-                else
-                    darkOrLight = "BaseLight";
+                MahApps.Metro.ThemeManager.ChangeAppStyle(System.Windows.Application.Current,
+                            MahApps.Metro.ThemeManager.GetAccent(CurrentThemeColor),
+                            MahApps.Metro.ThemeManager.GetAppTheme(darkOrLight));
+            }
+            catch (System.Exception)
+            {
 
-                // now set the theme
-                try
-                {
-                    MahApps.Metro.ThemeManager.ChangeAppStyle(System.Windows.Application.Current,
-                                MahApps.Metro.ThemeManager.GetAccent(CurrentThemeColor),
-                                MahApps.Metro.ThemeManager.GetAppTheme(darkOrLight));
-                }
-                catch (System.Exception)
-                {
-
-                
-                }
 
             }
 
-            public void SaveGuiSettings()
-            {
-                Properties.Settings.Default.GuiColor = CurrentThemeColor;
-                Properties.Settings.Default.GuiTheme = IsDarkTheme;
-                Properties.Settings.Default.Save();
+        }
+
+        public void SaveGuiSettings()
+        {
+            Properties.Settings.Default.GuiColor = CurrentThemeColor;
+            Properties.Settings.Default.GuiTheme = IsDarkTheme;
+            Properties.Settings.Default.Save();
 
             _hyperMintSettings.HypermintSettings = HyperMintSettings;
-                saveHypermintSettings();
-            }
+            saveHypermintSettings();
+        }
         #endregion
-                
+
     }
 }

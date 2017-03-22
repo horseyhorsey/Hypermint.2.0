@@ -16,7 +16,7 @@ namespace Hs.Hypermint.WheelCreator.Repo
             var image = new MagickImage(MagickColors.Transparent, setting.Width, setting.Height);
 
             await Task.Run(() =>
-            {
+            {                
                 var captionString = "caption:" + setting.PreviewText;
 
                 image.Settings.FillColor =
@@ -27,7 +27,7 @@ namespace Hs.Hypermint.WheelCreator.Repo
 
                 image.Settings.StrokeWidth = setting.StrokeWidth;
 
-                image.Settings.FontFamily = setting.FontName;
+                image.Settings.Font = setting.FontName;
 
                 image.Settings.TextGravity = (Gravity)Enum.Parse(typeof(Gravity), setting.Gravity);
 

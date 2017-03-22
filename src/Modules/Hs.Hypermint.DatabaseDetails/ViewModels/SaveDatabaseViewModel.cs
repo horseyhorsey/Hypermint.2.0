@@ -205,12 +205,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                     await Task.Delay(500);
                     //dbName == "Favorites";                
-                    var favesTextFile = _fileFolderChecker.CombinePath(new string[]
-                    {
-                    _settingsRepo.HypermintSettings.HsPath,
+                    var favesTextFile = Path.Combine( _settingsRepo.HypermintSettings.HsPath,
                     Root.Databases, _selectedService.CurrentSystem,
-                    "favorites.txt"
-                    });
+                    "favorites.txt");
 
                     if (!_fileFolderChecker.FileExists(favesTextFile))
                     {

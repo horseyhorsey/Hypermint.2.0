@@ -61,7 +61,17 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
                 _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath);
             });
-        }        
+
+            ChangeMediaCommand = new DelegateCommand(() =>
+            {
+                SetMediaForGameHs(new string[] { _selectedService.CurrentRomname, "Videos" });
+            });
+
+            //PlayCommand = new DelegateCommand<int>((i) =>
+            //{
+            //    _eventAggregator.GetEvent<MediaCommandEvent>().Publish(i);
+            //});
+        }
 
         #endregion
 
@@ -149,8 +159,9 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             get { return swfFileSource; }
             set { SetProperty(ref swfFileSource, value); }
         }
-
         public string currentImagePath { get; set; }
+
+        //timelineSlider.Maximum
 
         #endregion
 
@@ -166,6 +177,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         #region Commands
         public DelegateCommand<string> PagePdfCommand { get; private set; }
         public DelegateCommand ImageEditCommand { get; private set; }
+
+        public DelegateCommand ChangeMediaCommand { get; private set; }
 
         #endregion
 
@@ -270,7 +283,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             }
 
             //Set the image path TODO: Adjust for Multi-System
-            var imagePath = Path.Combine( hsPath, Root.Media, _selectedService.CurrentSystem, mediaTypePath, romName + ".png");
+            var imagePath = Path.Combine(hsPath, Root.Media, _selectedService.CurrentSystem, mediaTypePath, romName + ".png");
 
             if (selectedOptions[1] == "Videos")
             {
@@ -377,7 +390,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             {
                 MediaPaneHeader = "Media View | " + ex.Message;
             }
-        }        
+        }
         private void SetImage(string obj)
         {
             WheelSource = _selectedService.SystemImage;
@@ -469,6 +482,9 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             }
 
         }
+
+
+
 
         #endregion
 

@@ -80,8 +80,7 @@ namespace Hs.HyperSpin.Database
 
         }
 
-        public Game(string name, string index, string image, string desc, string cloneof,
-    string crc, string manu, int year, string genre, string rating, int enabled)
+        public Game(string name, string index, string image, string desc, string cloneof, string crc, string manu, int year, string genre, string rating, int enabled)
         {
             RomName = name;
             Index = index;
@@ -120,7 +119,6 @@ namespace Hs.HyperSpin.Database
 
             return this.Description.CompareTo(otherGame.Description);
         }
-
 
         #endregion
 

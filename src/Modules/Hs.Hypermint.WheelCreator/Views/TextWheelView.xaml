@@ -86,6 +86,8 @@
                                          VerticalAlignment="Center"/>
         </DockPanel>
 
+        <DockPanel  Grid.Row="2" Grid.Column="2" >
+        <!--SELECT WINDOWS FONT-->
         <Button Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left"
                                     VerticalAlignment="Center" Margin="2" 
                                     Background="{DynamicResource AccentColorBrush}"
@@ -102,6 +104,23 @@
             </Rectangle>
         </Button>
 
+        <!--SELECT LOCAL FONT-->
+        <Button HorizontalAlignment="Left"
+                                    VerticalAlignment="Center" Margin="2" 
+                                    Background="{DynamicResource AccentColorBrush}"
+                                    Height="25" Width="25" 
+                                    Command="{Binding SelectFontLocalCommand}"
+                                    Style="{DynamicResource AccentedSquareButtonStyle}"
+                                    ToolTip="Select a local font. Defaults to rocket launcher fonts path.">
+            <Rectangle Width="13" Height="13"
+                                           Fill="{Binding Path=Foreground, 
+                                    RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush  Stretch="Uniform" Visual="{DynamicResource appbar_text_overline}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+        </DockPanel>
         <!--Colors-->
         <Label Content="Fill" Grid.Row="3" VerticalAlignment="Center"/>
         <DockPanel Grid.Row="3" Grid.Column="1">

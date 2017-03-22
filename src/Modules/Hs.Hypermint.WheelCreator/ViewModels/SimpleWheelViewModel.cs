@@ -16,6 +16,7 @@ using System.Drawing.Text;
 using Hypermint.Base;
 using System.Windows.Media.Imaging;
 using System.IO;
+using Hypermint.Base.Interfaces;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
@@ -24,7 +25,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         public SimpleWheelViewModel(ISelectedService selectedService, IEventAggregator ea)
         {
             _selectedService = selectedService;
-            _eventAggregator = ea;
+            _eventAggregator = ea;            
 
             Patterns = Enum.GetNames(typeof(WheelCreator.Patterns));
 
@@ -33,14 +34,12 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 //GenerateWheelSource = new BitmapImage(new Uri(Path.GetFullPath(x)));
                 GenerateWheelSource = SelectedService.SetBitmapFromUri(new Uri(Path.GetFullPath(x)));
             });
+
         }
 
         private ISelectedService _selectedService;
         private IEventAggregator _eventAggregator;
 
-        #region Commands        
-        public DelegateCommand SelectFontCommand { get; private set; } 
-        #endregion
 
         #region Properties
         private bool borderOn;
@@ -100,6 +99,9 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         }
 
         private ImageSource generateWheelSource;
+        private IFileFolderService _fileFolderService;
+        private ISettingsRepo _settingsRepo;
+
         public ImageSource GenerateWheelSource
         {
             get { return generateWheelSource; }
@@ -156,7 +158,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
                 _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish(imagePath);
             }
-            catch (Exception )
+            catch (Exception)
             {
 
 
@@ -179,6 +181,6 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
             return fontFamilies;
         }
-        
+
     }
 }

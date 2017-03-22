@@ -16,18 +16,26 @@ using System.Windows.Data;
 using Hs.Hypermint.WheelCreator.Models;
 using Hypermint.Base;
 using System.Drawing;
+using Hypermint.Base.Services;
+using Hypermint.Base.Interfaces;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
     [Serializable]
     public class TextWheelViewModel : ViewModelBase
     {
+        #region Commands                
+        [XmlIgnore]
+        public DelegateCommand SelectFontLocalCommand { get; set; }
         [XmlIgnore]
         public DelegateCommand SelectFontCommand { get; private set; }
         [XmlIgnore]
         public DelegateCommand SavePresetCommand { get; private set; }
         [XmlIgnore]
         public DelegateCommand GeneratePreviewCommand { get; private set; }
+        #endregion
+
+
 
         #region Properties
 
@@ -41,7 +49,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         private string fontName;
         public string FontName
         {
-            get { return CurrentWheelSetting.FontName; }
+            get { return fontName; }
             set { SetProperty(ref fontName, value); }
         }
 
@@ -64,10 +72,14 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         #endregion
 
         private IEventAggregator _eventAgg;
+        private ISettingsRepo _settingsRepo;       
+        private IFileFolderService _fileFolderService;
 
-        public TextWheelViewModel(IEventAggregator eventAggregator)
+        public TextWheelViewModel(IEventAggregator eventAggregator, ISettingsRepo settings, IFileFolderService findDir)
         {
             _eventAgg = eventAggregator;
+            _settingsRepo = settings;
+            _fileFolderService = findDir;
 
             GravityOptions = Enum.GetNames(typeof(Gravity));
 
@@ -76,6 +88,21 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             SavePresetCommand = new DelegateCommand(SavePreset);
 
             GeneratePreviewCommand = new DelegateCommand(GeneratePreview);
+
+            SelectFontLocalCommand = new DelegateCommand(() =>
+            {
+                var fontDir = Path.Combine(_settingsRepo.HypermintSettings.RlMediaPath, "Fonts");
+
+                string result = "";
+
+                if (Directory.Exists(fontDir))
+                    result =_fileFolderService.SetFileDialog(fontDir);
+                else
+                    result =_fileFolderService.SetFileDialog();
+
+                CurrentWheelSetting.FontName = result;
+                FontName = result;
+            });
 
             GetPresets();
 
@@ -101,9 +128,25 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
                 _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
             }
+
+
+        //using (MagickImage img = new MagickImage())
+        //{
+        //    img.Settings.Font = @"I:\RocketLauncher\Media\Fonts\amstrad_cpc464.ttf";
+        //    img.Settings.FontStyle = FontStyleType.Italic;
+        //    img.Settings.FontWeight = FontWeight.Bold;
+        //    img.Settings.FillColor = new MagickColor("purple");
+        //    img.Settings.TextGravity = Gravity.Center;
+        //    img.Read("label:Magick.NET \nis chined", 400, 175);
+        //    img.Trim();
+        //    var imagePath = "preview.png";
+        //    img.Write(imagePath);
+        //    _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
+        //}
+
         }
 
-        private void GetPresets(string selectedName = "")
+    private void GetPresets(string selectedName = "")
         {
             ITextImageService srv = new TextImage();
 
@@ -169,6 +212,9 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
         }
 
+        /// <summary>
+        /// Select font via windows font dialog
+        /// </summary>
         private void SelectFont()
         {
             if (CurrentWheelSetting == null) return;
@@ -186,6 +232,11 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 FontName = font;
             }
 
+        }
+
+        private void SelectFontLocal()
+        {
+            
         }
         #endregion
 

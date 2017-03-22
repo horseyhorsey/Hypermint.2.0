@@ -9,6 +9,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
@@ -136,8 +137,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 var hsPath = _settingsRepo.HypermintSettings.HsPath;
                 var system = _selectedService.CurrentSystem;
                 
-                var genrePath = _fileFolderCheck.CombinePath(
-                    new string[] { hsPath, Root.Databases, system, "Genre.xml" });
+                var genrePath = Path.Combine(hsPath, Root.Databases, system, "Genre.xml");
 
                 if (_fileFolderCheck.FileExists(genrePath))
                     _genreRepo.PopulateGenres(genrePath);
