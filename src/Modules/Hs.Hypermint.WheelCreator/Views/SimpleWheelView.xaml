@@ -6,71 +6,14 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:patterns="clr-namespace:Hs.Hypermint.WheelCreator"             
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             prism:ViewModelLocator.AutoWireViewModel="True"             
              xmlns:local="clr-namespace:Hs.Hypermint.WheelCreator.Controls"
              xmlns:views="clr-namespace:Hs.Hypermint.WheelCreator.Views"
              mc:Ignorable="d" Width="Auto">
 
     <GroupBox Header="Simple wheel creator">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TabControl Grid.Row="0">
-                <TabItem Header="Text">
-
-                    <Grid>
-                        
-                        <views:TextWheelView/>
-
-                        <GroupBox Header="Annotate" Visibility="Collapsed">
-                            <DockPanel>
-                                <CheckBox x:Name="patternChkbox" IsEnabled="True" Content="Enabled"/>
-                                <Controls:NumericUpDown MaxHeight="25" Value="{Binding FontPointSize}"/>
-                                <Label Margin="5" Content="Patterns"/>
-                                <ComboBox Margin="5" ItemsSource="{Binding Patterns}"
-                                  SelectedItem="{Binding SelectedPattern}"
-                                  MaxWidth="125" IsEnabled="{Binding patternChkbox}"/>
-                                <CheckBox IsEnabled="True" Margin="5" Content="Colorize"
-                                  ToolTip="Colorize from text fillcolor"/>
-                                <CheckBox IsEnabled="True" Margin="5" Content="Stroke"/>
-                                <CheckBox IsEnabled="True" Margin="5" Content="Shadow"/>
-
-                            </DockPanel>
-                        </GroupBox>
-
-                    </Grid>
-
-                </TabItem>
-
-                <TabItem Header="Background" IsEnabled="False">
-                    <GroupBox Header="Background">
-                        <DockPanel>
-                            <toolkit:ColorPicker ShowAdvancedButton="False"
-                                                 MinWidth="50" MaxWidth="50" Margin="5" 
-                                                 SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}"
-                                                 HorizontalAlignment="Left" VerticalAlignment="Center"  />
-                            <CheckBox Content="Border" IsChecked="{Binding BorderOn}" HorizontalAlignment="Left"/>
-                            <toolkit:ColorPicker ShowAdvancedButton="False"
-                                                 MinWidth="50" MaxWidth="50"
-                                                 SelectedColor="{Binding BorderColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5" 
-                                                 HorizontalAlignment="Left" VerticalAlignment="Center"  />
-                            <CheckBox Content="Shadow" IsChecked="{Binding BackgroundShadowOn,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
-                            <toolkit:ColorPicker ShowAdvancedButton="False"
-                                                 MinWidth="50" MaxWidth="50"
-                                                 SelectedColor="{Binding BGShadowColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5" 
-                                                 HorizontalAlignment="Left" VerticalAlignment="Center"  />
-
-                        </DockPanel>
-                    </GroupBox>
-                </TabItem>
-
-            </TabControl>
-
-            <Image Grid.Column="1" Stretch="Fill"
+            <Image Grid.Column="1" Stretch="Uniform"
                                    Source="{Binding GenerateWheelSource}"/>
         </Grid>
     </GroupBox>

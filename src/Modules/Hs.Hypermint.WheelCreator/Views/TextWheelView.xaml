@@ -5,7 +5,7 @@
              xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Grid>
+    <Grid MaxWidth="500">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,7 +19,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
@@ -28,7 +28,7 @@
         
         <DockPanel Grid.Column="1" LastChildFill="True">
 
-            <TextBox Margin="5" Grid.Column="1" Text="{Binding CurrentWheelSetting.PreviewText,UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Margin="3" Grid.Column="1" Text="{Binding CurrentWheelSetting.PreviewText,UpdateSourceTrigger=PropertyChanged}"
                                              MaxHeight="25">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Return" Command="{Binding GeneratePreviewCommand}"/>
@@ -52,7 +52,7 @@
         <!--Presets-->
         <Label Content="Preset" Grid.Row="1" VerticalAlignment="Center"/>
         <DockPanel Margin="5" Grid.Row="1" Grid.Column="1" LastChildFill="True">
-            <ComboBox Height="20" Width="100" ItemsSource="{Binding Presets}"></ComboBox>
+            <ComboBox Height="20" Width="140" Margin="3" HorizontalAlignment="Left" ItemsSource="{Binding Presets}"></ComboBox>
 
             <TextBox Text="{Binding CurrentWheelSetting.Name,UpdateSourceTrigger=PropertyChanged}"
                                              MaxHeight="25"/>
@@ -79,7 +79,7 @@
 
             <ComboBox SelectedValue="{Binding CurrentWheelSetting.Gravity, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gravitation"
                                   ItemsSource="{Binding GravityOptions}"
-                                  VerticalAlignment="Center" Height="20" HorizontalAlignment="Left" Margin="5" Width="75" >
+                                  VerticalAlignment="Center" Height="20" HorizontalAlignment="Left" Margin="3" Width="75" >
             </ComboBox>
 
             <TextBox Height="20" Text="{Binding FontName, UpdateSourceTrigger=PropertyChanged}"
@@ -123,7 +123,7 @@
         </DockPanel>
         <!--Colors-->
         <Label Content="Fill" Grid.Row="3" VerticalAlignment="Center"/>
-        <DockPanel Grid.Row="3" Grid.Column="1">
+        <DockPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
 
             <toolkit:ColorPicker ShowAdvancedButton="True"
                                                  MinWidth="50" MaxWidth="50"
@@ -136,14 +136,14 @@
                                                  HorizontalAlignment="Left" VerticalAlignment="Center"  />
 
 
-            <Rectangle Width="35" Margin="5" Height="20" HorizontalAlignment="Left">
+            <!--<Rectangle Width="35" Margin="5" Height="20" HorizontalAlignment="Left">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" >
                         <GradientStop Color="Blue" Offset="0" />
                         <GradientStop Color="Red" Offset="1.0" />
                     </LinearGradientBrush>
                 </Rectangle.Fill>
-            </Rectangle>
+            </Rectangle>-->
 
             <Label Content="Arc" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto"/>
             <Controls:NumericUpDown ToolTip="Arch the text." Margin="5"
@@ -152,7 +152,7 @@
         </DockPanel>
 
         <Label Content="Shadow" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <StackPanel Grid.Row="4" Grid.Column="1"  Orientation="Horizontal">
+        <StackPanel Grid.Row="4" Grid.Column="1"   Orientation="Horizontal" Grid.ColumnSpan="2">
 
             <Controls:NumericUpDown  ToolTip="Shadow X" Margin="5" Visibility="Collapsed"
                                                  HorizontalAlignment="Left"  Minimum="0" Maximum="500"
@@ -171,13 +171,14 @@
                                                   Value="{Binding CurrentWheelSetting.ShadowSigma}"/>
 
             <Label Content="Alpha"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-            <Controls:NumericUpDown   ToolTip="Shadow distance" Height="5"
+            
+            <Controls:NumericUpDown   ToolTip="Shadow alpha" Height="5" 
                                                   Margin="5" HorizontalAlignment="Left"
                                                   Minimum="0" Maximum="100" Value="{Binding CurrentWheelSetting.ShadowPercentage}"/>
         </StackPanel>
 
         <Label Content="Stroke" VerticalAlignment="Center" Grid.Row="5"/>
-        <DockPanel Grid.Row="5" Grid.Column="1">
+        <DockPanel Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2">
             <Controls:NumericUpDown Width="75" HorizontalAlignment="Left" Height="5"
                     Value="{Binding CurrentWheelSetting.StrokeWidth,UpdateSourceTrigger=PropertyChanged}" 
                                                 Margin="5"/>
