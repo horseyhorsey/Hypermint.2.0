@@ -8,70 +8,94 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="220"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!--PREVIEW IMAGE-->
         <GroupBox Header="{Binding ImagePreviewHeader}">
             <Image Stretch="Uniform"  Source="{Binding ImageEditSource,UpdateSourceTrigger=PropertyChanged}"/>
         </GroupBox>
 
+        <!--IMAGE CONTROLS OPTIONS-->
         <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
-            <GroupBox Header="Image options">
-                <DockPanel>
-                    <Controls:NumericUpDown HorizontalAlignment="left" Margin="1"
-                                                Height="23" 
-                                                Value="{Binding CurrentSetting.Width}" 
+
+            <!--IMAGE AND GENERATE-->
+            <DockPanel>
+                <GroupBox Header="Size">
+                    <DockPanel>
+                        <!--IMAGE WIDTH-->
+                        <Controls:NumericUpDown HorizontalAlignment="left" Margin="3" Height="23" ToolTip="Image width"
+                                                Value="{Binding CurrentSetting.Width, UpdateSourceTrigger=PropertyChanged}" 
                                                 VerticalAlignment="Center" Width="90"/>
-                    <Controls:NumericUpDown HorizontalAlignment="Left" Margin="1"
-                                                Height="23" Value="{Binding CurrentSetting.Height}"
+
+                        <!--IMAGE HEIGHT-->
+                        <Controls:NumericUpDown HorizontalAlignment="Left" Margin="3" ToolTip="Image height"
+                                                Height="23" Value="{Binding CurrentSetting.Height, UpdateSourceTrigger=PropertyChanged}"
                                                 VerticalAlignment="Center" Width="90"/>
 
-                    <CheckBox Content="Png" HorizontalAlignment="Right"
-                                           ToolTip="Png or Jpg" Margin="3"
-                                           IsChecked="{Binding CurrentSetting.Png}"/>
+                        <!--IMAGE RESIZE-->
+                        <CheckBox Content="Resize" HorizontalAlignment="Right" ToolTip="Resize image" Margin="3"
+                                           IsChecked="{Binding CurrentSetting.ResizeImage, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <CheckBox x:Name="toggleTile" Content="Tile"
-                                            Margin="3"
-                                           ToolTip="Tile image."
-                                           IsChecked="{Binding CurrentSetting.TileEnabled}"/>
+                        <!--IMAGE STRETCH-->
+                        <CheckBox Content="Stretch" HorizontalAlignment="Right" ToolTip="Stretch image" Margin="3"
+                                           IsChecked="{Binding CurrentSetting.StretchImage, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DockPanel>
 
-                    <Controls:NumericUpDown IsEnabled="{Binding toggleTile}" Height="23" Margin="1"
-                                                Value="{Binding CurrentSetting.TileWidth}" 
+                </GroupBox>
+
+                <GroupBox Header="Flip">
+                    <StackPanel Orientation="Horizontal">
+                        <!--IMAGE FLIP-->
+                        <CheckBox Content="Flip" Margin="5" x:Name="flipOn" 
+                                           ToolTip="Flip image."
+                                           IsChecked="{Binding CurrentSetting.FlipOn, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--IMAGE FLIP L-->
+                        <RadioButton Content="Left"  Margin="2" IsEnabled="{Binding flipOn}"
+                                           ToolTip="Resize image."
+                                           IsChecked="{Binding CurrentSetting.FlipL, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--IMAGE FLIP R-->
+                        <RadioButton Content="Right" HorizontalAlignment="Left" Margin="2"
+                                           ToolTip="Resize image."/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Tile">
+                    
+                    <StackPanel Orientation="Horizontal">
+                        
+                        <!--TILE-->
+                        <CheckBox x:Name="toggleTile" Content="Tile" Margin="3" ToolTip="Tile image."
+                                           IsChecked="{Binding CurrentSetting.TileEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--TILE WIDTH-->
+                        <Controls:NumericUpDown IsEnabled="{Binding toggleTile}" Height="23" Margin="3"
+                                                Value="{Binding CurrentSetting.TileWidth, UpdateSourceTrigger=PropertyChanged}" ToolTip="Tile size width"
                                             VerticalAlignment="Center" Width="90"/>
 
-                    <Controls:NumericUpDown IsEnabled="{Binding toggleTile}" Margin="1"
-                                            HorizontalAlignment="Left" Height="23" Value="{Binding CurrentSetting.TileHeight}"
+                        <!--TILE HEIGHT-->
+                        <Controls:NumericUpDown IsEnabled="{Binding toggleTile}" Margin="3" ToolTip="Tile size height"
+                                            HorizontalAlignment="Left" Height="23" Value="{Binding CurrentSetting.TileHeight, UpdateSourceTrigger=PropertyChanged}"
                                                 VerticalAlignment="Center"  Width="90"/>
+                        
+                    </StackPanel>
                     
-                    <CheckBox Content="Resize" HorizontalAlignment="Right"
-                                           ToolTip="Resize image." Margin="3"
-                                           IsChecked="{Binding CurrentSetting.ResizeImage}"/>
-                    
-                    <CheckBox Content="Stretch" HorizontalAlignment="Right"
-                                           ToolTip="Stretch image."
-                                           IsChecked="{Binding CurrentSetting.StretchImage}"/>
-
-                    <CheckBox Content="Flip" Margin="5" x:Name="flipOn" 
-                                           ToolTip="Flip image."
-                                           IsChecked="{Binding CurrentSetting.FlipOn}"/>
-
-                    <RadioButton Content="Left"  Margin="2" IsEnabled="{Binding flipOn}"
-                                           ToolTip="Resize image."
-                                           IsChecked="{Binding CurrentSetting.FlipL}"/>
-
-                    <RadioButton Content="Right" HorizontalAlignment="Left" Margin="2"
-                                           ToolTip="Resize image."/>
-
-                </DockPanel>
-            </GroupBox>
-
-            <DockPanel>
+                </GroupBox>
 
                 <GroupBox Header="Generate">
-                    <DockPanel >
+                    
+                    <DockPanel>
+
+                        <!--IMAGE PNG-->
+                        <CheckBox Content="Png" HorizontalAlignment="Right" ToolTip="Png or Jpg" Margin="3"
+                                           IsChecked="{Binding CurrentSetting.Png, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--PREVIEW IMAGE-->
                         <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
-                            ToolTip="Generate preview"
-                            VerticalAlignment="Center" Margin="2"
+                            ToolTip="Generate preview" IsDefault="True"
+                            VerticalAlignment="Center" Margin="3"
                             Background="{DynamicResource HighlightBrush}"
                             Command="{Binding GeneratePreviewCommand}"
                             Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}">
@@ -82,9 +106,10 @@
                             </Rectangle>
                         </Button>
 
+                        <!--SAVE IMAGE-->
                         <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
                             ToolTip="Generate preview"
-                            VerticalAlignment="Center" Margin="2"
+                            VerticalAlignment="Center" Margin="3"
                             Background="{DynamicResource HighlightBrush}"
                             Command="{Binding SaveImageCommand}"
                             Height="25" Width="25" Style="{DynamicResource AccentedSquareButtonStyle}">
@@ -94,21 +119,25 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </Button>
+                        
                     </DockPanel>
                 </GroupBox>
+                
+            </DockPanel>
 
+            <!--EXPORT OPTIONS-->
+            <DockPanel>
                 <GroupBox Header="Export media type">
                     <DockPanel>
-                        <ComboBox Width="110" Margin="1" ItemsSource="{Binding MediaExportTypes}"/>
-
-                        <TextBox Text="{Binding Author}" Width="100" Margin="1"/>
-
-                        <TextBox Margin="1" Text="{Binding CurrentSetting.Description}"/>
-
+                        <!--EXPORT TYPE-->
+                        <ComboBox Width="110" Margin="3" ItemsSource="{Binding MediaExportTypes, UpdateSourceTrigger=PropertyChanged}" ToolTip="Media type to generate for"/>
+                        <!--AUTHOR NAME-->
+                        <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}" ToolTip="Author name to add to filename" Width="100" Margin="3"/>
+                        <!--DESCRIPTION-->
+                        <TextBox Margin="3" ToolTip="Description for the media to add to filename" Text="{Binding CurrentSetting.Description, UpdateSourceTrigger=PropertyChanged}"/>
                     </DockPanel>
                 </GroupBox>
             </DockPanel>
-            
 
         </StackPanel>
 

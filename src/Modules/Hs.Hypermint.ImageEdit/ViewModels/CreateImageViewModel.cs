@@ -155,7 +155,6 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             Math.Round(ImageEditSource.Width) +
             " h:" + Math.Round(ImageEditSource.Height);
         }
-
         private void GeneratePreview()
         {
             try
@@ -173,16 +172,13 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
             }
 
         }
-
         private void SetUIValuesFromPreset(ImageEditPreset setting)
         {
             CurrentSetting = setting;
         }
-
         private string CreateNewImageFileName()
         {
             var layerName = MediaExportTypes.CurrentItem as string;
-
             var outPutFileName = "";
 
             var parent = RlStaticMethods.GetParentMediaType(layerName);
@@ -197,7 +193,6 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
 
             return GetNewFileNameIfExists(layerName, outPutFileName, rlMediaFilePath);
         }
-
         private string GetNewFileNameIfExists(string layerName, string outPutFileName, string rlMediaFilePath)
         {            
             bool flag = true;

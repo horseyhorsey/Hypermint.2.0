@@ -57,6 +57,8 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             ImageEditCommand = new DelegateCommand(() =>
             {
+                if (!File.Exists(currentImagePath)) return;
+
                 _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("CreateImageView");
 
                 _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath);

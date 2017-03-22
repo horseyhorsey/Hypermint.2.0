@@ -27,41 +27,60 @@ namespace Hs.Hypermint.Services
 
             using (var imgIn = Image.FromFile(inputImage))
             {
-                Image finalImage;
+                Image tempImage = null;
+                Image finalImage = null;
 
                 if (preset.TileEnabled)
                 {
                     int tw = preset.TileWidth;
                     int th = preset.TileHeight;
 
-                    Image tileImage;
-
-                    tileImage = ResizeImage(imgIn, new Size(tw, th));
-
                     if (preset.FlipOn)
                     {
-                        if (preset.FlipL)
-                            tileImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        else
-                            tileImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                        tempImage = FlipImage(imgIn, preset.FlipL);
                     }
 
-                    finalImage = ResizeImageTile(tileImage, new Size(preset.Width, preset.Height));
-                }
+                    if (tempImage != null)
+                        finalImage = ResizeImageTile(tempImage, new Size(preset.Width, preset.Height));
+                    else
+                        finalImage = ResizeImageTile(imgIn, new Size(preset.Width, preset.Height));
 
+                    //NOT USED?
+                    //tempImage = ResizeImage(imgIn, new Size(tw, th));
+
+                }
                 else if (preset.StretchImage)
                 {
-                    finalImage = ResizeImageEdit(imgIn, new Size(preset.Width, preset.Height));
-                }
+                    if (preset.FlipOn)                    
+                        tempImage = FlipImage(imgIn, preset.FlipL);
 
+                    if (tempImage != null)
+                        finalImage = ResizeImageEdit(tempImage, new Size(preset.Width, preset.Height));
+                    else
+                        finalImage = ResizeImageEdit(imgIn, new Size(preset.Width, preset.Height));
+                }
                 else if (preset.ResizeImage)
                 {
-                    finalImage = ResizeImage(imgIn, new Size(preset.Width, preset.Height));
-                }
+                    if (preset.FlipOn)
+                        tempImage = FlipImage(imgIn, preset.FlipL);
 
+                    if (tempImage != null)
+                        finalImage = ResizeImage(tempImage, new Size(preset.Width, preset.Height));
+                    else
+                        finalImage = ResizeImage(imgIn, new Size(preset.Width, preset.Height));
+                }
                 else
                 {
-                    finalImage = null;
+                    //If this is hit only allow image flips to be rendered.
+                    if (preset.FlipOn)
+                    {
+                        tempImage = FlipImage(imgIn, preset.FlipL);
+
+                        if (tempImage != null)
+                            finalImage = ResizeImage(tempImage, new Size(imgIn.Width, imgIn.Height));
+                        else
+                            finalImage = ResizeImage(imgIn, new Size(imgIn.Width, imgIn.Height));
+                    }                     
                 }
 
                 try
@@ -73,7 +92,6 @@ namespace Hs.Hypermint.Services
                         finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Png);
                     else
                         finalImage.Save(outputFileName, System.Drawing.Imaging.ImageFormat.Jpeg);
-
                 }
                 catch (System.Exception)
                 {
@@ -174,7 +192,22 @@ namespace Hs.Hypermint.Services
             return bitMap;
         }
 
-        public bool ConvertImageFormat(string inputImage, 
+        /// <summary>
+        /// Rotates image 90 or 270
+        /// </summary>
+        /// <param name="img"></param>
+        /// <param name="flipL">true for left, false for right</param>
+        private Image FlipImage(Image img, bool flipL)
+        {
+            if (flipL)
+                img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            else
+                img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+
+            return img;
+        }
+
+        public bool ConvertImageFormat(string inputImage,
             string outputFileName, bool isJpg)
         {
             using (var imgIn = Image.FromFile(inputImage))
