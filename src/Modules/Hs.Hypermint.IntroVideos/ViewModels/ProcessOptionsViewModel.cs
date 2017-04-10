@@ -212,7 +212,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         private void SaveScript(string[] videos)
         {
-            aviSynthOptions = new AviSynthOption()
+            var aviSynthOptions = new AviSynthOption()
             {
                 DissolveAmount = DissolveAmount,
                 StartFrame = StartFrame,
@@ -228,7 +228,9 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             var wheelPath = _settings.HypermintSettings.HsPath + "\\Media\\" + _selectedService.CurrentSystem + "\\" +
                 Images.Wheels + "\\";
 
-            var scriptCreated = _avisynthScripter.CreateScript(videos, aviSynthOptions, _selectedService.CurrentSystem, Overlay, ResizeOverlay, wheelPath, @"exports\videos\");
+            var scriptOptions = new ScriptOptions(videos,aviSynthOptions, _selectedService.CurrentSystem, Overlay, ResizeOverlay, wheelPath, @"exports\videos\");            
+
+            string scriptCreated = _avisynthScripter.CreateScript(scriptOptions);            
 
             GetScriptsInExportFolder();
 

@@ -128,13 +128,16 @@
     <Compile Include="Interfaces\IStatsRepo.cs" />
     <Compile Include="Interfaces\ISystemGen.cs" />
     <Compile Include="Interfaces\ITrashMaster.cs" />
+    <Compile Include="Models\ScriptOptions.cs" />
     <Compile Include="Models\AviSynthOption.cs" />
     <Compile Include="Models\GameFilter.cs" />
     <Compile Include="Models\ImageEditPreset.cs" />
+    <Compile Include="Models\Script.cs" />
     <Compile Include="Paths\Installation.cs" />
     <Compile Include="Constants\Paths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\RegionNames.cs" />
+    <Compile Include="Services\AviSynthScriptBuilder.cs" />
     <Compile Include="Services\AviSynthScripter.cs" />
     <Compile Include="Services\FileFolderService.cs" />
     <Compile Include="Services\FlyoutService.cs" />
@@ -142,6 +145,7 @@
     <Compile Include="Services\IFileFolderService.cs" />
     <Compile Include="Services\IFlyoutService.cs" />
     <Compile Include="Services\ISelectedService.cs" />
+    <Compile Include="Services\ScriptBuilder.cs" />
     <Compile Include="Services\SearchYoutubeService.cs" />
     <Compile Include="Services\SelectedService.cs" />
   </ItemGroup>
