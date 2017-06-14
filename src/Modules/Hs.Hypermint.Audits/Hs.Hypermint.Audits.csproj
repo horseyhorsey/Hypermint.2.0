@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\HsMediaAuditViewModel.cs" />
     <Compile Include="ViewModels\RlAuditOptionViewModel.cs" />
     <Compile Include="ViewModels\RlMediaAuditViewModel.cs" />
+    <Compile Include="ViewModels\RlScanMediaFolderViewModel.cs" />
     <Compile Include="ViewModels\YoutubeViewModel.cs" />
     <Compile Include="Views\HsMediaAuditView.xaml.cs">
       <DependentUpon>HsMediaAuditView.xaml</DependentUpon>
@@ -128,6 +129,9 @@
     </Compile>
     <Compile Include="Views\RlMediaAuditView.xaml.cs">
       <DependentUpon>RlMediaAuditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RlScanMediaFolderView.xaml.cs">
+      <DependentUpon>RlScanMediaFolderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\YoutubeView.xaml.cs">
       <DependentUpon>YoutubeView.xaml</DependentUpon>
@@ -207,6 +211,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RlMediaAuditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RlScanMediaFolderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

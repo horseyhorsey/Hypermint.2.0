@@ -27,7 +27,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
             <RowDefinition Height="*"/>
@@ -49,9 +49,26 @@
                     </prism:InvokeCommandAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
+
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Bezels" Binding="{Binding RomName}"/>
+                <DataGridTextColumn Header="Bezels" Binding="{Binding RomName}" SortDirection="Ascending">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Bezels folders" 
+                                        CommandParameter="Bezels" Command="{Binding ElementName=DatabaseGridDefault, Path=DataContext.OpenScanRocketMediaFolderCommand}">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Bezel" Binding="{Binding HaveBezels}"/>
                 <DataGridTextColumn Header="BezelBg" Binding="{Binding HaveBezelBg}"/>
             </DataGrid.Columns>

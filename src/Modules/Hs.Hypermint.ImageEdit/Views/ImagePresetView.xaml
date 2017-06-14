@@ -14,10 +14,8 @@
             
         <DockPanel Grid.Row="0">
 
-                <Button VerticalAlignment="Center" HorizontalAlignment="Right" Margin="6"
-                Command="{Binding SavePresetCommand}"
-                ToolTip="Save UI values to preset" Height="25" Width="25"
-                Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Button VerticalAlignment="Center" HorizontalAlignment="Right" Margin="6" Height="25" Width="25"
+                Command="{Binding SavePresetCommand}" ToolTip="Save UI values to preset" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="13" Height="15"
                                Fill="{Binding Path=Foreground, 
                                         RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">

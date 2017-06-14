@@ -29,7 +29,23 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Fade" Binding="{Binding RomName}"/>
+                <DataGridTextColumn Header="Fade" Binding="{Binding RomName}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Fade folders" Command="{Binding ElementName=DatabaseGridDefault,Path=DataContext.OpenScanRocketMediaFolderCommand}" CommandParameter="Fade">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Layer 1" Binding="{Binding HaveFadeLayer1}" />
                 <DataGridTextColumn Header="Layer 2" Binding="{Binding HaveFadeLayer2}"/>
                 <DataGridTextColumn Header="Layer 3" Binding="{Binding HaveFadeLayer3}"/>

@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:Hs.Hypermint.Audits.DataGrids"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"  
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600">
+             mc:Ignorable="d">
 
     <UserControl.Resources>
         <Style TargetType="{x:Type DataGridCell}">
@@ -23,11 +22,12 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
     </UserControl.Resources>
-    
-    <Grid>
+
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition Height="65"/>
+            <RowDefinition Height="75"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
@@ -48,13 +48,34 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
+            <!--DEFAULT COLUMNS-->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
-                <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}"/>
-                <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
-                <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}"/>
-                <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
+
+                <!--ARTWORK-->
+                <DataGridTextColumn Binding="{Binding HaveArtwork}" Header="Artwork" MaxWidth="120">
+                </DataGridTextColumn>
+
+                <!--BACKGROUNDS-->
+                <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}">
+                </DataGridTextColumn>
+                
+                <!--CONTROLLER-->
+                <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}">
+                </DataGridTextColumn>
+
+                <!--MULTI GAME-->
+                <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending">
+                </DataGridTextColumn>
+
+                <!--MUSIC-->
+                <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}">
+                    
+                </DataGridTextColumn>
+                
+                <!--VIDEOS-->
+                <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}">
+                </DataGridTextColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 
@@ -73,20 +94,173 @@
                     </prism:InvokeCommandAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="RomName" Binding="{Binding RomName}"/>
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}"/>
-                <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}"/>
-                <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}"/>
-                <DataGridTextColumn Header="Guides" Binding="{Binding HaveGuide}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Manuals" Binding="{Binding HaveManual}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending"/>
-                <DataGridTextColumn Header="Screenshots" Binding="{Binding HaveScreenshots}"/>
-                <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}"/>
-                <DataGridTextColumn Header="Saved Game" Binding="{Binding HaveSaves}"/>
-                <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="Artwork" Binding="{Binding HaveArtwork}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Artwork folders" Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}"
+                                        CommandParameter="Artwork">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackgrounds}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Backgrounds folders" Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}"
+                                        CommandParameter="Backgrounds">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Controller" Binding="{Binding HaveController}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Controller folders" Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}"
+                                        CommandParameter="Controller">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Guides" Binding="{Binding HaveGuide}" SortDirection="Ascending">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Guide folders" Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}"
+                                        CommandParameter="Guides">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Manuals" Binding="{Binding HaveManual}" SortDirection="Ascending">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Manuals folders" Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}" CommandParameter="Manuals">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="MultiGame" Binding="{Binding HaveMultiGame}" SortDirection="Ascending">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check MultiGame folders" Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}" CommandParameter="MultiGame">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Screenshots" Binding="{Binding HaveScreenshots}">
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Header="Music" Binding="{Binding HaveMusic}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Music folders" Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}" CommandParameter="Music">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Saved Game" Binding="{Binding HaveSaves}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Saved Games folders" Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}"
+                                        CommandParameter="Saved Games">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}" SortDirection="Ascending">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
+                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
+                                        ToolTip="Check Videos folders"  
+                                        Command="{Binding ElementName=DatabaseGridMainMenu, Path=DataContext.OpenScanRocketMediaFolderCommand}"
+                                        CommandParameter="Videos">
+                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -114,6 +288,6 @@
                 </Rectangle>
             </Button>
         </DockPanel>
-        
+
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using Hs.HyperSpin.Database;
+﻿using Hs.Hypermint.Audits.Views;
+using Hs.HyperSpin.Database;
 using Hs.RocketLauncher.AuditBase;
 using Hypermint.Base;
 using Hypermint.Base.Base;
@@ -48,6 +49,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             BezelScanCommand = new DelegateCommand(ScanBezel);
             PauseMediaScanCommand = new DelegateCommand(ScanPauseMedia);
             FadeScanCommand = new DelegateCommand(ScanFadeLayers);
+            OpenScanRocketMediaFolderCommand = new DelegateCommand<string>(OpenScanRocketMediaFolderAsync);
 
             _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
 
@@ -70,7 +72,23 @@ namespace Hs.Hypermint.Audits.ViewModels
             _eventAggregator.GetEvent<RlAuditUpdateEvent>().Subscribe(FilesDroppedEventHandler);
 
         }
-        #endregion
+
+        /// <summary>
+        /// Opens the scan rocket media folder asynchronous. Creates a customDialog from RLScanMediaFolder view/viewmodel
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        private async void OpenScanRocketMediaFolderAsync(string obj)
+        {
+            customDialog = new CustomDialog() { Title = obj };
+
+            customDialog.Content = new RlScanMediaFolderView();
+            {
+                customDialog.DataContext = new RlScanMediaFolderViewModel(_settingsRepo.HypermintSettings.RlMediaPath,_settingsRepo.HypermintSettings.HsPath,obj,_selectedSystem, _gameRepo,_dialogService, customDialog);
+            };
+
+            await _dialogService.ShowMetroDialogAsync(this, customDialog);
+        }
+        #endregion            
 
         #region Fields        
         private IGameRepo _gameRepo;
@@ -120,6 +138,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         private ICollectionView auditListDefaults;
         private Game _selectedGame;
+        private CustomDialog customDialog;
 
         public ICollectionView AuditListDefaults
         {
@@ -137,8 +156,9 @@ namespace Hs.Hypermint.Audits.ViewModels
         public DelegateCommand FadeScanCommand { get; private set; }
         public DelegateCommand BezelEditCommand { get; private set; }
         public DelegateCommand<string> LaunchRlMode { get; private set; }
-        public DelegateCommand OpenFolderCommand { get; private set; }        
-        #endregion        
+        public DelegateCommand OpenFolderCommand { get; private set; }
+        public DelegateCommand<string> OpenScanRocketMediaFolderCommand { get; private set; }        
+        #endregion
 
         #region Support Methods
         private void FilesDroppedEventHandler(object x)

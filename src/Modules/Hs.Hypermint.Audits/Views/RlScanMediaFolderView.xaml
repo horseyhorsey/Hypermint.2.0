@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="Hs.Hypermint.Audits.Views.RlScanMediaFolderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"  
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <Button Grid.Row="0" HorizontalAlignment="Right" Background="Red" Content="X" Margin="8" Grid.Column="1" Command="{Binding CloseCommand}"/>
+
+        <TabControl Grid.Row="1">
+
+            <TabItem Header="Mapped folders">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <CheckBox IsChecked="{Binding ShowMissing}" Margin="5" Content="Missing" ToolTip="Only show missing folders"/>
+                        <CheckBox IsChecked="{Binding ShowAvailable}" Margin="5" Content="Available" ToolTip="Only show available folders"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
+                        <TextBlock Text="Folder count :  "/>
+                        <TextBlock Text="{Binding GamesFolders.Count,UpdateSourceTrigger=PropertyChanged}" Margin="5,0"/>
+                    </StackPanel>
+                   
+                    <!--Items source is ICollectionView-->
+                    <DataGrid Grid.Row="2" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10" 
+                          ItemsSource="{Binding GamesFolders}">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="Folder" Binding="{Binding HasFolder}"/>
+                            <DataGridTextColumn Header="Name" Width="2*" Binding="{Binding RomName}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+            </TabItem>
+
+            <TabItem Header="Match folders">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="0">
+                        <CheckBox IsChecked="{Binding ShowMatched}" Margin="5" Content="Matched" ToolTip="Only show matched folders"/>
+                        <CheckBox IsChecked="{Binding ShowUnmatched}" Margin="5" Content="UnMatched" ToolTip="Only show unmatched folders where row has no recommended name."/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                  Grid.Column="1" Margin="10" ItemsSource="{Binding UnmatchedFoldersView, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="FolderExists" Binding="{Binding FolderExists, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridCheckBoxColumn Header="Rename" Binding="{Binding Rename, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Folder" Binding="{Binding FolderName,UpdateSourceTrigger=PropertyChanged}"/>
+                            <DataGridTextColumn Header="Recommended" Binding="{Binding RecommendedName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <TextBox Width="25" Height="20" Text="{Binding MatchDistance, UpdateSourceTrigger=PropertyChanged}" Margin="3" ToolTip="Number distance to match. 1 for one character matched away."/>
+                        <CheckBox Content="Remove ()" ToolTip="Remove all () from the RomName. (better match)" IsChecked="{Binding RemoveParenthsys}" Margin="3"/>
+                        <Button Content="Match" Margin="3" MaxHeight="28" Grid.Column="1" Command="{Binding MatchFoldersCommand}" ToolTip="Match the unmatched folders to a game"/>
+
+                        <Button Content="Rename" HorizontalAlignment="Right" Margin="8" MaxHeight="28" Grid.Column="1" Command="{Binding RenameCommand}" ToolTip="Rename all rows checked for Rename"/>
+                        <Button Content="Clear" HorizontalAlignment="Right" Margin="8" MaxHeight="28" Grid.Column="1" Command="{Binding ClearMatchedCommand}" ToolTip="Clears/Resets the matched folders"/>
+                        <Button Content="Clear Selected" HorizontalAlignment="Right" MaxHeight="28" Margin="8" Grid.Column="1" Command="{Binding ClearSelectedCommand}" ToolTip="Clears reset selected."/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
+
+    

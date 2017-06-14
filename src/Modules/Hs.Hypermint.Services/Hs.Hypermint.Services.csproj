@@ -99,6 +99,9 @@
     <Compile Include="Helpers\IniFile.cs" />
     <Compile Include="MainMenuRepo.cs" />
     <Compile Include="PdfService.cs" />
+    <Compile Include="RlMediaFolders.cs" />
+    <Compile Include="RocketMediaFolderScanner.cs" />
+    <Compile Include="RocketMediaFolderScanResult.cs" />
     <Compile Include="RocketSettingsRepo.cs" />
     <Compile Include="RomCheck.cs" />
     <Compile Include="ServicesModule.cs" />
@@ -153,6 +156,9 @@
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RlMediaFoldersReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

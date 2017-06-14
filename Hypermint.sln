@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.Shell", "src\Hypermint.Shell\Hypermint.Shell.csproj", "{989C2D81-B19B-463C-BFFC-343087E7E5F9}"
 EndProject
@@ -54,6 +54,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.ImageEdit", "src\Modules\Hs.Hypermint.ImageEdit\Hs.Hypermint.ImageEdit.csproj", "{3FD3EAE8-56B5-4FEE-8362-1C597217C855}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.BaseTests", "src\Hypermint.BaseTests\Hypermint.BaseTests.csproj", "{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HypermintServicesTests", "HypermintServicesTests\HypermintServicesTests.csproj", "{E61714DB-8A0D-426B-808A-634173BE95D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,6 +159,10 @@ Global
 		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E61714DB-8A0D-426B-808A-634173BE95D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E61714DB-8A0D-426B-808A-634173BE95D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E61714DB-8A0D-426B-808A-634173BE95D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E61714DB-8A0D-426B-808A-634173BE95D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -110,6 +110,7 @@
     <Compile Include="Events\SelectedEvents.cs" />
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Events\YoutubeEvents.cs" />
+    <Compile Include="Helpers\Distance.cs" />
     <Compile Include="Helpers\RegionHelper.cs" />
     <Compile Include="Interfaces\IAuditer.cs" />
     <Compile Include="Interfaces\IAuditerRl.cs" />
