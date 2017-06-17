@@ -77,6 +77,7 @@
         <Label Content="Font" Grid.Row="2" VerticalAlignment="Center"/>
         <DockPanel Grid.Row="2" Grid.Column="1" LastChildFill="True" Margin="5">
 
+            <Label Content="Gravity" VerticalAlignment="Center"/>
             <ComboBox SelectedValue="{Binding CurrentWheelSetting.Gravity, UpdateSourceTrigger=PropertyChanged}" ToolTip="Gravitation"
                                   ItemsSource="{Binding GravityOptions}"
                                   VerticalAlignment="Center" Height="20" HorizontalAlignment="Left" Margin="3" Width="75" >
