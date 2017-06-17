@@ -87,7 +87,7 @@ namespace Hs.Hypermint.Services
                 //var dirName = Path.GetFileNameWithoutExtension(directory);
                 var dirName = Path.GetFileName(directory);
 
-                if (gameRepo.GamesList.Any(x => x.RomName == dirName))
+                if (gameRepo.GamesList.Any(x => x.RomName.ToLower() == dirName.ToLower()))
                 {
                     matchedFolderCount++;
                     result.MatchedFolders.Add(dirName);
