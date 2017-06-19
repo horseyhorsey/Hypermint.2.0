@@ -59,6 +59,8 @@ namespace Hs.Hypermint.WheelCreator.Repo
         {
             var settingsPath = "preset\\wheel\\text\\";
 
+            if (!Directory.Exists(settingsPath)) Directory.CreateDirectory(settingsPath);
+
             var textPresets = Directory.GetFiles(settingsPath, "*.xml");
 
             for (int i = 0; i < textPresets.Length; i++)
