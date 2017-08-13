@@ -39,7 +39,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             set
             {
                 SetProperty(ref systemTextFilter, value);
-                OnPropertyChanged(() => SystemTextFilter);
+                RaisePropertyChanged(nameof(SystemTextFilter));
             }
         }
 
@@ -55,10 +55,12 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         private IEventAggregator _eventAggregator;
         private ISelectedService _selectedService;
 
-        protected override void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
+            base.OnPropertyChanged(args);
+
             //base.OnPropertyChanged(propertyName);
-            if (propertyName == "SystemTextFilter")
+            if (args.PropertyName == "SystemTextFilter")
             {
                 //Publish to SystemsViewModel with SystemFilteredEvent
                 _eventAggregator.GetEvent<SystemFilteredEvent>().Publish(SystemTextFilter);

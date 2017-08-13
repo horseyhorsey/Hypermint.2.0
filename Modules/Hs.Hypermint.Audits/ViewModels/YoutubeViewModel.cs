@@ -232,11 +232,11 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         }
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            base.OnPropertyChanged(propertyName);
+            base.OnPropertyChanged(args);
 
-            switch (propertyName)
+            switch (args.PropertyName)
             {
                 case "IncludeDescription":
                 case "IncludeRomname":
@@ -246,7 +246,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 default:
                     break;
             }
-        }
+        }        
         #endregion
     }
 

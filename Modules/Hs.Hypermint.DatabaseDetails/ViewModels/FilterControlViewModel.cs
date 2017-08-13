@@ -6,6 +6,7 @@ using Prism.Events;
 using Prism.Commands;
 using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
+using System.ComponentModel;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -33,7 +34,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set
             {
                 SetProperty(ref filterText, value);
-                OnPropertyChanged(() => FilterText);
+                RaisePropertyChanged(nameof(FilterText));
             }
         }
 
@@ -44,7 +45,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set
             {
                 SetProperty(ref showClones, value);
-                OnPropertyChanged(() => ShowClones);
+                RaisePropertyChanged(nameof(ShowClones));
             }
         }
 
@@ -91,9 +92,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// Publish the filter text to the details view
         /// </summary>
         /// <param name="propertyName"></param>
-        protected override void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            base.OnPropertyChanged(propertyName);
+            base.OnPropertyChanged(args);
 
             if (!systemChanging)
             {
@@ -108,7 +109,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                 _eventAggregator.GetEvent<GameFilteredEvent>().Publish(filterOptions);
             }
-
         }
         #endregion
 

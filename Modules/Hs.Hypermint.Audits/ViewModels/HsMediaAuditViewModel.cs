@@ -270,23 +270,23 @@ namespace Hs.Hypermint.Audits.ViewModels
                     break;
             }
         }
-        protected override void OnPropertyChanged(string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
 
-            if (propertyName == "FilterText")
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == "FilterText")
             {
                 try
                 {
                     SetAuditGameFilter();
                 }
-                catch (Exception)
-                {
-
-                }
+#warning handle this horse
+                catch { }
 
             }
         }
+
         private void SetAuditGameFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(AuditList);

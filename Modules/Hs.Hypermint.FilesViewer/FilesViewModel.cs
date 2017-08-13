@@ -627,13 +627,14 @@ namespace Hs.Hypermint.FilesViewer
                     .CreateCardFileName(Description, Author,
                     (string)CardPositionsArray.CurrentItem);
         }
-        protected override void OnPropertyChanged(string propertyName = null)
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            base.OnPropertyChanged(propertyName);
+            base.OnPropertyChanged(args);
 
             try
             {
-                switch (propertyName)
+                switch (args.PropertyName)
                 {
                     case "Description":
                     case "Ratio":
@@ -657,8 +658,7 @@ namespace Hs.Hypermint.FilesViewer
 
             }
 
-
-        }
+        }        
 
         private void Files_CurrentChanged(object sender, EventArgs e)
         {

@@ -483,10 +483,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             }
         }
 
-        protected override void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            base.OnPropertyChanged(propertyName);
+            base.OnPropertyChanged(args);
         }
+        
         private void ScanRoms()
         {
             if (!Directory.Exists(_settingsRepo.HypermintSettings.RlPath)) return;

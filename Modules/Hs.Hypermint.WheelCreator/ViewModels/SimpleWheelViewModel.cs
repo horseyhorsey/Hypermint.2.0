@@ -17,6 +17,7 @@ using Hypermint.Base;
 using System.Windows.Media.Imaging;
 using System.IO;
 using Hypermint.Base.Interfaces;
+using System.ComponentModel;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
@@ -110,9 +111,9 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
         #endregion
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            base.OnPropertyChanged(propertyName);
+            base.OnPropertyChanged(args);
         }
 
         private System.Drawing.Color ColorFromMediaColor(System.Windows.Media.Color clr)

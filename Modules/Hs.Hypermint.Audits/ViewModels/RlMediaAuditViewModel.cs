@@ -402,15 +402,17 @@ namespace Hs.Hypermint.Audits.ViewModels
                     return g.Description.ToUpper().Contains(FilterText.ToUpper()); ;
             };
         }
-        protected override void OnPropertyChanged(string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
 
-            if (propertyName == "FilterText")
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == "FilterText")
             {
                 SetAuditGameFilter();
             }
         }
+
         public override void AddToMultiSystem()
         {
             //base.AddToMultiSystem();
