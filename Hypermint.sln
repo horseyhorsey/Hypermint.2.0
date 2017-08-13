@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.Shell", "src\Hypermint.Shell\Hypermint.Shell.csproj", "{989C2D81-B19B-463C-BFFC-343087E7E5F9}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.SidebarSystems
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Services", "src\Modules\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj", "{7C5872EA-A3BD-4BFA-911C-0A9B62F2F11F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataModels", "DataModels", "{93FF07FF-821C-48FF-AC5F-EB934D6B0A6B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{93FF07FF-821C-48FF-AC5F-EB934D6B0A6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.HyperSpin.Database", "src\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj", "{6108DDA5-DDA5-4254-B62D-6CDFB049FA8B}"
 EndProject
@@ -47,15 +47,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Search", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.RocklaunchStats", "src\Modules\Hs.Hypermint.RocklaunchStats\Hs.Hypermint.RocklaunchStats.csproj", "{E297D293-BEF3-403F-9592-9A5DD648038C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.DatabaseDetailsSearchTests", "src\Modules\Hs.Hypermint.DatabaseDetailsSearchTests\Hs.Hypermint.DatabaseDetailsSearchTests.csproj", "{0430F08B-1F88-4B31-BA47-6B17BDD014CD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.WheelCreatorTests", "src\Modules\Hs.Hypermint.WheelCreatorTests\Hs.Hypermint.WheelCreatorTests.csproj", "{451D55B4-C384-4D6A-A082-E96482D3BC92}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.ImageEdit", "src\Modules\Hs.Hypermint.ImageEdit\Hs.Hypermint.ImageEdit.csproj", "{3FD3EAE8-56B5-4FEE-8362-1C597217C855}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.BaseTests", "src\Hypermint.BaseTests\Hypermint.BaseTests.csproj", "{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HypermintServicesTests", "HypermintServicesTests\HypermintServicesTests.csproj", "{E61714DB-8A0D-426B-808A-634173BE95D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{390DD12F-713A-449F-9598-65FF7C98CA73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,10 +141,6 @@ Global
 		{E297D293-BEF3-403F-9592-9A5DD648038C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E297D293-BEF3-403F-9592-9A5DD648038C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E297D293-BEF3-403F-9592-9A5DD648038C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0430F08B-1F88-4B31-BA47-6B17BDD014CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{451D55B4-C384-4D6A-A082-E96482D3BC92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{451D55B4-C384-4D6A-A082-E96482D3BC92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{451D55B4-C384-4D6A-A082-E96482D3BC92}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -155,10 +149,6 @@ Global
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EDA4FB7-216B-48AE-BCD2-8E1324D90F30}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E61714DB-8A0D-426B-808A-634173BE95D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E61714DB-8A0D-426B-808A-634173BE95D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E61714DB-8A0D-426B-808A-634173BE95D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -186,6 +176,8 @@ Global
 		{A95D1749-9183-4B23-81BC-253FEDA2CB58} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{035B43C5-944A-4EAC-88B8-BEC5FDD26846} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{E297D293-BEF3-403F-9592-9A5DD648038C} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
+		{451D55B4-C384-4D6A-A082-E96482D3BC92} = {390DD12F-713A-449F-9598-65FF7C98CA73}
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
+		{E61714DB-8A0D-426B-808A-634173BE95D2} = {390DD12F-713A-449F-9598-65FF7C98CA73}
 	EndGlobalSection
 EndGlobal
