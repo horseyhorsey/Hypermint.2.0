@@ -57,7 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{390DD12F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Business", "Modules\Hs.Hypermint.Business\Hs.Hypermint.Business.csproj", "{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.BusinessTests", "Hs.Hypermint.Business.Tests\Hs.Hypermint.BusinessTests.csproj", "{B822942A-AACA-4A31-B1F4-D260F4D83755}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.BusinessTests", "Tests\Hs.Hypermint.Business.Tests\Hs.Hypermint.BusinessTests.csproj", "{B822942A-AACA-4A31-B1F4-D260F4D83755}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
