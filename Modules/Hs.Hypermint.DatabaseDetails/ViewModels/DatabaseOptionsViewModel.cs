@@ -36,7 +36,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         }
 
         private ComboBoxItem selectedItem;
-#warning Use another way to bind,  not relying on a Comboboxitem in the ViewModel
+#warning Use another way to bind,  not relying on a Comboboxitem in the ViewModel !!!!THis is easy what are you doing??
         public ComboBoxItem SelectedItem
         {
             get { return selectedItem; }
