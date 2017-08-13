@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hypermint.Shell", "Hypermint.Shell\Hypermint.Shell.csproj", "{989C2D81-B19B-463C-BFFC-343087E7E5F9}"
 EndProject
@@ -54,6 +54,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HypermintServicesTests", "Tests\HypermintServicesTests\HypermintServicesTests.csproj", "{E61714DB-8A0D-426B-808A-634173BE95D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{390DD12F-713A-449F-9598-65FF7C98CA73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Business", "Modules\Hs.Hypermint.Business\Hs.Hypermint.Business.csproj", "{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,6 +155,10 @@ Global
 		{E61714DB-8A0D-426B-808A-634173BE95D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E61714DB-8A0D-426B-808A-634173BE95D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E61714DB-8A0D-426B-808A-634173BE95D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,5 +185,9 @@ Global
 		{451D55B4-C384-4D6A-A082-E96482D3BC92} = {390DD12F-713A-449F-9598-65FF7C98CA73}
 		{3FD3EAE8-56B5-4FEE-8362-1C597217C855} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{E61714DB-8A0D-426B-808A-634173BE95D2} = {390DD12F-713A-449F-9598-65FF7C98CA73}
+		{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CEDAD22-65CB-4402-BDD8-0E8EDC0727D5}
 	EndGlobalSection
 EndGlobal
