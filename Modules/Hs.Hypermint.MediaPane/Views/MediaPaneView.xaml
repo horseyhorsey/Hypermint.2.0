@@ -1,0 +1,245 @@
+﻿<UserControl x:Class="Hs.Hypermint.MediaPane.Views.MediaPaneView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"     
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:ns="clr-namespace:Hs.Hypermint.MediaPane.ViewModels"
+             xmlns:uc="clr-namespace:Hs.Hypermint.MediaPane.UserControls"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="root">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <GroupBox Header="{Binding MediaPaneHeader}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <!--SHOW IMAGE-->
+                    <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
+
+                    <!--TextBOXViewer-->
+                    <toolkit:RichTextBox Grid.Row="0" BorderBrush="Gray" Padding="10" Grid.RowSpan="2"
+                                     Text="{Binding TextSource}" 
+                                     Visibility="{Binding ElementName=root,
+                                     Path=DataContext.IsTextSource,UpdateSourceTrigger=PropertyChanged,
+                                     Converter={StaticResource BoolToVisConverter}}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <toolkit:RichTextBox.TextFormatter>
+                            <toolkit:PlainTextFormatter />
+                        </toolkit:RichTextBox.TextFormatter>
+                    </toolkit:RichTextBox>
+
+                    <!--FOR FLASH-->
+                    <WebBrowser Grid.RowSpan="2"
+                            ns:WebBrowserUtility.BindableSource="{Binding SwfFileSource}"
+                            Visibility="{Binding ElementName=root,
+                            Path=DataContext.IsSwfSource,UpdateSourceTrigger=PropertyChanged,
+                            Converter={StaticResource BoolToVisConverter}}"/>
+
+                    <MediaElement x:Name="mediaElement" MediaOpened="MediaOpened" MediaEnded="mediaElement_MediaEnded" Stretch="Uniform" Grid.Row="0"
+                          Margin="5" Source="{Binding VideoSource}">
+                        <ContextMenuService.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Open with windows"></MenuItem>
+                                <MenuItem x:Name="previewVideoTrim" Header="Trim >" >
+                                    <Controls:NumericUpDown Value="30"/>
+                                    <RadioButton x:Name="vidReplace" Content="Replace" ToolTip="Move original to rubbish, replace with trimmed video."/>
+                                    <RadioButton x:Name="vidCopy" Content="New Copy" ToolTip="Creates a trim at this folder"/>
+                                    <Button Content="Trim"></Button>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ContextMenuService.ContextMenu>
+                    </MediaElement>
+
+                    <Grid Grid.Row="1">
+                        <!--PDF CONTROLS-->
+                        <DockPanel Grid.Row="1"
+                       Visibility="{Binding ElementName=root,
+                                     Path=DataContext.IsPdf,UpdateSourceTrigger=PropertyChanged,
+                                     Converter={StaticResource BoolToVisConverter}}">
+
+                            <Button Grid.Column="0" HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Command="{Binding PagePdfCommand}"
+                                CommandParameter="back"                            
+                                Height="35" Width="35">
+                                <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_left}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+
+                            <Label Content="{Binding CurrentPage}" VerticalAlignment="Center"/>
+                            <Label Content="/" VerticalAlignment="Center"/>
+                            <Label Content="{Binding PdfPageCount}" VerticalAlignment="Center"/>
+
+                            <Button Grid.Column="0" HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Command="{Binding PagePdfCommand}"
+                                CommandParameter="forward"                            
+                                Height="35" Width="35">
+                                <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+
+                            <Button Grid.Column="0" HorizontalAlignment="Left" IsEnabled="False"
+                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Command="{Binding PageGamesCommand}"
+                                CommandParameter="forward"                            
+                                Height="35" Width="35">
+                                <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+
+                            <Button Grid.Column="0" HorizontalAlignment="Left" IsEnabled="False"
+                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
+                                Command="{Binding PageGamesCommand}"
+                                CommandParameter="forward"                            
+                                Height="35" Width="35">
+                                <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_save}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+
+                        </DockPanel>
+
+                        <!--IMAGE EDIT-->
+                        <uc:ucImageEdit Grid.Row="1" Visibility="{Binding IsImageSource,UpdateSourceTrigger=PropertyChanged,
+                                     Converter={StaticResource BoolToVisConverter}}"/>
+
+                        <DockPanel>
+                        <!--VIDEO CONTROLS-->
+                        <StackPanel Visibility="{Binding ElementName=root, Path=DataContext.IsVideoSource,UpdateSourceTrigger=PropertyChanged,
+                            Converter={StaticResource BoolToVisConverter}}" HorizontalAlignment="Left" Grid.Row="1" MaxHeight="45" Orientation="Horizontal">
+
+                            <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+
+                                <!--PLAY-->
+                                <Button Height="35" Width="35" PreviewMouseDown="PlayButtonMouseDown"
+                                        HorizontalAlignment="Left" 
+                                        VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}" CommandParameter="1">
+                                    <Rectangle Width="12" Height="12" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+
+                                <!--PAUSE-->
+                                <Button Height="35" Width="35" PreviewMouseDown="PauseButtonMouseDown"
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Style="{DynamicResource MetroCircleButtonStyle}"                                
+                                CommandParameter="2" >
+                                    <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_pause}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+
+                                <!--STOP-->
+                                <Button PreviewMouseDown="StopButtonMouseDown"
+                                HorizontalAlignment="Left" Height="35" Width="35"
+                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}" CommandParameter="0">
+                                    <Rectangle Width="12" Height="12"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_stop}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+
+                            </DockPanel>
+
+                            <!-- Volume slider. This slider allows a Volume range between 0 and 1. -->
+                            <TextBlock Foreground="White" VerticalAlignment="Center" Margin="5">
+                        <Run Text="Vol"/>
+                            </TextBlock>
+
+                            <!--ValueChanged="ChangeMediaVolume"-->
+                            <Slider x:Name="volumeSlider" Width="70" ValueChanged="ChangeMediaVolume" VerticalAlignment="Center" Value="{Binding VolumerSlider}" Minimum="0" Maximum="1" Margin="0,12,0,11"/>
+
+                            <!--SLIDER-->
+                            <TextBlock Foreground="White" Margin="5"  VerticalAlignment="Center">
+                        <Run Text="Seek"/>
+                            </TextBlock>
+
+                            <Slider x:Name="timelineSlider" Width="150" VerticalAlignment="Center"
+                    Value="{Binding SliderValue, UpdateSourceTrigger=PropertyChanged}" ValueChanged="timelineSlider_ValueChanged"
+                    Thumb.DragStarted="timelineSlider_SeekStarted"
+                    Thumb.DragCompleted="timelineSlider_SeekCompleted">
+                            </Slider>
+
+                            <TextBlock x:Name="media_wheelTime" TextWrapping="Wrap" Width="108" VerticalAlignment="Center"/>
+
+                        </StackPanel>
+                        
+                        <!--CYCLE MEDIA DATABASE VIEW ONLY-->
+                        <!--<uc:ucCycleMedia/>-->
+                            
+                        </DockPanel>
+
+                        <!--Context right click menu-->
+                        <!--ContextMenuOpening="_copyMenuItems_ContextMenuOpening"-->
+                        <!--
+                            <ComboBox></ComboBox>
+                        </MenuItem>
+                        <MenuItem Header="Preset job" IsEnabled="True">
+                            <MenuItem Header="Instruction Card" ToolTip="Send this file to Instruction cards">
+                                <ComboBox Width="100">
+                                </ComboBox>
+                                <Button Content="Create" ToolTip="Convert and send to cards."></Button>
+                            </MenuItem>
+                            <MenuItem Header="Image Presets" >
+                                <ComboBox ToolTip="Select preset"
+                                      Width="100" ItemsSource="{Binding ElementName=presetListBoxCards3,Path=Items}"></ComboBox>
+                                <MenuItem Header="Media Type" IsEnabled="True">
+                                    <MenuItem Header="Layer 1" ></MenuItem>
+                                    <MenuItem Header="Layer 2" ></MenuItem>
+                                    <MenuItem Header="Layer 3" ></MenuItem>
+                                    <MenuItem Header="Layer -1" ></MenuItem>
+                                    <MenuItem Header="Background" ></MenuItem>
+                                    <MenuItem Header="Background HS" ></MenuItem>
+                                    <MenuItem Header="Bezel Background" ></MenuItem>
+                                </MenuItem>
+                            </MenuItem>
+                        </MenuItem>
+                    </ContextMenu>
+                </ContextMenuService.ContextMenu>-->
+                        
+                    </Grid>
+
+                </Grid>
+            </GroupBox>
+
+        </Grid>
+        <!--Context menu-->
+    </Grid>
+</UserControl>
