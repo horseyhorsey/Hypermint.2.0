@@ -100,9 +100,6 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         }
 
         private ImageSource generateWheelSource;
-        private IFileFolderService _fileFolderService;
-        private ISettingsRepo _settingsRepo;
-
         public ImageSource GenerateWheelSource
         {
             get { return generateWheelSource; }

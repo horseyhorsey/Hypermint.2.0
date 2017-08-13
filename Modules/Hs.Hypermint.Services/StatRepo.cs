@@ -62,7 +62,6 @@ namespace Hs.Hypermint.Services
             string[] genStats = { "General", "TopTen_Time_Played", "TopTen_Times_Played", "Top_Ten_Average_Time_Played" };
             ini.Load(rlStatsIni);
             int count = ini.Sections.Count;
-            string time = "";
 
             foreach (IniFile.IniSection s in ini.Sections)
             {
@@ -77,7 +76,6 @@ namespace Hs.Hypermint.Services
                                 }
                                 else
                                 {
-                                    var t = new TimeSpan();
                                     var gameStat = new Stat();
                                     gameStat.Rom = section;
 
@@ -163,7 +161,6 @@ namespace Hs.Hypermint.Services
                         if (genStats[2] != section)
                             if (genStats[3] != section)
                             {
-                                var t = new TimeSpan();
                                 var gameStat = new Stat();
                                 gameStat.Rom = section;
                                 

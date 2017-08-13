@@ -2,20 +2,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Hs.Hypermint.Services;
 using System.IO;
-using Hs.Hypermint.DatabaseDetails.Services;
 using Hypermint.Base.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
-using Hs.HyperSpin.Database;
-using System.Reflection;
-using System.Diagnostics;
 
 namespace HypermintServicesTests
 {
     public class RocketMediaFolderScanner
     {
-        IGameRepo _gameRepo;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RocketMediaFolderScanner"/> class.
         /// </summary>

@@ -14,7 +14,7 @@ namespace Hs.Hypermint.DatabaseDetails.Commands
 {
     class GetGamesCommand : ICommand
     {
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged = null;
 
         public bool CanExecute(object parameter)
         {

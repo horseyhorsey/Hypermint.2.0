@@ -23,12 +23,6 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
         }
 
         [Test()]
-        public async void GenerateCaption()
-        {
-
-        }
-
-        [Test()]
         public void GeneratePlasmaBackground()
         {
             IBackgroundImageService srvc = new BackgroundImage();

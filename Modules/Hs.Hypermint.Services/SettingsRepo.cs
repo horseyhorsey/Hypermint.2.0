@@ -16,7 +16,6 @@ namespace Hs.Hypermint.Services
 
         public void LoadHypermintSettings()
         {
-
             var settingsPath = "settings.bin";
 
             if (!File.Exists(settingsPath))
@@ -38,7 +37,7 @@ namespace Hs.Hypermint.Services
             }
             catch (EndOfStreamException e)
             {
-                                
+                
             }
 
             binReader.Close();
