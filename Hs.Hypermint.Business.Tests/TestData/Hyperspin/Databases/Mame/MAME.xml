@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu>
+  <game image="'" index="true" name="88games">
+    <description>'88 Games</description>
+    <cloneof/>
+    <crc/>
+    <manufacturer>Konami</manufacturer>
+    <year>1988</year>
+    <genre>Sports/Track &amp; Field</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+  <game image="" index="" name="99lstwark">
+    <description>'99: The Last War (Kyugo)</description>
+    <cloneof>repulse</cloneof>
+    <crc/>
+    <manufacturer>Crux / Kyugo</manufacturer>
+    <year>1985</year>
+    <genre>Shoot-'Em-Up</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+  <game image="" index="" name="99lstwar">
+    <description>'99: The Last War (set 1)</description>
+    <cloneof>repulse</cloneof>
+    <crc/>
+    <manufacturer>Crux / Proma</manufacturer>
+    <year>1985</year>
+    <genre>Shoot-'Em-Up</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+  <game image="" index="" name="99lstwara">
+    <description>'99: The Last War (set 2)</description>
+    <cloneof>repulse</cloneof>
+    <crc/>
+    <manufacturer>Crux / Proma</manufacturer>
+    <year>1985</year>
+    <genre>Shoot-'Em-Up</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+  <game image="0" index="true" name="005">
+    <description>005</description>
+    <cloneof/>
+    <crc/>
+    <manufacturer>Sega</manufacturer>
+    <year>1981</year>
+    <genre>Maze</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+  <game image="1" index="true" name="1on1gov">
+    <description>1 on 1 Government (Japan)</description>
+    <cloneof/>
+    <crc/>
+    <manufacturer>Tecmo</manufacturer>
+    <year>2000</year>
+    <genre>Sports/Basketball</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+  <game image="" index="" name="10yard85">
+    <description>10-Yard Fight '85 (US, Taito license)</description>
+    <cloneof>10yard</cloneof>
+    <crc/>
+    <manufacturer>Irem (Taito license)</manufacturer>
+    <year>1985</year>
+    <genre>Sports/Football</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+  <game image="" index="" name="10yardj">
+    <description>10-Yard Fight (Japan)</description>
+    <cloneof>10yard</cloneof>
+    <crc/>
+    <manufacturer>Irem</manufacturer>
+    <year>1983</year>
+    <genre>Sports/Football</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+  <game image="" index="" name="10yard">
+    <description>10-Yard Fight (World, set 1)</description>
+    <cloneof/>
+    <crc/>
+    <manufacturer>Irem</manufacturer>
+    <year>1983</year>
+    <genre>Sports/Football</genre>
+    <rating>AAMA - Green (Suitable For All Ages)</rating>
+    <enabled>Yes</enabled>
+  </game>
+</menu>

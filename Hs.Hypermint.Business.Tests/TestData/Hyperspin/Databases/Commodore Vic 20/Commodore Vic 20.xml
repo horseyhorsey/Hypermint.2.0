@@ -1,0 +1,58 @@
+<menu>
+	<game name="17+4">
+		<description>17 + 4</description>
+		<cloneof></cloneof>
+		<manufacturer>(Unknown)</manufacturer>
+		<year>????</year>
+		<genre>Gambling - Cards</genre>
+	</game>
+	<game name="3D Doolhof">
+		<description>3D Doolhof</description>
+		<cloneof></cloneof>
+		<manufacturer>(Unknown)</manufacturer>
+		<year>????</year>
+		<genre>Adventure - Arcade 3D</genre>
+	</game>
+	<game name="3D Labyrinth Llama">
+		<description>3D Labyrinth</description>
+		<cloneof></cloneof>
+		<manufacturer>Llamasoft</manufacturer>
+		<year>????</year>
+		<genre>Arcade - Labyrinth/Maze</genre>
+	</game>
+	<game name="3D Labyrinth">
+		<description>3D Labyrinth</description>
+		<cloneof></cloneof>
+		<manufacturer>Compute!</manufacturer>
+		<year>1984</year>
+		<genre>Arcade - Labyrinth/Maze</genre>
+	</game>
+	<game name="3DMan">
+		<description>3D Man</description>
+		<cloneof></cloneof>
+		<manufacturer>Bubble Bus</manufacturer>
+		<year>????</year>
+		<genre>Arcade - Pac Man</genre>
+	</game>
+	<game name="3D Maze Mastertronic">
+		<description>3D Maze</description>
+		<cloneof></cloneof>
+		<manufacturer>Mastertronic</manufacturer>
+		<year>1984</year>
+		<genre>Arcade - Labyrinth/Maze</genre>
+	</game>
+	<game name="3dmaze">
+		<description>3D Maze</description>
+		<cloneof></cloneof>
+		<manufacturer>Galactic Software</manufacturer>
+		<year>1983</year>
+		<genre>Arcade - Labyrinth/Maze</genre>
+	</game>
+	<game name="Zorgons Kingdom">
+		<description>Zorgon's Kingdom</description>
+		<cloneof></cloneof>
+		<manufacturer>Romik</manufacturer>
+		<year>????</year>
+		<genre>Arcade - Platformer (Multi Screen)</genre>
+	</game>
+</menu>

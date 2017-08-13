@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+  <game name="10th Frame (Europe)" enabled="1" index="" image="">
+    <description>10th Frame</description>
+    <cloneof />
+    <crc />
+    <manufacturer>U.S. Gold</manufacturer>
+    <genre>Sports - Bowling</genre>
+    <year>1986</year>
+    <rating />
+  </game>
+  <game name="12 Lost Souls (PD) (Europe)" enabled="1" index="" image="">
+    <description>12 Lost Souls</description>
+    <cloneof />
+    <crc />
+    <manufacturer>PD</manufacturer>
+    <genre>Adventure - Text</genre>
+    <year>1987</year>
+    <rating />
+  </game>
+</menu>

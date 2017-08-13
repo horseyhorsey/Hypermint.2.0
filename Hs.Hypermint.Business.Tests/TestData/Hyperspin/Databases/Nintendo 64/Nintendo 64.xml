@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+  <header>
+    <listname>Nintendo 64</listname>
+    <lastlistupdate>17/03/2012</lastlistupdate>
+    <listversion></listversion>
+    <exporterversion>HyperSpin XML Bidouilleur 0.2</exporterversion>
+  </header>
+  <game name="007 - GoldenEye (USA)" index="" image="0">
+    <description>007 - GoldenEye</description>
+    <cloneof></cloneof>
+    <crc>8B70CB5B</crc>
+    <manufacturer>Rare Ltd.</manufacturer>
+    <year>1997</year>
+    <genre>Action/Shooter</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="007 - The World Is Not Enough (USA)" index="" image="">
+    <description>007 - The World Is Not Enough</description>
+    <cloneof></cloneof>
+    <crc>34F0EE5B</crc>
+    <manufacturer>Eurocom</manufacturer>
+    <year>2000</year>
+    <genre>Action/Shooter</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="1080 Snowboarding (Japan, USA) (En,Ja)" index="" image="1">
+    <description>1080 Snowboarding</description>
+    <cloneof></cloneof>
+    <crc>D1744951</crc>
+    <manufacturer>Nintendo</manufacturer>
+    <year>1998</year>
+    <genre>Sports</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="AeroFighters Assault (USA)" index="" image="a">
+    <description>AeroFighters Assault</description>
+    <cloneof></cloneof>
+    <crc>B08EF0B9</crc>
+    <manufacturer>Paradigm Entertainment</manufacturer>
+    <year>1997</year>
+    <genre>Simulation/Flight</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="AeroGauge (USA)" index="" image="">
+    <description>AeroGauge</description>
+    <cloneof></cloneof>
+    <crc>04038CB8</crc>
+    <manufacturer>Locomotive Games</manufacturer>
+    <year>1998</year>
+    <genre>Driving/Futuristic</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Aidyn Chronicles - The First Mage (USA)" index="" image="">
+    <description>Aidyn Chronicles - The First Mage</description>
+    <cloneof></cloneof>
+    <crc>8DA62304</crc>
+    <manufacturer>H20 Interactive</manufacturer>
+    <year>2001</year>
+    <genre>Role-Playing/General</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Air Boarder 64 (Europe)" index="" image="">
+    <description>Air Boarder 64</description>
+    <cloneof></cloneof>
+    <crc>92659837</crc>
+    <manufacturer>Human Entertainment</manufacturer>
+    <year>1998</year>
+    <genre>Sports/Futuristic</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="All Star Tennis &apos;99 (USA)" index="" image="">
+    <description>All Star Tennis &apos;99</description>
+    <cloneof></cloneof>
+    <crc>7326E6C9</crc>
+    <manufacturer>Smart Dog</manufacturer>
+    <year>1999</year>
+    <genre>Sports/Tennis</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="All-Star Baseball &apos;99 (USA)" index="" image="">
+    <description>All-Star Baseball &apos;99</description>
+    <cloneof></cloneof>
+    <crc>82B7E47D</crc>
+    <manufacturer>Iguana Entertainment</manufacturer>
+    <year>1998</year>
+    <genre>Baseball/Sports</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="All-Star Baseball 2000 (USA)" index="" image="">
+    <description>All-Star Baseball 2000</description>
+    <cloneof></cloneof>
+    <crc>15063EAC</crc>
+    <manufacturer>Iguana Entertainment</manufacturer>
+    <year>1999</year>
+    <genre>Baseball/Sports</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="All-Star Baseball 2001 (USA)" index="" image="">
+    <description>All-Star Baseball 2001</description>
+    <cloneof></cloneof>
+    <crc>3E8BE0E0</crc>
+    <manufacturer>High Voltage Software</manufacturer>
+    <year>2000</year>
+    <genre>Baseball/Sports</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Armorines - Project S.W.A.R.M. (USA)" index="" image="">
+    <description>Armorines - Project S.W.A.R.M.</description>
+    <cloneof></cloneof>
+    <crc>950985F6</crc>
+    <manufacturer>Acclaim</manufacturer>
+    <year>1999</year>
+    <genre>Action/Shooter</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Army Men - Air Combat (USA)" index="" image="">
+    <description>Army Men - Air Combat</description>
+    <cloneof></cloneof>
+    <crc>2355E4F3</crc>
+    <manufacturer>3D0</manufacturer>
+    <year>2000</year>
+    <genre>Action/General</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Army Men - Sarge&apos;s Heroes (USA)" index="" image="">
+    <description>Army Men - Sarge&apos;s Heroes</description>
+    <cloneof></cloneof>
+    <crc>97BF6DB2</crc>
+    <manufacturer>3D0</manufacturer>
+    <year>1999</year>
+    <genre>Action/Shooter</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Army Men - Sarge&apos;s Heroes 2 (USA)" index="" image="">
+    <description>Army Men - Sarge&apos;s Heroes 2</description>
+    <cloneof></cloneof>
+    <crc>3E9D1C51</crc>
+    <manufacturer>3D0</manufacturer>
+    <year>2000</year>
+    <genre>Action/Shooter</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Asteroids Hyper 64 (USA)" index="" image="">
+    <description>Asteroids Hyper 64</description>
+    <cloneof></cloneof>
+    <crc>FB982B44</crc>
+    <manufacturer>Syrox Developments</manufacturer>
+    <year>1999</year>
+    <genre>Action/Shooter</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Automobili Lamborghini (USA)" index="" image="">
+    <description>Automobili Lamborghini</description>
+    <cloneof></cloneof>
+    <crc>17932C62</crc>
+    <manufacturer>Titus Software</manufacturer>
+    <year>1997</year>
+    <genre>Driving</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+  <game name="Banjo-Kazooie (USA) (Rev A)" index="" image="b">
+    <description>Banjo-Kazooie</description>
+    <cloneof></cloneof>
+    <crc>90B38651</crc>
+    <manufacturer>Rare Ltd.</manufacturer>
+    <year>1998</year>
+    <genre>Action</genre>
+    <rating></rating>
+    <enabled></enabled>
+  </game>
+</menu>

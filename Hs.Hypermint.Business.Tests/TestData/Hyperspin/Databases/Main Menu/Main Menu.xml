@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>  
+  <game name="Amstrad CPC" enabled="1" />
+  <game name="Atari ST" enabled="1" />
+  <game name="Commodore Vic 20" enabled="0" />
+  <game name="MAME" enabled="1" />
+  <game name="Nintendo 64" enabled="1" />
+</menu>
