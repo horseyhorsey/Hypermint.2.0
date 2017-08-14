@@ -147,9 +147,6 @@
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
       <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
       <Name>Hs.Hypermint.Settings</Name>
@@ -200,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\HsMediaAuditView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -222,10 +223,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
+    <Resource Include="VisibiltyConvertDatagridColums.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="VisibiltyConvertDatagridColums.txt" />
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
