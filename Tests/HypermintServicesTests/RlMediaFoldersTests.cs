@@ -53,6 +53,7 @@ namespace HypermintServicesTests
         /// </summary>
         /// <param name="dir">The dir.</param>
         /// <returns></returns>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         public string[] GetAllFolders(string dir)
         {
             if (!Directory.Exists(dir)) throw new DirectoryNotFoundException();
@@ -147,11 +148,12 @@ namespace HypermintServicesTests
     {
         const string rlmediaFadefolder = @"I:\RocketLauncher\Media\Backgrounds\";
         const string rlmediafolder = @"I:\RocketLauncher\Media\";
+        const string hsFolder = @"I:\RocketLauncher\Media\";
 
         [TestMethod]
         public void InitializeRocketLaunchMediaScanner()
         {
-            var rlScanner = new RocketMediaFolderScanner("I:\\Hyperspin\\", "I:\\RocketLauncher\\Media\\");
+            var rlScanner = new RocketMediaFolderScanner("I:\\Hyperspin\\", rlmediafolder);
 
             Assert.IsNotNull(rlScanner);
         }
@@ -163,26 +165,26 @@ namespace HypermintServicesTests
 
             Assert.ThrowsException<DirectoryNotFoundException>(() =>
             {
-                rlScanner = new RocketMediaFolderScanner("I:\\Hyperspi\\", "I:\\RocketLauncher\\Media\\");
+                rlScanner = new RocketMediaFolderScanner("I:\\Hyperspi\\", rlmediafolder);
             });
         }
 
-        [TestMethod]
-        public void RocketLaunchFolderScan_ReturnsResults()
-        {
-            RocketMediaFolderScanner rlScanner;
-            rlScanner = new RocketMediaFolderScanner("I:\\RocketLauncher\\Media\\", "I:\\Hyperspin\\");
+        //[TestMethod]
+        //public void RocketLaunchFolderScan_ReturnsResults()
+        //{
+        //    RocketMediaFolderScanner rlScanner;
+        //    rlScanner = new RocketMediaFolderScanner(rlmediafolder, "I:\\Hyperspin\\");
 
-            var mediaFolder = Path.Combine(rlScanner.RocketLaunchMediaFolder, "Artwork", "Amstrad CPC");
-            var mediaFolders = rlScanner.GetAllFolders(mediaFolder);
+        //    var mediaFolder = Path.Combine(rlScanner.RocketLaunchMediaFolder, "Artwork", "Amstrad CPC");
+        //    var mediaFolders = rlScanner.GetAllFolders(mediaFolder);
 
-            IGameRepo gameRepo = rlScanner.LoadGamesFromHyperspinXml("Amstrad CPC", new GameRepo());
+        //    IGameRepo gameRepo = rlScanner.LoadGamesFromHyperspinXml("Amstrad CPC", new GameRepo());
 
-            RocketMediaFolderScanResult folderScan = rlScanner.MatchFoldersToGames(mediaFolders, gameRepo);
+        //    RocketMediaFolderScanResult folderScan = rlScanner.MatchFoldersToGames(mediaFolders, gameRepo);
 
-            Assert.IsTrue((folderScan.MatchedFolders.Count + folderScan.UnMatchedFolders.Count) > 0);
+        //    Assert.IsTrue((folderScan.MatchedFolders.Count + folderScan.UnMatchedFolders.Count) > 0);
 
-        }
+        //}
     }
 
 }

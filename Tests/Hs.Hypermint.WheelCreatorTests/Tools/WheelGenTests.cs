@@ -11,6 +11,8 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
     [TestClass]
     public class WheelGenTests
     {
+        string path = Path.Combine(Environment.CurrentDirectory, "Images");
+
         [TestMethod()]
         public void GenerateBackgroundColor()
         {
@@ -18,22 +20,28 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
 
             using (var bg = srvc.FilledBackground(MagickColors.Aqua, 400, 200))
             {
-                bg.Write(@"c:\users\admin\desktop\magickBG.png");
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                bg.Write($"{path}\\magickBG.png");
             }
         }
 
-        [Test()]
+        [TestMethod()]
         public void GeneratePlasmaBackground()
         {
             IBackgroundImageService srvc = new BackgroundImage();
 
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
             using (var bg = srvc.PlasmaBackground())
             {
-                bg.Write(@"c:\users\admin\desktop\magickPlasmaBg.png");
+                bg.Write($"{path}\\magickPlasmaBg.png");
             }
         }
 
-        [Test()]
+        [TestMethod()]
         public void GeneratePlasmaBackgroundFeathered()
         {
             IBackgroundImageService srvc = new BackgroundImage();
@@ -42,7 +50,7 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
             {
                 using (var feathered = srvc.FeatherImage(bg, MorphologyMethod.Erode, Kernel.Octagonal))
                 {
-                    feathered.Write(@"c:\users\admin\desktop\magickPlasmaBg.png");
+                    bg.Write($"{path}\\magickPlasmaBg2.png");
                 }
 
             }

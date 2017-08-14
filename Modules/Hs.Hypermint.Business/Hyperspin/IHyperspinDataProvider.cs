@@ -1,4 +1,4 @@
-﻿using Frontend.Helper.Model.Hyperspin;
+﻿using Horsesoft.Frontends.Helper.Model.Hyperspin;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
