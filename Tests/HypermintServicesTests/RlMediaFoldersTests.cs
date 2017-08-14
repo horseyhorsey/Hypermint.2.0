@@ -153,7 +153,7 @@ namespace HypermintServicesTests
         [TestMethod]
         public void InitializeRocketLaunchMediaScanner()
         {
-            var rlScanner = new RocketMediaFolderScanner("I:\\Hyperspin\\", rlmediafolder);
+            var rlScanner = new RocketMediaFolderScanner(Environment.CurrentDirectory, Environment.CurrentDirectory);
 
             Assert.IsNotNull(rlScanner);
         }

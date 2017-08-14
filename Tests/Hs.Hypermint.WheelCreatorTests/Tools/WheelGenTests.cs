@@ -122,14 +122,11 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
         {
             using (var image = new MagickImage(MagickColors.LightBlue, 400, 150))
             {
-                image.Settings.Font = @"I:\RocketLauncher\Media\Fonts\amstrad_cpc464.ttf";
+                //image.Settings.Font = @"I:\RocketLauncher\Media\Fonts\amstrad_cpc464.ttf";
                 image.Settings.Page = new MagickGeometry(400, 150);
                 image.Settings.FillPattern = new MagickImage("pattern:checkerboard");
-
-                image.Annotate("Anthony\nneh", Gravity.Center);
-
-              
-                image.Write(@"c:\users\funktub\desktop\font_tile.png");
+                image.Annotate("Anthony\nneh", Gravity.Center);              
+                image.Write($"{path}\\font_tileoverlay.png");
             }
 
         }
@@ -139,14 +136,14 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
         {
             using (MagickImage img = new MagickImage())
             {
-                img.Settings.Font = @"I:\RocketLauncher\Media\Fonts\amstrad_cpc464.ttf";
+                //img.Settings.Font = @"I:\RocketLauncher\Media\Fonts\amstrad_cpc464.ttf";
                 img.Settings.FontStyle = FontStyleType.Italic;
                 img.Settings.FontWeight = FontWeight.Bold;
                 img.Settings.FillColor = new MagickColor("purple");
                 img.Settings.TextGravity = Gravity.Center;
                 img.Read("label:Magick.NET \nis chined", 400, 175);
                 img.Trim();
-                img.Write(@"c:\users\funktub\desktop\font_tile.png");
+                img.Write($"{path}\\font_tile.png");
             }
         }
 
