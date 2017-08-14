@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.WheelCreator",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.FilesViewer", "Modules\Hs.Hypermint.FilesViewer\Hs.Hypermint.FilesViewer.csproj", "{8A62E2D1-32E9-4FEE-9781-D397B73C80C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Settings", "DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj", "{D814D158-E6AE-4369-B1B0-185A6E08339D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Settings", "DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj", "{D814D158-E6AE-4369-B1B0-185A6E08339D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.MediaPane", "Modules\Hs.Hypermint.MediaPane\Hs.Hypermint.MediaPane.csproj", "{AB8B448C-DD74-4D60-A041-3E5D03A32180}"
 EndProject

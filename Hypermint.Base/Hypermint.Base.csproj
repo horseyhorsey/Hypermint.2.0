@@ -140,7 +140,7 @@
     <Compile Include="Services\SelectedService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataModels\Hs.Hypermint.Setting\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
+    <ProjectReference Include="..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
       <Project>{d814d158-e6ae-4369-b1b0-185a6e08339d}</Project>
       <Name>Hs.Hypermint.Settings</Name>
     </ProjectReference>
