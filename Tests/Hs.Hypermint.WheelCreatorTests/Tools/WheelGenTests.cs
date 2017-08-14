@@ -56,66 +56,67 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
             }
         }
 
-        [Test()]
-        public void TiledText()
-        {
-            using (var bg = new MagickImage("radial-gradient:green-yellow"))
-            {
-                using (var neh = WheelGen.CreateText(bg))
-                {
-                    neh.Write(@"c:\users\admin\desktop\magickPlasmaBg.png");
-                }
-            }
-        }
+        //[Test()]
+        //public void TiledText()
+        //{
+        //    using (var bg = new MagickImage("radial-gradient:green-yellow"))
+        //    {
+        //        using (var neh = WheelGen.CreateText(bg))
+        //        {
+        //            neh.Write(@"c:\users\admin\desktop\magickPlasmaBg.png");
+        //        }
+        //    }
+        //}
 
-        [Test()]
-        public void GenerateLogoTest()
-        {
-            //TextOverlay();
+        //[Test()]
+        //public void GenerateLogoTest()
+        //{
+        //    //TextOverlay();
 
-            //Label();
+        //    //Label();
 
-            ShrinkFit();
+        //    ShrinkFit();
 
-            //ImageMagickAnnotate();
-        }
+        //    //ImageMagickAnnotate();
+        //}
 
-        private void ImageMagickAnnotate()
-        {
-            using (MagickImage image = new MagickImage(MagickColors.Transparent, 400, 180))
-            {
-                image.Settings.Font = "Candice";
-                image.Settings.FontPointsize = 100;
-                image.Settings.FillPattern = new MagickImage("pattern:checkerboard");
-                image.Annotate("Anthony\nis\ncheap", new MagickGeometry(800, 500));
-                image.Write(@"c:\users\admin\desktop\font_tile.png");
-            }
-        }
+        //private void ImageMagickAnnotate()
+        //{
+        //    using (MagickImage image = new MagickImage(MagickColors.Transparent, 400, 180))
+        //    {
+        //        image.Settings.Font = "Candice";
+        //        image.Settings.FontPointsize = 100;
+        //        image.Settings.FillPattern = new MagickImage("pattern:checkerboard");
+        //        image.Annotate("Anthony\nis\ncheap", new MagickGeometry(800, 500));
+        //        image.Write(@"c:\users\admin\desktop\font_tile.png");
+        //    }
+        //}
 
-        [Test()]
-        public void GetImageFromPdf()
-        {
-            MagickNET.SetGhostscriptDirectory(@"C:\Program Files (x86)\gs\gs9.19\bin");
+        //[Test()]
+        //public void GetImageFromPdf()
+        //{
+        //    MagickNET.SetGhostscriptDirectory(@"C:\Program Files (x86)\gs\gs9.19\bin");
 
-            using (MagickImageCollection collection = new MagickImageCollection())
-            {
-                MagickReadSettings settings = new MagickReadSettings();
-                settings.FrameIndex = 0; // First page
-                settings.FrameCount = 2; // Number of pages
-                                         // Read only the first page of the pdf file
+        //    using (MagickImageCollection collection = new MagickImageCollection())
+        //    {
+        //        MagickReadSettings settings = new MagickReadSettings();
+        //        settings.FrameIndex = 0; // First page
+        //        settings.FrameCount = 2; // Number of pages
+        //                                 // Read only the first page of the pdf file
 
-                collection.Read(@"I:\RocketLauncher\Media\Manuals\Amstrad CPC\1st Division Manager (Europe)\Manual.pdf", settings);
+        //        collection.Read(@"I:\RocketLauncher\Media\Manuals\Amstrad CPC\1st Division Manager (Europe)\Manual.pdf", settings);
 
-                Console.WriteLine("PDF page count: {0}", collection.Count);
+        //        Console.WriteLine("PDF page count: {0}", collection.Count);
 
-                var appendedImage = collection.AppendHorizontally();
+        //        var appendedImage = collection.AppendHorizontally();
 
-                //Crop pages, for SuperNES
-                //appendedImage.Crop()
+        //        //Crop pages, for SuperNES
+        //        //appendedImage.Crop()
 
-                appendedImage.Write(@"c:\users\admin\desktop\mergedPdf.png");
-            }
-        }
+        //        appendedImage.Write(@"c:\users\admin\desktop\mergedPdf.png");
+        //    }
+        //}
+
         [TestMethod()]
         public void TextOverlay()
         {
