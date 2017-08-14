@@ -1,4 +1,4 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Prism.Mvvm;
 
 namespace Hs.Hypermint.Settings
 {
@@ -62,11 +62,9 @@ namespace Hs.Hypermint.Settings
         /// </summary>
         public string Author
         {
-            get { return author; }            
+            get { return author; }
             set { SetProperty(ref author, value); }
         }
-
-
 
     }
 }
