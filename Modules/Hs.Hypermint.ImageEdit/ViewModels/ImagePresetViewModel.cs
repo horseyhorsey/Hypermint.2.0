@@ -63,6 +63,8 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         #region Public Methods
         public string[] GetImagePresets()
         {
+            if (!Directory.Exists(presetPath)) Directory.CreateDirectory(presetPath);
+
             var imagePresets = Directory.GetFiles(presetPath, "*.xml");
 
             if (imagePresets == null) return new string[0];
