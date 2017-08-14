@@ -14,10 +14,8 @@ namespace Hypermint.Base.Services
     public class AviSynthScriptBuilder : ScriptBuilder
     {
         protected internal override string BuildScript(ScriptOptions options)
-        {
-            var i = 0;
+        {            
             var videoFilesLength = options.VideoFiles.Length;
-
             options.vidname = new string[videoFilesLength];
             options.audioname = new string[videoFilesLength];
             options.audioDub = new string[videoFilesLength];
@@ -29,7 +27,8 @@ namespace Hypermint.Base.Services
                 options.wheelNameAlpha = new string[videoFilesLength];
             }
 
-            for (i = 0; i < videoFilesLength; i++)
+            var i = 0;
+            foreach (var video in options.VideoFiles)
             {
                 // Image overlay video
                 if (!options.Overlay)
@@ -143,6 +142,7 @@ namespace Hypermint.Base.Services
 
                 File.WriteAllLines(options.ExportScriptPath + system + "\\" + scriptFile, lineArray);
 
+                i++;
                 return scriptFile.Replace(".avs", "");
             }
 
