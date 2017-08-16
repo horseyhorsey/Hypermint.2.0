@@ -77,7 +77,9 @@ namespace Hypermint.Shell
             Container.RegisterType<IApplicationCommands, ApplicationCommandsProxy>();
             Container.RegisterType<IDialogCoordinator, DialogCoordinator>();
 
-            Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
+#warning reenable this with new
+            //Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
+
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFileFolderChecker>(Container.Resolve<FileFolderChecker>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
@@ -88,8 +90,9 @@ namespace Hypermint.Shell
 
             Container.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());
 
-            Container.RegisterType<IAuditerRl, AuditerRlRepo>(
-                new ContainerControlledLifetimeManager());
+#warning this needs replacing with the helper lib
+            //Container.RegisterType<IAuditerRl, AuditerRlRepo>(
+            //    new ContainerControlledLifetimeManager());
 
             Container.RegisterType<IStatsRepo, StatRepo>(
                 new ContainerControlledLifetimeManager());

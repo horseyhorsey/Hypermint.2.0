@@ -1,6 +1,5 @@
 ﻿using Frontends.Models.Hyperspin;
 using Hs.Hypermint.Audits.Views;
-using Hs.RocketLauncher.AuditBase;
 using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Events;
@@ -146,7 +145,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             set { SetProperty(ref auditListDefaults, value); }
         }
 
-        public RocketLaunchAudit SelectedGame { get; set; }
+        public Game SelectedGame { get; set; }
         #endregion
 
         #region Commands

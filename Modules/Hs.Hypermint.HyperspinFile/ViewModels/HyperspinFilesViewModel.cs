@@ -27,13 +27,17 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
     {
         #region Constructors
         public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings,
-            IAuditer auditRepo, IRegionManager regionManager,
+             IRegionManager regionManager,
             IFolderExplore folderExplore, ITrashMaster trashMaster,
             ISelectedService selectedService, IImageEditService imageEdit)
         {
             _eventAggregator = ea;
             _settingsRepo = settings;
-            _auditRepo = auditRepo;
+
+#warning 69 need to reenable
+            //IAuditer auditRepo,
+            //_auditRepo = auditRepo;
+
             _selectedService = selectedService;
             _imageEdit = imageEdit;
             _regionManager = regionManager;

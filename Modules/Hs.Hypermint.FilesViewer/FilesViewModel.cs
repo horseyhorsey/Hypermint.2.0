@@ -24,7 +24,7 @@ namespace Hs.Hypermint.FilesViewer
     {
         #region Constructors
         public FilesViewModel(IEventAggregator eventAggregator,
-            IAuditerRl auditRl, IDialogCoordinator dialogService,
+            IDialogCoordinator dialogService,
             ISelectedService selectedSrv,
             ISettingsRepo settings,
             IFolderExplore folderExplore,
@@ -32,7 +32,11 @@ namespace Hs.Hypermint.FilesViewer
             ITrashMaster trashMaster)
         {
             _eventAggregator = eventAggregator;
-            _rlAuditer = auditRl;
+
+#warning 69 Rl auditer
+            //IAuditerRl auditRl
+            //_rlAuditer = auditRl;
+
             _selectedSrv = selectedSrv;
             _settingsRepo = settings;
             _folderService = folderExplore;

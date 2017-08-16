@@ -1,4 +1,4 @@
-﻿using Hs.RocketLauncher.Statistics;
+﻿using Frontends.Models.RocketLauncher.Stats;
 using System.Collections.Generic;
 
 namespace Hypermint.Base.Interfaces
@@ -7,7 +7,7 @@ namespace Hypermint.Base.Interfaces
     {
         Stats GetStatsForSystem(string rlStatsIni);
 
-        Stat GetSingleGameStats(string statsPath, string systemName, string romName);
+        GameStat GetSingleGameStats(string statsPath, string systemName, string romName);
 
         Stats GetGlobalStats(string globalStatsIni);
 

@@ -1,20 +1,19 @@
-﻿using Hs.RocketLauncher.AuditBase;
+﻿using Frontends.Models.Hyperspin;
+using Frontends.Models.RocketLauncher;
 using Hypermint.Base.Interfaces;
-using Hypermint.Base.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hs.Hypermint.Services
 {
     public class AuditerRlRepo : IAuditerRl
     {
-        public RocketLauncherAudits RlAudits { get; set; }
+        public IEnumerable<Game> RlAudits { get; set; }
 
-        public RocketLauncherAudits RlAuditsDefault { get; set; }
+        public Audits RlAuditsDefault { get; set; }
 
         private IFileFolderChecker _fileManagement;
 
@@ -92,14 +91,12 @@ namespace Hs.Hypermint.Services
             for (int i = 0; i < RlAudits.Count; i++)
             {
 
-                RlAudits[i].HaveBezels =
-                    CheckForMedia(
-                        rlMediaPath + "\\Bezels\\" + systemName + "\\" + RlAudits[i].RomName + "\\",
-                        "Bezel*.*");
+                RlAudits.ElementAt(i).RlAudit.HaveBezels =
+                    CheckForMedia( rlMediaPath + "\\Bezels\\" + systemName + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\", "Bezel*.*");
 
-                RlAudits[i].HaveBezelBg =
+                RlAudits.ElementAt(i).RlAudit.HaveBezelBg =
                     CheckForMedia(
-                        rlMediaPath + "\\Bezels\\" + systemName + "\\" + RlAudits[i].RomName + "\\",
+                        rlMediaPath + "\\Bezels\\" + systemName + "\\" + RlAudits.ElementAt(i).RlAudit.Romname + "\\",
                         "Background*.*");
             }
         }
@@ -108,9 +105,9 @@ namespace Hs.Hypermint.Services
             for (int i = 0; i < RlAudits.Count; i++)
             {
 
-                RlAudits[i].HaveCards =
+                RlAudits.ElementAt(i).RlAudit.HaveCards =
                     CheckForMedia(
-                        rlMediaPath + "\\Bezels\\" + systemName + "\\" + RlAudits[i].RomName + "\\",
+                        rlMediaPath + "\\Bezels\\" + systemName + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\",
                         "Instruction Card *.*");
             }
         }
@@ -129,7 +126,7 @@ namespace Hs.Hypermint.Services
                     var dirName = Path.GetFileName (item);
 
                     var s = RlAudits.Where(x => x.RomName == dirName).FirstOrDefault();
-                    var index = RlAudits.IndexOf(s);
+                    var index = RlAudits.IndexOf(s.RlAudit);
                     RlAudits[index].HaveController = true;
                 }
                 catch (Exception)
@@ -222,9 +219,9 @@ namespace Hs.Hypermint.Services
         {
             for (int i = 1; i < RlAudits.Count; i++)
             {
-                RlAudits[i].HaveManual =
+                RlAudits.ElementAt(i).RlAudit.HaveManual =
                     CheckForMedia(
-                        rlMediaPath + "\\Manuals\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
+                        rlMediaPath + "\\Manuals\\" + _selectedSystem + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\",
                         "*.*");
             }
         }
@@ -353,9 +350,9 @@ namespace Hs.Hypermint.Services
         {
             for (int i = 1; i < RlAudits.Count; i++)
             {
-                RlAudits[i].HaveScreenshots =
+                RlAudits.ElementAt(i).RlAudit.HaveScreenshots =
                     CheckForMedia(
-                        rlMediaPath + "\\Artwork\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\Screenshots\\",
+                        rlMediaPath + "\\Artwork\\" + _selectedSystem + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\Screenshots\\",
                         "*.*");
             }
         }
@@ -364,25 +361,25 @@ namespace Hs.Hypermint.Services
         {
             for (int i = 0; i < RlAudits.Count; i++)
             {
-                RlAudits[i].HaveFadeLayer1 =
+                RlAudits.ElementAt(i).RlAudit.HaveFadeLayer1 =
                     CheckForMedia(
-                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
+                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\",
                         "Layer 1*.*");
-                RlAudits[i].HaveFadeLayer2 =
+                RlAudits.ElementAt(i).RlAudit.HaveFadeLayer2 =
                     CheckForMedia(
-                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
+                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\",
                         "Layer 2*.*");
-                RlAudits[i].HaveFadeLayer3 =
+                RlAudits.ElementAt(i).RlAudit.HaveFadeLayer3 =
                     CheckForMedia(
-                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
+                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\",
                         "Layer 3*.*");
-                RlAudits[i].HaveExtraLayer1 =
+                RlAudits.ElementAt(i).RlAudit.HaveExtraLayer1 =
                                     CheckForMedia(
-                                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
+                                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\",
                                         "Extra Layer 1.*");
-                RlAudits[i].HaveExtraLayer1 =
+                RlAudits.ElementAt(i).RlAudit.HaveExtraLayer1 =
                     CheckForMedia(
-                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits[i].RomName + "\\",
+                        rlMediaPath + "\\Fade\\" + _selectedSystem + "\\" + RlAudits.ElementAt(i).RlAudit.RomName + "\\",
                         "Extra Layer 1*.*");
             }
         }

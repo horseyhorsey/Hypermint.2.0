@@ -1,12 +1,12 @@
-﻿using Hs.RocketLauncher.AuditBase;
+﻿using Frontends.Models.RocketLauncher;
 
 namespace Hypermint.Base.Interfaces
 {
     public interface IAuditerRl
     {
         #region Properties
-        RocketLauncherAudits RlAuditsDefault { get; set; }
-        RocketLauncherAudits RlAudits { get; set; } 
+        Audits RlAuditsDefault { get; set; }
+        Audits RlAudits { get; set; } 
         #endregion
 
         #region Methods

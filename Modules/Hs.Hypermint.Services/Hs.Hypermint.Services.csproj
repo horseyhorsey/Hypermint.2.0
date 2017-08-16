@@ -85,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auditer.cs" />
-    <Compile Include="AuditerRlRepo.cs" />
     <Compile Include="FileFolderChecker.cs" />
     <Compile Include="FileFolderService.cs" />
     <Compile Include="Helpers\IniFileReader.cs" />
@@ -137,14 +136,6 @@
     <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
       <Project>{d814d158-e6ae-4369-b1b0-185a6e08339d}</Project>
       <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DataModels\Hs.RocketLauncher.AuditBase\Hs.RocketLauncher.AuditBase.csproj">
-      <Project>{58b8c436-93de-4025-8dbb-430e86f6296e}</Project>
-      <Name>Hs.RocketLauncher.AuditBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DataModels\Hs.RocketLauncher.Statistics\Hs.RocketLauncher.Statistics.csproj">
-      <Project>{370bbd46-b3b4-4f90-addd-291225a24bf0}</Project>
-      <Name>Hs.RocketLauncher.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>

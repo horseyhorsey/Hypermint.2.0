@@ -21,15 +21,16 @@ namespace Hs.Hypermint.Audits.ViewModels
 {
     public class HsMediaAuditViewModel : HyperMintModelBase
     {
+        //IAuditer auditer
         #region ctors
         public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
-            IEventAggregator eventAggregator, IAuditer auditer,
+            IEventAggregator eventAggregator,
             IDialogCoordinator dialogService,
             ISelectedService selectedService,IGameLaunch gameLaunch,
             ISearchYoutube youtube):base(eventAggregator,selectedService,gameLaunch,settings)
         {                        
-            _auditer = auditer;
-            _auditer.AuditsGameList = new AuditsGame();
+            //_auditer = auditer;
+            //_auditer.AuditsGameList = new AuditsGame();
 
             _gameRepo = gameRepo;            
             _youtube = youtube;
@@ -363,23 +364,24 @@ namespace Hs.Hypermint.Audits.ViewModels
 
             if (_gameRepo.GamesList != null)
             {
-                _auditer.AuditsGameList.Clear();
+#warning 69 Need to reenable
+                //_auditer.AuditsGameList.Clear();
 
-                if (IsMainMenu)
-                {
-                    _auditer.AuditsGameList.Add(new AuditGame() { RomName = "Main Menu" });
-                }
+                //if (IsMainMenu)
+                //{
+                //    _auditer.AuditsGameList.Add(new AuditGame() { RomName = "Main Menu" });
+                //}
 
-                foreach (var item in _gameRepo.GamesList)
-                {
-                    _auditer.AuditsGameList.Add(new AuditGame
-                    {
-                        RomName = item.RomName,
-                        Description = item.Description
-                    });
-                }
+                //foreach (var item in _gameRepo.GamesList)
+                //{
+                //    _auditer.AuditsGameList.Add(new AuditGame
+                //    {
+                //        RomName = item.RomName,
+                //        Description = item.Description
+                //    });
+                //}
 
-                AuditList = new ListCollectionView(_auditer.AuditsGameList);
+                //AuditList = new ListCollectionView(_auditer.AuditsGameList);
 
             }
         }

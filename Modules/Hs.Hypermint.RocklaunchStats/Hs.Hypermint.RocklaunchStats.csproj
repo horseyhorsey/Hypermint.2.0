@@ -40,8 +40,8 @@
     <Reference Include="Frontends.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Frontends.Models.1.0.1\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
-    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.17\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
+    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.21, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.21\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -122,10 +122,6 @@
     <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
       <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
       <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DataModels\Hs.RocketLauncher.Statistics\Hs.RocketLauncher.Statistics.csproj">
-      <Project>{370BBD46-B3B4-4F90-ADDD-291225A24BF0}</Project>
-      <Name>Hs.RocketLauncher.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5F4FDB5E-3624-4C1A-9B9E-8F27F185EADD}</Project>

@@ -1,9 +1,9 @@
 ﻿using Hypermint.Base.Interfaces;
 using System;
-using Hs.RocketLauncher.Statistics;
 using System.IO;
 using Hs.Hypermint.Services.Helpers;
 using System.Collections.Generic;
+using Frontends.Models.RocketLauncher.Stats;
 
 namespace Hs.Hypermint.Services
 {
@@ -21,7 +21,7 @@ namespace Hs.Hypermint.Services
 
     public class StatRepo : IStatsRepo
     {
-        public Stat GetSingleGameStats(string statsPath, string systemName, string romName)
+        public GameStat GetSingleGameStats(string statsPath, string systemName, string romName)
         {
             var iniPath = statsPath + "\\" + systemName + ".ini";
 
@@ -32,9 +32,9 @@ namespace Hs.Hypermint.Services
 
             var i = ini.GetSection(romName);
             if (i == null)
-                return new Stat();
+                return new GameStat();
 
-            var gameStat = new Stat();
+            var gameStat = new GameStat();
             gameStat.TimesPlayed = Convert.ToInt32(ini.GetKeyValue(romName, "Number_of_Times_Played"));
             gameStat.LastTimePlayed = Convert.ToDateTime(ini.GetKeyValue(romName, "Last_Time_Played"));
 
@@ -76,10 +76,10 @@ namespace Hs.Hypermint.Services
                                 }
                                 else
                                 {
-                                    var gameStat = new Stat();
+                                    var gameStat = new GameStat();
                                     gameStat.Rom = section;
 
-                                    gameStat._systemName = sysStatIniName;
+                                    gameStat.SystemName = sysStatIniName;
                                     try
                                     {
                                         gameStat.TimesPlayed = Convert.ToInt32(ini.GetKeyValue(section, "Number_of_Times_Played"));
@@ -123,7 +123,7 @@ namespace Hs.Hypermint.Services
 
                                     }
 
-                                    statList.Add(new Stat
+                                    statList.Add(new GameStat
                                     {
                                         AvgTimePlayed = gameStat.AvgTimePlayed,
                                         LastTimePlayed = gameStat.LastTimePlayed,
@@ -131,7 +131,7 @@ namespace Hs.Hypermint.Services
                                         Rom = gameStat.Rom,
                                         TotalTimePlayed = gameStat.TotalTimePlayed,
                                         TotalOverallTime = gameStat.TotalOverallTime,
-                                        _systemName = gameStat._systemName
+                                        SystemName = gameStat.SystemName
                                     });
                                 }
                             }
@@ -161,7 +161,7 @@ namespace Hs.Hypermint.Services
                         if (genStats[2] != section)
                             if (genStats[3] != section)
                             {
-                                var gameStat = new Stat();
+                                var gameStat = new GameStat();
                                 gameStat.Rom = section;
                                 
                                 try
@@ -178,7 +178,7 @@ namespace Hs.Hypermint.Services
                                     gameStat.TotalTimePlayed = totalTime;
                                     gameStat.TotalOverallTime = gameStat.TotalOverallTime + gameStat.TotalTimePlayed;
 
-                                    statList.Add(new Stat
+                                    statList.Add(new GameStat
                                     {
                                         AvgTimePlayed = gameStat.AvgTimePlayed,
                                         LastTimePlayed = gameStat.LastTimePlayed,
@@ -186,7 +186,7 @@ namespace Hs.Hypermint.Services
                                         Rom = gameStat.Rom,
                                         TotalTimePlayed = gameStat.TotalTimePlayed,
                                         TotalOverallTime = gameStat.TotalOverallTime,
-                                        _systemName = gameStat._systemName
+                                        SystemName = gameStat.SystemName
                                     });
 
                                 }
@@ -235,7 +235,7 @@ namespace Hs.Hypermint.Services
 
                         foreach (var key in keys)
                         {
-                            stats[sectionName].Add(new Stat() { GlobalStatKey = key});
+                            stats[sectionName].Add(new GameStat() { GlobalStatKey = key});
                         }
                         break;
                     default:

@@ -167,7 +167,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         ISelectedService _selectedService;
         IDialogCoordinator _dialogService;
         CustomDialog customDialog;
-        private IFileFolderService _fileFolderService;
+        //private IFileFolderService _fileFolderService;
         #endregion
 
         #region Commands

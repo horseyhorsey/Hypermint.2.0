@@ -118,7 +118,6 @@
     </Compile>
     <Compile Include="ViewModels\HsMediaAuditViewModel.cs" />
     <Compile Include="ViewModels\RlAuditOptionViewModel.cs" />
-    <Compile Include="ViewModels\RlMediaAuditViewModel.cs" />
     <Compile Include="ViewModels\RlScanMediaFolderViewModel.cs" />
     <Compile Include="ViewModels\YoutubeViewModel.cs" />
     <Compile Include="Views\HsMediaAuditView.xaml.cs">
@@ -152,10 +151,6 @@
     <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
       <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
       <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DataModels\Hs.RocketLauncher.AuditBase\Hs.RocketLauncher.AuditBase.csproj">
-      <Project>{58B8C436-93DE-4025-8DBB-430E86F6296E}</Project>
-      <Name>Hs.RocketLauncher.AuditBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
