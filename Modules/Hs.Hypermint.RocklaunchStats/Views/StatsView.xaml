@@ -23,7 +23,7 @@
                 >
                             <charts:StackedBarChart.Series>
                                 <charts:ChartSeries SeriesTitle="Top ten: played"
-                                        ItemsSource="{Binding TopTen}"
+                                        ItemsSource="{Binding GlobalStats.TopTenTimePlayed}"
                                         DisplayMember="Rom"                                            
                                         ValueMember="TimesPlayed">
                                 </charts:ChartSeries>
@@ -37,7 +37,7 @@
                 >
                             <charts:StackedBarChart.Series>
                                 <charts:ChartSeries SeriesTitle="Top ten: Time played"
-                                        ItemsSource="{Binding TopTentimePlayed}"
+                                        ItemsSource="{Binding GlobalStats.TopTenTimesPlayed}"
                                         DisplayMember="Rom"                                            
                                         ValueMember="TotalTimePlayed">
                                 </charts:ChartSeries>
@@ -61,6 +61,9 @@
                                                 />
                             <DataGridTextColumn Header="Total" IsReadOnly="True" 
                                                 Binding="{Binding TotalTimePlayed}" 
+                                                />
+                            <DataGridTextColumn Header="Total" IsReadOnly="True" 
+                                                Binding="{Binding AverageTimePlayed}" 
                                                 />
                         </DataGrid.Columns>
                     </DataGrid>

@@ -58,6 +58,9 @@
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
     </Reference>
+    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Horsesoft.Frontends.Helper.1.0.14\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -206,6 +209,10 @@
     <ProjectReference Include="..\Modules\Hs.Hypermint.Audits\Hs.Hypermint.Audits.csproj">
       <Project>{4df6b19a-6129-46f7-8020-9f24e5d2584b}</Project>
       <Name>Hs.Hypermint.Audits</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.Business\Hs.Hypermint.Business.csproj">
+      <Project>{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}</Project>
+      <Name>Hs.Hypermint.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.DatabaseDetails\Hs.Hypermint.DatabaseDetails.csproj">
       <Project>{0f4321e7-fa9a-4528-b7ca-8d0edec79bc3}</Project>

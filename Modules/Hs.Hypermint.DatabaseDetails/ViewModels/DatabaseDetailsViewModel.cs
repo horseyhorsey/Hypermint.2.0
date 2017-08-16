@@ -17,6 +17,7 @@ using Hypermint.Base.Models;
 using MahApps.Metro.Controls.Dialogs;
 using Hypermint.Base.Events;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -61,42 +62,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             SelectionChanged = new DelegateCommand<IList>(
                 items =>
                 {
-                    if (items == null)
-                    {
-                        SelectedItemsCount = 0;
-                        _selectedService.SelectedGames.Clear();
-                        return;
-                    }
-                    else
-                    {
-                        SelectedItemsCount = items.Count;
-                    }
-
-                    try
-                    {
-                        _selectedService.SelectedGames.Clear();
-
-                        foreach (var item in items)
-                        {
-                            var game = item as Game;
-                            if (game.RomName != null)
-                                _selectedService.SelectedGames.Add(item as Game);
-                        }
-
-                        if (SelectedItemsCount > 1)
-                            DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
-                        else if (SelectedItemsCount == 1)
-                        {
-                            _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
-                        }
-                        else
-                            DatabaseHeaderInfo = "";
-                    }
-                    catch (Exception)
-                    {
-
-
-                    }
+                    OnMultipleItemsSelectionChanged(items);
 
                 });
 
@@ -144,11 +110,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #endregion
 
         #region Commands        
-        public DelegateCommand AuditScanStart { get; private set; }
-        public DelegateCommand<IList> SelectionChanged { get; set; }
-        public DelegateCommand<string> EnableDbItemsCommand { get; set; }        
-        public DelegateCommand<string> EnableFaveItemsCommand { get; set; }        
-        public DelegateCommand ScanRomsCommand { get; private set; } 
+        public ICommand AuditScanStart { get; private set; }
+        public ICommand SelectionChanged { get; set; }
+        public ICommand EnableDbItemsCommand { get; set; }        
+        public ICommand EnableFaveItemsCommand { get; set; }        
+        public ICommand ScanRomsCommand { get; private set; } 
 
         #endregion                
 
@@ -237,16 +203,24 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 await Task.Run(() =>
                 {
-                    var selectedSystemName = _selectedService.CurrentSystem;
-
-                    //_gameRepo.GamesList
-                    var favesList = _favouriteService.GetFavoritesForSystem
-                        (selectedSystemName, _settingsRepo.HypermintSettings.HsPath);
-
-                    foreach (var item in _gameRepo.GamesList)
+                    try
                     {
-                        if (favesList.Contains(item.RomName))
-                            item.IsFavorite = true;
+                        var selectedSystemName = _selectedService.CurrentSystem;
+
+                        //_gameRepo.GamesList
+                        var favesList = _favouriteService.GetFavoritesForSystem
+                            (selectedSystemName, _settingsRepo.HypermintSettings.HsPath);
+
+                        foreach (var item in _gameRepo.GamesList)
+                        {
+                            if (favesList.Contains(item.RomName))
+                                item.IsFavorite = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                        throw;
                     }
                 });
                 
@@ -462,6 +436,50 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         }
                     };
                 }
+            }
+        }
+
+        /// <summary>
+        /// Called when items are changed in the view
+        /// </summary>
+        /// <param name="items">The items.</param>
+        private void OnMultipleItemsSelectionChanged(IList items)
+        {
+            if (items == null)
+            {
+                SelectedItemsCount = 0;
+                _selectedService.SelectedGames.Clear();
+                return;
+            }
+            else
+            {
+                SelectedItemsCount = items.Count;
+            }
+
+            try
+            {
+                _selectedService.SelectedGames.Clear();
+
+                foreach (var item in items)
+                {
+                    var game = item as Game;
+                    if (game.RomName != null)
+                        _selectedService.SelectedGames.Add(item as Game);
+                }
+
+                if (SelectedItemsCount > 1)
+                    DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
+                else if (SelectedItemsCount == 1)
+                {
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
+                }
+                else
+                    DatabaseHeaderInfo = "";
+            }
+            catch (Exception)
+            {
+
+
             }
         }
 

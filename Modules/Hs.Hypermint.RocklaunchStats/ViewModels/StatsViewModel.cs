@@ -1,25 +1,42 @@
-﻿using Hs.RocketLauncher.Statistics;
+﻿using Horsesoft.Frontends.Helper.Hyperspin;
+using Horsesoft.Frontends.Helper.Model.Hyperspin;
+using Horsesoft.Frontends.Helper.Model.RocketLauncher.Stats;
+using Hs.Hypermint.Business.RocketLauncher;
+using Hs.RocketLauncher.Statistics;
 using Hypermint.Base.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
-using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.RocklaunchStats.ViewModels
 {
     public class StatsViewModel : ViewModelBase
     {
+        #region Fields
         private IEventAggregator _eventAggregator;
         private ISettingsRepo _settingsRepo;
-        private IStatsRepo _statsRepo;
+        private IRocketLaunchStatProvider _statsRepo;
+        #endregion
 
+        #region Constructor
+        public StatsViewModel(IRocketLaunchStatProvider statsRepo, IEventAggregator eventAggregator, ISettingsRepo settingsRepo)
+        {
+            _statsRepo = statsRepo;
+            _eventAggregator = eventAggregator;
+            _settingsRepo = settingsRepo;
+
+            //Updates the stats when system changed.
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(async (x) => await UpdateStatsOnSystemChanged(x));
+        } 
+        #endregion
+
+        #region Properties
         private ICollectionView stats;
         public ICollectionView Stats
         {
@@ -27,82 +44,49 @@ namespace Hs.Hypermint.RocklaunchStats.ViewModels
             set { SetProperty(ref stats, value); }
         }
 
-        private Dictionary<string, RocketLauncher.Statistics.Stats> globalStats;
-        public Dictionary<string, RocketLauncher.Statistics.Stats> GlobalStats
+        private GlobalStats _globalStats;
+        public GlobalStats GlobalStats
         {
-            get { return globalStats; }
-            set { SetProperty(ref globalStats, value); }
+            get { return _globalStats; }
+            set { SetProperty(ref _globalStats, value); }
         }
 
-        private List<RocketLauncher.Statistics.Stat> topTen;
-        public List<RocketLauncher.Statistics.Stat> TopTen
+        #endregion
+
+        /// <summary>
+        /// Updates the stats on system changed.
+        /// </summary>
+        /// <param name="systemName">Name of the system.</param>
+        public async Task UpdateStatsOnSystemChanged(string systemName)
         {
-            get { return topTen; }
-            set { SetProperty(ref topTen, value); }
-        }
+            if (!Directory.Exists(_settingsRepo.HypermintSettings.RlPath))
+                return;
 
-        private List<RocketLauncher.Statistics.Stat> topTentimePlayed;
-        public List<RocketLauncher.Statistics.Stat> TopTentimePlayed
-        {
-            get { return topTentimePlayed; }
-            set { SetProperty(ref topTentimePlayed, value); }
-        }
-
-        public StatsViewModel(IStatsRepo statsRepo, IEventAggregator eventAggregator, ISettingsRepo settingsRepo)
-        {
-            _statsRepo = statsRepo;
-            _eventAggregator = eventAggregator;
-            _settingsRepo = settingsRepo;
-
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe((x) => UpdateStatsForSystem(x));
-        }
-
-        private void UpdateStatsForSystem(string systemName)
-        {
-            RocketLauncher.Statistics.Stats stats = null;
-
-            if (systemName.ToLower().Contains("main menu"))
-                GlobalStats = _statsRepo.GetAllGlobal(_settingsRepo.HypermintSettings.RlPath +
-                            @"\Data\Statistics\Global Statistics.ini");
-            else
-                stats = _statsRepo.GetStatsForSystem(_settingsRepo.HypermintSettings.RlPath +
-                "\\Data\\Statistics\\" + systemName + ".ini");
-
-            if (stats != null)
+            try
             {
-                Stats = new ListCollectionView(stats.OrderByDescending(x => x.TimesPlayed).ToList());                
+#warning Needs to be moved out of the view model, set it up in the bootstrapper maybe
+                if (!_statsRepo.IsProviderSetUp())
+                {
+                    _statsRepo.SetUp(new HyperspinFrontend { Path = _settingsRepo.HypermintSettings.RlPath });
+                }
 
-                TopTen = stats
-                    .OrderByDescending(x => x.TimesPlayed)
-                    .Take(10)
-                    .ToList();
+                if (systemName.ToLower().Contains("main menu"))
+                {
+                    await _statsRepo.GetGlobalStatsAsync();
 
-                TopTentimePlayed = stats
-                    .OrderByDescending(x => x.TotalTimePlayed.Ticks)
-                    .Take(10).ToList();                    
+                    GlobalStats = _statsRepo.GlobalStats;
+                }
+                else
+                {
+                    await _statsRepo.PopulateSystemStatsAsync(new MainMenu { Name = systemName });
+
+                    if (_statsRepo.SystemGameStats?.Count() > 0)
+                    {
+                        Stats = new ListCollectionView(_statsRepo.SystemGameStats?.ToList());
+                    }
+                }
             }
-        }
-
-        private ListCollectionView GetListCollectionView()
-        {
-            return (ListCollectionView)CollectionViewSource
-                            .GetDefaultView(Stats);
-        }
-    }
-
-    public class SortStatsByPlayed : IComparer
-    {
-        public int Compare(object x, object y)
-        {
-            if (x as Stat == null && y as Stat == null)
-            {
-                throw new ArgumentException("stats can only sort stat object." );
-            }
-            if (((Stat)x).TimesPlayed > ((Stat)y).TimesPlayed)
-            {
-                return 1;
-            }
-            return -1;
+            catch { }
         }
     }
 }

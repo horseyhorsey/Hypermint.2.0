@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.props" Condition="Exists('..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E297D293-BEF3-403F-9592-9A5DD648038C}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <ProjectGuid>{A1C5255E-1AEB-4D47-A685-D5DFA8F72DD7}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hs.Hypermint.RocklaunchStats</RootNamespace>
-    <AssemblyName>Hs.Hypermint.RocklaunchStats</AssemblyName>
+    <RootNamespace>Hs.Hypermint.RocketStats.Tests</RootNamespace>
+    <AssemblyName>Hs.Hypermint.RocketStats.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="De.TorstenMandelkow.MetroChart, Version=0.9.5818.20693, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\ModernUICharts.WPF.Beta.0.9.1\lib\De.TorstenMandelkow.MetroChart.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.14, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.14\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
     </Reference>
@@ -52,6 +48,7 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -62,93 +59,79 @@
       <HintPath>..\..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.3.0.3742, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.3.0-beta4-build3742\lib\netstandard1.1\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.3.0.3742, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.core.2.3.0-beta4-build3742\lib\netstandard1.1\xunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.3.0.3742, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.execution.2.3.0-beta4-build3742\lib\net452\xunit.execution.desktop.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RocklaunchStatsModule.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="ViewModels\StatsViewModel.cs" />
-    <Compile Include="Views\StatsView.xaml.cs">
-      <DependentUpon>StatsView.xaml</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatsViewModelTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="De.TorstenMandelkow.MetroChart.dll">
+    <Content Include="RocketLauncherData\Data\Statistics\Amstrad CPC.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RocketLauncherData\Data\Statistics\Global Statistics.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Analyzer Include="..\..\packages\xunit.analyzers.0.6.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
-      <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
+      <Project>{d814d158-e6ae-4369-b1b0-185a6e08339d}</Project>
       <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DataModels\Hs.RocketLauncher.Statistics\Hs.RocketLauncher.Statistics.csproj">
-      <Project>{370BBD46-B3B4-4F90-ADDD-291225A24BF0}</Project>
-      <Name>Hs.RocketLauncher.Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5F4FDB5E-3624-4C1A-9B9E-8F27F185EADD}</Project>
       <Name>Hypermint.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Hs.Hypermint.Business\Hs.Hypermint.Business.csproj">
+    <ProjectReference Include="..\..\Modules\Hs.Hypermint.Business\Hs.Hypermint.Business.csproj">
       <Project>{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}</Project>
       <Name>Hs.Hypermint.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
+    <ProjectReference Include="..\..\Modules\Hs.Hypermint.RocklaunchStats\Hs.Hypermint.RocklaunchStats.csproj">
+      <Project>{e297d293-bef3-403f-9592-9a5dd648038c}</Project>
+      <Name>Hs.Hypermint.RocklaunchStats</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
       <Project>{7C5872EA-A3BD-4BFA-911C-0A9B62F2F11F}</Project>
       <Name>Hs.Hypermint.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\StatsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.props'))" />
+    <Error Condition="!Exists('..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.targets'))" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.targets" Condition="Exists('..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.targets')" />
 </Project>

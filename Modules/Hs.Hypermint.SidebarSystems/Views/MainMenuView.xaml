@@ -5,7 +5,8 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <GroupBox Header="{Binding MenusHeader}">
-        <ComboBox ItemsSource="{Binding MainMenuDatabases}" 
+        <ComboBox ItemsSource="{Binding MainMenuDatabases}" DisplayMemberPath="Name"
+                          ToolTip="{Binding Path}"
                           SelectedItem="{Binding SelectedMainMenu}"/>
         </GroupBox>
     </Grid>

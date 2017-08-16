@@ -23,6 +23,7 @@ using Hs.Hypermint.RocklaunchStats.Views;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.Hypermint.MediaPane.Views;
 using Prism.Logging;
+using Hs.Hypermint.Business.RocketLauncher;
 
 namespace Hypermint.Shell
 {
@@ -91,6 +92,9 @@ namespace Hypermint.Shell
                 new ContainerControlledLifetimeManager());
 
             Container.RegisterType<IStatsRepo, StatRepo>(
+                new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<IRocketLaunchStatProvider, RocketLaunchStatProvider>(
                 new ContainerControlledLifetimeManager());
 
             Container.RegisterType<ISearchYoutube, SearchYoutubeService>(

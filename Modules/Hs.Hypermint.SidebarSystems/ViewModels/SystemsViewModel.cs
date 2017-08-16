@@ -33,7 +33,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         public SystemsViewModel(IMainMenuRepo main,
             IEventAggregator eventAggregator,
             ISettingsRepo settings,
-            IFileFolderService fileService,
+            IFileFolderService _fileFolderService,
             IDialogCoordinator dialogService,
             ISelectedService selectedService)
         {
@@ -45,7 +45,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             _selectedService = selectedService;
             _dialogService = dialogService;
-            _fileFolderService = fileService;
 
             // Setup the main menu database to read in all systems
             _mainMenuXmlPath = "";
@@ -269,6 +268,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             _dialogService.HideMetroDialogAsync(this, customDialog);
         }
+
         /// <summary>
         /// Generate directorys for a hyperspin system
         /// </summary>
@@ -280,6 +280,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             CreateDefaultHyperspinFolders(newSystemMediaPath);
         }
+
         /// <summary>
         /// Creates all needed folders for a hyperspin system
         /// </summary>
@@ -304,6 +305,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.WheelSounds);
             Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Video);
         }
+
         private async Task AddSystemAsync()
         {
             customDialog = new CustomDialog() { Title = "Add new system" };
@@ -312,6 +314,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }
+
         private void SaveMainMenu()
         {
             if (_selectedService.CurrentMainMenu == null) return;
@@ -324,6 +327,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             catch (Exception) { }
 
         }
+
         private void UpdateSystems(string mainMenuXml)
         {
             if (File.Exists(mainMenuXml))
@@ -343,6 +347,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             }
         }
+
         /// <summary>
         /// Filter the systems list
         /// </summary>
@@ -372,6 +377,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             }            
 
         }
+
         private void SystemItems_CurrentChanged(object sender, System.EventArgs e)
         {
             MainMenu system = SystemItems.CurrentItem as MainMenu;
@@ -391,6 +397,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 }
             }
         }
+
         /// <summary>
         /// Set wheel image for the system
         /// </summary>
@@ -407,6 +414,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
                 _selectedService.SystemImage = null;
 
         }
+
         private BitmapImage setImage(string imagePath)
         {
             Uri uriSource;

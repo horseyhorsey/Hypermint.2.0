@@ -46,11 +46,14 @@
     <Compile Include="Hyperspin\HyperspinXmlDataProvider.cs" />
     <Compile Include="Hyperspin\IHyperspinDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RocketLauncher\IRocketLaunchStatProvider.cs" />
+    <Compile Include="RocketLauncher\RocketLaunchStatProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

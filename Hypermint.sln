@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.Business", "Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.BusinessTests", "Tests\Hs.Hypermint.Business.Tests\Hs.Hypermint.BusinessTests.csproj", "{B822942A-AACA-4A31-B1F4-D260F4D83755}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hs.Hypermint.RocketStats.Tests", "Tests\Hs.Hypermint.RocketStats.Tests\Hs.Hypermint.RocketStats.Tests.csproj", "{A1C5255E-1AEB-4D47-A685-D5DFA8F72DD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,10 @@ Global
 		{B822942A-AACA-4A31-B1F4-D260F4D83755}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B822942A-AACA-4A31-B1F4-D260F4D83755}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B822942A-AACA-4A31-B1F4-D260F4D83755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1C5255E-1AEB-4D47-A685-D5DFA8F72DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C5255E-1AEB-4D47-A685-D5DFA8F72DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C5255E-1AEB-4D47-A685-D5DFA8F72DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C5255E-1AEB-4D47-A685-D5DFA8F72DD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{E61714DB-8A0D-426B-808A-634173BE95D2} = {390DD12F-713A-449F-9598-65FF7C98CA73}
 		{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8} = {0AFE1AFB-7CB8-4A9A-BC3A-96A6ADD700C5}
 		{B822942A-AACA-4A31-B1F4-D260F4D83755} = {390DD12F-713A-449F-9598-65FF7C98CA73}
+		{A1C5255E-1AEB-4D47-A685-D5DFA8F72DD7} = {390DD12F-713A-449F-9598-65FF7C98CA73}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CEDAD22-65CB-4402-BDD8-0E8EDC0727D5}
