@@ -1,5 +1,4 @@
-﻿using Hs.HyperSpin.Database.Audit;
-using Hypermint.Base;
+﻿using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
@@ -15,8 +14,8 @@ using Hypermint.Base.Events;
 using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using System.Linq;
-using Hs.HyperSpin.Database;
 using System.Collections.Generic;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {

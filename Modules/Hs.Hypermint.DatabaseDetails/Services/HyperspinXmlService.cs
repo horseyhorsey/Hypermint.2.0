@@ -1,5 +1,4 @@
-﻿using Hs.HyperSpin.Database;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using System.IO;
 using Hypermint.Base.Constants;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Xml.Linq;
 using System.Xml;
 using System.Linq;
 using System.Threading.Tasks;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.DatabaseDetails.Services
 {

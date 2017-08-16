@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Frontends.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Frontends.Models.1.0.1\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -96,6 +99,7 @@
     <Compile Include="Events\Events.cs" />
     <Compile Include="Events\MediaElementEvents.cs" />
     <Compile Include="Events\PresetEvents.cs" />
+    <Compile Include="Events\SearchEvents.cs" />
     <Compile Include="Events\SelectedEvents.cs" />
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Events\YoutubeEvents.cs" />
@@ -123,6 +127,7 @@
     <Compile Include="Models\GameFilter.cs" />
     <Compile Include="Models\ImageEditPreset.cs" />
     <Compile Include="Models\Script.cs" />
+    <Compile Include="Model\SearchOptions.cs" />
     <Compile Include="Paths\Installation.cs" />
     <Compile Include="Constants\Paths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -143,10 +148,6 @@
     <ProjectReference Include="..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
       <Project>{d814d158-e6ae-4369-b1b0-185a6e08339d}</Project>
       <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
-      <Project>{6108dda5-dda5-4254-b62d-6cdfb049fa8b}</Project>
-      <Name>Hs.HyperSpin.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataModels\Hs.RocketLauncher.AuditBase\Hs.RocketLauncher.AuditBase.csproj">
       <Project>{58b8c436-93de-4025-8dbb-430e86f6296e}</Project>

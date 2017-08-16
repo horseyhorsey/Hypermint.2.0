@@ -2,12 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"          
-             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"             
              xmlns:conv="clr-namespace:Hypermint.Base.Converters;assembly=Hypermint.Base"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
-        
+
         <Thickness x:Key="ControlMargin">0 1</Thickness>
 
         <Style x:Key="CustomMetroToggleSwitchButton"
@@ -17,48 +16,40 @@
                             Value="YellowGreen" />
         </Style>
 
-        <ItemContainerTemplate x:Key="GameSearchItemLong">
-            <Grid>
-                <StackPanel>
-                    <Image Width="140" Height="120"
-                                       Source="{Binding SystemImage}"
-                                       HorizontalAlignment="Center">
-                    </Image>
-                    <Label Content="{Binding Game.System}"/>
-                </StackPanel>
-                <StackPanel>
-                    <Image Width="140" Height="80"
-                                       Source="{Binding WheelImage}"
-                                       HorizontalAlignment="Left">
-                    </Image>
-                    <Label Content="{Binding Game.Description}"/>
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
-                                           FontSize="32" FontWeight="Light" Text="{Binding Game.Year}"/>
-                    <TextBlock HorizontalAlignment="Right" FontSize="24" FontWeight="Light" Text="{Binding Game.Genre}"/>
-                </StackPanel>
-            </Grid>
-        </ItemContainerTemplate>
-
         <conv:BoolToVisibility x:Key="boolToVis"/>
 
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" Grid.IsSharedSizeScope="True">
 
-        <DockPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-            <!--BUTTON PANEL-->
-            <StackPanel DockPanel.Dock="Right">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-                <StackPanel.LayoutTransform>
-                    <RotateTransform Angle="90"/>
-                </StackPanel.LayoutTransform>
+        <!--SEARCH OPTIONS AND TABBED RESULTS-->
+        <Grid Grid.Row="0" Grid.RowSpan="2">
 
-                <Button x:Name="systemsPanel" Content="Systems" Command="{Binding DockSystemsCommand}"/>
-                
-            </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--SEARCH OPTIONS VIEW-->
+            <ContentControl Background="Transparent" prism:RegionManager.RegionName="SearchViewRegion" Margin="0,0,0,5"/>
+
+            <!--SEARCH RESULTS VIEW-->
+            <ContentControl Grid.Row="1" Background="Transparent" prism:RegionManager.RegionName="SearchResultsViewRegion" Margin="0,0,0,5"/>
+
+        </Grid>
+
+        <!--SYSTEM FILTER SEARCH-->
+        <DockPanel Grid.Column="1" Grid.Row="1">
 
             <!--SEARCH LAYER-->
             <Grid x:Name="layer1" Visibility="Visible">
@@ -75,185 +66,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!--SEARCH OPTIONS-->
-                <DockPanel Margin="5">
-
-                    <!--VIEW TITLE-->
-                    <TextBlock Text=" Main menu: Search" VerticalAlignment="Bottom"
-                   HorizontalAlignment="Left"
-                   FontWeight="Light" Grid.Column="0" FontSize="28"/>
-
-                    <!--ENABLE ONLY ROM SEARCH-->
-                    <CheckBox VerticalAlignment="Center" Margin="5"
-                      IsChecked="{Binding EnabledSearchOn}" 
-                      ToolTip="Include only enabled roms."
-                      Content="Enabled Roms" HorizontalAlignment="Left"/>
-
-                    <!--ENABLE ONLY CLONE SEARCH-->
-                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CloneSearchOn}" 
-                      ToolTip="Include clones in search."
-                      Content="Clones" Margin="5" HorizontalAlignment="Left"/>
-                </DockPanel>
-
-                <!--Search and buttons-->
-                <DockPanel  Margin="2" Grid.Column="0" Grid.Row="1">
-                    <TextBox x:Name="textField" VerticalAlignment="Bottom" Width="300" Margin="5" MaxHeight="28"
-                   Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"
-                   metro:TextBoxHelper.UseFloatingWatermark="False"
-                   metro:TextBoxHelper.Watermark="Search term">
-                        <TextBox.InputBindings>
-                            <KeyBinding Key="Return"                         
-                                Command="{Binding ElementName=LayoutRoot,Path=DataContext.SearchGamesCommand}"/>
-                        </TextBox.InputBindings>
-                    </TextBox>
-
-                    <!--Buttons search /launch-->
-                    <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="2">
-                        <!--Search Button-->
-                        <Button Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" IsDefault="True"
-                        Background="Green" ToolTip="Search games"
-                        Command="{Binding SearchGamesCommand}"
-                        CommandParameter="{Binding ElementName=textField,Path=Text}"
-                        Style="{DynamicResource MetroCircleButtonStyle}">
-
-                            <Rectangle Width="15"
-                               Height="15"
-                               Fill="{Binding Path=Foreground,
-                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill"
-                                         Visual="{DynamicResource appbar_magnify}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-                        
-                        <!--Cancel Search-->
-                        <Button Width="30" Height="30" VerticalAlignment="Center"  ToolTip="Cancel"
-                        Command="{Binding CancelCommand}"                        
-                    Background="{DynamicResource ValidationBrush5}"
-                        Style="{DynamicResource MetroCircleButtonStyle}">
-                            <Rectangle Width="15"
-                               Height="15"
-                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill"
-                                         Visual="{DynamicResource appbar_cancel}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-                        <!--add to multisystem-->
-                        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
-                Command="{Binding AddMultiSystemCommand}"
-                ToolTip="Add selected to multi system list." Height="30" Width="30"
-                Style="{DynamicResource AccentedSquareButtonStyle}">
-                            <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-                        <!--launch game-->
-                        <Button HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="6"
-                Command="{Binding LaunchGameCommand}"
-                ToolTip="Launch selected game." Height="30" Width="30"
-                Style="{DynamicResource AccentedSquareButtonStyle}">
-                            <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </Button>
-
-                    </StackPanel>
-
-                </DockPanel>
-
-                <!--BACKGROUND-->
-                <Canvas Margin="5" Grid.Row="2" Background="{DynamicResource GrayBrush10}"/>
-
-                <!--TAB CONTROL GAMES SEARCHED-->
-                <TabControl Grid.Row="2" Margin="5">
-                    <TabItem Header="Paged" >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition MaxHeight="42"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <DockPanel>
-                                <Button Grid.Column="0" HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
-                                Command="{Binding PageGamesCommand}"
-                                CommandParameter="back"                            
-                                Height="35" Width="35">
-                                    <Rectangle Width="12" Height="12"
-                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_left}"/>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-                                <Button Grid.Column="0" HorizontalAlignment="Left" 
-                                VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
-                                Command="{Binding PageGamesCommand}"
-                                CommandParameter="forward"                            
-                                Height="35" Width="35">
-                                    <Rectangle Width="12" Height="12"
-                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}"/>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-                                <Label Content="{Binding PageInfo}"/>
-                            </DockPanel>
-
-                            <!--games List View-->
-                            <ListBox Grid.Row="1"
-                                  ItemsSource="{Binding FilteredGames}" ItemTemplate="{StaticResource GameSearchItemLong}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate >
-                                        <StackPanel />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ListBox>
-                        </Grid>
-
-                    </TabItem>
-
-                    <TabItem Header="Detailed">
-                        <!--Search items display-->
-                        <DataGrid x:Name="DataGridSearch"  Grid.Column="0" Grid.Row="2" 
-                          IsReadOnly="True"
-                  CanUserAddRows="False"
-                          AutoGenerateColumns="False"
-                  Grid.RowSpan="1" Margin="10"
-                  ItemsSource="{Binding FoundGames}">
-
-                            <!--SelectionChanged-->
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="SelectionChanged">
-                                    <prism:InvokeCommandAction 
-                            Command="{Binding SelectionChanged}" 
-                            CommandParameter="{Binding SelectedItems,
-                            ElementName=DataGridSearch}">
-                                    </prism:InvokeCommandAction>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Game" Binding="{Binding Game.Description}"/>
-                                <DataGridTextColumn Header="System" Binding="{Binding Game.System}"/>
-                                <DataGridTextColumn Header="Genre" Binding="{Binding Game.Genre}"/>
-                                <DataGridTextColumn Header="Year" Binding="{Binding Game.Year}"/>
-                                <DataGridTextColumn Header="Manufacturer" Binding="{Binding Game.Manufacturer}"/>
-                                <DataGridTextColumn Header="Clone" Binding="{Binding Game.CloneOf}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-
-                    </TabItem>
-                </TabControl>
+                <GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" HorizontalAlignment="Right"/>
 
                 <!--SYSTEMS LAYER-->
                 <Grid x:Name="layer2" Grid.Column="2" Grid.RowSpan="3" Visibility="{Binding SystemsVisible, Converter={StaticResource boolToVis}}">
@@ -299,12 +112,22 @@
 
                 </Grid>
 
-                <GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" HorizontalAlignment="Right"/>
             </Grid>
+
+            <!--BUTTON PANEL-->
+            <StackPanel DockPanel.Dock="Right">
+
+                <StackPanel.LayoutTransform>
+                    <RotateTransform Angle="90"/>
+                </StackPanel.LayoutTransform>
+
+                <Button x:Name="systemsPanel" Content="Systems" Command="{Binding DockSystemsCommand}"/>
+
+            </StackPanel>
 
         </DockPanel>
 
-        
-
     </Grid>
 </UserControl>
+
+    

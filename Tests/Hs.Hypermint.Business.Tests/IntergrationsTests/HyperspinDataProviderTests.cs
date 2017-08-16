@@ -1,7 +1,9 @@
-﻿using Hs.Hypermint.BusinessTests.Fixtures.Real;
+﻿using Horsesoft.Frontends.Helper.Paths.Hyperspin;
+using Hs.Hypermint.BusinessTests.Fixtures.Real;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Hs.Hypermint.BusinessTests.IntergrationsTests
@@ -17,7 +19,7 @@ namespace Hs.Hypermint.BusinessTests.IntergrationsTests
         }
 
         [Theory]
-        [InlineData("Amstrad CPC", 2)]
+        [InlineData("Amstrad CPC", 1789)]
         [InlineData("Commodore Vic 20", 8)]
         [InlineData("Nintendo 64", 18)]
         [InlineData("MAME", 9)]
@@ -41,6 +43,17 @@ namespace Hs.Hypermint.BusinessTests.IntergrationsTests
             {
                 var games = await _fixture._xmlDataProvider.GetAllGames(dir, systemName);
             });
+        }
+
+        [Theory]
+        [InlineData("Amstrad CPC", "Dizzy", 13)]
+        [InlineData("Nintendo 64", "007", 2)]        
+        public async void SearchForGamesAsync(string systemName, string searchString, int expectedCount)
+        {
+            var db = PathHelper.GetSystemDatabasePath(_fixture._frontend.Path, systemName) + "\\" + $"{systemName}.xml";
+            var games = await  _fixture._xmlDataProvider.SearchXmlAsync(_fixture._frontend.Path, systemName, db, searchString);
+
+            Assert.True(games.Count() == expectedCount);            
         }
     }
 }

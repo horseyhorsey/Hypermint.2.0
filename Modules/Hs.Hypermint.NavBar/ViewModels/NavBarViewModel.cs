@@ -241,7 +241,11 @@ namespace Hs.Hypermint.NavBar.ViewModels
         /// <param name="uri"></param>
         private void NavigateMediaPane(string view)
         {
-            _regionManager.RequestNavigate(RegionNames.MediaPaneRegion, view);
+            try
+            {
+                _regionManager.RequestNavigate(RegionNames.MediaPaneRegion, view);
+            }
+            catch  { }
         }
 
         /// <summary>

@@ -1,6 +1,5 @@
 ﻿using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
-using Hs.HyperSpin.Database;
 using Prism.Commands;
 using System;
 using System.ComponentModel;
@@ -18,6 +17,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Hypermint.Base.Events;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {

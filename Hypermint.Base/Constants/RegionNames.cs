@@ -14,5 +14,9 @@
         public static string TextWheelRegion = "TextWheelRegion";
         public static string ImageProcessRegion = "ImageProcessRegion";
 
+        public static string SearchViewRegion = "SearchViewRegion";
+        public static string SearchResultsViewRegion = "SearchResultsViewRegion";
+        
+
     }
 }

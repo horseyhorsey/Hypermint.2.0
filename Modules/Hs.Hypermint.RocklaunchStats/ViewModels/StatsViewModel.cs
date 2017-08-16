@@ -1,13 +1,11 @@
-﻿using Horsesoft.Frontends.Helper.Hyperspin;
-using Horsesoft.Frontends.Helper.Model.Hyperspin;
-using Horsesoft.Frontends.Helper.Model.RocketLauncher.Stats;
+﻿using Frontends.Models.Hyperspin;
+using Frontends.Models.RocketLauncher.Stats;
+using Horsesoft.Frontends.Helper.Hyperspin;
 using Hs.Hypermint.Business.RocketLauncher;
-using Hs.RocketLauncher.Statistics;
 using Hypermint.Base.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Prism.Events;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;

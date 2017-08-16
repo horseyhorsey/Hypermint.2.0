@@ -1,4 +1,4 @@
-﻿using Hs.HyperSpin.Database;
+﻿using Frontends.Models.Hyperspin;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;

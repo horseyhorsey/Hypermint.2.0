@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Hs.HyperSpin.Database;
 using Hypermint.Base.Interfaces;
 using System.IO;
 using System.Xml;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.Services
 {

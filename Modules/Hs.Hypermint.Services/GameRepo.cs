@@ -1,10 +1,10 @@
 ﻿using Hypermint.Base.Interfaces;
 using System;
-using Hs.HyperSpin.Database;
 using System.Xml;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.Services
 {

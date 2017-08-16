@@ -1,5 +1,5 @@
-﻿using Hypermint.Base.Interfaces;
-using Hs.HyperSpin.Database;
+﻿using Frontends.Models.Hyperspin;
+using Hypermint.Base.Interfaces;
 
 namespace Hs.Hypermint.Services
 {

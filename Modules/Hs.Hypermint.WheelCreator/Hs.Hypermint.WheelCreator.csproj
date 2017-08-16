@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Frontends.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.1\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    </Reference>
     <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Magick.NET-Q16-AnyCPU.7.0.6.601\lib\net40\Magick.NET-Q16-AnyCPU.dll</HintPath>
     </Reference>
@@ -156,10 +159,6 @@
     <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
       <Project>{d814d158-e6ae-4369-b1b0-185a6e08339d}</Project>
       <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
-      <Project>{6108DDA5-DDA5-4254-B62D-6CDFB049FA8B}</Project>
-      <Name>Hs.HyperSpin.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>

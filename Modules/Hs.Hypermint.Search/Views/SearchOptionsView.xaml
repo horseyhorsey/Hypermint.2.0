@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="Hs.Hypermint.Search.Views.SearchOptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/"      
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!--SEARCH OPTIONS-->
+        <StackPanel Margin="5" Orientation="Horizontal">
+
+            <!--VIEW TITLE-->
+            <TextBlock Text=" Main menu: Search" VerticalAlignment="Bottom"
+                   HorizontalAlignment="Left"
+                   FontWeight="Light" Grid.Column="0" FontSize="28"/>
+
+            <!--ENABLE ONLY ROM SEARCH-->
+            <CheckBox VerticalAlignment="Center" Margin="5"
+                      IsChecked="{Binding SearchOptions.OnlyEnabledRomsSearch}" 
+                      ToolTip="Include only enabled roms in the search."
+                      Content="Enabled" HorizontalAlignment="Left"/>
+
+            <!--ENABLE ONLY CLONE SEARCH-->
+            <CheckBox VerticalAlignment="Center" IsChecked="{Binding CloneSearchOn}" 
+                      ToolTip="Include clones in search."
+                      Content="Clones" Margin="5" HorizontalAlignment="Left"/>
+        </StackPanel>
+
+        <!--Search and buttons-->
+        <StackPanel  Margin="2" Grid.Row="1" Orientation="Horizontal">
+            
+            <!--TITLE-->
+            <TextBox x:Name="textField" VerticalAlignment="Bottom" Width="300" Margin="5" MaxHeight="28"
+                   Text="{Binding SearchOptions.SearchString, UpdateSourceTrigger=PropertyChanged}"
+                   metro:TextBoxHelper.UseFloatingWatermark="False"
+                   metro:TextBoxHelper.Watermark="Search term">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return"                         
+                                Command="{Binding ElementName=LayoutRoot,Path=DataContext.SearchGamesCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+
+            <!--SEARCH BUTTONS AND LAUNCH-->
+            <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="2">
+
+                <!--SEARCH-->
+                <Button Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" IsDefault="True"
+                        Background="Green" ToolTip="Search games"
+                        Command="{Binding SearchGamesCommand, UpdateSourceTrigger=PropertyChanged}"
+                        CommandParameter="{Binding ElementName=textField,Path=Text}"
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+
+                    <Rectangle Width="15"
+                               Height="15"
+                               Fill="{Binding Path=Foreground,
+                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_magnify}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <!--CANCEL-->
+                <Button Width="30" Height="30" VerticalAlignment="Center"  ToolTip="Cancel"
+                        Command="{Binding CancelCommand}"                        
+                    Background="{DynamicResource ValidationBrush5}"
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+                    <Rectangle Width="15"
+                               Height="15"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_cancel}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+                
+                <!--ADD MULTISYSTEM-->
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6"
+                Command="{Binding AddMultiSystemCommand}"
+                ToolTip="Add selected to multi system list." Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_source_fork}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+                
+                <!--LAUNCH GAME-->
+                <Button HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="6"
+                Command="{Binding LaunchGameCommand}"
+                ToolTip="Launch selected game." Height="30" Width="30"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_controller_xbox}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+            </StackPanel>
+
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

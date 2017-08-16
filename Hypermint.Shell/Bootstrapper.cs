@@ -24,6 +24,7 @@ using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.Hypermint.MediaPane.Views;
 using Prism.Logging;
 using Hs.Hypermint.Business.RocketLauncher;
+using Hs.Hypermint.Business.Hyperspin;
 
 namespace Hypermint.Shell
 {
@@ -79,7 +80,6 @@ namespace Hypermint.Shell
             Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
             Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFileFolderChecker>(Container.Resolve<FileFolderChecker>());
-
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
             Container.RegisterInstance<IFileFolderService>(Container.Resolve<Base.Services.FileFolderService>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
@@ -103,6 +103,9 @@ namespace Hypermint.Shell
             Container.RegisterType<IHyperspinXmlService, HyperspinXmlService>(
                 new ContainerControlledLifetimeManager());
 
+            Container.RegisterType<IHyperspinXmlDataProvider, HyperspinDataProvider>(
+                new ContainerControlledLifetimeManager());
+
             Container.RegisterType<IGameRepo, GameRepo>(
                 new ContainerControlledLifetimeManager());
 
@@ -115,6 +118,12 @@ namespace Hypermint.Shell
             Container.RegisterType<ITrashMaster, TrashMaster>(
                 new ContainerControlledLifetimeManager());
 
+            RegisterNavigationTypes();
+
+        }
+
+        private void RegisterNavigationTypes()
+        {
             Container.RegisterTypeForNavigation<DatabaseDetailsView>("DatabaseDetailsView");
             Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
@@ -123,14 +132,12 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<RlMediaAuditView>("RlMediaAuditView");
             Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");
             Container.RegisterTypeForNavigation<SearchView>("SearchView");
-            Container.RegisterTypeForNavigation<StatsView>("StatsView");            
-            Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");            
+            Container.RegisterTypeForNavigation<StatsView>("StatsView");
+            Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");
 
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");
             //Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");
-
         }
-
     }
 }

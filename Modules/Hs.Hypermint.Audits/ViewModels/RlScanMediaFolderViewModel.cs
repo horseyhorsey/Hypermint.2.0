@@ -1,11 +1,9 @@
 ﻿using Hs.Hypermint.Services;
-using Hs.HyperSpin.Database;
 using Hypermint.Base.Base;
 using Hypermint.Base.Helpers;
 using Hypermint.Base.Interfaces;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
-using Prism.Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;

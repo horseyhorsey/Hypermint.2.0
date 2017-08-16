@@ -55,11 +55,14 @@
     <ApplicationIcon>hm.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Frontends.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Frontends.Models.1.0.1\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
     </Reference>
-    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.15.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Horsesoft.Frontends.Helper.1.0.15\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
+    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Horsesoft.Frontends.Helper.1.0.17\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>

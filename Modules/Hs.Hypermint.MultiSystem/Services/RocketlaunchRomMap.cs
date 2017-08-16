@@ -1,5 +1,5 @@
-﻿using Hs.Hypermint.Services.Helpers;
-using Hs.HyperSpin.Database;
+﻿using Frontends.Models.Hyperspin;
+using Hs.Hypermint.Services.Helpers;
 using System.Collections.Generic;
 using System.IO;
 

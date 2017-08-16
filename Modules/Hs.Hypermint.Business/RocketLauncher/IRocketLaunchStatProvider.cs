@@ -1,6 +1,6 @@
-﻿using Horsesoft.Frontends.Helper.Common;
-using Horsesoft.Frontends.Helper.Model.Hyperspin;
-using Horsesoft.Frontends.Helper.Model.RocketLauncher.Stats;
+﻿using Frontends.Models.Hyperspin;
+using Frontends.Models.RocketLauncher.Stats;
+using Horsesoft.Frontends.Helper.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

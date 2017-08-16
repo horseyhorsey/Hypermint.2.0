@@ -1,10 +1,9 @@
-﻿using Hs.HyperSpin.Database;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
-using Hs.HyperSpin.Database.Audit;
 using System.Threading.Tasks;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.Services
 {
@@ -108,12 +107,13 @@ namespace Hs.Hypermint.Services
             var hsPath = hyperspinPath;
             string tempPath = "";
 
-            AuditsMenuList = new AuditsMenu();
-
-            AuditsMenuList.Add(new AuditMenu()
+            AuditsMenuList = new AuditsMenu
             {
-                RomName = "Main Menu"
-            });
+                new AuditMenu()
+                {
+                    RomName = "Main Menu"
+                }
+            };
 
             for (int i = 1; i < databaseGameList.Count; i++)
             {

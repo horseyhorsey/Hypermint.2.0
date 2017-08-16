@@ -1,5 +1,5 @@
-﻿using Hs.Hypermint.Audits.Views;
-using Hs.HyperSpin.Database;
+﻿using Frontends.Models.Hyperspin;
+using Hs.Hypermint.Audits.Views;
 using Hs.RocketLauncher.AuditBase;
 using Hypermint.Base;
 using Hypermint.Base.Base;

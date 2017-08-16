@@ -1,6 +1,6 @@
-﻿using Hs.Hypermint.DatabaseDetails.Dialog;
+﻿using Frontends.Models.Hyperspin;
+using Hs.Hypermint.DatabaseDetails.Dialog;
 using Hs.Hypermint.DatabaseDetails.Services;
-using Hs.HyperSpin.Database;
 using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;

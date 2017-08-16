@@ -1,22 +1,18 @@
 ﻿using Hypermint.Base.Base;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
-using Hs.Hypermint.MultiSystem.Views;
 using System.IO;
-using Hs.HyperSpin.Database;
 using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.Hypermint.MultiSystem.Services;
 using Hypermint.Base.Services;
-using System.Threading;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {

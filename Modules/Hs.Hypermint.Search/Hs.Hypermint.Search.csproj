@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Frontends.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.1\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.17\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -91,7 +97,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\SearchOptionsViewModel.cs" />
+    <Compile Include="ViewModels\SearchResultsViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
+    <Compile Include="Views\SearchOptionsView.xaml.cs">
+      <DependentUpon>SearchOptionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchResultsView.xaml.cs">
+      <DependentUpon>SearchResultsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
     </Compile>
@@ -111,13 +125,13 @@
       <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
       <Name>Hs.Hypermint.Settings</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataModels\Hs.HyperSpin.Database\Hs.HyperSpin.Database.csproj">
-      <Project>{6108DDA5-DDA5-4254-B62D-6CDFB049FA8B}</Project>
-      <Name>Hs.HyperSpin.Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5F4FDB5E-3624-4C1A-9B9E-8F27F185EADD}</Project>
       <Name>Hypermint.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hs.Hypermint.Business\Hs.Hypermint.Business.csproj">
+      <Project>{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}</Project>
+      <Name>Hs.Hypermint.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hs.Hypermint.DatabaseDetails\Hs.Hypermint.DatabaseDetails.csproj">
       <Project>{0F4321E7-FA9A-4528-B7CA-8D0EDEC79BC3}</Project>
@@ -130,6 +144,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Resources\Items.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchResultsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

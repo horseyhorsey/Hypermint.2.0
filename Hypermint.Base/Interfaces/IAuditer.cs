@@ -1,6 +1,4 @@
-﻿using Hs.HyperSpin.Database;
-using Hs.HyperSpin.Database.Audit;
-using System.Collections.Generic;
+﻿using Frontends.Models.Hyperspin;
 using System.Threading.Tasks;
 
 namespace Hypermint.Base.Interfaces

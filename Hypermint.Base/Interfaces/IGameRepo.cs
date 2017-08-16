@@ -1,4 +1,4 @@
-﻿using Hs.HyperSpin.Database;
+﻿using Frontends.Models.Hyperspin;
 using System.Threading.Tasks;
 
 namespace Hypermint.Base.Interfaces

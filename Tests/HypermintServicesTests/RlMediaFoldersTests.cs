@@ -5,6 +5,7 @@ using System.IO;
 using Hypermint.Base.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
+using Frontends.Models.Hyperspin;
 
 namespace HypermintServicesTests
 {
@@ -71,7 +72,7 @@ namespace HypermintServicesTests
         public RocketMediaFolderScanResult MatchFoldersToGames(string[] directories, IGameRepo gameRepo)
         {
             if (gameRepo != null && gameRepo.GamesList == null)
-                gameRepo.GamesList = new Hs.HyperSpin.Database.Games();
+                gameRepo.GamesList = new Games();
 
             if (gameRepo?.GamesList.Count == 0)
                 throw new NullReferenceException("No games exist in gameRepo");

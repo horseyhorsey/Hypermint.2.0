@@ -1,5 +1,4 @@
-﻿using Hs.HyperSpin.Database;
-using Hypermint.Base;
+﻿using Hypermint.Base;
 using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
 using Prism.Commands;
@@ -11,13 +10,11 @@ using System;
 using Hs.Hypermint.DatabaseDetails.Services;
 using System.IO;
 using Hypermint.Base.Constants;
-using Hs.Hypermint.MultiSystem.Services;
-using System.Runtime.CompilerServices;
 using Hypermint.Base.Services;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
-using Hs.Hypermint.MultiSystem.Dialog;
 using Hs.Hypermint.MultiSystem.Views;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {

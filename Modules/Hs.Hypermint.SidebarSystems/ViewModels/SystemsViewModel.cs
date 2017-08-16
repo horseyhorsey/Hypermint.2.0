@@ -1,5 +1,4 @@
-﻿using Hs.HyperSpin.Database;
-using Hypermint.Base;
+﻿using Hypermint.Base;
 using Hypermint.Base.Interfaces;
 using Prism.Events;
 using System.ComponentModel;
@@ -18,6 +17,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using Hs.Hypermint.SidebarSystems.Dialog;
 using System.Reflection;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
