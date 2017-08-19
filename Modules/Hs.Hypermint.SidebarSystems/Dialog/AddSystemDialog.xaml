@@ -4,8 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"  
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="500">
+             >
+    <!--d:DesignHeight="300" d:DesignWidth="500"-->
 
     <UserControl.Resources>
         <Thickness x:Key="ControlMargin">0 1</Thickness>
@@ -25,29 +28,32 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="220"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-
+        
         <StackPanel>
 
+            <!--NEW SYSTEM NAME-->
             <TextBox metro:TextBoxHelper.ClearTextButton="True" 
                  ToolTip="New system name"
                  metro:TextBoxHelper.Watermark="New system name"
                  Text="{Binding NewSystemName,UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
                  Width="280" Height="25" VerticalAlignment="Top" IsEnabled="True"/>
-
+                        
             <DockPanel Grid.Row="0" Grid.Column="0" >
+                
+                <!--DATABASE PATH-->
                 <TextBox metro:TextBoxHelper.ClearTextButton="True" 
-                 ToolTip="Open an existing HS database"
+                 ToolTip="Open an existing HS database" IsReadOnly="True"
                  metro:TextBoxHelper.Watermark="Optional xml database"
                  Text="{Binding ShortDbName,UpdateSourceTrigger=PropertyChanged}"
                  Margin="5" TextWrapping="Wrap" HorizontalAlignment="Left" 
                  Width="280" Height="25" VerticalAlignment="Top" IsEnabled="True"/>
-                <!--Select Database-->
+
+                <!--DATABASE PICKER-->
                 <Button HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" 
                 Command="{Binding SelectDatabaseCommand}"
                 ToolTip="Pick an existing database to use for this system" 
@@ -61,14 +67,17 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
+                
             </DockPanel>
+            
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
-                    Height="54" VerticalAlignment="Bottom" 
+        <!--SAVE AND EXIT BUTTONS-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom" 
                     Grid.Row="1" Grid.Column="0">
             <Button Width="28" Height="28" 
-                        VerticalAlignment="top" Margin="15" 
+                        VerticalAlignment="top" Margin="10" 
                         Command="{Binding SaveNewSystemCommand}"
                         CommandParameter=""
                     ToolTip="Create new system: Creates necessary HS folders &amp; basic setting.ini for system."
@@ -84,7 +93,7 @@
                 </Rectangle>
             </Button>
 
-            <Button Width="28" Height="28" VerticalAlignment="Top" Margin="15" 
+            <Button Width="28" Height="28" VerticalAlignment="Top" Margin="10" 
                         Command="{Binding CloseDialogCommand}"                        
                     Background="{DynamicResource ValidationBrush5}"
                     ToolTip="Back to main window"
@@ -99,6 +108,7 @@
                 </Rectangle>
             </Button>
         </StackPanel>
+        
     </Grid>
 </UserControl>
     

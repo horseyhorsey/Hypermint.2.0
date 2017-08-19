@@ -1,9 +1,6 @@
 ﻿using Hs.Hypermint.Audits.Views;
-using Hs.Hypermint.Services;
-using Hypermint.Base.Base;
+using Hypermint.Base;
 using Hypermint.Base.Constants;
-using Hypermint.Base.Interfaces;
-using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 
@@ -21,7 +18,6 @@ namespace Hs.Hypermint.Audits
 
         public override void Initialize()
         {                        
-
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(HsMediaAuditView));
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(RlMediaAuditView));            

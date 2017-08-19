@@ -1,5 +1,4 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -8,15 +7,16 @@ using Hypermint.Base.Events;
 using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
 using System.IO;
+using System.Windows.Input;
 
 namespace Hs.Hypermint.NavBar.ViewModels
 {
     public class NavBarViewModel : ViewModelBase
     {
-
         #region Constructors
+
         public NavBarViewModel(IRegionManager manager, IEventAggregator eventAggregator,
-        ISelectedService selectedService, IFolderExplore folderExplore, ISettingsRepo settings)
+        ISelectedService selectedService, IFolderExplore folderExplore, ISettingsHypermint settings)
         {
             _regionManager = manager;
             _eventAggregator = eventAggregator;
@@ -25,18 +25,11 @@ namespace Hs.Hypermint.NavBar.ViewModels
             _settings = settings;
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(ShowDatabaseOrSearchView);
-
             _eventAggregator.GetEvent<NavigateRequestEvent>().Subscribe(Navigate);
-
             _eventAggregator.GetEvent<NavigateMediaPaneRequestEvent>().Subscribe(NavigateMediaPane);
-
-            _eventAggregator.GetEvent<RequestOpenFolderEvent>().Subscribe(x =>
-            {
-                _folderExplore.OpenFolder(x);
-            });
+            _eventAggregator.GetEvent<RequestOpenFolderEvent>().Subscribe(x => { _folderExplore.OpenFolder(x);});
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
-
         }
         #endregion
 
@@ -45,7 +38,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
         private IEventAggregator _eventAggregator;
         private ISelectedService _selectedService;
         private IFolderExplore _folderExplore;
-        private ISettingsRepo _settings;
+        private ISettingsHypermint _settings;
 
         private string _systemName = "";
         #endregion
@@ -97,7 +90,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
         /// <summary>
         /// Navigate command for the navbar
         /// </summary>
-        public DelegateCommand<string> NavigateCommand { get; set; }
+        public ICommand NavigateCommand { get; set; }
         #endregion
 
         #region Support Methods
@@ -204,7 +197,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
                     {
                         CurrentView += "Hyperspin multiple system generator";
-                        RemoveAllFilesRegionViews();
+                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "MultiSystemOptionsView");
                     }
                     break;
                 case "SimpleWheelView":

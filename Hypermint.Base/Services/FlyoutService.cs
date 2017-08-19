@@ -24,6 +24,8 @@ namespace Hypermint.Base.Services
 
         public void ShowFlyout(string flyoutName)
         {
+            try
+            {
                 var region = _regionManager.Regions[RegionNames.FlyoutRegion];
 
                 if (region != null)
@@ -36,7 +38,12 @@ namespace Hypermint.Base.Services
                     {
                         flyout.IsOpen = !flyout.IsOpen;
                     }
-                }            
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
            
         }
 

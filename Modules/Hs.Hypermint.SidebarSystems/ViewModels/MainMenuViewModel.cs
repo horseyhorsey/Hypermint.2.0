@@ -1,12 +1,12 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
-using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using Prism.Events;
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
@@ -14,61 +14,46 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
     public class MainMenuViewModel : ViewModelBase
     {
         #region Fields
-        private IMainMenuRepo _mainMenuRepo;
-        private IFileFolderChecker _fileCheckService;
-        private ISettingsRepo _settingsRepo;
+        private ISettingsHypermint _settingsRepo;
         private ISelectedService _selectedService;
-        private string mainMenuDatabasePath;
         private IEventAggregator _eventAggregator;
+        private IHyperspinXmlDataProvider _dataProvider;
+        private IHyperspinManager _hyperspinManager;
         #endregion
 
         #region Constructors
+
+        public MainMenuViewModel(ISettingsHypermint settingsRepo, IEventAggregator ea,
+            IHyperspinManager hyperspinManager,
+            ISelectedService selectedService,
+            IHyperspinXmlDataProvider dataProvider)
+        {
+            _settingsRepo = settingsRepo;
+            _selectedService = selectedService;
+            _eventAggregator = ea;
+            _dataProvider = dataProvider;
+            _hyperspinManager = hyperspinManager;
+
+            if (_settingsRepo.HypermintSettings.HsPath == null)
+                _settingsRepo.LoadHypermintSettings();
+
+            //Init the collections used
+            MainMenuItemViewModels = new ObservableCollection<MainMenuItemViewModel>();
+            SelectedMainMenuItem = new MainMenuItemViewModel();
+            MainMenuDatabases = new ListCollectionView(MainMenuItemViewModels);
+            MainMenuDatabases.CurrentChanged += MainMenuDatabases_CurrentChanged;
+
+            SetMainMenuDatabases("Main Menu");
+        }
 
         public MainMenuViewModel()
         {
 
         }
 
-        public MainMenuViewModel(IMainMenuRepo mainMenuRepo,
-            IFileFolderChecker fileCheckService,
-            ISettingsRepo settingsRepo,
-            ISelectedService selectedService,
-            IEventAggregator ea)
-        {
-            _mainMenuRepo = mainMenuRepo;
-            _fileCheckService = fileCheckService;
-            _settingsRepo = settingsRepo;
-            _selectedService = selectedService;
-            _eventAggregator = ea;
-
-            //Init the items from main menu databases
-            MainMenuItemViewModels = new ObservableCollection<MainMenuItemViewModel>();
-            SelectedMainMenuItem = new MainMenuItemViewModel();            
-
-            if (string.IsNullOrEmpty(_settingsRepo.HypermintSettings.HsPath))
-                _settingsRepo.LoadHypermintSettings();
-
-            if (_fileCheckService.DirectoryExists(
-                _settingsRepo.HypermintSettings.HsPath))
-            {
-                mainMenuDatabasePath = GetMainMenuPath(_settingsRepo.HypermintSettings.HsPath);
-            }
-
-            if (!string.IsNullOrEmpty(mainMenuDatabasePath))
-                SetMainMenuDatabases(mainMenuDatabasePath);
-
-        }
         #endregion
 
-
         #region Properties
-
-        private int menuCount;
-        public int MenuCount
-        {
-            get { return menuCount; }
-            set { SetProperty(ref menuCount, value); }
-        }
 
         private string menusHeader = "Menus";
         public string MenusHeader
@@ -101,43 +86,46 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         #endregion
 
         #region Support Methods
+
         /// <summary>
-        /// Sets the main menu collection of main menu databases.
+        /// Populates all the main menu databases. Used on initializing
         /// </summary>
         /// <param name="mainMenuDbPath">The main menu database path.</param>
-        private void SetMainMenuDatabases(string mainMenuDbPath)
+        private async void SetMainMenuDatabases(string mainMenuDbPath)
         {
-            if (_fileCheckService.DirectoryExists(mainMenuDatabasePath))
+            MainMenuItemViewModels.Clear();
+
+            _hyperspinManager._hyperspinFrontEnd.Path = _settingsRepo.HypermintSettings.HsPath;
+            if (_selectedService.CurrentSystem == null)
+                await _hyperspinManager.GetSystemDatabases("Main Menu");
+            
+            //Create view models for each database file
+            foreach (var dbFile in _hyperspinManager.DatabasesCurrentSystem)
             {
-                foreach (string item in _mainMenuRepo.GetMainMenuDatabases(mainMenuDatabasePath))
+                MainMenuItemViewModels.Add(new MainMenuItemViewModel
                 {
-                    MainMenuItemViewModels.Add(new MainMenuItemViewModel
-                    {
-                        Name = item
-                    });
-                }
-
-                if (MainMenuItemViewModels.Count != 0)
-                {
-
-                    //Dont need to set count here.
-                    MenuCount = MainMenuItemViewModels.Count;
-                    //or here?
-                    MenusHeader = "Main Menus: " + MenuCount;
-
-                    MainMenuDatabases = new ListCollectionView(MainMenuItemViewModels);
-                    MainMenuDatabases.CurrentChanged += MainMenuDatabases_CurrentChanged;
-
-                    try
-                    {
-                        MainMenuDatabases.MoveCurrentToFirst();
-
-                    }
-                    catch (Exception) { }
-
-                }
+                    Name = dbFile.FileName,
+                    Path = dbFile.FullPath
+                });
             }
 
+            //Move Main Menu to the first index
+            var db = MainMenuItemViewModels.FirstOrDefault(x => x.Name == "Main Menu");
+            MainMenuItemViewModels.Remove(db);
+            MainMenuItemViewModels.Insert(0, db);            
+
+            if (MainMenuItemViewModels.Count != 0)
+            {
+                MenusHeader = $"Main Menu Files: " + MainMenuItemViewModels.Count;
+            }
+
+            _selectedService.CurrentMainMenu = "Main Menu";
+
+            try
+            {
+                MainMenuDatabases.MoveCurrentToFirst();
+            }
+            catch (Exception) {}
         }
 
         /// <summary>
@@ -149,26 +137,11 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         {
             SelectedMainMenuItem = (MainMenuItemViewModel)MainMenuDatabases.CurrentItem;
 
-            _selectedService.CurrentMainMenu = SelectedMainMenuItem.Name;
+            if (_selectedService.CurrentMainMenu == null) return;
 
-            var mainMenuXml = SelectedMainMenuItem.Path;
+            _selectedService.CurrentMainMenu = SelectedMainMenuItem.Name;            
 
-            if (_fileCheckService.FileExists(mainMenuXml))
-            {
-                _eventAggregator.GetEvent<MainMenuSelectedEvent>().Publish(mainMenuXml);
-            }
-        }
-
-        [Obsolete("Use static method GetMainMenuPath in frontend helpers")]
-        /// <summary>
-        /// Folder location of hyperspin main menu
-        /// </summary>
-        /// <param name="hsMainMenuPath"></param>
-        private string GetMainMenuPath(string hyperspinPath)
-        {
-            return _fileCheckService.CombinePath(new string[] {
-                hyperspinPath, Root.Databases, @"Main Menu"
-            });
+            _eventAggregator.GetEvent<MainMenuSelectedEvent>().Publish(_selectedService.CurrentMainMenu);
         }
 
         #endregion

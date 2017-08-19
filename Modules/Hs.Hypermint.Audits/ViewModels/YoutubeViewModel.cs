@@ -1,5 +1,4 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
@@ -356,7 +355,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 response = (HttpWebResponse)webRequest.GetResponse();
                 result = true;
             }
-            catch (WebException webException)
+            catch (WebException)
             {
 
             }

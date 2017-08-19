@@ -2,7 +2,7 @@
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace Hypermint.Base.Base
+namespace Hypermint.Base
 {
     public abstract class PrismBaseModule : IModule
     {

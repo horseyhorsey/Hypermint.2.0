@@ -1,5 +1,5 @@
 ﻿using Hs.Hypermint.Services;
-using Hypermint.Base.Base;
+using Hypermint.Base;
 using Hypermint.Base.Helpers;
 using Hypermint.Base.Interfaces;
 using MahApps.Metro.Controls.Dialogs;
@@ -23,10 +23,9 @@ namespace Hs.Hypermint.Audits.ViewModels
         public RlScanMediaFolderViewModel(string rlMediaFolder, string hsFolder, string mediaFolderName, string systemName, IGameRepo gameRepo,
             IDialogCoordinator dialogService, CustomDialog customDialog)
         {
+            //Bad shit
             rocketMediaScanner = new RocketMediaFolderScanner(rlMediaFolder, hsFolder);
-
             CurrentMediaFolder = Path.Combine(rlMediaFolder, mediaFolderName, systemName);
-
             Directories = rocketMediaScanner.GetAllFolders(CurrentMediaFolder);
             Results = rocketMediaScanner.MatchFoldersToGames(Directories, gameRepo);
 
@@ -239,7 +238,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                         CurrentGames.Add(new TempGame { HasFolder = true, RomName = folder.RecommendedName });
                     }
-                    catch (Exception ex) { }
+                    catch (Exception) { }
                     
                 }
 

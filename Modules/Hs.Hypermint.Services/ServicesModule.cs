@@ -1,6 +1,4 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
-using Hypermint.Base.Interfaces;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 

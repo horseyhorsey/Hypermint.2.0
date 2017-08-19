@@ -4,9 +4,11 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <GroupBox Header="{Binding MenusHeader}">
-        <ComboBox ItemsSource="{Binding MainMenuDatabases}" DisplayMemberPath="Name"
-                          ToolTip="{Binding Path}"
+        <GroupBox Header="{Binding MenusHeader}" ToolTip="Names that include a prefix of 'Main Menu*.xml' will be populated.">
+            
+            <!--MAIN MENU DATABASES-->
+            <ComboBox ItemsSource="{Binding MainMenuDatabases, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name"
+                          ToolTip="{Binding Name}"
                           SelectedItem="{Binding SelectedMainMenu}"/>
         </GroupBox>
     </Grid>

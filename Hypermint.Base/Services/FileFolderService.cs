@@ -1,8 +1,9 @@
-﻿using System.Windows.Forms;
+﻿using Hypermint.Base.Interfaces;
+using System.Windows.Forms;
 
 namespace Hypermint.Base.Services
 {
-    public class FileFolderService : IFileFolderService
+    public class FileFolderService : IFileDialogHelper
     {
         #region Properties        
         public string SelectedFolder { get; set; }

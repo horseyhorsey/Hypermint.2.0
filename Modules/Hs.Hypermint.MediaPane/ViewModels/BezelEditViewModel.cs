@@ -1,14 +1,20 @@
 ﻿using Hs.Hypermint.Services.Helpers;
 using Hypermint.Base;
-using Hypermint.Base.Base;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Windows.Input;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
 {
     public class BezelEditViewModel : ViewModelBase
-    {        
+    {
+        #region Fields
+        private string bezelImage;
+
+        private IEventAggregator _eventAgg;
+        #endregion
+
         #region Constructors
         public BezelEditViewModel(IEventAggregator ea)
         {
@@ -61,6 +67,11 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         }
         #endregion
 
+        #region Commands
+        public ICommand PreviewMouseDownCommand { get; private set; }
+        public ICommand SaveBezelIniCommand { get; private set; }
+        #endregion
+
         #region Properties
         private string bezelHeader;
         public string BezelHeader
@@ -97,17 +108,6 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             get { return rightClickY; }
             set { SetProperty(ref rightClickY, value); }
         }
-        #endregion
-
-        #region Fields
-        private string bezelImage;
-
-        private IEventAggregator _eventAgg;
-        #endregion
-
-        #region Commands
-        public DelegateCommand PreviewMouseDownCommand { get; private set; }
-        public DelegateCommand SaveBezelIniCommand { get; private set; }
         #endregion
 
         #region Support Methods

@@ -1,22 +1,12 @@
 ﻿using System;
-using Hypermint.Base.Base;
-using Prism.Commands;
-using Hs.Hypermint.WheelCreator.Tools;
+using Hypermint.Base;
 using Hypermint.Base.Services;
 using Prism.Events;
 using Hypermint.Base.Events;
-using System.Windows.Forms;
-using System.Text;
-using System.Drawing;
-using Xceed.Wpf.Toolkit;
 using System.Windows.Media;
-using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Drawing.Text;
-using Hypermint.Base;
-using System.Windows.Media.Imaging;
 using System.IO;
-using Hypermint.Base.Interfaces;
 using System.ComponentModel;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels

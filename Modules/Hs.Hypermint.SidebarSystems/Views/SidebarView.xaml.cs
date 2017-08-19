@@ -13,5 +13,4 @@ namespace Hs.Hypermint.SidebarSystems.Views
         }
 
     }
-
 }

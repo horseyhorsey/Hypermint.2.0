@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="Hs.Hypermint.MultiSystem.Views.MultiSystemControlPanelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:prism="http://prismlibrary.com/" prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
+    <GroupBox Header="Multi System Options">
+
+        <!--TOP GRID OPTIONS-->
+        <DockPanel>
+            
+            <!--Add all favorites-->
+            <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
+                        Command="{Binding ScanFavoritesCommand}"
+                VerticalAlignment="Top" ToolTip="Gets all the favorites from all systems." 
+                Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="16"
+                       Height="16"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_thumb_up_add}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <!--Clears the list-->
+            <Button Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" Margin="3" 
+                        Command="{Binding ClearListCommand}"
+                VerticalAlignment="Top" ToolTip="Clear this preperation list." 
+                Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="16"
+                       Height="16"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_clean}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+            <!--SAVE MULIT SYSTEM BUTTON-->
+            <Button Grid.Row="5" Grid.Column="2" Height="28" Width="28"  HorizontalAlignment="Right" Margin="3"
+                            Command="{Binding BuildMultiSystemCommand}" VerticalAlignment="Top" ToolTip="Run builder" 
+                            Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="16" Height="16" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_brick}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+        </DockPanel>
+    </GroupBox>
+</UserControl>

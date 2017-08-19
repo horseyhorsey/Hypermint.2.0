@@ -5,11 +5,11 @@ using Microsoft.Practices.Unity;
 using Prism.Unity;
 using Xunit;
 using Horsesoft.Frontends.Helper.Common;
-using Horsesoft.Frontends.Helper.Hyperspin;
 using System;
 using System.Linq;
 using Hypermint.Base.Interfaces;
-using Hs.Hypermint.Services;
+using Frontends.Models.Interfaces;
+using Hypermint.Base;
 
 namespace Hs.Hypermint.RocketStats.Tests
 {
@@ -25,7 +25,7 @@ namespace Hs.Hypermint.RocketStats.Tests
         public IFrontend _frontendRl;
         public IRocketLaunchStatProvider _statRepo;
         public IEventAggregator ea;
-        public ISettingsRepo settingsRepo;
+        public ISettingsHypermint settingsRepo;
 
         public RlStatsViewModelFixture()
         {
@@ -46,10 +46,10 @@ namespace Hs.Hypermint.RocketStats.Tests
 
             //Register the Types needed and resolve
             container.RegisterType<IRocketLaunchStatProvider, RocketLaunchStatProvider>();
-            container.RegisterType<ISettingsRepo, SettingsRepo>();
+            container.RegisterType<ISettingsHypermint, SettingsRepo>();
 
             _statRepo = container.Resolve<IRocketLaunchStatProvider>();
-            settingsRepo = container.Resolve<ISettingsRepo>();
+            settingsRepo = container.Resolve<ISettingsHypermint>();
             settingsRepo.HypermintSettings.RlPath = _frontendRl.Path;
         }
     }

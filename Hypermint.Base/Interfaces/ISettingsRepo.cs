@@ -1,8 +1,11 @@
-﻿using Hs.Hypermint.Settings;
+﻿using Hypermint.Base.Model;
 
 namespace Hypermint.Base.Interfaces
 {
-    public interface ISettingsRepo
+    /// <summary>
+    /// Stores settings used application wide
+    /// </summary>
+    public interface ISettingsHypermint
     {
         Setting HypermintSettings { get; set; }
 

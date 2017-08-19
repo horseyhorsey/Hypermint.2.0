@@ -1,5 +1,4 @@
-﻿using Hypermint.Base.Base;
-using Hypermint.Base.Interfaces;
+﻿using Hypermint.Base.Interfaces;
 using Prism.Commands;
 using System;
 using System.ComponentModel;
@@ -10,73 +9,60 @@ using Hypermint.Base;
 using System.Collections;
 using System.Windows.Input;
 using Frontends.Models.Hyperspin;
+using Hypermint.Base.Model;
 
 namespace Hs.Hypermint.Search.ViewModels
 {
     public class SearchViewModel : HyperMintModelBase
     {
+        #region Fields               
+        private IHyperspinManager _hyperspinManager;
+        #endregion
+
         #region Constructors
         public SearchViewModel(
             IEventAggregator eventAggregator,
-            ISettingsRepo settings,            
-            ISelectedService selectedSrv,
+            ISettingsHypermint settings,
+            ISelectedService selectedSrv, IHyperspinManager hyperspinManager,
             IGameLaunch gameLaunch) : base(eventAggregator, selectedSrv, gameLaunch, settings)
-        {            
+        {
+            _hyperspinManager = hyperspinManager;
+
+            Systems = new ListCollectionView(_hyperspinManager.Systems);
 
             SelectSystemsCommand = new DelegateCommand<string>(x =>
             {
-                try
-                {
-                    var sysEnabled = 0;
-
-                    if (x == "all")
-                        sysEnabled = 1;
-
-                    foreach (MainMenu item in _systems)
-                    {
-                        item.Enabled = sysEnabled;
-                    }
-
-                    Systems.Refresh();
-
-                }
-                catch (Exception) { }
-
+                OnSystemsSelected(x);
             });
 
             // Command for datagrid selectedItems
-            SelectionChanged = new DelegateCommand<IList>(
-                items =>
-                {
-                    if (items == null)
-                    {
-                        _selectedService.SelectedGames.Clear();
-                        return;
-                    }
-
-                    try
-                    {
-                        _selectedService.SelectedGames.Clear();
-                        foreach (var item in items)
-                        {
-                            var game = item as GameSearch;
-
-                            if (game.Game.RomName != null)
-                                _selectedService.SelectedGames.Add(game.Game);
-                        };
-                    }
-                    catch (Exception)
-                    {
-
-
-                    }
-
-                });
+            SelectionChanged = new DelegateCommand<IList>( items => {
+                    OnSelectionChanged(items); });
 
             DockSystemsCommand = new DelegateCommand(() => { SystemsVisible = !SystemsVisible; });
 
-            _eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => OnSystemsUpdated(x));
+            //_eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => OnSystemsUpdated(x));
         }
+
+        private void OnSystemsSelected(string x)
+        {
+            try
+            {
+                var sysEnabled = 0;
+
+                if (x == "all")
+                    sysEnabled = 1;
+
+                foreach (MainMenu item in _hyperspinManager.Systems)
+                {
+                    item.Enabled = sysEnabled;
+                }
+
+                Systems.Refresh();
+            }
+            catch (Exception) { }
+        }
+
         #endregion
 
         #region Properties
@@ -86,7 +72,7 @@ namespace Hs.Hypermint.Search.ViewModels
         {
             get { return systems; }
             set { SetProperty(ref systems, value); }
-        }        
+        }
 
         private bool systemsVisible = true;
         public bool SystemsVisible
@@ -97,15 +83,9 @@ namespace Hs.Hypermint.Search.ViewModels
 
         #endregion
 
-        #region Fields               
-        private IMainMenuRepo _mainmenuRepo;
-        private Systems _systems;
-
-        #endregion
-
         #region Commands
 
-        public ICommand SelectSystemsCommand { get; }                
+        public ICommand SelectSystemsCommand { get; }
         public ICommand SelectionChanged { get; set; }
         public ICommand ListBoxChanged { get; private set; }
         public ICommand DockSystemsCommand { get; private set; }
@@ -114,39 +94,59 @@ namespace Hs.Hypermint.Search.ViewModels
 
         #region Support Methods        
 
-
         /// <summary>
         /// Called when [systems are updated].
         /// </summary>
         /// <param name="system">The system.</param>
         private void OnSystemsUpdated(string system)
         {
-            _systems = new Systems();
+            //try
+            //{
+            //    if (_hyperspinManager.Systems != null)
+            //    {
+            //        foreach (var systemss in _hyperspinManager.Systems)
+            //        {
+            //            if (!systemss.Name.Contains("Main Menu"))
+            //            {
+            //                 .Add(new MainMenu()
+            //                {
+            //                    Name = systemss.Name,
+            //                    SysIcon = systemss.SysIcon,
+            //                    Enabled = 1
+            //                });
+            //            }
+            //        }                    
+            //    }
+            //}
+            //catch (Exception) { }
+
+        }
+
+        private void OnSelectionChanged(IList items)
+        {
+            if (items == null)
+            {
+                _selectedService.SelectedGames.Clear();
+                return;
+            }
 
             try
             {
-                if (_mainmenuRepo.Systems != null)
+                _selectedService.SelectedGames.Clear();
+                foreach (var item in items)
                 {
-                    foreach (var item in _mainmenuRepo.Systems)
-                    {
-                        if (!item.Name.Contains("Main Menu"))
-                        {
-                            _systems.Add(new MainMenu()
-                            {
-                                Name = item.Name,
-                                SysIcon = item.SysIcon,
-                                Enabled = 1
-                            });
-                        }
-                    }
+                    var game = item as GameSearch;
 
-                    Systems = new ListCollectionView(_systems);
-                }
+                    if (game.Game.RomName != null)
+                        _selectedService.SelectedGames.Add(new GameItemViewModel(game.Game));
+                };
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
 
+
+            }
         }
- 
 
         #endregion
     }

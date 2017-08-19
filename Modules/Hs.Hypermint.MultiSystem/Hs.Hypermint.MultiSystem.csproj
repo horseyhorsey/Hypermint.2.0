@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Frontends.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Frontends.Models.1.0.1\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    <Reference Include="Frontends.Models, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.7\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -100,13 +100,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Services\RocketlaunchRomMap.cs" />
-    <Compile Include="Services\SymbolicLinkService.cs" />
-    <Compile Include="User Controls\ucSaveMultiSystem.xaml.cs">
-      <DependentUpon>ucSaveMultiSystem.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModels\MultiSystemControlPanelViewModel.cs" />
+    <Compile Include="ViewModels\MultiSystemOptionsViewModel.cs" />
     <Compile Include="ViewModels\MultiSystemViewModel.cs" />
     <Compile Include="ViewModels\SaveMultiSystemViewModel.cs" />
+    <Compile Include="Views\MultiSystemControlPanelView.xaml.cs">
+      <DependentUpon>MultiSystemControlPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MultiSystemOptionsView.xaml.cs">
+      <DependentUpon>MultiSystemOptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MultiSystemView.xaml.cs">
       <DependentUpon>MultiSystemView.xaml</DependentUpon>
     </Compile>
@@ -125,10 +128,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
-      <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
-      <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>
@@ -147,7 +146,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="User Controls\ucSaveMultiSystem.xaml">
+    <Page Include="Views\MultiSystemControlPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MultiSystemOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

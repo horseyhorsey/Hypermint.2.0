@@ -128,10 +128,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
-      <Project>{D814D158-E6AE-4369-B1B0-185A6E08339D}</Project>
-      <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>

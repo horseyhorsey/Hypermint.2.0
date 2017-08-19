@@ -36,11 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Frontends.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Frontends.Models.1.0.1\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    <Reference Include="Frontends.Models, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.7\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
-    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.21, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.21\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
+    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.31, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.31\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -82,6 +82,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
+      <Project>{5F4FDB5E-3624-4C1A-9B9E-8F27F185EADD}</Project>
+      <Name>Hypermint.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Modules\Hs.Hypermint.Business\Hs.Hypermint.Business.csproj">
       <Project>{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}</Project>
       <Name>Hs.Hypermint.Business</Name>

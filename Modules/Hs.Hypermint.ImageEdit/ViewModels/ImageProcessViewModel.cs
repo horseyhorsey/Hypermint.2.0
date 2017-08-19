@@ -1,4 +1,4 @@
-﻿using Hypermint.Base.Base;
+﻿using Hypermint.Base;
 
 namespace Hs.Hypermint.ImageEdit.ViewModels
 {

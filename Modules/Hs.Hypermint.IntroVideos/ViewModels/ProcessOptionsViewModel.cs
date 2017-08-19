@@ -1,5 +1,4 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
@@ -23,7 +22,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         public ProcessOptionsViewModel(
     IAviSynthScripter aviSynthScripter,
     IEventAggregator ea,
-    ISettingsRepo settings,
+    ISettingsHypermint settings,
     ISelectedService selected,
     IFolderExplore folderexplorer)
         {
@@ -84,7 +83,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         const string exportPath = "exports\\videos\\";
 
         private AviSynthOption aviSynthOptions;
-        private ISettingsRepo _settings;
+        private ISettingsHypermint _settings;
         private ISelectedService _selectedService;
         #endregion
 

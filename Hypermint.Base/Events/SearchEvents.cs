@@ -1,4 +1,4 @@
-﻿using Hypermint.Base.Models;
+﻿using Hypermint.Base.Model;
 using Prism.Events;
 
 namespace Hypermint.Base.Events

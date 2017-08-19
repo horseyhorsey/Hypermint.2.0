@@ -3,15 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"      
-                            xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
               xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-              xmlns:local="clr-namespace:Hypermint.Shell.Views"
-              
-             xmlns:prism="http://prismlibrary.com/"             
-
-              prism:ViewModelLocator.AutoWireViewModel="True"
-              mc:Ignorable="d" 
-              Theme="Accent"
+              xmlns:prism="http://prismlibrary.com/"             
+              prism:ViewModelLocator.AutoWireViewModel="True" mc:Ignorable="d" Theme="Dark"
               Position="right"
               Header="Hypermint settings"
               Width="Auto" d:DesignWidth="500" Height="Auto">
@@ -24,7 +19,9 @@
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -99,20 +96,39 @@
             </Rectangle>
         </Button>
 
+        <!--Icons Path-->
+        <TextBlock Grid.Row="4" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="Icons" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding HyperMintSettings.Icons}" Controls:TextBoxHelper.ClearTextButton="True" 
+                             Controls:TextBoxHelper.Watermark="Icons for systems path not set"
+                             x:Name="txt_icons" Height="23" Margin="5" TextWrapping="Wrap" VerticalAlignment="Top"
+                             ToolTip="Path to icons to use for systems"/>
+        <Button Grid.Row="4" Command="{Binding FindPath}" CommandParameter="IconsPath" Grid.Column="2" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4"
+                Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="20"
+                       Height="20"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_folder}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
         <!--Launcher Params-->
-        <TextBlock Grid.Row="4" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="Params" VerticalAlignment="Top"/>
-        <TextBox Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding HyperMintSettings.LaunchParams}" Grid.Column="1" Grid.Row="4" 
+        <TextBlock Grid.Row="5" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="Params" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="5" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding HyperMintSettings.LaunchParams}" Grid.Column="1" 
                              Controls:TextBoxHelper.Watermark="Launcher params not set..."
                              TextWrapping="Wrap"  Height="23" Margin="5"
                               VerticalAlignment="Top" ToolTip="Specify launcher parameters."/>
 
-        <!--ImageMagick-->
-        <TextBlock Grid.Row="5" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="Ghostscript" VerticalAlignment="Top"/>
-        <TextBox Grid.Row="5"   Text="{Binding HyperMintSettings.GhostscriptPath}"  Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" 
+        <!--GhostScript-->
+        <TextBlock Grid.Row="6" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Text="Ghostscript" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="6"   Text="{Binding HyperMintSettings.GhostscriptPath}"  Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" 
                              Controls:TextBoxHelper.Watermark="Ghostscript path not set..."
                              Height="23" Margin="5" TextWrapping="Wrap"                             
                             VerticalAlignment="Top" ToolTip="Ghostscript path to file gsdll32.dll / gsdll64.dll"/>
-        <Button Grid.Row="5" Grid.Column="2" Command="{Binding FindPath}" CommandParameter="GsPath" HorizontalAlignment="Left" Margin="5" 
+        <Button Grid.Row="6" Grid.Column="2" Command="{Binding FindPath}" CommandParameter="GsPath" HorizontalAlignment="Left" Margin="5" 
                 VerticalAlignment="Top"
                 Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
             <Rectangle Width="20"
@@ -125,13 +141,15 @@
             </Rectangle>
         </Button>
 
-        <TextBlock Grid.Row="6" Grid.Column="0" Margin="10" TextWrapping="Wrap" Text="Set Author"  VerticalAlignment="Top"/>
-        <TextBox Grid.Row="6" Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding HyperMintSettings.Author}"
+        <!--AUTHOR-->
+        <TextBlock Grid.Row="7" Grid.Column="0" Margin="10" TextWrapping="Wrap" Text="Set Author"  VerticalAlignment="Top"/>
+        <TextBox Grid.Row="7" Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding HyperMintSettings.Author}"
                                 	Controls:TextBoxHelper.Watermark="Hypermint"
                                 	x:Name="txt_author" Height="23" Margin="5" TextWrapping="Wrap"
                                     VerticalAlignment="Top" ToolTip="Set author name for media creations"/>
 
-        <Button Grid.Row="7" Grid.Column="1" x:Name="btn_SavePaths" Command="{Binding SaveSettings}" Content="Save" 
+        <!--SAVE SETTINGS-->
+        <Button Grid.Row="8" Grid.Column="1" x:Name="btn_SavePaths" Command="{Binding SaveSettings}" Content="Save" 
                  Margin="10" VerticalAlignment="Center" Width="75" Style="{DynamicResource AccentedSquareButtonStyle}"></Button>
         <Rectangle Width="20"
                        Height="20"

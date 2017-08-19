@@ -1,4 +1,5 @@
 ﻿using Frontends.Models.Hyperspin;
+using Hypermint.Base.Model;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -15,7 +16,7 @@ namespace Hypermint.Base.Services
         bool IsMultiSystem { get; set; }
         BitmapImage SystemImage { get; set; }
         ImageSource GameImage { get; set; }
-        List<Game> SelectedGames { get; set; }
+        List<GameItemViewModel> SelectedGames { get; set; }
         #endregion
 
         #region Methods

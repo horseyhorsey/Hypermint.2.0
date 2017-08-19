@@ -1,9 +1,10 @@
 ﻿using System.IO;
-using System.Linq;
-using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
 using System.Threading.Tasks;
 using Frontends.Models.Hyperspin;
+using System.Collections.Generic;
+using Hypermint.Base.Model;
+using System;
 
 namespace Hs.Hypermint.Services
 {
@@ -22,149 +23,153 @@ namespace Hs.Hypermint.Services
         /// </summary>
         /// <param name="systemName"></param>
         /// <param name="databaseGameList"></param>
-        public async Task ScanForMediaAsync(string hyperspinPath, string systemName, Games databaseGameList)
-        {            
-            string FullPath;
-            var hsPath = hyperspinPath;
+        [Obsolete]
+        public Task ScanForMediaAsync(string hyperspinPath, string systemName, IEnumerable<GameItemViewModel> databaseGameList)
+        {
 
-            //Shouldn't be here for main menu??
-            if (systemName.Contains("Main Menu"))
-                return;
+            return null;
+            //string FullPath;
+            //var hsPath = hyperspinPath;
 
-            AuditsGameList = new AuditsGame();
+            ////Shouldn't be here for main menu??
+            //if (systemName.Contains("Main Menu"))
+            //    return;
 
-            await Task.Run(() =>
-            {
-                for (int i = 0; i < databaseGameList.Count; i++)
-                {
-                    string tempPath = "";
+            //AuditsGameList = new AuditsGame();
 
-                    AuditsGameList.Add(new AuditGame()
-                    {
-                        RomName = databaseGameList[i].RomName,
-                        Description = databaseGameList[i].Description
-                    });
+            //await Task.Run(() =>
+            //{
+            //    for (int i = 0; i < databaseGameList.Count(); i++)
+            //    {
+            //        string tempPath = "";
 
-                    if (systemName != "_Default")
-                    {
+            //        AuditsGameList.Add(new AuditGame()
+            //        {
+            //            RomName = databaseGameList.ElementAt(i).RomName,
+            //            Description = databaseGameList.ElementAt(i).Description
+            //        });
 
-                        tempPath = Path.Combine(hsPath, Root.Media, systemName);                        
+            //        if (systemName != "_Default")
+            //        {
 
-                        FullPath = Path.Combine(tempPath, Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
-                        AuditsGameList[i].HaveWheel = CheckForFile(FullPath);
+            //            tempPath = Path.Combine(hsPath, Root.Media, systemName);                        
 
-                        FullPath = Path.Combine(tempPath, Images.Artwork1,
-                            databaseGameList.ElementAt(i).RomName + ".png");
-                        AuditsGameList[i].HaveArt1 = CheckForFile(FullPath);
-                        FullPath = Path.Combine(tempPath, Images.Artwork2,
-                            databaseGameList.ElementAt(i).RomName + ".png");
-                        AuditsGameList[i].HaveArt2 = CheckForFile(FullPath);
-                        FullPath = Path.Combine(tempPath, Images.Artwork3,
-                            databaseGameList.ElementAt(i).RomName + ".png");
-                        AuditsGameList[i].HaveArt3 = CheckForFile(FullPath);
-                        FullPath = Path.Combine(tempPath, Images.Artwork4,
-                            databaseGameList.ElementAt(i).RomName + ".png");
-                        AuditsGameList[i].HaveArt4 = CheckForFile(FullPath);
+            //            FullPath = Path.Combine(tempPath, Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
+            //            AuditsGameList[i].HaveWheel = CheckForFile(FullPath);
 
-                        FullPath = Path.Combine(tempPath, Images.Backgrounds,
-                            databaseGameList.ElementAt(i).RomName + ".png");
-                        AuditsGameList[i].HaveBackground = CheckForFile(FullPath);
+            //            FullPath = Path.Combine(tempPath, Images.Artwork1,
+            //                databaseGameList.ElementAt(i).RomName + ".png");
+            //            AuditsGameList[i].HaveArt1 = CheckForFile(FullPath);
+            //            FullPath = Path.Combine(tempPath, Images.Artwork2,
+            //                databaseGameList.ElementAt(i).RomName + ".png");
+            //            AuditsGameList[i].HaveArt2 = CheckForFile(FullPath);
+            //            FullPath = Path.Combine(tempPath, Images.Artwork3,
+            //                databaseGameList.ElementAt(i).RomName + ".png");
+            //            AuditsGameList[i].HaveArt3 = CheckForFile(FullPath);
+            //            FullPath = Path.Combine(tempPath, Images.Artwork4,
+            //                databaseGameList.ElementAt(i).RomName + ".png");
+            //            AuditsGameList[i].HaveArt4 = CheckForFile(FullPath);
 
-                        FullPath = Path.Combine(tempPath, Sound.BackgroundMusic,
-                            databaseGameList.ElementAt(i).RomName + ".mp3");
-                        AuditsGameList[i].HaveBGMusic = CheckForFile(FullPath);
+            //            FullPath = Path.Combine(tempPath, Images.Backgrounds,
+            //                databaseGameList.ElementAt(i).RomName + ".png");
+            //            AuditsGameList[i].HaveBackground = CheckForFile(FullPath);
 
-                        FullPath = Path.Combine(tempPath, Sound.SystemStart);
-                        AuditsGameList[i].HaveS_Start = CheckMediaFolderFiles(FullPath, "*.mp3");
+            //            FullPath = Path.Combine(tempPath, Sound.BackgroundMusic,
+            //                databaseGameList.ElementAt(i).RomName + ".mp3");
+            //            AuditsGameList[i].HaveBGMusic = CheckForFile(FullPath);
 
-                        FullPath = Path.Combine(tempPath, Sound.SystemExit);
-                        AuditsGameList[i].HaveS_Exit = CheckMediaFolderFiles(FullPath, "*.mp3");
+            //            FullPath = Path.Combine(tempPath, Sound.SystemStart);
+            //            AuditsGameList[i].HaveS_Start = CheckMediaFolderFiles(FullPath, "*.mp3");
 
-                        FullPath = Path.Combine(tempPath, Root.Themes, databaseGameList.ElementAt(i).RomName + ".zip");
-                        AuditsGameList[i].HaveTheme = CheckForFile(FullPath);
+            //            FullPath = Path.Combine(tempPath, Sound.SystemExit);
+            //            AuditsGameList[i].HaveS_Exit = CheckMediaFolderFiles(FullPath, "*.mp3");
 
-                        //Video slightly different, where you have flvs & pngs
-                        FullPath = Path.Combine(tempPath, Root.Video, databaseGameList.ElementAt(i).RomName + ".mp4");
-                        if (!CheckForFile(FullPath))
-                            FullPath = Path.Combine(tempPath, Root.Video, databaseGameList.ElementAt(i).RomName + ".flv");
-                        if (!CheckForFile(FullPath))
-                            FullPath = Path.Combine(tempPath, Root.Video, databaseGameList.ElementAt(i).RomName + ".png");
-                        if (!CheckForFile(FullPath))
-                            AuditsGameList[i].HaveVideo = false;
-                        else
-                            AuditsGameList[i].HaveVideo = true;
-                    }
+            //            FullPath = Path.Combine(tempPath, Root.Themes, databaseGameList.ElementAt(i).RomName + ".zip");
+            //            AuditsGameList[i].HaveTheme = CheckForFile(FullPath);
 
-                }
+            //            //Video slightly different, where you have flvs & pngs
+            //            FullPath = Path.Combine(tempPath, Root.Video, databaseGameList.ElementAt(i).RomName + ".mp4");
+            //            if (!CheckForFile(FullPath))
+            //                FullPath = Path.Combine(tempPath, Root.Video, databaseGameList.ElementAt(i).RomName + ".flv");
+            //            if (!CheckForFile(FullPath))
+            //                FullPath = Path.Combine(tempPath, Root.Video, databaseGameList.ElementAt(i).RomName + ".png");
+            //            if (!CheckForFile(FullPath))
+            //                AuditsGameList[i].HaveVideo = false;
+            //            else
+            //                AuditsGameList[i].HaveVideo = true;
+            //        }
 
-            });
+            //    }
+
+            //});
 
         }        
 
-        public void ScanForMediaMainMenu(string hyperspinPath, Games databaseGameList)
+        [Obsolete]
+        public void ScanForMediaMainMenu(string hyperspinPath, IEnumerable<GameItemViewModel> databaseGameList)
         {            
-            string FullPath;
-            var hsPath = hyperspinPath;
-            string tempPath = "";
+            //string FullPath;
+            //var hsPath = hyperspinPath;
+            //string tempPath = "";
 
-            AuditsMenuList = new AuditsMenu
-            {
-                new AuditMenu()
-                {
-                    RomName = "Main Menu"
-                }
-            };
+            //AuditsMenuList = new AuditsMenu
+            //{
+            //    new AuditMenu()
+            //    {
+            //        RomName = "Main Menu"
+            //    }
+            //};
 
-            for (int i = 1; i < databaseGameList.Count; i++)
-            {
-                AuditsMenuList.Add(new AuditMenu()
-                {
-                    
-                    RomName = databaseGameList[i].RomName,
-                    Description = databaseGameList[i].Description
-                });
+            //for (int i = 1; i < databaseGameList.Count(); i++)
+            //{
+            //    AuditsMenuList.Add(new AuditMenu()
+            //    {
 
-                tempPath = Path.Combine(hsPath, Root.Media);
+            //        RomName = databaseGameList.ElementAt(i).RomName,
+            //        Description = databaseGameList.ElementAt(i).Description
+            //    });
 
-                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Letters);
-                AuditsMenuList[i].HaveLetters = CheckMediaFolderFiles(FullPath, "*.png");
+            //    tempPath = Path.Combine(hsPath, Root.Media);
 
-                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Special);
-                if (CheckMediaFolderFiles(FullPath, "*.swf"))
-                    AuditsMenuList[i].HaveSpecial = true;
-                else if ((CheckMediaFolderFiles(FullPath, "*.png")))
-                    AuditsMenuList[i].HaveSpecial = true;
+            //    FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Letters);
+            //    AuditsMenuList[i].HaveLetters = CheckMediaFolderFiles(FullPath, "*.png");
 
-
-                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.GenreWheel);
-                AuditsMenuList[i].HaveGenreWheel = CheckMediaFolderFiles(FullPath, "*.png");
-
-                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.GenreBackgrounds);
-                AuditsMenuList[i].HaveGenreBG = CheckMediaFolderFiles(FullPath, "*.png");
-
-                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Pointer);
-                AuditsMenuList[i].HavePointer = CheckMediaFolderFiles(FullPath, "*.png");
-
-                FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Root.Sound);
-                AuditsMenuList[i].HaveS_Click = CheckMediaFolderFiles(FullPath, "Wheel Click.mp3");
-
-                FullPath = Path.Combine(hsPath, Root.Media, AuditsMenuList[i].RomName, Sound.WheelSounds);
-                AuditsMenuList[i].HaveS_Wheel = CheckMediaFolderFiles(FullPath, "*.mp3");
-
-                FullPath = Path.Combine(tempPath, "Main Menu", Sound.BackgroundMusic, databaseGameList.ElementAt(i).RomName + ".mp3");
-                AuditsMenuList[i].HaveBGMusic = CheckForFile(FullPath);                
-
-                FullPath = Path.Combine(tempPath, "Main Menu", Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
-                AuditsMenuList[i].HaveWheel = CheckForFile(FullPath);
-
-                FullPath = Path.Combine(tempPath, "Main Menu", Root.Themes, databaseGameList.ElementAt(i).RomName + ".zip");
-                AuditsMenuList[i].HaveTheme = CheckForFile(FullPath);
-
-                FullPath = Path.Combine(tempPath, "Main Menu", Root.Video, databaseGameList.ElementAt(i).RomName + ".mp4");
-                AuditsMenuList[i].HaveVideo = CheckForFile(FullPath);
+            //    FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Special);
+            //    if (CheckMediaFolderFiles(FullPath, "*.swf"))
+            //        AuditsMenuList[i].HaveSpecial = true;
+            //    else if ((CheckMediaFolderFiles(FullPath, "*.png")))
+            //        AuditsMenuList[i].HaveSpecial = true;
 
 
-            }
+            //    FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.GenreWheel);
+            //    AuditsMenuList[i].HaveGenreWheel = CheckMediaFolderFiles(FullPath, "*.png");
+
+            //    FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.GenreBackgrounds);
+            //    AuditsMenuList[i].HaveGenreBG = CheckMediaFolderFiles(FullPath, "*.png");
+
+            //    FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Images.Pointer);
+            //    AuditsMenuList[i].HavePointer = CheckMediaFolderFiles(FullPath, "*.png");
+
+            //    FullPath = Path.Combine(tempPath, AuditsMenuList[i].RomName, Root.Sound);
+            //    AuditsMenuList[i].HaveS_Click = CheckMediaFolderFiles(FullPath, "Wheel Click.mp3");
+
+            //    FullPath = Path.Combine(hsPath, Root.Media, AuditsMenuList[i].RomName, Sound.WheelSounds);
+            //    AuditsMenuList[i].HaveS_Wheel = CheckMediaFolderFiles(FullPath, "*.mp3");
+
+            //    FullPath = Path.Combine(tempPath, "Main Menu", Sound.BackgroundMusic, databaseGameList.ElementAt(i).RomName + ".mp3");
+            //    AuditsMenuList[i].HaveBGMusic = CheckForFile(FullPath);                
+
+            //    FullPath = Path.Combine(tempPath, "Main Menu", Images.Wheels, databaseGameList.ElementAt(i).RomName + ".png");
+            //    AuditsMenuList[i].HaveWheel = CheckForFile(FullPath);
+
+            //    FullPath = Path.Combine(tempPath, "Main Menu", Root.Themes, databaseGameList.ElementAt(i).RomName + ".zip");
+            //    AuditsMenuList[i].HaveTheme = CheckForFile(FullPath);
+
+            //    FullPath = Path.Combine(tempPath, "Main Menu", Root.Video, databaseGameList.ElementAt(i).RomName + ".mp4");
+            //    AuditsMenuList[i].HaveVideo = CheckForFile(FullPath);
+
+
+            //}
         }
 
         #region THESE TWO METHODS NEED TO BE MOVED

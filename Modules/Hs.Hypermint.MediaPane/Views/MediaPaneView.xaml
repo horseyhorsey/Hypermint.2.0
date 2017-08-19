@@ -22,10 +22,12 @@
 
             <GroupBox Header="{Binding MediaPaneHeader}">
                 <Grid>
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+                    
                     <!--SHOW IMAGE-->
                     <Image Stretch="Uniform" Margin="5"  Source="{Binding WheelSource}" AllowDrop="True"/>
 
@@ -63,7 +65,9 @@
                         </ContextMenuService.ContextMenu>
                     </MediaElement>
 
+                    <!--PDF CONTROLS-->
                     <Grid Grid.Row="1">
+                        
                         <!--PDF CONTROLS-->
                         <DockPanel Grid.Row="1"
                        Visibility="{Binding ElementName=root,

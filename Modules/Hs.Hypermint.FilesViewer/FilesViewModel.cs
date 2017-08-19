@@ -1,5 +1,4 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
 using Prism.Events;
 using System.Collections.Generic;
 using System;
@@ -26,8 +25,8 @@ namespace Hs.Hypermint.FilesViewer
         public FilesViewModel(IEventAggregator eventAggregator,
             IDialogCoordinator dialogService,
             ISelectedService selectedSrv,
-            ISettingsRepo settings,
-            IFolderExplore folderExplore,
+            ISettingsHypermint settings,
+            IFolderExplore folderExplore, IAuditer auditer,
             IImageEditService imageEdit,
             ITrashMaster trashMaster)
         {
@@ -43,6 +42,8 @@ namespace Hs.Hypermint.FilesViewer
             _imageEdit = imageEdit;
             _dialogService = dialogService;
             _trashMaster = trashMaster;
+            _rlAuditer = null;
+            _auditRepo = auditer;
 
             _eventAggregator.GetEvent<UpdateFilesEvent>().Subscribe(UpdateFiles);
 
@@ -273,15 +274,16 @@ namespace Hs.Hypermint.FilesViewer
 
         #region Services
         private IEventAggregator _eventAggregator;
-        private IAuditerRl _rlAuditer;
         private ISelectedService _selectedSrv;
-        private ISettingsRepo _settingsRepo;
+        private ISettingsHypermint _settingsRepo;
         private IFolderExplore _folderService;
         private IDialogCoordinator _dialogService;
         private IImageEditService _imageEdit;
         private bool cancelPending;
         private ITrashMaster _trashMaster;
-        #endregion                
+        private IAuditerRl _rlAuditer;
+        private IAuditer _auditRepo;
+        #endregion
 
         #region Public Methods
         public void DragOver(IDropInfo dropInfo)

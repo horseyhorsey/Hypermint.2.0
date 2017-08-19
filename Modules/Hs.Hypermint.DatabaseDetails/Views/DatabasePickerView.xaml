@@ -6,9 +6,11 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <StackPanel>
+            
+            <!--LIST OF DATABASES FOR THE SYSTEM-->
             <metro:SplitButton Height="68"
                                   Name="SplitButton1"
-                                  Width="90"                 
+                                  Width="100"
                                   HorizontalAlignment="Center"
                                   Orientation="Vertical"
                                   DisplayMemberPath="{Binding ElementName=SplitButton0, Path=DisplayMemberPath}"
@@ -22,27 +24,14 @@
                                         Content="{DynamicResource appbar_archive}" />
                     </Viewbox>
                 </metro:SplitButton.Icon>
+                <metro:SplitButton.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding FileName}"/>
+                    </DataTemplate>
+                </metro:SplitButton.ItemTemplate>
             </metro:SplitButton>
 
-            <!--<metro:SplitButton Height="68"
-                                  Name="SplitButton2"
-                                  Width="70"
-                           
-                                  HorizontalAlignment="Center"
-                                  Orientation="Vertical"
-                                  DisplayMemberPath="{Binding ElementName=SplitButton0, Path=DisplayMemberPath}"
-                                  SelectedIndex="{Binding SelectedIndex, ElementName=SplitButton0, Mode=TwoWay}"
-                                  ItemsSource="{Binding GenreDatabases, UpdateSourceTrigger=PropertyChanged}">
-            <metro:SplitButton.Icon>
-                <Viewbox Width="32"
-                             Height="32"
-                             Stretch="Uniform">
-                    <ContentControl Focusable="False"
-                                        Content="{DynamicResource appbar_alien}" />
-                </Viewbox>
-            </metro:SplitButton.Icon>
-        </metro:SplitButton>-->
-
+            <!--OPEN DATABASE FOLDER-->
             <Button Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}"
                         Command="{Binding OpenFolderCommand}"
                         CommandParameter="Databases"

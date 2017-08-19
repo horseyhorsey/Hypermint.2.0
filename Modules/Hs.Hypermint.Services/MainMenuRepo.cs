@@ -41,14 +41,14 @@ namespace Hs.Hypermint.Services
                             Systems.Add(new MainMenu(systems[i, 0], Convert.ToInt32(systems[i, 1])));
                         
                     }
-                    catch (Exception e) { }
+                    catch (Exception) { throw; }
                    
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                
+                throw;
             }
            
      
@@ -89,6 +89,7 @@ namespace Hs.Hypermint.Services
             return systemsArray;
         }
 
+        [Obsolete("New Hyperspin frontend")]
         public string[] GetMainMenuDatabases(string MainMenuFolder)
         {
             if (!Directory.Exists(MainMenuFolder))
@@ -103,7 +104,7 @@ namespace Hs.Hypermint.Services
                 menuXmls = new string[Directory.GetFiles(xmlPath, "*.xml").Count()];
                 foreach (var item in Directory.GetFiles(xmlPath, "*.xml"))
                 {
-                    menuXmls[i] = Path.GetFileNameWithoutExtension(item);
+                    menuXmls[i] = item;
                     i++;
                 }
                 return menuXmls;

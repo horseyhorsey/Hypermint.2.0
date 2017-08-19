@@ -1,7 +1,6 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using Hs.Hypermint.HyperspinFile.Models;
 using Hypermint.Base;
-using Hypermint.Base.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Hypermint.Base.Helpers;
@@ -25,14 +24,21 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 {
     public class HyperspinFilesViewModel : ViewModelBase, IDropTarget
     {
+
+        #region Fields
+        private ISettingsHypermint _settingsRepo;
+        private ISelectedService _selectedService;
+        private IEventAggregator _eventAggregator;
+        #endregion
+
         #region Constructors
-        public HyperspinFilesViewModel(IEventAggregator ea, ISettingsRepo settings,
-             IRegionManager regionManager,
-            IFolderExplore folderExplore, ITrashMaster trashMaster,
+        public HyperspinFilesViewModel(IEventAggregator ea, ISettingsHypermint settings, IAuditer al,
+             IRegionManager regionManager, IFolderExplore folderExplore, ITrashMaster trashMaster,
             ISelectedService selectedService, IImageEditService imageEdit)
         {
             _eventAggregator = ea;
             _settingsRepo = settings;
+
 
 #warning 69 need to reenable
             //IAuditer auditRepo,
@@ -43,6 +49,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             _regionManager = regionManager;
             _folderExplore = folderExplore;
             _trashMaster = trashMaster;
+            _auditRepo = al;
 
             _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe((x) =>
             {
@@ -105,13 +112,6 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
 
         #endregion
 
-        #region Fields
-        private ISettingsRepo _settingsRepo;
-        private IAuditer _auditRepo;
-        private ISelectedService _selectedService;
-        private IEventAggregator _eventAggregator;
-        #endregion
-
         #region Properties
         private string columnHeader = "";
         private string groupBoxHeader = "Unused Files: ";
@@ -148,6 +148,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         private IRegionManager _regionManager;
         private IFolderExplore _folderExplore;
         private ITrashMaster _trashMaster;
+        private IAuditer _auditRepo;
 
         public string MediaTypeName
         {
@@ -295,9 +296,9 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                             });
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-
+                    throw;
                 }
 
             }

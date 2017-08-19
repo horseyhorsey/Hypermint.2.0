@@ -23,7 +23,7 @@ namespace Hs.Hypermint.GameLaunch
                         + " -f " + HsPath + "\\HyperSpin.exe"
                         + " -p " + "HyperSpin");
                 }
-                catch(Exception e)
+                catch(Exception )
                 {
 
                 }
@@ -49,7 +49,7 @@ namespace Hs.Hypermint.GameLaunch
                         //" -f " + HsPath + "\\HyperSpin.exe" +
                         " -m " + mode + " -p hyperspin");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }

@@ -22,7 +22,6 @@ using Hs.Hypermint.DatabaseDetails;
 using Hs.Hypermint.RocklaunchStats.Views;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.Hypermint.MediaPane.Views;
-using Prism.Logging;
 using Hs.Hypermint.Business.RocketLauncher;
 using Hs.Hypermint.Business.Hyperspin;
 
@@ -42,7 +41,7 @@ namespace Hypermint.Shell
             {
                 regionManager.RegisterViewWithRegion(RegionNames.FlyoutRegion, typeof(SettingsFlyout));
                 regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
-                regionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(MainMenuView));
+                regionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(Hs.Hypermint.DatabaseDetails.Views.MainMenuView));
             }
 
             Application.Current.MainWindow = (Views.Shell)this.Shell;            
@@ -78,21 +77,24 @@ namespace Hypermint.Shell
             Container.RegisterType<IDialogCoordinator, DialogCoordinator>();
 
 #warning reenable this with new
-            //Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
+            Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
 
-            Container.RegisterInstance<ISettingsRepo>(Container.Resolve<SettingsRepo>());
+            Container.RegisterInstance<ISettingsHypermint>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFileFolderChecker>(Container.Resolve<FileFolderChecker>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
-            Container.RegisterInstance<IFileFolderService>(Container.Resolve<Base.Services.FileFolderService>());
+            Container.RegisterInstance<IFileDialogHelper>(Container.Resolve<Base.Services.FileFolderService>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
-            Container.RegisterInstance<IGenreRepo>(Container.Resolve<GenreRepo>());
             Container.RegisterInstance<IGameLaunch>(Container.Resolve<GameLaunch>());
 
             Container.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());
+            //Container.RegisterType<IHyperspinXmlDataProvider, MainMenuRepo>(new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<IHyperspinXmlService, HyperspinXmlService>(
+                new ContainerControlledLifetimeManager());
 
 #warning this needs replacing with the helper lib
-            //Container.RegisterType<IAuditerRl, AuditerRlRepo>(
-            //    new ContainerControlledLifetimeManager());
+            //Container.RegisterType<IAuditerRl, Auditer>(
+              //  new ContainerControlledLifetimeManager());
 
             Container.RegisterType<IStatsRepo, StatRepo>(
                 new ContainerControlledLifetimeManager());
@@ -101,12 +103,6 @@ namespace Hypermint.Shell
                 new ContainerControlledLifetimeManager());
 
             Container.RegisterType<ISearchYoutube, SearchYoutubeService>(
-                new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<IHyperspinXmlService, HyperspinXmlService>(
-                new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<IHyperspinXmlDataProvider, HyperspinDataProvider>(
                 new ContainerControlledLifetimeManager());
 
             Container.RegisterType<IGameRepo, GameRepo>(
@@ -120,6 +116,19 @@ namespace Hypermint.Shell
 
             Container.RegisterType<ITrashMaster, TrashMaster>(
                 new ContainerControlledLifetimeManager());
+
+            //New providers
+            Container.RegisterType<IHyperspinXmlDataProvider, HyperspinDataProvider>(
+                new ContainerControlledLifetimeManager());
+
+            Container.RegisterType<IHyperspinManager, HyperspinManager>(
+                new ContainerControlledLifetimeManager());
+
+            //Move these into the business layer
+            //Container.RegisterType<ISystemCreator, SystemCreator>(
+            //    new ContainerControlledLifetimeManager());
+            //Container.RegisterType<IFrontend, HyperspinFrontend>(
+            //    new ContainerControlledLifetimeManager());
 
             RegisterNavigationTypes();
 
@@ -138,6 +147,8 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<StatsView>("StatsView");
             Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");
 
+
+            //Container.RegisterTypeForNavigation<Hs.Hypermint.SidebarSystems.Views.SystemsView>("SystemView");
             //Container.RegisterTypeForNavigation(RegionNames.SystemsRegion, typeof(SystemsView));
             //Container.RegisterTypeForNavigation<Hs.Hypermint.FilesViewer.FilesView>("FilesView");
             //Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");

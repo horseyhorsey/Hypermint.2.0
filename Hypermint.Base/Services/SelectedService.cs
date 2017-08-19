@@ -1,4 +1,4 @@
-﻿using Frontends.Models.Hyperspin;
+﻿using Hypermint.Base.Model;
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -14,7 +14,7 @@ namespace Hypermint.Base.Services
 
         public BitmapImage SystemImage { get; set; }
 
-        public List<Game> SelectedGames { get; set; }
+        public List<GameItemViewModel> SelectedGames { get; set; }
 
         public string CurrentMainMenu { get; set; }
 

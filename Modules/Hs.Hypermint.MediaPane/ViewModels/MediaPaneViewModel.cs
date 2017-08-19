@@ -1,5 +1,4 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
 using Prism.Events;
 using System.IO;
 using System.Windows.Media;
@@ -18,7 +17,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
     {
         #region Constructors
         public MediaPaneViewModel(IEventAggregator eventAggregator, ISelectedService selectedService,
-            ISettingsRepo settingsRepo, IPdfService pdfService, IRegionManager rm)
+            ISettingsHypermint settingsRepo, IPdfService pdfService, IRegionManager rm)
         {
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
@@ -170,7 +169,7 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         #region Services
         private IEventAggregator _eventAggregator;
         private ISelectedService _selectedService;
-        private ISettingsRepo _settingsRepo;
+        private ISettingsHypermint _settingsRepo;
         private IPdfService _pdfService;
         private string currentPdfFile;
         private IRegionManager _regionManager;
@@ -484,9 +483,6 @@ namespace Hs.Hypermint.MediaPane.ViewModels
             }
 
         }
-
-
-
 
         #endregion
 

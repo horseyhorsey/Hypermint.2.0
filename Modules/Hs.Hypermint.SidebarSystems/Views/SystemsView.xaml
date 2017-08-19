@@ -2,57 +2,41 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
-             mc:Ignorable="d"      
-             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"                                        
              xmlns:ddrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-             dialog:DialogParticipation.Register="{Binding}"  
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:views="clr-namespace:Hs.Hypermint.SidebarSystems.Views"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="250">
     <Grid>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--SYSTEMS FILTER-->
+        <views:SystemsFilterView Grid.Row="0"/>
+
+        <!--SYSTEMS LIST AND OPTIONS-->
         <GroupBox Header="{Binding SystemsHeader}" Grid.Row="1" MinHeight="500" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid>
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="28"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <DockPanel>
-                    <CheckBox Margin="5" Grid.Row="0" Content="Re-order" ToolTip="Allow reordering of systems."
-                              IsChecked="{Binding ReOrderSystems, UpdateSourceTrigger=PropertyChanged}" />
-                </DockPanel>
+                <!--SIDEBAR OPTIONS-->
+                <views:SidebarOptionsView Grid.Row="0" Margin="0"/>
 
-                <DockPanel HorizontalAlignment="Right">
-                    <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
-                Command="{Binding AddSystemCommand}" IsEnabled="True"
-                ToolTip="Add new system" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
-                    <Rectangle Width="10" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_add}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-                
-                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2" 
-                Command="{Binding SaveMainMenuCommand}" CommandParameter=""
-                ToolTip="Save main menu" Height="22" Width="22" Style="{DynamicResource AccentedSquareButtonStyle}">
-                    <Rectangle Width="10" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-                </DockPanel>
-
-                <ListBox BorderThickness="2" Grid.Row="1"  ItemsSource="{Binding SystemItems}"  
+                <!--SYSTEMS LIST-->
+                <ListBox BorderThickness="2" Grid.Row="1"  ItemsSource="{Binding SystemItems, UpdateSourceTrigger=PropertyChanged}"  
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                  ddrop:DragDrop.IsDropTarget="True" ddrop:DragDrop.IsDragSource="True"
                  ddrop:DragDrop.DropHandler="{Binding}"
-                 SelectionMode="Single" IsEnabled="{Binding SystemListEnabled}"  
-              >
+                 SelectionMode="Single" IsEnabled="{Binding SystemListEnabled}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
@@ -63,7 +47,9 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                
             </Grid>
         </GroupBox>
+        
     </Grid>
 </UserControl>

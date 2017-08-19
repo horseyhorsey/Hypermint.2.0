@@ -1,12 +1,10 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,91 +14,44 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Linq;
 using System.Collections.Generic;
 using Frontends.Models.Hyperspin;
+using System.Windows.Input;
+using Hypermint.Base.Model;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
     public class HsMediaAuditViewModel : HyperMintModelBase
     {
+        #region Fields                
+        private IGameRepo _gameRepo;
+        private ISearchYoutube _youtube;
+        private IDialogCoordinator _dialogService;
+        private IHyperspinManager _hsManager;
+        private IAuditer _auditer;
+        #endregion
+
         //IAuditer auditer
-        #region ctors
-        public HsMediaAuditViewModel(ISettingsRepo settings, IGameRepo gameRepo,
-            IEventAggregator eventAggregator,
+        #region Constructor
+        public HsMediaAuditViewModel(ISettingsHypermint settings, IHyperspinManager hsManager, IGameRepo gameRepo,
+            IEventAggregator eventAggregator, IAuditer auditer,
             IDialogCoordinator dialogService,
-            ISelectedService selectedService,IGameLaunch gameLaunch,
-            ISearchYoutube youtube):base(eventAggregator,selectedService,gameLaunch,settings)
-        {                        
+            ISelectedService selectedService, IGameLaunch gameLaunch,
+            ISearchYoutube youtube) : base(eventAggregator, selectedService, gameLaunch, settings)
+        {
+#warning 69 HS AUDITER
             //_auditer = auditer;
             //_auditer.AuditsGameList = new AuditsGame();
 
-            _gameRepo = gameRepo;            
+            _gameRepo = gameRepo;
             _youtube = youtube;
-            _dialogService = dialogService;                                   
-
-            _eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(GamesUpdated);
+            _dialogService = dialogService;
+            _hsManager = hsManager;
+            _auditer = auditer;
 
             CurrentCellChanged = new DelegateCommand<object>(
                 selectedGameCell =>
                 {
-                    string romName = "", description = "";
-
-                    try
-                    {
-                        //Using reflection to get the underlying DataGrid
-                        //Current item from the AudiList is one behind on a Cell click
-                        var datagridProperties =
-                        selectedGameCell.GetType().GetProperty("DataGridOwner",
-                        BindingFlags.Instance | BindingFlags.NonPublic).GetValue(selectedGameCell, null);
-
-                        var dg = datagridProperties as DataGrid;
-                        SelectedGame = dg.CurrentItem as AuditGame;
-
-                        if (SelectedGame == null)
-                        {
-                            SelectedMenu = dg.CurrentItem as AuditMenu;
-                            romName = SelectedMenu.RomName;
-                            _selectedService.CurrentRomname = romName;
-                        }
-                        else
-                        {
-                            romName = SelectedGame.RomName;
-                            description = SelectedGame.Description;
-                            _selectedService.CurrentRomname = romName;
-                            _selectedService.CurrentDescription = description;
-                        }
-
-                        _selectedGame = new Game
-                        {
-                            RomName = SelectedGame.RomName,
-                            Description = SelectedGame.Description,                            
-                        };
-
-                    }
-                    catch (Exception) { }
-
-                    try
-                    {
-                        var column = selectedGameCell as DataGridTextColumn;
-
-                        CurrentColumnType = column.SortMemberPath;
-                        CurrentColumnHeader = column.Header.ToString();
-                        MediaAuditHeaderInfo = "Hyperspin Media Audit : " +
-                        romName + " : " +
-                        CurrentColumnHeader;
-
-                        _eventAggregator.GetEvent<GameSelectedEvent>().Publish(
-                        new string[] { romName, CurrentColumnHeader }
-                        );
-
-                    }
-                    catch (Exception e) { }
-
-
-
-
-                });
-
-            GamesUpdated("Main Menu");
+                    SelectedGameCellChanged(selectedGameCell);
+                });            
 
             SearchYoutubeCommand = new DelegateCommand(() =>
             {
@@ -108,38 +59,41 @@ namespace Hs.Hypermint.Audits.ViewModels
                 _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("YoutubeView");
             });
 
-            // Run the auditer for hyperspin
-            RunAuditCommand = new DelegateCommand(
-                async () => await RunScan());
+            //Remove not needed??
+            //_eventAggregator.GetEvent<GamesUpdatedEvent>().Subscribe(GamesUpdated);
+            //_eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(GamesUpdated);
+
+            // Runs the auditer for hyperspin
+            RunAuditCommand = new DelegateCommand( async () => await RunScan());
 
             _eventAggregator.GetEvent<HsAuditUpdateEvent>().Subscribe(a =>
             {
-                var nameAndType = (string[])a;
-
-                UpdateAuditValuesAfterDrop(nameAndType);
-
-                AuditList.Refresh();
-            });
-
-            _eventAggregator.GetEvent<RefreshHsAuditEvent>().Subscribe((x) =>
-            {
-                AuditList.Refresh();
+                OnHsAuditUpdateEvent(a);
             });
 
             _selectedGame = new Game();
-
+            AuditList = new ListCollectionView(_hsManager.CurrentSystemsGames);
+            //GamesUpdated("Main Menu");
         }
 
         #endregion
 
-        #region Fields                
-        private IGameRepo _gameRepo;
-        private IAuditer _auditer;
-        private ISearchYoutube _youtube;
-        private IDialogCoordinator _dialogService;
+        #region Commands
+        public DelegateCommand<object> SelectionChanged { get; set; }
+        public DelegateCommand<object> CurrentCellChanged { get; set; }
+        public ICommand SearchYoutubeCommand { get; private set; }
+        public ICommand RunAuditCommand { get; private set; }
         #endregion
 
         #region Properties
+
+        private ICollectionView _auditList;
+        public ICollectionView AuditList
+        {
+            get { return _auditList; }
+            set { SetProperty(ref _auditList, value); }
+        }
+
         private bool runningScan;
         public bool RunningScan
         {
@@ -206,27 +160,26 @@ namespace Hs.Hypermint.Audits.ViewModels
             }
         }
 
-        public AuditGame SelectedGame { get; set; }
-        public AuditMenu SelectedMenu { get; set; }
-
-        private ICollectionView _auditList;
         private Game _selectedGame;
 
-        public ICollectionView AuditList
-        {
-            get { return _auditList; }
-            set { SetProperty(ref _auditList, value); }
-        }
+        public AuditGame SelectedGame { get; set; }
+        public AuditMenu SelectedMenu { get; set; }
         #endregion
 
-        #region Commands
-        public DelegateCommand<object> SelectionChanged { get; set; }
-        public DelegateCommand<object> CurrentCellChanged { get; set; }
-        public DelegateCommand SearchYoutubeCommand { get; private set; }
-        public DelegateCommand RunAuditCommand { get; private set; }
+        #region Public Methods
+
+        /// <summary>
+        /// Adds a game to the multisystem via the event aggregator.
+        /// </summary>
+        public override void AddToMultiSystem()
+        {
+            _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(new List<GameItemViewModel>() { new GameItemViewModel(_selectedGame) });
+        }
+
         #endregion
 
         #region Support Methods
+
         private void UpdateAuditValuesAfterDrop(string[] romAndType)
         {
             var game = _auditer.AuditsGameList
@@ -301,51 +254,53 @@ namespace Hs.Hypermint.Audits.ViewModels
                     return g.Description.ToUpper().Contains(FilterText.ToUpper()); ;
             };
         }
-        private async Task RunScan(string option = "")
+
+        [Obsolete]
+        private Task RunScan(string option = "")
         {
-            var hsPath = _settingsRepo.HypermintSettings.HsPath;
+            return null;
+            //var hsPath = _settingsRepo.HypermintSettings.HsPath;
 
-            FilterText = "";
+            //FilterText = "";
 
-            try
-            {
-                if (AuditList != null && Directory.Exists(hsPath))
-                {
-                    var progressResult = await _dialogService.ShowProgressAsync(this, "Scanning Hs media...", "");
-                    progressResult.SetIndeterminate();
+            //try
+            //{
+            //    if (AuditList != null && Directory.Exists(hsPath))
+            //    {
+            //        var progressResult = await _dialogService.ShowProgressAsync(this, "Scanning Hs media...", "");
+            //        progressResult.SetIndeterminate();
 
-                    var systemName = _selectedService.CurrentSystem;
+            //        var systemName = _selectedService.CurrentSystem;
 
-                    if (systemName.ToLower().Contains("main menu"))
-                    {
-                        _auditer.ScanForMediaMainMenu(
-                            hsPath, _gameRepo.GamesList);
-                    }
-                    else
-                    {
+            //        if (systemName.ToLower().Contains("main menu"))
+            //        {
+            //            _auditer.ScanForMediaMainMenu(
+            //                hsPath, _hsManager.CurrentSystemsGames);
+            //        }
+            //        else
+            //        {
 
-                        await _auditer.ScanForMediaAsync(
-                                hsPath, systemName, _gameRepo.GamesList);
-                    }
+            //            await _auditer.ScanForMediaAsync(
+            //                    hsPath, systemName, _hsManager.CurrentSystemsGames);
+            //        }
 
-                    progressResult.SetMessage("Scan complete");
+            //        progressResult.SetMessage("Scan complete");
 
-                    if (systemName.ToLower().Contains("main menu"))
-                        AuditList = new ListCollectionView(_auditer.AuditsMenuList);
-                    else
-                        AuditList = new ListCollectionView(_auditer.AuditsGameList);
+            //        if (systemName.ToLower().Contains("main menu"))
+            //            AuditList = new ListCollectionView(_auditer.AuditsMenuList);
+            //        else
+            //            AuditList = new ListCollectionView(_auditer.AuditsGameList);
 
-                    await progressResult.CloseAsync();
+            //        await progressResult.CloseAsync();
 
-                }
+            //    }
 
-                _eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Publish("");
-
-
-            }
-            catch (Exception ex) { }
+            //    _eventAggregator.GetEvent<AuditHyperSpinEndEvent>().Publish("");
+            //}
+            //catch (Exception) { throw; }
 
         }
+
         private void GamesUpdated(string systemName)
         {
             if (AuditList != null)
@@ -361,41 +316,86 @@ namespace Hs.Hypermint.Audits.ViewModels
                 IsMainMenu = false;
                 IsntMainMenu = true;
             }
-
-            if (_gameRepo.GamesList != null)
-            {
-#warning 69 Need to reenable
-                //_auditer.AuditsGameList.Clear();
-
-                //if (IsMainMenu)
-                //{
-                //    _auditer.AuditsGameList.Add(new AuditGame() { RomName = "Main Menu" });
-                //}
-
-                //foreach (var item in _gameRepo.GamesList)
-                //{
-                //    _auditer.AuditsGameList.Add(new AuditGame
-                //    {
-                //        RomName = item.RomName,
-                //        Description = item.Description
-                //    });
-                //}
-
-                //AuditList = new ListCollectionView(_auditer.AuditsGameList);
-
-            }
         }
+
         private void SetMessage(string obj)
         {
             Message = obj;
         }
-        #endregion
 
-        public override void AddToMultiSystem()
-        {            
-            //base.AddToMultiSystem();
-            _eventAggregator.GetEvent<AddToMultiSystemEvent>().Publish(new List<Game>() { _selectedGame });
+        /// <summary>
+        /// Called when [hs audit update event].
+        /// </summary>
+        /// <param name="a">a.</param>
+        private void OnHsAuditUpdateEvent(object a)
+        {
+            var nameAndType = (string[])a;
+
+            UpdateAuditValuesAfterDrop(nameAndType);
+
+            AuditList.Refresh();
         }
+
+        /// <summary>
+        /// On the game cell changed.
+        /// </summary>
+        /// <param name="selectedGameCell">The selected game cell.</param>
+        [Obsolete("This is very bad, needs changing")]
+        private void SelectedGameCellChanged(object selectedGameCell)
+        {
+            string romName = "", description = "";
+
+            try
+            {
+                //Using reflection to get the underlying DataGrid
+                //Current item from the AudiList is one behind on a Cell click
+                var datagridProperties =
+                selectedGameCell.GetType().GetProperty("DataGridOwner",
+                BindingFlags.Instance | BindingFlags.NonPublic).GetValue(selectedGameCell, null);
+
+                var dg = datagridProperties as DataGrid;
+                SelectedGame = dg.CurrentItem as AuditGame;
+
+                if (SelectedGame == null)
+                {
+                    SelectedMenu = dg.CurrentItem as AuditMenu;
+                    romName = SelectedMenu.RomName;
+                    _selectedService.CurrentRomname = romName;
+                }
+                else
+                {
+                    romName = SelectedGame.RomName;
+                    description = SelectedGame.Description;
+                    _selectedService.CurrentRomname = romName;
+                    _selectedService.CurrentDescription = description;
+                }
+
+                _selectedGame = new Game
+                {
+                    RomName = SelectedGame.RomName,
+                    Description = SelectedGame.Description,
+                };
+
+            }
+            catch (Exception) { }
+
+            try
+            {
+                var column = selectedGameCell as DataGridTextColumn;                
+                CurrentColumnType = column.SortMemberPath;
+                CurrentColumnHeader = column.Header.ToString();
+                MediaAuditHeaderInfo = "Hyperspin Media Audit : " +
+                romName + " : " +
+                CurrentColumnHeader;
+
+                _eventAggregator.GetEvent<GameSelectedEvent>().Publish(
+                new string[] { romName, CurrentColumnHeader }
+                );
+
+            }
+            catch (Exception) { throw; }
+        }
+        #endregion        
 
     }
 }

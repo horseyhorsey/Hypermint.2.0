@@ -1,8 +1,8 @@
 ﻿using Frontends.Models.Hyperspin;
-using Hs.Hypermint.DatabaseDetails.Services;
-using Hypermint.Base.Base;
+using Hypermint.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Model;
 using Hypermint.Base.Models;
 using Hypermint.Base.Services;
 using Prism.Commands;
@@ -18,8 +18,7 @@ namespace Hs.Hypermint.Search.ViewModels
         
         private Systems _systems = new Systems();
         private IEventAggregator _ea;
-        private IHyperspinXmlService _xmlService;
-        private ISettingsRepo _settingsRepo;
+        private ISettingsHypermint _settingsRepo;
         private ISelectedService _selectedSvc;
         #endregion
 
@@ -30,10 +29,9 @@ namespace Hs.Hypermint.Search.ViewModels
 
         #region Constructor
 
-        public SearchOptionsViewModel(IEventAggregator ea, IHyperspinXmlService xmlService, ISettingsRepo settings, ISelectedService selectedSrv)
+        public SearchOptionsViewModel(IEventAggregator ea, ISettingsHypermint settings, ISelectedService selectedSrv)
         {
             _ea = ea;
-            _xmlService = xmlService;
             _settingsRepo = settings;
             _selectedSvc = selectedSrv;
 

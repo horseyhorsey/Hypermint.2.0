@@ -3,8 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:views="clr-namespace:Hs.Hypermint.DatabaseDetails.Views"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <x:Array Type="{x:Type sys:String}" x:Key="ReplaceOptions">
+            <sys:String>Genre</sys:String>
+            <sys:String>Manufacturer</sys:String>
+            <sys:String>Rating</sys:String>
+            <sys:String>Year</sys:String>
+        </x:Array>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,18 +29,16 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <GroupBox Header="Edit" Grid.Row="2" Grid.ColumnSpan="2">
+        <GroupBox Header="Edit Selections" Grid.Row="2" Grid.ColumnSpan="2">
 
             <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
 
                 <!--EDIT MULTIPLE ROWS-->
                 <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
 
-                    <ComboBox MaxWidth="100" Width="100" MaxHeight="22" SelectedItem="{Binding SelectedItem}">
-                        <ComboBoxItem Content="Genre" IsSelected="True"/>
-                        <ComboBoxItem Content="Manufacturer"/>
-                        <ComboBoxItem Content="Rating"/>
-                        <ComboBoxItem Content="Year"/>
+                    <ComboBox MaxWidth="100" Width="100" MaxHeight="22" ItemsSource="{StaticResource ReplaceOptions}"
+                              SelectedIndex="0"
+                              SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     </ComboBox>
 
                     <TextBox Margin="10" MinWidth="150" Width="Auto" ToolTip="Select rows and apply this text" 
@@ -38,7 +46,7 @@
                          Text="{Binding ApplyString,UpdateSourceTrigger=PropertyChanged}"
                          />
 
-                    <Button Style="{DynamicResource MetroCircleButtonStyle}" 
+                    <Button Style="{DynamicResource MetroCircleButtonStyle}" IsDefault="True"
                         Height="40" Width="40"
                         Command="{Binding ApplyToCellsCommand}"
                         CommandParameter=""

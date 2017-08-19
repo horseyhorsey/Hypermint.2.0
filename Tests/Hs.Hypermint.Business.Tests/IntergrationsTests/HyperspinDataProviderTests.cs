@@ -3,7 +3,6 @@ using Hs.Hypermint.BusinessTests.Fixtures.Real;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Hs.Hypermint.BusinessTests.IntergrationsTests

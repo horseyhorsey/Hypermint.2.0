@@ -9,6 +9,7 @@ using System.IO;
 namespace Hs.Hypermint.WheelCreator.Tools.Tests
 {    
     [TestClass]
+    [Obsolete("Use xunit")]
     public class WheelGenTests
     {
         string path = Path.Combine(Environment.CurrentDirectory, "Images");

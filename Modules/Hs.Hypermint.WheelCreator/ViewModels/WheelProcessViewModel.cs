@@ -1,7 +1,7 @@
 ﻿using System;
 using Hs.Hypermint.WheelCreator.Repo;
 using Hs.Hypermint.WheelCreator.Services;
-using Hypermint.Base.Base;
+using Hypermint.Base;
 using Prism.Commands;
 using Hs.Hypermint.WheelCreator.Models;
 using Prism.Events;
@@ -14,7 +14,6 @@ using Hypermint.Base.Interfaces;
 using System.Collections.Generic;
 using Hypermint.Base.Services;
 using System.Threading.Tasks;
-using Hypermint.Base;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {

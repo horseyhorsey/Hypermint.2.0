@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:local="clr-namespace:Hs.Hypermint.NavBar.Views"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d">

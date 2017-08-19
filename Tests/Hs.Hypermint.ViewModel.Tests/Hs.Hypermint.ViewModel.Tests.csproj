@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.props" Condition="Exists('..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{061C2DD0-9DEA-4196-8CE4-9C3D57E88D61}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hs.Hypermint.ViewModel.Tests</RootNamespace>
+    <AssemblyName>Hs.Hypermint.ViewModel.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FakeItEasy, Version=4.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FakeItEasy.4.0.0\lib\net45\FakeItEasy.dll</HintPath>
+    </Reference>
+    <Reference Include="Frontends.Models, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.7\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.3.0.3742, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.3.0-beta4-build3742\lib\netstandard1.1\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.3.0.3742, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.core.2.3.0-beta4-build3742\lib\netstandard1.1\xunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.3.0.3742, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.execution.2.3.0-beta4-build3742\lib\net452\xunit.execution.desktop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CollectionDefinitions\Definitions.cs" />
+    <Compile Include="Fixtures\HypermintFakeFixture.cs" />
+    <Compile Include="Fixtures\RealFixture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\Fake\SidebarViewModelFakeTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\xunit.analyzers.0.6.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test\Intergration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
+      <Project>{5F4FDB5E-3624-4C1A-9B9E-8F27F185EADD}</Project>
+      <Name>Hypermint.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Hs.Hypermint.Business\Hs.Hypermint.Business.csproj">
+      <Project>{316C7C0C-B2A8-4ABC-8A70-322C280C1BD8}</Project>
+      <Name>Hs.Hypermint.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
+      <Project>{7C5872EA-A3BD-4BFA-911C-0A9B62F2F11F}</Project>
+      <Name>Hs.Hypermint.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Hs.Hypermint.SidebarSystems\Hs.Hypermint.SidebarSystems.csproj">
+      <Project>{26595977-A720-409E-AA0D-BBF4C6300EB1}</Project>
+      <Name>Hs.Hypermint.SidebarSystems</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.props'))" />
+    <Error Condition="!Exists('..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.targets" Condition="Exists('..\..\packages\xunit.core.2.3.0-beta4-build3742\build\xunit.core.targets')" />
+</Project>

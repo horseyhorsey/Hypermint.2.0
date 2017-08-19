@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Frontends.Models, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Frontends.Models.1.0.1\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    <Reference Include="Frontends.Models, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.7\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\gong-wpf-dragdrop.1.1.0\lib\net45\GongSolutions.Wpf.DragDrop.dll</HintPath>
@@ -122,14 +122,23 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\AddSystemDialogViewModel.cs" />
     <Compile Include="ViewModels\MainMenuItemViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
+    <Compile Include="ViewModels\SidebarOptionsViewModel.cs" />
     <Compile Include="ViewModels\SidebarViewModel.cs" />
+    <Compile Include="ViewModels\SystemsFilterViewModel.cs" />
     <Compile Include="Views\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SidebarOptionsView.xaml.cs">
+      <DependentUpon>SidebarOptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SidebarView.xaml.cs">
       <DependentUpon>SidebarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemsFilterView.xaml.cs">
+      <DependentUpon>SystemsFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SystemsView.xaml.cs">
       <DependentUpon>SystemsView.xaml</DependentUpon>
@@ -148,10 +157,6 @@
     <EmbeddedResource Include="systemSettings.ini" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataModels\Hs.Hypermint.Settings\Hs.Hypermint.Settings.csproj">
-      <Project>{d814d158-e6ae-4369-b1b0-185a6e08339d}</Project>
-      <Name>Hs.Hypermint.Settings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>
@@ -166,7 +171,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\SidebarOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SidebarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemsFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

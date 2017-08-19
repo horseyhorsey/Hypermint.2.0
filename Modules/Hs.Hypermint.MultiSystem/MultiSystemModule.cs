@@ -1,5 +1,5 @@
 ﻿using Hs.Hypermint.Services;
-using Hypermint.Base.Base;
+using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Interfaces;
 using Microsoft.Practices.Unity;
@@ -22,7 +22,8 @@ namespace Hs.Hypermint.MultiSystem
         public override void Initialize()
         {
             UnityContainer.RegisterType<IMultiSystemRepo, MultiSystemRepo>();
-            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.MultiSystemView));            
+            RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.MultiSystemView));
+            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(Views.MultiSystemOptionsView));
         }
     }
 }

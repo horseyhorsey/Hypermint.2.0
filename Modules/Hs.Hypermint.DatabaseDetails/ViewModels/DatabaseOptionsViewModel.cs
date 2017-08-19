@@ -1,30 +1,44 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
-using Hypermint.Base.Interfaces;
+using Hypermint.Base.Events;
+using Hypermint.Base.Model;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Linq;
-using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
     public class DatabaseOptionsViewModel : ViewModelBase
     {
+        #region Fields
+        private ISelectedService _selectedService;
+        private IEventAggregator _eventAggregator;
+        private IHyperspinManager _hyperspinManager;
+        #endregion
+
         #region Constructors
-        public DatabaseOptionsViewModel(ISelectedService selectedService,
-            IGameRepo gameRepo, IEventAggregator ea)
+        /// <summary>
+        /// This view model applies the given value to multiple rows
+        /// </summary>
+        /// <param name="selectedService">The selected service.</param>
+        /// <param name="ea">The ea.</param>
+        public DatabaseOptionsViewModel(IHyperspinManager hyperspinManager,
+            ISelectedService selectedService, IEventAggregator ea)
         {
             _selectedService = selectedService;
-            _gameRepo = gameRepo;
             _eventAggregator = ea;
+            _hyperspinManager = hyperspinManager;
 
             ApplyToCellsCommand = new DelegateCommand(ApplyToCells);
-
             ReplaceDescriptionCommand = new DelegateCommand(ReplaceDescriptions);
-
         }
+
+        #endregion
+
+        #region Commands
+        public ICommand ApplyToCellsCommand { get; private set; }
+        public ICommand ReplaceDescriptionCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -35,9 +49,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             set { SetProperty(ref applyString, value); }
         }
 
-        private ComboBoxItem selectedItem;
-#warning Use another way to bind,  not relying on a Comboboxitem in the ViewModel !!!!THis is easy what are you doing??
-        public ComboBoxItem SelectedItem
+        private string selectedItem;
+        public string SelectedItem
         {
             get { return selectedItem; }
             set { SetProperty(ref selectedItem, value); }
@@ -65,83 +78,69 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         #endregion
 
-        #region Fields
-        private ISelectedService _selectedService;
-        private IGameRepo _gameRepo;
-        private IEventAggregator _eventAggregator;
-        #endregion
-
-        #region Commands
-        public DelegateCommand ApplyToCellsCommand { get; private set; }
-        public DelegateCommand ReplaceDescriptionCommand { get; private set; }        
-
-        #endregion
-
         #region Support Methods
+
         /// <summary>
-        /// Apply a given text to the selected cells column
+        /// Apply a given text to the selected rows cell
         /// </summary>
         private void ApplyToCells()
         {
-
             if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
             {
-                foreach (var item in _selectedService.SelectedGames)
+                try
                 {
-                    var index = _gameRepo.GamesList.IndexOf(item);
+                    UserRequestRowMessage msg = null;
 
-                    switch (SelectedItem.Content.ToString())
+                    switch (SelectedItem)
                     {
                         case "Genre":
-                            _gameRepo.GamesList.ElementAt(index).Genre = ApplyString;
+                            msg = new UserRequestRowMessage(_selectedService.SelectedGames, RowUpdateType.Genre, ApplyString);
                             break;
                         case "Manufacturer":
-                            _gameRepo.GamesList.ElementAt(index).Manufacturer = ApplyString;
+                            msg = new UserRequestRowMessage(_selectedService.SelectedGames, RowUpdateType.Manufacturer, ApplyString);
                             break;
                         case "Rating":
-                            _gameRepo.GamesList.ElementAt(index).Rating = ApplyString;
+                            msg = new UserRequestRowMessage(_selectedService.SelectedGames, RowUpdateType.Rating, ApplyString);
                             break;
                         case "Year":
-                            try { _gameRepo.GamesList.ElementAt(index).Year = Convert.ToInt32(ApplyString); }
-                            catch (Exception) { }
+                            msg = new UserRequestRowMessage(_selectedService.SelectedGames, RowUpdateType.Year, ApplyString);
                             break;
                         default:
-                            break;
+                            return;
                     }
 
+                    _eventAggregator.GetEvent<UserRequestUpdateSelectedRows>().Publish(msg);
+                }
+                catch (Exception)
+                {
+                    throw;
                 }
             }
-
-            //Tell the main viewmodel we're done
-            _eventAggregator.GetEvent<MultipleCellsUpdated>().Publish("");
-
         }
 
         /// <summary>
         /// Replace all selected games descriptions from view models Pattern and Replacement properties.        
         /// </summary>       
+        [Obsolete]
         private void ReplaceDescriptions()
         {
-#warning Check that when renaming descriptions it doesn't break anything for frontend or launcher
-            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
-            {
-                try
-                {
-                    _selectedService.SelectedGames.ForEach((game) =>
-                    {
-                        var index = _gameRepo.GamesList.IndexOf(game);
+//#warning Check that when renaming descriptions it doesn't break anything for frontend or launcher
+//            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
+//            {
+//                try
+//                {
+//                    _selectedService.SelectedGames.ForEach((game) =>
+//                    {
+//                        var index = _gameRepo.GamesList.IndexOf(game);
 
-                        _gameRepo.GamesList.ElementAt(index).Description = game.Description.Replace(Pattern, Replacement);
+//                        _gameRepo.GamesList.ElementAt(index).Description = game.Description.Replace(Pattern, Replacement);
 
-                    });
-                }
-                catch (Exception) { }
-
-                //Tell the main viewmodel we're done
-                _eventAggregator.GetEvent<MultipleCellsUpdated>().Publish("");
-            }                
+//                    });
+//                }
+//                catch (Exception) { }
+//            }                
         }
-        #endregion
 
+        #endregion
     }
 }

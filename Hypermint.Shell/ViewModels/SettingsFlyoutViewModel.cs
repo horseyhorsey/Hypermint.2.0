@@ -1,26 +1,18 @@
-﻿using Hypermint.Base.Base;
+﻿using Hypermint.Base;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using Hypermint.Shell.Models;
 using Hypermint.Base.Interfaces;
-using Hs.Hypermint.Settings;
 using Hypermint.Base.Services;
+using Hypermint.Base.Model;
 
 namespace Hypermint.Shell.ViewModels
 {
     public class SettingsFlyoutViewModel : ViewModelBase
     {
 
-        private ISettingsRepo _hyperMintSettings;
-        public Setting HyperMintSettings
-        {
-            get { return _hyperMintSettings.HypermintSettings; }
-            set { _hyperMintSettings.HypermintSettings = value; }
-        }
-
-        private IFileFolderService _fileFolderService;
-
-        public ObservableCollection<string> GuiThemes { get; set; }
+        private IFileDialogHelper _fileFolderService;
+        private ISettingsHypermint _hyperMintSettings;
 
         #region Delegate Commands
         public DelegateCommand SaveSettings { get; private set; }
@@ -29,19 +21,23 @@ namespace Hypermint.Shell.ViewModels
         #endregion
 
         #region Ctors
-        public SettingsFlyoutViewModel(IFileFolderService findDir, ISettingsRepo settings)
+        public SettingsFlyoutViewModel(IFileDialogHelper findDir, ISettingsHypermint settings)
         {
             // if (settings == null) throw new ArgumentNullException("settings");
             //_eventAggregator = eventAggregator;     
-            _hyperMintSettings = settings;
 
+            _hyperMintSettings = settings;
             _fileFolderService = findDir;
 
-            //Loading this through other module. 
-            getSavedHypermintSettings();
-
+            //Load hypermint settings
+            if (_hyperMintSettings.HypermintSettings == null)
+            {
+                _hyperMintSettings.LoadHypermintSettings();
+            }
+                
             HyperMintSettings = _hyperMintSettings.HypermintSettings;
-
+            
+            //set the ui theme
             CurrentThemeColor = Properties.Settings.Default.GuiColor;
             IsDarkTheme = Properties.Settings.Default.GuiTheme;
 
@@ -54,25 +50,41 @@ namespace Hypermint.Shell.ViewModels
 
         }
 
-        /// <summary>
-        /// Locate directory to set with Windows.Forms Folder Dialog
-        /// </summary>
-        /// <param name="pathName"></param>
-        private void LocatePath(string pathName)
+        #endregion
+
+        #region Properties            
+        private string _currentThemeColor;
+        public string CurrentThemeColor
         {
-            var userPath = "";
-
-            _fileFolderService.SetFolderDialog();
-
-            if (!string.IsNullOrEmpty(_fileFolderService.SelectedFolder))
+            get { return _currentThemeColor; }
+            set
             {
-                userPath = _fileFolderService.SelectedFolder;
-
-                UpdatePath(pathName, userPath);
+                SetProperty(ref _currentThemeColor, value);
+                changeGuiTheme();
             }
+        }
 
+        private bool _isDarkTheme;        
+        public bool IsDarkTheme
+        {
+            get { return _isDarkTheme; }
+            set
+            {
+                SetProperty(ref _isDarkTheme, value);
+                changeGuiTheme();
+            }
+        }
+
+        public ObservableCollection<string> GuiThemes { get; set; }
+
+        public Setting HyperMintSettings
+        {
+            get { return _hyperMintSettings.HypermintSettings; }
+            set { _hyperMintSettings.HypermintSettings = value; }
         }
         #endregion
+
+        #region Support Methods
 
         /// <summary>
         /// Update the local model to reflect changes to UI
@@ -112,33 +124,26 @@ namespace Hypermint.Shell.ViewModels
 
         }
 
-        #region Theme Properties            
-        private string _currentThemeColor;
-        public string CurrentThemeColor
+
+        /// <summary>
+        /// Locate directory to set with Windows.Forms Folder Dialog
+        /// </summary>
+        /// <param name="pathName"></param>
+        private void LocatePath(string pathName)
         {
-            get { return _currentThemeColor; }
-            set
+            var userPath = "";
+
+            _fileFolderService.SetFolderDialog();
+
+            if (!string.IsNullOrEmpty(_fileFolderService.SelectedFolder))
             {
-                SetProperty(ref _currentThemeColor, value);
-                changeGuiTheme();
+                userPath = _fileFolderService.SelectedFolder;
+
+                UpdatePath(pathName, userPath);
             }
+
         }
 
-        private bool _isDarkTheme;
-
-
-        public bool IsDarkTheme
-        {
-            get { return _isDarkTheme; }
-            set
-            {
-                SetProperty(ref _isDarkTheme, value);
-                changeGuiTheme();
-            }
-        }
-        #endregion
-
-        #region Theme Methods
         private void changeGuiTheme()
         {
             string darkOrLight = string.Empty;

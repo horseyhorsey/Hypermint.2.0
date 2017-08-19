@@ -5,9 +5,9 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
+    
+    <!--FOR EDITING BEZEL CO-ORDINATES-->
     <Grid Background="Transparent">
-        <!--<Image x:Name="screenImage" MinWidth="500"  MinHeight="500" Stretch="UniformToFill"/>-->
-        <!--MouseDown="bezelImage_MouseDown"-->
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,8 +16,14 @@
 
         <GroupBox Header="{Binding BezelHeader}">
             <Grid>
+                
+             <!--BACKGROUND HINT-->
             <Rectangle Fill="Black" Opacity="0.2" Margin="10"/>
+                
+            <!--WPF IMAGE-->
             <Image x:Name="screenImage" Margin="10" Stretch="UniformToFill"/>
+                
+            <!--BEZEL IMAGE-->
             <Image x:Name="bezelImage" Margin="10" Stretch="Fill" PreviewMouseDown="bezelImage_MouseDown"
                Source="{Binding BezelImage}">
                 <i:Interaction.Triggers>
@@ -28,6 +34,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Image>
+                
             </Grid>
 
         </GroupBox>

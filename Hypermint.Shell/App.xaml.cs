@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Reflection;
 using System.Globalization;
+using System.Windows.Threading;
 
 namespace Hypermint.Shell
 {
@@ -18,13 +19,13 @@ namespace Hypermint.Shell
     public partial class App : Application
     {        
         private const string ViewNamespace = "Views";
-        private const string ViewModelNamespace = "Viewmodels";
+        private const string ViewModelNamespace = "Viewmodels";        
 
         IUnityContainer _container = new UnityContainer();
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
+            base.OnStartup(e);            
 
             Bootstrapper bootStrap = new Bootstrapper();
             bootStrap.Run();

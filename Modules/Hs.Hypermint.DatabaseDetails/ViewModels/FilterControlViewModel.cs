@@ -1,9 +1,7 @@
 ﻿using Hypermint.Base;
-using Hypermint.Base.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Models;
 using Prism.Events;
-using Prism.Commands;
 using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
 using System.ComponentModel;
@@ -14,8 +12,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
     {
         #region Constructors
         public FilterControlViewModel(IEventAggregator eventAggregator,
-            ISelectedService selectedSrv
-            , ISettingsRepo settingsRepo,
+            ISelectedService selectedSrv, ISettingsHypermint settingsRepo,
             IGameLaunch gameLaunch) : base(eventAggregator,selectedSrv,gameLaunch,settingsRepo)
         {
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(RemoveFilters);
@@ -31,11 +28,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public string FilterText
         {
             get { return filterText; }
-            set
-            {
-                SetProperty(ref filterText, value);
-                RaisePropertyChanged(nameof(FilterText));
-            }
+            set { SetProperty(ref filterText, value);}
         }
 
         private bool showClones = true;
@@ -76,6 +69,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         #endregion
 
         #region Support Methods
+
         private void RemoveFilters(string obj)
         {
             IsMainMenu = _selectedService.IsMainMenu();
@@ -110,6 +104,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 _eventAggregator.GetEvent<GameFilteredEvent>().Publish(filterOptions);
             }
         }
+
         #endregion
 
     }

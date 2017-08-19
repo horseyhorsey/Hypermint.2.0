@@ -1,4 +1,4 @@
-﻿using Hypermint.Base.Base;
+﻿using Hypermint.Base;
 using Hypermint.Base.Events;
 using Prism.Commands;
 using Prism.Events;

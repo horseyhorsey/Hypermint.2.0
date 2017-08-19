@@ -2,17 +2,16 @@
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Hypermint.Base.Base
+namespace Hypermint.Base
 {
+    /// <summary>
+    /// A base that has commands for launching games.
+    /// </summary>
+    /// <seealso cref="Hypermint.Base.Base.ViewModelBase" />
     public abstract class HyperMintModelBase : ViewModelBase
     {
-        public HyperMintModelBase(IEventAggregator evtAggregator, ISelectedService selectedService, IGameLaunch gameLaunch, ISettingsRepo settingsRepo)
+        public HyperMintModelBase(IEventAggregator evtAggregator, ISelectedService selectedService, IGameLaunch gameLaunch, ISettingsHypermint settingsRepo)
         {
             _eventAggregator = evtAggregator;
             _selectedService = selectedService;
@@ -20,9 +19,7 @@ namespace Hypermint.Base.Base
             _settingsRepo = settingsRepo;
 
             AddMultiSystemCommand = new DelegateCommand(() => AddToMultiSystem());
-
             LaunchGameCommand = new DelegateCommand(() => LaunchGame());
-
         }
 
         #region Commands
@@ -34,7 +31,7 @@ namespace Hypermint.Base.Base
         protected IEventAggregator _eventAggregator;
         protected ISelectedService _selectedService;
         protected IGameLaunch _gameLaunch;
-        protected ISettingsRepo _settingsRepo;
+        protected ISettingsHypermint _settingsRepo;
         #endregion
 
         #region Public Methods
@@ -58,7 +55,7 @@ namespace Hypermint.Base.Base
                 var rlPath = _settingsRepo.HypermintSettings.RlPath;
                 var hsPath = _settingsRepo.HypermintSettings.HsPath;
                 var sysName = _selectedService.SelectedGames[0].System;
-                var romName = _selectedService.SelectedGames[0].RomName;
+                var romName = _selectedService.SelectedGames[0].Name;
 
                 _gameLaunch.RocketLaunchGame(rlPath, sysName, romName, hsPath);
             }            

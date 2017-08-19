@@ -1,7 +1,7 @@
 ﻿using Prism.Mvvm;
 using System.Threading;
 
-namespace Hypermint.Base.Models
+namespace Hypermint.Base.Model
 {
     public class SearchOptions : BindableBase
     {

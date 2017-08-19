@@ -47,7 +47,7 @@ namespace Hs.Hypermint.Services
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {                
             }
 

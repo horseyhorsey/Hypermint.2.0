@@ -3,26 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              xmlns:views="clr-namespace:Hs.Hypermint.DatabaseDetails.Views"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" dialog:DialogParticipation.Register="{Binding}"  
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <UserControl.Resources>
-
-    </UserControl.Resources>
-
     <Grid>
-
         <Grid.RowDefinitions>
-
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel>
 
+            <!--DATABASES FOR SYSTEM-->
             <views:DatabasePickerView Grid.RowSpan="2"/>
 
+            <!--FAVORITES-->
             <Label Content="Favorite" HorizontalAlignment="Center"></Label>
-
             <DockPanel HorizontalAlignment="Center">
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         IsEnabled="{Binding SaveEnabled}"
@@ -54,6 +50,7 @@
 
             </DockPanel>
 
+            <!--ENABLED-->
             <Label Content="Enabled" HorizontalAlignment="Center"></Label>
             <DockPanel HorizontalAlignment="Center">
                 <Button Style="{DynamicResource MetroCircleButtonStyle}" 
@@ -84,6 +81,7 @@
                 </Button>
             </DockPanel>
 
+            <!--SCAN ROMS-->
             <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                         IsEnabled="{Binding ScanRomEnabled}"
                         Command="{Binding ScanRomsCommand}"
@@ -98,7 +96,17 @@
                 </Rectangle>
             </Button>
 
-            <views:SaveDatabaseView VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            <Button HorizontalAlignment="Center" VerticalAlignment="Top" Margin="6"
+                Command="{Binding OpenSaveDialogCommand}"
+                ToolTip="Save this database, favorites and genres." Height="25" Width="25"
+                Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="13" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_save}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+            </Button>
 
         </StackPanel>
 

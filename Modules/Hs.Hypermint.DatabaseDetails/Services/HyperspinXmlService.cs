@@ -193,7 +193,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                     serializer = new XmlSerializer(typeof(List<Game>), xmlRootAttr);
                     serializer.Serialize(textWriter, games, xmlNameSpace);
                 }
-                catch (Exception e) { }
+                catch (Exception) { throw; }
 
             }
             else
@@ -271,7 +271,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             using (var xmlreader = XmlReader.Create(mainMenuXml))
             {
                 try { xdoc = XDocument.Load(xmlreader); }
-                catch (XmlException e) { return fetchedGame; }
+                catch (XmlException ) { return fetchedGame; }
             }
 
             try
@@ -317,7 +317,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                         }
                     }
                 }
-                catch (NullReferenceException e) { }
+                catch (NullReferenceException ) { }
             }
             catch { }            
             
@@ -335,7 +335,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
             using (var xmlreader = XmlReader.Create(mainMenuXml))
             {
                 try { xdoc = XDocument.Load(xmlreader); }
-                catch (XmlException e) { return fetchedGames; }
+                catch (XmlException ) { return fetchedGames; }
             }
 
             try
@@ -393,7 +393,7 @@ namespace Hs.Hypermint.DatabaseDetails.Services
                         }
 
                     }
-                    catch (NullReferenceException e) { }                
+                    catch (NullReferenceException) { }                
             catch { }
         }
             }

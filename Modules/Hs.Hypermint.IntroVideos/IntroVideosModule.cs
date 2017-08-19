@@ -1,4 +1,4 @@
-﻿using Hypermint.Base.Base;
+﻿using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;

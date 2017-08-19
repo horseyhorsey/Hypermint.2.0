@@ -1,5 +1,5 @@
 ﻿using System;
-using Hypermint.Base.Base;
+using Hypermint.Base;
 using Prism.Commands;
 using System.ComponentModel;
 using System.IO;

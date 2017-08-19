@@ -2,6 +2,7 @@
 using Prism.Events;
 using System.Collections.Generic;
 using System;
+using Hypermint.Base.Model;
 
 namespace Hypermint.Base
 {
@@ -48,6 +49,7 @@ namespace Hypermint.Base
 
     public class SetMediaFileRlEvent : PubSubEvent<string> { }
 
+    [Obsolete("Deprecated")]
     public class CloneFilterEvent : PubSubEvent<bool>
     {
 
@@ -68,12 +70,17 @@ namespace Hypermint.Base
     {
 
     }
+    public class DispatchOnUiThread : PubSubEvent<string>
+    {
 
-    public class AddToMultiSystemEvent : PubSubEvent<object>
+    }    
+
+    public class AddToMultiSystemEvent : PubSubEvent<IEnumerable<GameItemViewModel>>
     {
 
     }
 
+    [Obsolete("Deprecated")]
     public class MultipleCellsUpdated : PubSubEvent<string>
     {
 
@@ -91,4 +98,11 @@ namespace Hypermint.Base
 
     public class RequestOpenFolderEvent : PubSubEvent<string> { }
 
+    public class ReorderingSystemsEvent : PubSubEvent<bool> { }
+
+    public class UserRequestGamesUpdateEvent : PubSubEvent<bool> { }
+
+    public class BuildMultiSystemEvent : PubSubEvent<bool> { }
+    public class ScanMultiSystemFavoritesEvent : PubSubEvent<bool> { }
+    
 }

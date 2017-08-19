@@ -1,8 +1,7 @@
 ﻿using Frontends.Models.Hyperspin;
 using Frontends.Models.RocketLauncher.Stats;
-using Horsesoft.Frontends.Helper.Hyperspin;
 using Hs.Hypermint.Business.RocketLauncher;
-using Hypermint.Base.Base;
+using Hypermint.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Prism.Events;
@@ -18,12 +17,12 @@ namespace Hs.Hypermint.RocklaunchStats.ViewModels
     {
         #region Fields
         private IEventAggregator _eventAggregator;
-        private ISettingsRepo _settingsRepo;
+        private ISettingsHypermint _settingsRepo;
         private IRocketLaunchStatProvider _statsRepo;
         #endregion
 
         #region Constructor
-        public StatsViewModel(IRocketLaunchStatProvider statsRepo, IEventAggregator eventAggregator, ISettingsRepo settingsRepo)
+        public StatsViewModel(IRocketLaunchStatProvider statsRepo, IEventAggregator eventAggregator, ISettingsHypermint settingsRepo)
         {
             _statsRepo = statsRepo;
             _eventAggregator = eventAggregator;
@@ -65,7 +64,7 @@ namespace Hs.Hypermint.RocklaunchStats.ViewModels
 #warning Needs to be moved out of the view model, set it up in the bootstrapper maybe
                 if (!_statsRepo.IsProviderSetUp())
                 {
-                    _statsRepo.SetUp(new HyperspinFrontend { Path = _settingsRepo.HypermintSettings.RlPath });
+                    //_statsRepo.SetUp(new HyperspinFrontend { Path = _settingsRepo.HypermintSettings.RlPath });
                 }
 
                 if (systemName.ToLower().Contains("main menu"))

@@ -1,4 +1,4 @@
-﻿using Hypermint.Base.Base;
+﻿using Hypermint.Base;
 using Prism.Commands;
 using Prism.Events;
 using System.Text;
@@ -14,9 +14,6 @@ using System.Xml;
 using System.ComponentModel;
 using System.Windows.Data;
 using Hs.Hypermint.WheelCreator.Models;
-using Hypermint.Base;
-using System.Drawing;
-using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
@@ -72,10 +69,10 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         #endregion
 
         private IEventAggregator _eventAgg;
-        private ISettingsRepo _settingsRepo;       
-        private IFileFolderService _fileFolderService;
+        private ISettingsHypermint _settingsRepo;       
+        private IFileDialogHelper _fileFolderService;
 
-        public TextWheelViewModel(IEventAggregator eventAggregator, ISettingsRepo settings, IFileFolderService findDir)
+        public TextWheelViewModel(IEventAggregator eventAggregator, ISettingsHypermint settings, IFileDialogHelper findDir)
         {
             _eventAgg = eventAggregator;
             _settingsRepo = settings;

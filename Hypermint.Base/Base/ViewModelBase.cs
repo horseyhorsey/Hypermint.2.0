@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 
-namespace Hypermint.Base.Base
+namespace Hypermint.Base
 {
     public class ViewModelBase : BindableBase
     {

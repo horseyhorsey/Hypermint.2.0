@@ -1,10 +1,11 @@
 ﻿using Frontends.Models.Hyperspin;
+using Frontends.Models.Interfaces;
 using Horsesoft.Frontends.Helper.Paths.Hyperspin;
 using Horsesoft.Frontends.Helper.Serialization;
-using Horsesoft.Frontends.Helper.Tools;
 using Horsesoft.Frontends.Helper.Tools.Search;
+using Hypermint.Base;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Hs.Hypermint.Business.Hyperspin
@@ -16,7 +17,7 @@ namespace Hs.Hypermint.Business.Hyperspin
 
         public HyperspinDataProvider()
         {
-            _searchGameXml = new XmlSearch<Game>();            
+            _searchGameXml = new XmlSearch<Game>();        
         }
 
         public async Task<IEnumerable<Game>> GetAllGames(string frontendPath, string systemName, string dbName = "")
@@ -24,6 +25,15 @@ namespace Hs.Hypermint.Business.Hyperspin
             _hsSerializer = new HyperspinSerializer(frontendPath, systemName, dbName);
 
             return await _hsSerializer.DeserializeAsync();
+        }
+
+        [Obsolete("Not implemented")]
+        public async Task<IEnumerable<Genre>> GetAllGenreDatabases(string frontendPath, string systemName)
+        {
+            //_hsSerializer = new HyperspinSerializer(frontendPath, systemName);
+            var path = PathHelper.GetSystemDatabasePath(frontendPath, systemName);
+
+            return await _hsSerializer.GetGenresAsync(path + "\\genre.xml");
         }
 
         public async Task<IEnumerable<MainMenu>> GetAllSystems(string frontendPath, string systemName, string dbName = "")
@@ -35,7 +45,7 @@ namespace Hs.Hypermint.Business.Hyperspin
 
         public async Task<IEnumerable<Game>> SearchXmlAsync(string frontendPath, string systemName, string xmlPath, string searchText)
         {
-            _hsSerializer = new HyperspinSerializer(frontendPath, systemName);            
+            _hsSerializer = new HyperspinSerializer(frontendPath, systemName);
 
             return await _searchGameXml.Search(systemName, xmlPath, new string[] { searchText });
         }

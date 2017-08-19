@@ -16,7 +16,7 @@
 
         public static string SearchViewRegion = "SearchViewRegion";
         public static string SearchResultsViewRegion = "SearchResultsViewRegion";
-        
-
+        public static string SidebarMainMenusRegion = "SidebarMainMenusRegion";
+        public static string SidebarSystemsRegion = "SidebarSystemsRegion";        
     }
 }

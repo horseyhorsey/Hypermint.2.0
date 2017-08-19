@@ -1,6 +1,5 @@
 ﻿using Hs.Hypermint.Services.Helpers;
 using Hypermint.Base;
-using Hypermint.Base.Base;
 using Hypermint.Base.Converters;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
@@ -21,7 +20,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
     {
         #region Constructors
         public CreateImageViewModel(IEventAggregator eventAggregator,
-            ISettingsRepo settings, ISelectedService selected, IImageEditService imageEdit)
+            ISettingsHypermint settings, ISelectedService selected, IImageEditService imageEdit)
         {
             _settings = settings;
             _selected = selected;
@@ -141,7 +140,7 @@ namespace Hs.Hypermint.ImageEdit.ViewModels
         #endregion
 
         #region Fields
-        private ISettingsRepo _settings;
+        private ISettingsHypermint _settings;
         private ISelectedService _selected;
         private IImageEditService _imageEdit;
         private IEventAggregator _eventAggregator; 

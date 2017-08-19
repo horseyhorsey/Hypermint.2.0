@@ -1,10 +1,8 @@
-﻿using Horsesoft.Frontends.Helper.Paths.Hyperspin;
-using Hs.Hypermint.Business.Hyperspin;
-using Hs.Hypermint.DatabaseDetails.Services;
-using Hypermint.Base.Base;
+﻿using Hs.Hypermint.DatabaseDetails.Services;
+using Hypermint.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
-using Hypermint.Base.Models;
+using Hypermint.Base.Model;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
@@ -21,28 +19,27 @@ namespace Hs.Hypermint.Search.ViewModels
     public class SearchResultsViewModel : ViewModelBase
     {
         #region Fields
+        private IEventAggregator _ea;
+        private ISettingsHypermint _settingsRepo;
+        private ISelectedService _selectedSvc;
+ 
+        private IHyperspinXmlDataProvider _hsXmlPRovider;
+        private IHyperspinManager _hyperspinManager;
+
         private int pageCount;
         private int currentPage;
-
-        private IEventAggregator _ea;
-        private ISettingsRepo _settingsRepo;
-        private IHyperspinXmlService _xmlService;
-        private ISelectedService _selectedSvc;
-        private IMainMenuRepo _mainmenuRepo;
-        private IHyperspinXmlDataProvider _hsXmlPRovider;
         #endregion
 
         #region Constructor
-        public SearchResultsViewModel(IEventAggregator ea, ISettingsRepo settingsRepo, 
-            ISelectedService selectedSvc, IHyperspinXmlService xmlService, 
-            IMainMenuRepo mainMenu, IHyperspinXmlDataProvider hsXmlPRovider )
+        public SearchResultsViewModel(IEventAggregator ea, ISettingsHypermint settingsRepo, 
+            ISelectedService selectedSvc, IHyperspinXmlService xmlService, IHyperspinXmlDataProvider hsXmlPRovider, 
+            IHyperspinManager hyperspinManager )
         {
             _ea = ea;
             _settingsRepo = settingsRepo;
-            _xmlService = xmlService;
             _selectedSvc = selectedSvc;
-            _mainmenuRepo = mainMenu;
             _hsXmlPRovider = hsXmlPRovider;
+            _hyperspinManager = hyperspinManager;
 
             SearchGames = new ObservableCollection<GameSearch>();
             FoundGames = new ListCollectionView(SearchGames);
@@ -162,7 +159,7 @@ namespace Hs.Hypermint.Search.ViewModels
             var game = FilteredGames.CurrentItem as GameSearch;
 
             if (game != null)
-                _selectedSvc.SelectedGames.Add(game.Game);
+                _selectedSvc.SelectedGames.Add(new GameItemViewModel(game.Game));
         }
 
         /// <summary>
@@ -174,10 +171,12 @@ namespace Hs.Hypermint.Search.ViewModels
         {
             SearchGames.Clear();    
 
-            foreach (var system in _mainmenuRepo.Systems)
+            foreach (var system in _hyperspinManager.Systems)
             {
-                var dbPath = Path.Combine(PathHelper
-                    .GetSystemDatabasePath(_settingsRepo.HypermintSettings.HsPath, system.Name), $"{system.Name}.xml");
+                //var dbPath = Path.Combine(PathHelper
+                //    .GetSystemDatabasePath(_settingsRepo.HypermintSettings.HsPath, system.Name), $"{system.Name}.xml");
+
+                var dbPath = "";
 
                 if (File.Exists(dbPath))
                 {
@@ -204,7 +203,7 @@ namespace Hs.Hypermint.Search.ViewModels
 
                     }
 #warning Todo: Log these errors
-                    catch (Exception ex) { }
+                    catch (Exception) { throw; }
                 }                
             }
         }
