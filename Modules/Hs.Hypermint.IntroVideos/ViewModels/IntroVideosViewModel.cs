@@ -1,11 +1,9 @@
-﻿using GongSolutions.Wpf.DragDrop;
-using Hs.Hypermint.IntroVideos.Models;
-using Hypermint.Base;
+﻿using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
+using Hypermint.Base.Model;
 using Hypermint.Base.Services;
-using MediaToolkit.Model;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -13,15 +11,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Data;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
-    public class IntroVideosViewModel : ViewModelBase, IDropTarget
+    public class IntroVideosViewModel : ViewModelBase
     {
+        #region Fields
+        private IRegionManager _regionManager;
+        private IEventAggregator _eventAggregator;
+        private IFileFolderChecker _fileFolderChecker;
+        private ISettingsHypermint _settings;
+        private ISelectedService _selectedService;
+        #endregion
 
         #region Constructors
+
         public IntroVideosViewModel(IRegionManager manager,
             IFileFolderChecker fileChecker,
             IEventAggregator ea, ISettingsHypermint settings,
@@ -47,10 +52,9 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
             });
 
-            //Commands
-            RandomVideoCommand = new DelegateCommand(GrabRandomVideos);
-            AddSelectedCommand = new DelegateCommand(AddVideos);
-            ScanFormatCommand = new DelegateCommand(ScanFormat);
+            //Commands            
+            //AddSelectedCommand = new DelegateCommand(AddVideos);
+            //ScanFormatCommand = new DelegateCommand(ScanFormat);
 
             SelectionAvailableChanged = new DelegateCommand<IList>(items =>
             {
@@ -65,7 +69,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             //What?
             try
             {
-                RemoveVideosCommand = new DelegateCommand<string>(RemoveVideos);
+                //RemoveVideosCommand = new DelegateCommand<string>(RemoveVideos);
             }
             catch (Exception ex)
             {
@@ -92,16 +96,6 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             get { return selectedprocessHeader; }
             set { SetProperty(ref selectedprocessHeader, value); }
         }
-
-        private int randomCount = 12;
-        public int RandomCount
-        {
-            get { return randomCount; }
-            set { SetProperty(ref randomCount, value); }
-        }
-
-        public int SelectedAvailableItemsCount { get; private set; }
-        public int SelectedprocessItemsCount { get; private set; }
 
         private string videosAvailableHeader = "Videos Available";
         public string VideosAvailableHeader
@@ -134,16 +128,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         #endregion        
 
-        #region Services
-        private IRegionManager _regionManager;
-        private IEventAggregator _eventAggregator;
-        private IFileFolderChecker _fileFolderChecker;
-        private ISettingsHypermint _settings;
-        private ISelectedService _selectedService;
-        #endregion
-
         #region Commands
-        public DelegateCommand RandomVideoCommand { get; private set; }
         public DelegateCommand<IList> SelectionAvailableChanged { get; set; }
         public DelegateCommand<IList> SelectionProcessChanged { get; set; }
         public DelegateCommand AddSelectedCommand { get; private set; }
@@ -153,26 +138,107 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         #region Public Methods
 
-        public void DragOver(IDropInfo dropInfo)
-        {
-            var sourceItem = dropInfo.Data as IntroVideo;
-            var targetItem = dropInfo.TargetItem as IntroVideo;
-
-            if (sourceItem != null && targetItem != null)
-            {
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-                dropInfo.Effects = DragDropEffects.Copy;
-            }
-
-        }
-
-        public void Drop(IDropInfo dropInfo)
-        {
-            OnDropped(dropInfo);
-        }        
         #endregion
 
         #region Support Methods
+
+        private void OnGetProcessVideos()
+        {
+            if (processVideos.Count > 0)
+            {
+                string[] vids = new string[processVideos.Count];
+                for (int i = 0; i < processVideos.Count; i++)
+                {
+                    vids[i] = processVideos[i].FileName;
+                }
+
+                _eventAggregator.GetEvent<ReturnProcessVideosEvent>()
+                .Publish(vids);
+            }
+        }
+
+        [Obsolete]
+        private void OnVideoSelectionAvailableChanged(IList items)
+        {
+            //if (items == null)
+            //{
+            //    SelectedAvailableItemsCount = 0;
+            //    SelectedAvailableVideos.Clear();
+            //    return;
+            //}
+            //else
+            //{
+            //    SelectedAvailableItemsCount = items.Count;
+            //}
+
+            //try
+            //{
+            //    SelectedAvailableVideos.Clear();
+            //    foreach (var item in items)
+            //    {
+            //        var video = item as IntroVideo;
+            //        if (video.FileName != null)
+            //            SelectedAvailableVideos.Add(video);
+            //    }
+
+            //    if (SelectedAvailableItemsCount > 1)
+            //        SelectedAvailableHeader = "Selected videos: " + SelectedAvailableItemsCount;
+            //    else if (SelectedAvailableItemsCount == 1)
+            //    {
+            //        var video = items[0] as IntroVideo;
+            //        SelectedAvailableHeader = "Selected item: " + video.FileName;
+            //        _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish(video.FileName);
+            //    }
+            //    else
+            //        SelectedAvailableHeader = "";
+            //}
+            //catch (Exception)
+            //{
+
+
+            //}
+        }
+
+        [Obsolete]
+        private void OnVideoSelectionChanged(IList items)
+        {
+            //if (items == null)
+            //{
+            //    SelectedprocessItemsCount = 0;
+            //    SelectedProcessVideos.Clear();
+            //    return;
+            //}
+            //else
+            //{
+            //    SelectedprocessItemsCount = items.Count;
+            //}
+
+            //try
+            //{
+            //    SelectedProcessVideos.Clear();
+            //    foreach (var item in items)
+            //    {
+            //        var video = item as IntroVideo;
+            //        if (video.FileName != null)
+            //            SelectedProcessVideos.Add(video);
+            //    }
+
+            //    if (SelectedprocessItemsCount > 1)
+            //        SelectedprocessHeader = "Selected videos: " + SelectedprocessItemsCount;
+            //    else if (SelectedprocessItemsCount == 1)
+            //    {
+            //        var video = items[0] as IntroVideo;
+            //        SelectedprocessHeader = "Selected item: " + video.FileName;
+            //    }
+            //    else
+            //        SelectedprocessHeader = "";
+            //}
+            //catch (Exception)
+            //{
+
+
+            //}
+        }
 
         /// <summary>
         /// Update the video list for this system
@@ -193,9 +259,9 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             }
             catch (Exception)
             {
-                
+
             }
-            
+
         }
 
         [Obsolete("Dont scan videos when system is clicked. Add option to do that in view.")]
@@ -221,252 +287,8 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             //}
             //catch (Exception)
             //{
-                
+
             //}            
-        }
-
-        private void GrabRandomVideos()
-        {
-            if (scannedVideos.Count <= 0) return;
-
-            if (randomCount > scannedVideos.Count) return;
-
-            try
-            {
-                // Add all videos
-                if (randomCount == scannedVideos.Count)
-                {
-                    foreach (var item in scannedVideos)
-                    {
-                        processVideos.Add(item);
-                        scannedVideos.Remove(item);
-                    }                                        
-                }
-                else
-                {
-                    // Add random
-                    var random = new Random(scannedVideos.Count);
-
-                    for (int i = 0; i < randomCount; i++)
-                    {
-
-                        var randomVideo = scannedVideos[random.Next(scannedVideos.Count)];
-
-                        processVideos.Add(randomVideo);
-                        scannedVideos.Remove(randomVideo);
-                    }
-
-                    VideoToProcessList.Refresh();
-                    VideoList.Refresh();
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-           
-        }
-
-        private void AddVideos()
-        {
-            if (SelectedAvailableVideos.Count <= 0) return;
-
-            foreach (var item in SelectedAvailableVideos)
-            {
-                processVideos.Add(item);
-                scannedVideos.Remove(item);
-            }
-
-            VideoList.Refresh();
-            VideoToProcessList.Refresh();
-        }
-
-        /// <summary>
-        /// Remove selected or clears whole list
-        /// Note: using a string for delegate command?
-        /// </summary>
-        /// <param name="removeSelected"></param>
-        private void RemoveVideos(string removeSelected = "true")
-        {
-            if (processVideos.Count <= 0) return;
-
-            if (removeSelected == "true")
-            {
-                if (SelectedProcessVideos.Count <= 0) return;
-
-                foreach (var video in SelectedProcessVideos)
-                {
-                    scannedVideos.Add(video);
-                    processVideos.Remove(video);
-                }
-            }
-            else
-            {
-
-                foreach (IntroVideo video in VideoToProcessList)
-                {
-                    scannedVideos.Add(video);
-                }
-
-                processVideos.Clear();
-            }
-
-
-            VideoList.Refresh();
-            VideoToProcessList.Refresh();
-        }
-
-        private void ScanFormat()
-        {
-            foreach (var video in processVideos)
-            {
-                try
-                {
-                    if (video.FrameRate == 0)
-                    {
-                        if (_fileFolderChecker.FileExists(video.FileName))
-                        {
-                            var inputFile = new MediaFile { Filename = video.FileName };                            
-
-                            try
-                            {
-                                using (var engine = new MediaToolkit.Engine())
-                                {
-                                    engine.GetMetadata(inputFile);
-                                    video.Format = inputFile.Metadata.VideoData.FrameSize;
-                                    video.FrameRate = inputFile.Metadata.VideoData.Fps;
-                                    video.Duration = inputFile.Metadata.Duration.Duration();
-                                    engine.Dispose();
-                                }
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                    System.Windows.MessageBox.Show(ex.InnerException.Message);
-
-                }
-
-            }
-
-            VideoToProcessList.Refresh();
-
-        }
-
-        private void OnGetProcessVideos()
-        {
-            if (processVideos.Count > 0)
-            {
-                string[] vids = new string[processVideos.Count];
-                for (int i = 0; i < processVideos.Count; i++)
-                {
-                    vids[i] = processVideos[i].FileName;
-                }
-
-                _eventAggregator.GetEvent<ReturnProcessVideosEvent>()
-                .Publish(vids);
-            }
-        }
-
-        private void OnVideoSelectionAvailableChanged(IList items)
-        {
-            if (items == null)
-            {
-                SelectedAvailableItemsCount = 0;
-                SelectedAvailableVideos.Clear();
-                return;
-            }
-            else
-            {
-                SelectedAvailableItemsCount = items.Count;
-            }
-
-            try
-            {
-                SelectedAvailableVideos.Clear();
-                foreach (var item in items)
-                {
-                    var video = item as IntroVideo;
-                    if (video.FileName != null)
-                        SelectedAvailableVideos.Add(video);
-                }
-
-                if (SelectedAvailableItemsCount > 1)
-                    SelectedAvailableHeader = "Selected videos: " + SelectedAvailableItemsCount;
-                else if (SelectedAvailableItemsCount == 1)
-                {
-                    var video = items[0] as IntroVideo;
-                    SelectedAvailableHeader = "Selected item: " + video.FileName;
-                    _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish(video.FileName);
-                }
-                else
-                    SelectedAvailableHeader = "";
-            }
-            catch (Exception)
-            {
-
-
-            }
-        }
-
-        private void OnVideoSelectionChanged(IList items)
-        {
-            if (items == null)
-            {
-                SelectedprocessItemsCount = 0;
-                SelectedProcessVideos.Clear();
-                return;
-            }
-            else
-            {
-                SelectedprocessItemsCount = items.Count;
-            }
-
-            try
-            {
-                SelectedProcessVideos.Clear();
-                foreach (var item in items)
-                {
-                    var video = item as IntroVideo;
-                    if (video.FileName != null)
-                        SelectedProcessVideos.Add(video);
-                }
-
-                if (SelectedprocessItemsCount > 1)
-                    SelectedprocessHeader = "Selected videos: " + SelectedprocessItemsCount;
-                else if (SelectedprocessItemsCount == 1)
-                {
-                    var video = items[0] as IntroVideo;
-                    SelectedprocessHeader = "Selected item: " + video.FileName;
-                }
-                else
-                    SelectedprocessHeader = "";
-            }
-            catch (Exception)
-            {
-
-
-            }
-        }
-
-        private void OnDropped(IDropInfo dropInfo)
-        {
-            var sourceItem = dropInfo.Data as IntroVideo;
-            var targetItem = dropInfo.TargetItem as IntroVideo;
-
-            var AddInIndex = processVideos.IndexOf(targetItem);
-
-            processVideos.Remove(sourceItem);
-            processVideos.Insert(AddInIndex, sourceItem);
-
-            VideoToProcessList = new ListCollectionView(processVideos);
         }
 
         #endregion

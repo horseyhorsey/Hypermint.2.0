@@ -102,6 +102,7 @@
     <Compile Include="Converters\ConvertToImageSource.cs" />
     <Compile Include="Events\AuditingEvents.cs" />
     <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\IntroVideoEvents.cs" />
     <Compile Include="Events\MediaElementEvents.cs" />
     <Compile Include="Events\PresetEvents.cs" />
     <Compile Include="Events\SearchEvents.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Models\ImageEditPreset.cs" />
     <Compile Include="Models\Script.cs" />
     <Compile Include="Model\GameItemViewModel.cs" />
+    <Compile Include="Model\IntroVideo.cs" />
     <Compile Include="Model\SearchOptions.cs" />
     <Compile Include="Model\Setting.cs" />
     <Compile Include="Paths\Installation.cs" />

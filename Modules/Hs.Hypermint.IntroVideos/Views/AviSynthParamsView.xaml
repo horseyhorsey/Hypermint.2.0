@@ -5,40 +5,81 @@
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="65"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Content="Start"/>
+        <!--AMOUNT OF FRAMES TO TAKE EACH VIDEO-->
+        <Label Content="Frames" ToolTip="Video frame amount for each video"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left" Margin="3">
 
-        <Label Content="Dissolve" Grid.Row="1"/>
-
-        <DockPanel Grid.Column="1" HorizontalAlignment="Left" MaxHeight="25" Margin="5" LastChildFill="False">
-        
-        <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Frame number to start from each video"
+            <Label Content="Start"/>
+            <!--START FRAME-->
+            <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Frame number to start from each video"
                              Value="{Binding StartFrame,UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="End" Margin="10,0"/>
+
+            <!--END FRAME-->
+            <Label Content="End" Margin="10,0"/>
             <metro:NumericUpDown Minimum="1" Maximum="2000"
                                  ToolTip="Frame number to end on each video" 
                              Value="{Binding EndFrame}"/>
-        </DockPanel>
-        
-        <DockPanel Grid.Column="1" Grid.Row="1" MaxHeight="25" Margin="5" LastChildFill="False">
-            
-            <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Frames to dissolve into each video" 
-                             Value="{Binding DissolveAmount}"/>
+        </StackPanel>
+
+        <Label Content="Fade" Grid.Row="1" ToolTip="Fades and blends videos"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="3">
+
+            <Label Content="Dissolve" Grid.Row="1"/>
+
+            <metro:NumericUpDown Minimum="1" Maximum="2000" Value="{Binding DissolveAmount}"
+                                 ToolTip="Frames to dissolve into each video"/>
+
             <Label Content="Fade In"/>
             <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Output video fade in time (frames)" 
                              Value="{Binding FadeIn}"/>
-            <Label Content="Fade Out"></Label>
+
+            <Label Content="Fade Out"/>
             <metro:NumericUpDown Minimum="1" Maximum="2000" ToolTip="Output video fade out time (frames)"
                              Value="{Binding FadeOut}"/>
-        </DockPanel>
+        </StackPanel>
+
+        <!--VIDEO IMAGE OVERLAY-->
+        <Label Content="Overlay" Grid.Row="2" ToolTip="Overlay a wheel image onto the video output" />
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Margin="3">
+
+            <CheckBox x:Name="checkbox_OverlayOn" Content="Enabled" ToolTip="Overlay a wheel image onto the video output"  Margin="2" IsChecked="{Binding Overlay}"/>
+            <CheckBox Content="Resize" Margin="2" IsChecked="{Binding ResizeOverlay}" 
+                          IsEnabled="{Binding Overlay}" ToolTip="Resize the wheel image"/>
+
+            <Label Grid.Row="3" Grid.Column="1" Content="Pos X" VerticalAlignment="Center"/>
+
+            <metro:NumericUpDown Minimum="0" Maximum="2000" ToolTip="X Position of image"
+                                 IsEnabled="{Binding Overlay}" Value="{Binding WheelPosX}"/>
+
+            <Label Content="Pos Y"/>
+            <metro:NumericUpDown Minimum="0" Maximum="2000" ToolTip="Y Position of image"
+                                 IsEnabled="{Binding Overlay}" Value="{Binding WheelPosY}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.Column="1" Margin="3" Orientation="Horizontal">
+
+            <Label Content="Width" VerticalAlignment="Center" Grid.Row="1"/>
+            
+            <metro:NumericUpDown Minimum="0" ToolTip="Image width"
+                                 IsEnabled="{Binding ElementName=checkbox_OverlayOn, Path=IsChecked}"
+                                 Maximum="2000" Value="{Binding ResizeWidth}"/>
+
+            <Label Content="Height"/>
+            <metro:NumericUpDown Minimum="0" ToolTip="Image height"
+                                 IsEnabled="{Binding ElementName=checkbox_OverlayOn, Path=IsChecked}"
+                                 Maximum="2000" Value="{Binding ResizeHeight}"/>
+        </StackPanel>
 
     </Grid>
 </UserControl>

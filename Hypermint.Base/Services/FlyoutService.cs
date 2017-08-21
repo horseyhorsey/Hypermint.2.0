@@ -40,9 +40,8 @@ namespace Hypermint.Base.Services
                     }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                throw;
             }
            
         }

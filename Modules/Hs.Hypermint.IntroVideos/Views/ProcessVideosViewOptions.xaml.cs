@@ -3,11 +3,11 @@
 namespace Hs.Hypermint.IntroVideos.Views
 {
     /// <summary>
-    /// Interaction logic for AvailableVideosView.xaml
+    /// Interaction logic for PrismUserControl1
     /// </summary>
-    public partial class ProcessVideosView : UserControl
+    public partial class ProcessVideosViewOptions : UserControl
     {
-        public ProcessVideosView()
+        public ProcessVideosViewOptions()
         {
             InitializeComponent();
         }

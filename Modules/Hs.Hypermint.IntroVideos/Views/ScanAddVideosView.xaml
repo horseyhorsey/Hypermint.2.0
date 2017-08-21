@@ -8,40 +8,14 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="{Binding SelectedAvailableHeader}" Grid.Row="0">
-            <!--List for videos-->
-            <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" IsReadOnly="True"
-                      BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="3"
-                  ItemsSource="{Binding VideoList}" VerticalAlignment="Stretch">
+        <DockPanel VerticalAlignment="Top" Grid.Row="0">
 
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <prism:InvokeCommandAction 
-                            Command="{Binding SelectionAvailableChanged}" 
-                            CommandParameter="{Binding SelectedItems,
-                            ElementName=DatabaseGrid}">
-                        </prism:InvokeCommandAction>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="File" Binding="{Binding FileName}"/>
-                    <DataGridTextColumn Header="Dimensions" Binding="{Binding Format}"/>
-                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}"/>
-                    <DataGridTextColumn Header="FrameRate" Binding="{Binding FrameRate}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
-        
-        <DockPanel VerticalAlignment="Top" Grid.Row="1">
-
-            <Label Margin="5" Content="Random"/>
-            <metro:NumericUpDown Minimum="1" 
-                                 Maximum="2000" Margin="2" Height="10" Value="{Binding RandomCount}"/>
+            <Label Margin="5" Content="Random" ToolTip="Pick random videos from the available list."/>
+            <metro:NumericUpDown Minimum="1" Margin="3"
+                                 Maximum="2000" Value="{Binding RandomCount}"/>
 
             <!--Grab random videos-->
             <Button HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" 

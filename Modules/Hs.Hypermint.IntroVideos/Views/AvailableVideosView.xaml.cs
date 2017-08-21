@@ -3,11 +3,11 @@
 namespace Hs.Hypermint.IntroVideos.Views
 {
     /// <summary>
-    /// Interaction logic for AviSynthOverlayView
+    /// Interaction logic for AvailableVideosView.xaml
     /// </summary>
-    public partial class AviSynthOverlayView : UserControl
+    public partial class AvailableVideosView : UserControl
     {
-        public AviSynthOverlayView()
+        public AvailableVideosView()
         {
             InitializeComponent();
         }

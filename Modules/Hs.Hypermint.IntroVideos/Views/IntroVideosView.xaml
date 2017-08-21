@@ -7,21 +7,30 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid >
 
-        <GroupBox Header="{Binding VideosAvailableHeader}">
+        <GroupBox Header="Video intros generator">
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                
                 <Grid.RowDefinitions>
-                    <RowDefinition MaxHeight="90"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="90"/>
                 </Grid.RowDefinitions>
 
-                <local:ScanAddVideosView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+                <!--ADD VIDEO-->
+                <local:AvailableVideosView Grid.Column="0" Grid.Row="0" />
 
-                <local:ProcessVideosView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" />
+                <!--IMPORT OPTIONS-->
+                <local:ImportVideoView Grid.Column="0" Grid.Row="1"/>
+
+                <!--PROCESS VIDEO-->
+                <local:ProcessVideosView Grid.Column="1" Grid.Row="0" />
+
+                <local:ProcessVideosViewOptions Grid.Column="1" Grid.Row="1"/>
+
             </Grid>
             
         </GroupBox>

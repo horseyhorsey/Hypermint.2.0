@@ -1,5 +1,0 @@
-﻿<FrameworkElement x:Name="dummyElement" Visibility="Collapsed"/>
-
-<DataGridTextColumn Header="GenreBg" Binding="{Binding HaveGenreBG}"
-                    Visibility="{Binding DataContext.IsMainMenu,Source={x:Reference Name=dummyElement},
-    Converter={StaticResource BoolToVisConverter}}" 

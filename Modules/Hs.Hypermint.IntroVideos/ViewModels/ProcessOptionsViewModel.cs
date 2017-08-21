@@ -13,18 +13,15 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
     public class ProcessOptionsViewModel : ViewModelBase
     {         
         #region Constructors
-        public ProcessOptionsViewModel(
-    IAviSynthScripter aviSynthScripter,
-    IEventAggregator ea,
-    ISettingsHypermint settings,
-    ISelectedService selected,
-    IFolderExplore folderexplorer)
+        public ProcessOptionsViewModel( IAviSynthScripter aviSynthScripter, IEventAggregator ea,
+                    ISettingsHypermint settings, ISelectedService selected,IFolderExplore folderexplorer)
         {
             _avisynthScripter = aviSynthScripter;
             _folderExplorer = folderexplorer;
@@ -48,27 +45,8 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
             ProcessScriptCommand = new DelegateCommand(() =>
             {
-                try
-                {
-                    var ffmpegExe = ConfigurationManager.AppSettings["ffmpeg:ExeLocation"].ToString();
-
-                    var selectedScript = Scripts.CurrentItem as string;
-
-                    if (selectedScript == null) return;
-
-                    var scriptPath = GetSystemExportPath() + selectedScript + ".avs";
-                    var videoPath = GetSystemExportPath() + selectedScript + ".mp4";
-
-                    Process.Start(ffmpegExe,
-                         "-i " + scriptPath + " -vcodec libx264 -crf " + VideoQuality + " " + videoPath);
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.MessageBox.Show(ex.Message);
-                }
-
+                ProcessScript();
             });
-
 
             OpenExportFolderCommand = new DelegateCommand(() =>
             {
@@ -76,6 +54,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             });
 
         }
+
         #endregion
 
         #region Fields
@@ -188,12 +167,15 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         #endregion
 
         #region Commands
-        public DelegateCommand SaveScriptCommand { get; private set; }
-        public DelegateCommand OpenExportFolderCommand { get; private set; }
-        public DelegateCommand ProcessScriptCommand { get; private set; }  
+        public ICommand SaveScriptCommand { get; private set; }
+        public ICommand OpenExportFolderCommand { get; private set; }
+        public ICommand ProcessScriptCommand { get; private set; }
         #endregion
-                
+
         #region Support Methods
+
+        private string GetSystemExportPath() => @"exports\\videos\\" + _selectedService.CurrentSystem.Replace(' ', '_') + "\\";
+
         private void GetScriptsInExportFolder()
         {
             var path = exportPath + _selectedService.CurrentSystem.Replace(' ', '_');
@@ -207,6 +189,28 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             }
 
             Scripts = new ListCollectionView(_scripts);
+        }
+
+        private void ProcessScript()
+        {
+            try
+            {
+                var ffmpegExe = ConfigurationManager.AppSettings["ffmpeg:ExeLocation"].ToString();
+
+                var selectedScript = Scripts.CurrentItem as string;
+
+                if (selectedScript == null) return;
+
+                var scriptPath = GetSystemExportPath() + selectedScript + ".avs";
+                var videoPath = GetSystemExportPath() + selectedScript + ".mp4";
+
+                Process.Start(ffmpegExe,
+                     "-i " + scriptPath + " -vcodec libx264 -crf " + VideoQuality + " " + videoPath);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
         }
 
         private void SaveScript(string[] videos)
@@ -237,8 +241,6 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         }
 
-        private string GetSystemExportPath() => @"exports\\videos\\" + _selectedService.CurrentSystem.Replace(' ', '_') + "\\";
-
         private void SystemChanged(string x)
         {
             Scripts = null;
@@ -254,6 +256,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             }
 
         }
+
         #endregion
     }
 }

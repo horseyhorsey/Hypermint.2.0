@@ -30,6 +30,8 @@ namespace Hs.Hypermint.NavBar.ViewModels
             _eventAggregator.GetEvent<RequestOpenFolderEvent>().Subscribe(x => { _folderExplore.OpenFolder(x);});
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
+
+            Navigate("DatabaseDetailsView");
         }
         #endregion
 

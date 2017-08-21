@@ -40,7 +40,7 @@ namespace Hypermint.Shell
             if (regionManager != null)
             {
                 regionManager.RegisterViewWithRegion(RegionNames.FlyoutRegion, typeof(SettingsFlyout));
-                regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
+                //regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
                 regionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(Hs.Hypermint.DatabaseDetails.Views.MainMenuView));
             }
 
