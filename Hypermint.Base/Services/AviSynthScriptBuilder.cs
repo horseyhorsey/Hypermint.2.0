@@ -1,10 +1,6 @@
 ﻿using Hypermint.Base.Models;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Hypermint.Base.Services
 {
@@ -13,8 +9,13 @@ namespace Hypermint.Base.Services
     /// </summary>
     public class AviSynthScriptBuilder : ScriptBuilder
     {
+        /// <summary>
+        /// Build the script from options....no linq, wow.
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         protected internal override string BuildScript(ScriptOptions options)
-        {            
+        {
             var videoFilesLength = options.VideoFiles.Length;
             options.vidname = new string[videoFilesLength];
             options.audioname = new string[videoFilesLength];
@@ -75,78 +76,78 @@ namespace Hypermint.Base.Services
 
                 }
 
-                i = 0;
-                foreach (var item in options.VideoFiles)
-                {
-                    options.trimName[i] = SetTrimName(i, options.audioDub[i]);
-                    i++;
-                }
-
-                var linesTotal = 0;
-                if (!options.Overlay)
-                    linesTotal = options.vidname.Length + options.trimName.Length + options.audioname.Length + options.audioDub.Length + 1;
-                else
-                    linesTotal = options.vidname.Length + options.trimName.Length +
-                        options.audioname.Length + options.audioDub.Length + 1 + options.wheelName.Length + options.wheelNameAlpha.Length;
-
-                var lineArray = new string[linesTotal];
-                i = 0; var ii = 0;
-                foreach (var videoName in options.vidname)
-                {
-                    lineArray[ii] = options.vidname[i];
-                    ii++;
-
-                    if (options.Overlay)
-                    {
-                        lineArray[ii] = options.wheelName[i];
-                        ii++;
-                        lineArray[ii] = options.wheelNameAlpha[i];
-                        ii++;
-                    }
-
-                    lineArray[ii] = options.audioname[i];
-                    ii++;
-                    i++;
-                }
-
-                i = 0;
-
-                var stringBuilder = new StringBuilder();
-                foreach (var item in options.trimName)
-                {
-                    lineArray[ii] = options.trimName[i];
-                    stringBuilder.Append("Trim" + i + ",");
-                    i++;
-                    ii++;
-                }
-
-                stringBuilder.Append(options.avisynthOption.DissolveAmount + ").FadeIn("
-                    + options.avisynthOption.FadeIn + ").FadeOut(" + options.avisynthOption.FadeOut + ")");
-
-                lineArray[ii] = "Dissolve(" + stringBuilder.ToString();
-
-                var system = options.SystemName.Replace(' ', '_');
-
-                if (!Directory.Exists(options.ExportScriptPath + system))
-                    Directory.CreateDirectory(options.ExportScriptPath + system);
-
-                var scriptFile = system + ".avs";
-
-                i = 1;
-
-                while (File.Exists(options.ExportScriptPath + system + "\\" + scriptFile))
-                {
-                    scriptFile = system + "(" + i + ")" + ".avs";
-                    i++;
-                }
-
-                File.WriteAllLines(options.ExportScriptPath + system + "\\" + scriptFile, lineArray);
-
                 i++;
-                return scriptFile.Replace(".avs", "");
             }
 
-            return "";
+            i = 0;
+            foreach (var item in options.VideoFiles)
+            {
+                options.trimName[i] = SetTrimName(i, options.audioDub[i]);
+                i++;
+            }
+
+            var linesTotal = 0;
+            if (!options.Overlay)
+                linesTotal = options.vidname.Length + options.trimName.Length + options.audioname.Length + options.audioDub.Length + 1;
+            else
+                linesTotal = options.vidname.Length + options.trimName.Length +
+                    options.audioname.Length + options.audioDub.Length + 1 + options.wheelName.Length + options.wheelNameAlpha.Length;
+
+            var lineArray = new string[linesTotal];
+            i = 0; var ii = 0;
+            foreach (var videoName in options.vidname)
+            {
+                lineArray[ii] = options.vidname[i];
+                ii++;
+
+                if (options.Overlay)
+                {
+                    lineArray[ii] = options.wheelName[i];
+                    ii++;
+                    lineArray[ii] = options.wheelNameAlpha[i];
+                    ii++;
+                }
+
+                lineArray[ii] = options.audioname[i];
+                ii++;
+                i++;
+            }
+
+            i = 0;
+
+            var stringBuilder = new StringBuilder();
+            foreach (var item in options.trimName)
+            {
+                lineArray[ii] = options.trimName[i];
+                stringBuilder.Append("Trim" + i + ",");
+                i++;
+                ii++;
+            }
+
+            stringBuilder.Append(options.avisynthOption.DissolveAmount + ").FadeIn("
+                + options.avisynthOption.FadeIn + ").FadeOut(" + options.avisynthOption.FadeOut + ")");
+
+            lineArray[ii] = "Dissolve(" + stringBuilder.ToString();
+
+            var system = options.SystemName;
+
+            if (!Directory.Exists(options.ExportScriptPath + system))
+                Directory.CreateDirectory(options.ExportScriptPath + system);
+
+            var scriptFile = system + ".avs";
+
+            i = 1;
+
+            while (File.Exists(options.ExportScriptPath + system + "\\" + scriptFile))
+            {
+                scriptFile = system + "(" + i + ")" + ".avs";
+                i++;
+            }
+
+            File.WriteAllLines(options.ExportScriptPath + "\\" + scriptFile, lineArray);
+
+            i++;
+            return scriptFile.Replace(".avs", "");
         }
 
         protected internal override void CreateScriptOptions()

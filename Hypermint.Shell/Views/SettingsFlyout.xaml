@@ -22,6 +22,7 @@
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -39,7 +40,7 @@
 
         <!--HyperSpin Path-->        
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="10" HorizontalAlignment="Left" TextWrapping="Wrap"
-                       Text="HS Path" VerticalAlignment="Top"/>
+                       Text="Hyperspin" VerticalAlignment="Top"/>
         <TextBox  Grid.Row="1" Text="{Binding HyperMintSettings.HsPath}" Grid.Column="1"  Grid.ColumnSpan="1"  Controls:TextBoxHelper.ClearTextButton="True" 
                                  Controls:TextBoxHelper.Watermark="HyperSpin path not set..."
                                   Height="23" Margin="5"
@@ -101,7 +102,7 @@
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding HyperMintSettings.Icons}" Controls:TextBoxHelper.ClearTextButton="True" 
                              Controls:TextBoxHelper.Watermark="Icons for systems path not set"
                              x:Name="txt_icons" Height="23" Margin="5" TextWrapping="Wrap" VerticalAlignment="Top"
-                             ToolTip="Path to icons to use for systems"/>
+                             ToolTip="Path to icons to use for systems."/>
         <Button Grid.Row="4" Command="{Binding FindPath}" CommandParameter="IconsPath" Grid.Column="2" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4"
                 Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
@@ -148,8 +149,28 @@
                                 	x:Name="txt_author" Height="23" Margin="5" TextWrapping="Wrap"
                                     VerticalAlignment="Top" ToolTip="Set author name for media creations"/>
 
+        <!--FFMPEG-->
+        <TextBlock Grid.Row="8" Grid.Column="0" Margin="10" TextWrapping="Wrap" Text="Ffmpeg"  VerticalAlignment="Top"/>
+        <TextBox Grid.Row="8" Grid.Column="1" Controls:TextBoxHelper.ClearTextButton="True" Text="{Binding HyperMintSettings.Ffmpeg}"
+                                	Controls:TextBoxHelper.Watermark="C:\ffmpeg"
+                                	x:Name="txt_ffmpeg" Height="23" Margin="5" TextWrapping="Wrap"
+                                    VerticalAlignment="Top" ToolTip="Set ffmpeg path. For processing video scripts."/>
+
+        <Button Grid.Row="8" Grid.Column="2" Command="{Binding FindPath}" CommandParameter="Ffmpeg" HorizontalAlignment="Left" Margin="5" 
+                VerticalAlignment="Top"
+                Height="28" Width="28" Style="{DynamicResource AccentedSquareButtonStyle}">
+            <Rectangle Width="20"
+                       Height="20"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill"
+                                 Visual="{DynamicResource appbar_folder}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
         <!--SAVE SETTINGS-->
-        <Button Grid.Row="8" Grid.Column="1" x:Name="btn_SavePaths" Command="{Binding SaveSettings}" Content="Save" 
+        <Button Grid.Row="9" Grid.Column="1" x:Name="btn_SavePaths" Command="{Binding SaveSettings}" Content="Save" 
                  Margin="10" VerticalAlignment="Center" Width="75" Style="{DynamicResource AccentedSquareButtonStyle}"></Button>
         <Rectangle Width="20"
                        Height="20"

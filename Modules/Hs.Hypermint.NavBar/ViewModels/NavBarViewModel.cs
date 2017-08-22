@@ -192,7 +192,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
                     {
                         CurrentView += "Hyperspin video intros";
-                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "ProcessOptionsView");
+                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "ExportVideoOptionsView");
                     }                    
                     break;
                 case "MultiSystemView":

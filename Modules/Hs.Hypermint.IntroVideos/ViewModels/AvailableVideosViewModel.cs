@@ -1,17 +1,40 @@
-﻿using Hypermint.Base.Events;
+﻿using Hypermint.Base;
+using Hypermint.Base.Constants;
+using Hypermint.Base.Events;
+using Hypermint.Base.Interfaces;
+using Hypermint.Base.Model;
+using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Windows.Input;
+using System.Collections;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
     public class AvailableVideosViewModel : VideoIntroViewModelBase
     {
         private IEventAggregator _eventAggregator;
+        private IFileFolderChecker _fileChecker;
+        private ISettingsHypermint _settings;
 
-        public AvailableVideosViewModel(IEventAggregator eventAggregator)
+        public ICommand RandomVideoCommand { get; set; }
+
+        public AvailableVideosViewModel(IEventAggregator eventAggregator, ISettingsHypermint settings, IFileFolderChecker fileChecker)
         {
             _eventAggregator = eventAggregator;
+            _fileChecker = fileChecker;
+            _settings = settings;
+
+            RandomVideoCommand = new DelegateCommand(() => { });
+
+            base.AddSelectedCommand = new DelegateCommand(() => AddSelected());            
+
             _eventAggregator.GetEvent<RandomVideosEvent>().Subscribe((amount) => GrabRandomVideos(amount));
+
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(x => SystemChanged(x));
+
+            _eventAggregator.GetEvent<AddSelectedVideosEvent>().Subscribe(AddSelected);
+            _eventAggregator.GetEvent<AddToAvailableVideosEvent>().Subscribe(AddVideo);
         }
 
         public AvailableVideosViewModel()
@@ -25,15 +48,25 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         /// </summary>
         public override void AddSelected()
         {
-            if (SelectedVideos.Count <= 0) return;
+            if (SelectedItems.Count <= 0) return;
 
-            foreach (var video in SelectedVideos)
+            foreach (var video in SelectedItems.ToArray())
             {
                 Videos.Remove(video);
 
                 _eventAggregator.GetEvent<AddToProcessVideoListEvent>().Publish(video);
             }
-        } 
+        }
+
+        public void AddVideo(IntroVideo vid)
+        {
+            Videos.Add(vid);
+        }
+
+        public override void OnVideoSelectionChanged(IList videos)
+        {
+            base.OnVideoSelectionChanged(videos);
+        }
         #endregion
 
         #region Support Methods
@@ -67,7 +100,52 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
                 }
             }
 
-        } 
+        }
+
+        [Obsolete("Dont scan videos when system is clicked. Add option to do that in view.")]
+        private void ScanVideosForSystem(string hyperSpinVideoPath, string videoExtFilter = "*.mp4")
+        {
+            try
+            {
+
+                var videoFiles = _fileChecker.GetFiles(hyperSpinVideoPath + "\\", videoExtFilter);
+
+                foreach (var video in videoFiles)
+                {
+                    Videos.Add(new IntroVideo()
+                    {
+                        FileName = video
+                    });
+                }
+
+                //VideosAvailableHeader = "Videos Available: " + scannedVideos.Count;
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// Update the video list for this system
+        /// </summary>
+        /// <param name="systemName"></param>
+        private void SystemChanged(string systemName)
+        {
+            try
+            {
+                Videos.Clear();
+
+                var systemVideoPath = _settings.HypermintSettings.HsPath + "\\Media\\" + systemName + "\\" + Root.Video;
+
+                ScanVideosForSystem(systemVideoPath);
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
 
         #endregion
     }

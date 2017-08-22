@@ -3,6 +3,7 @@ using Prism.Events;
 using System.Collections.Generic;
 using System;
 using Hypermint.Base.Model;
+using System.Collections;
 
 namespace Hypermint.Base
 {
@@ -21,9 +22,9 @@ namespace Hypermint.Base
 
     public class RlFilesDroppedEvent : PubSubEvent<string[]> { }
 
-    public class GetProcessVideosEvent : PubSubEvent<string> { }
+    public class GetProcessVideosEvent : PubSubEvent { }
 
-    public class ReturnProcessVideosEvent : PubSubEvent<object> { }    
+    public class ReturnProcessVideosEvent : PubSubEvent<IEnumerable<string>> { }    
 
     public class ImageEditSourceEvent : PubSubEvent<string> { }
 

@@ -76,5 +76,14 @@ namespace Hypermint.Base.Model
             set { SetProperty(ref _icons, value); }
         }
 
+        private string _ffmpeg;
+        /// <summary>
+        /// Gets or sets the Ffmpeg path.
+        /// </summary>
+        public string Ffmpeg
+        {
+            get { return _ffmpeg; }
+            set { SetProperty(ref _ffmpeg, value); }
+        }
     }
 }

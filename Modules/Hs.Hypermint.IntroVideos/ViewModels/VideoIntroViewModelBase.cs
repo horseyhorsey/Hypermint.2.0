@@ -5,7 +5,10 @@ using Prism.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Linq;
 using System.Windows.Input;
+using System;
+using System.Collections;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
@@ -14,15 +17,20 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         #region Commands
         public ICommand AddSelectedCommand { get; set; }
         public ICommand RemoveSelectedCommand { get; set; }
+        public ICommand SelectionProcessChanged { get; set; }
         #endregion
 
         public VideoIntroViewModelBase()
         {
-            SelectedVideos = new List<IntroVideo>();
+            SelectedItems = new List<IntroVideo>();
             Videos = new ObservableCollection<IntroVideo>();
 
-            AddSelectedCommand = new DelegateCommand(AddSelected);
+            AddSelectedCommand = new DelegateCommand(() => AddSelected());
             RemoveSelectedCommand = new DelegateCommand(RemoveSelected);
+            SelectionProcessChanged = new DelegateCommand<IList>(videos =>
+            {
+                OnVideoSelectionChanged(videos);
+            });
         }
 
         #region Properties        
@@ -37,7 +45,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             set { SetProperty(ref _videos, value); }
         }
 
-        public List<IntroVideo> SelectedVideos { get; set; }
+        public List<IntroVideo> SelectedItems { get; set; }
 
         #endregion
 
@@ -51,6 +59,55 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         public virtual void RemoveSelected()
         {
 
+        }
+
+        public virtual void OnVideoSelectionChanged(IList videos)
+        {
+            if (videos != null && videos.Count > 0)
+            {
+                SelectedItems.Clear();
+                foreach (var video in videos)
+                {
+                    SelectedItems.Add(video as IntroVideo);
+                }
+            }
+            //if (items == null)
+            //{
+            //    SelectedAvailableItemsCount = 0;
+            //    SelectedAvailableVideos.Clear();
+            //    return;
+            //}
+            //else
+            //{
+            //    SelectedAvailableItemsCount = items.Count;
+            //}
+
+            //try
+            //{
+            //    SelectedAvailableVideos.Clear();
+            //    foreach (var item in items)
+            //    {
+            //        var video = item as IntroVideo;
+            //        if (video.FileName != null)
+            //            SelectedAvailableVideos.Add(video);
+            //    }
+
+            //    if (SelectedAvailableItemsCount > 1)
+            //        SelectedAvailableHeader = "Selected videos: " + SelectedAvailableItemsCount;
+            //    else if (SelectedAvailableItemsCount == 1)
+            //    {
+            //        var video = items[0] as IntroVideo;
+            //        SelectedAvailableHeader = "Selected item: " + video.FileName;
+            //        _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish(video.FileName);
+            //    }
+            //    else
+            //        SelectedAvailableHeader = "";
+            //}
+            //catch (Exception)
+            //{
+
+
+            //}
         }
 
         public void DragOver(IDropInfo dropInfo)

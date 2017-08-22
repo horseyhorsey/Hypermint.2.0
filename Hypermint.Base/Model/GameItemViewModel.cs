@@ -10,6 +10,7 @@ namespace Hypermint.Base.Model
         /// <summary>
         /// Data bind wraps the Game model from Frontends.Models.Hyperspin <para/>
         /// *Fody propertychanged not available on .Net std 2.0
+        /// * Is available now for 2.0
         /// </summary>
         /// <param name="game">The game.</param>       
         public GameItemViewModel(Game game)

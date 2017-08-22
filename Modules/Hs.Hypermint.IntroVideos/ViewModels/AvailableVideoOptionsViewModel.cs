@@ -6,18 +6,17 @@ using System.Windows.Input;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
-    public class ScanAddVideosViewModel : ViewModelBase
+    public class AvailableVideoOptionsViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
 
         #region Commands
-        public ICommand RandomVideoCommand { get; private set; }
-        public ICommand AddSelectedCommand { get; private set; }
+        public ICommand RandomVideoCommand { get; set; }
+        public ICommand AddSelectedCommand { get; set; }
         #endregion
 
         #region Constructors
-        public ScanAddVideosViewModel(IEventAggregator eventAggregator) 
-        
+        public AvailableVideoOptionsViewModel(IEventAggregator eventAggregator)         
         {
             _eventAggregator = eventAggregator;
 

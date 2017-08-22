@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ddrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:prism="http://www.codeplex.com/prism">
 
@@ -7,13 +8,14 @@
 
         <!--VIDEO LISTS-->
         <DataGrid x:Name="DatabaseGrid" AutoGenerateColumns="False" IsReadOnly="True"
-                      BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="3"
-                  ItemsSource="{Binding VideoList}" VerticalAlignment="Stretch">
+                      ddrop:DragDrop.IsDropTarget="True" ddrop:DragDrop.IsDragSource="True" ddrop:DragDrop.DropHandler="{Binding}"
+                       BorderBrush="{DynamicResource AccentColorBrush}" ItemsSource="{Binding Videos, UpdateSourceTrigger=PropertyChanged}"
+                        BorderThickness="3" VerticalAlignment="Stretch">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <prism:InvokeCommandAction 
-                            Command="{Binding SelectionAvailableChanged}" 
+                            Command="{Binding SelectionProcessChanged}" 
                             CommandParameter="{Binding SelectedItems, ElementName=DatabaseGrid}">
                     </prism:InvokeCommandAction>
                 </i:EventTrigger>
@@ -25,6 +27,7 @@
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}"/>
                 <DataGridTextColumn Header="FrameRate" Binding="{Binding FrameRate}"/>
             </DataGrid.Columns>
+            
         </DataGrid>
     </ControlTemplate>
 

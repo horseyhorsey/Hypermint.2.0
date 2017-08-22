@@ -1,6 +1,11 @@
-﻿<UserControl x:Class="Hs.Hypermint.IntroVideos.Views.ProcessVideosViewOptions"
+﻿<UserControl x:Class="Hs.Hypermint.IntroVideos.Views.ProcessVideoOptionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                          xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
     <Grid>
 
         <GroupBox Header="Process options" Grid.Row="0">
@@ -9,7 +14,7 @@
 
                 <!--Send to process list-->
                 <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
-                    Command="{Binding RemoveVideosCommand}" CommandParameter="true"
+                    Command="{Binding RemoveSelectedCommand}" CommandParameter="true"
                     ToolTip="Remove selected" Height="30" Width="30" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="15" Height="15" 
                            Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
@@ -21,7 +26,7 @@
 
                 <!--Clear the list & reset-->
                 <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2" 
-                    Command="{Binding RemoveVideosCommand}" CommandParameter="false"
+                    Command="{Binding ClearListCommand}"
                     ToolTip="Clear list" Height="30" Width="30" Style="{DynamicResource AccentedSquareButtonStyle}">
                     <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
                         <Rectangle.OpacityMask>
@@ -40,9 +45,8 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
-                
+
             </DockPanel>
         </GroupBox>
-
     </Grid>
 </UserControl>

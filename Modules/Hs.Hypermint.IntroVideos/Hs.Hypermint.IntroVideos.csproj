@@ -103,11 +103,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\AvailableVideosViewModel.cs" />
-    <Compile Include="ViewModels\IntroVideosViewModel.cs" />
-    <Compile Include="ViewModels\ProcessOptionsViewModel.cs" />
+    <Compile Include="ViewModels\ExportVideoOptionsViewModel.cs" />
+    <Compile Include="ViewModels\ProcessVideoOptionsViewModel.cs" />
     <Compile Include="ViewModels\ProcessVideosViewModel.cs" />
-    <Compile Include="ViewModels\ScanAddVideosViewModel.cs" />
+    <Compile Include="ViewModels\AvailableVideoOptionsViewModel.cs" />
     <Compile Include="ViewModels\VideoIntroViewModelBase.cs" />
+    <Compile Include="Views\ProcessVideoOptionsView.xaml.cs">
+      <DependentUpon>ProcessVideoOptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProcessVideosView.xaml.cs">
       <DependentUpon>ProcessVideosView.xaml</DependentUpon>
     </Compile>
@@ -117,20 +120,14 @@
     <Compile Include="Views\AviSynthParamsView.xaml.cs">
       <DependentUpon>AviSynthParamsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ImportVideoView.xaml.cs">
-      <DependentUpon>ImportVideoView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\IntroVideosView.xaml.cs">
       <DependentUpon>IntroVideosView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProcessOptionsView.xaml.cs">
-      <DependentUpon>ProcessOptionsView.xaml</DependentUpon>
+    <Compile Include="Views\ExportVideoOptionsView.xaml.cs">
+      <DependentUpon>ExportVideoOptionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProcessVideosViewOptions.xaml.cs">
-      <DependentUpon>ProcessVideosViewOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ScanAddVideosView.xaml.cs">
-      <DependentUpon>ScanAddVideosView.xaml</DependentUpon>
+    <Compile Include="Views\AvailableVideoOptionsView.xaml.cs">
+      <DependentUpon>AvailableVideoOptionsView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,9 +140,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
@@ -154,6 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Templates\DatagridTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProcessVideoOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,23 +168,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ImportVideoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\IntroVideosView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ProcessOptionsView.xaml">
+    <Page Include="Views\ExportVideoOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ProcessVideosViewOptions.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ScanAddVideosView.xaml">
+    <Page Include="Views\AvailableVideoOptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

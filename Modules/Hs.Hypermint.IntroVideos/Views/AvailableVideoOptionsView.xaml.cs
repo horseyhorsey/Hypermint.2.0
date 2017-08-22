@@ -3,13 +3,14 @@
 namespace Hs.Hypermint.IntroVideos.Views
 {
     /// <summary>
-    /// Interaction logic for ImportVideoView
+    /// Interaction logic for ScanAddVideosView
     /// </summary>
-    public partial class ImportVideoView : UserControl
+    public partial class AvailableVideoOptionsView : UserControl
     {
-        public ImportVideoView()
+        public AvailableVideoOptionsView()
         {
             InitializeComponent();
         }
+
     }
 }

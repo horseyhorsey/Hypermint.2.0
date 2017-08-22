@@ -140,6 +140,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<DatabaseOptionsView>("DatabaseOptionsView");
             Container.RegisterTypeForNavigation<MultiSystemView>("MultiSystemView");
             Container.RegisterTypeForNavigation<IntroVideosView>("IntroVideosView");
+            Container.RegisterTypeForNavigation<ExportVideoOptionsView>("ExportVideoOptionsView");
             Container.RegisterTypeForNavigation<HsMediaAuditView>("HsMediaAuditView");
             Container.RegisterTypeForNavigation<RlMediaAuditView>("RlMediaAuditView");
             Container.RegisterTypeForNavigation<SimpleWheelView>("SimpleWheelView");

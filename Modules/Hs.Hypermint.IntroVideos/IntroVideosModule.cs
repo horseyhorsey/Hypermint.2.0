@@ -1,4 +1,5 @@
-﻿using Hypermint.Base;
+﻿using Hs.Hypermint.IntroVideos.Views;
+using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Services;
 using Microsoft.Practices.Unity;
@@ -23,7 +24,7 @@ namespace Hs.Hypermint.IntroVideos
 
             RegionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(Views.IntroVideosView));
 
-            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(Views.ProcessOptionsView));
+            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(ExportVideoOptionsView));
 
         }
     }

@@ -34,6 +34,7 @@ namespace Hypermint.Base
             {
                 HypermintSettings.GhostscriptPath = binReader.ReadString();
                 HypermintSettings.Icons = binReader.ReadString();
+                HypermintSettings.Ffmpeg = binReader.ReadString();
             }
             catch (EndOfStreamException) { }
 
@@ -55,6 +56,7 @@ namespace Hypermint.Base
             binWriter.Write(@"Hypermint");
             binWriter.Write(@"C:\Program Files\gs\gs9.14\bin");
             binWriter.Write(@"C:\RocketLauncher\RocketLauncherUI\Media\Icons");
+            binWriter.Write(@"C:\ffmpeg.exe");            
 
             binWriter.Close();
 
@@ -71,6 +73,7 @@ namespace Hypermint.Base
             binWriter.Write(HypermintSettings.Author);
             binWriter.Write(HypermintSettings.GhostscriptPath);
             binWriter.Write(HypermintSettings.Icons);
+            binWriter.Write(HypermintSettings.Ffmpeg);
 
             binWriter.Close();
         }

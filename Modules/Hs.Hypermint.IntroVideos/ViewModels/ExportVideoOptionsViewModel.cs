@@ -12,15 +12,25 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
-    public class ProcessOptionsViewModel : ViewModelBase
-    {         
+    public class ExportVideoOptionsViewModel : ViewModelBase
+    {
+        #region Fields
+        private IAviSynthScripter _avisynthScripter;
+        private IFolderExplore _folderExplorer;
+        private IEventAggregator _eventAggregator;
+        private ISettingsHypermint _settings;
+        private ISelectedService _selectedService;
+        const string exportPath = "Exports\\Videos\\";
+        #endregion
+
         #region Constructors
-        public ProcessOptionsViewModel( IAviSynthScripter aviSynthScripter, IEventAggregator ea,
+        public ExportVideoOptionsViewModel( IAviSynthScripter aviSynthScripter, IEventAggregator ea,
                     ISettingsHypermint settings, ISelectedService selected,IFolderExplore folderexplorer)
         {
             _avisynthScripter = aviSynthScripter;
@@ -33,14 +43,15 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(x => SystemChanged(x));
 
+            //Save the process videos to a an avi synth script.
             SaveScriptCommand = new DelegateCommand(() =>
             {
-                _eventAggregator.GetEvent<GetProcessVideosEvent>().Publish("");
+                _eventAggregator.GetEvent<GetProcessVideosEvent>().Publish();
             });
 
             _eventAggregator.GetEvent<ReturnProcessVideosEvent>().Subscribe(x =>
             {
-                SaveScript((string[])x);
+                SaveScript(x);
             });
 
             ProcessScriptCommand = new DelegateCommand(() =>
@@ -50,23 +61,45 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
             OpenExportFolderCommand = new DelegateCommand(() =>
             {
-                _folderExplorer.OpenFolder("exports\\videos\\" + _selectedService.CurrentSystem.Replace(' ', '_'));
+                var dir = GetSystemExportPath();
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                _folderExplorer.OpenFolder(dir);
             });
 
         }
 
         #endregion
 
-        #region Fields
-
-        const string exportPath = "exports\\videos\\";
-
-        private AviSynthOption aviSynthOptions;
-        private ISettingsHypermint _settings;
-        private ISelectedService _selectedService;
+        #region Commands        
+        public ICommand OpenExportFolderCommand { get; set; }
+        public ICommand ProcessScriptCommand { get; set; }
+        public ICommand SaveScriptCommand { get; set; }
         #endregion
 
+        #region Properties
+
+        private ICollectionView scripts;
+        public ICollectionView Scripts
+        {
+            get { return scripts; }
+            set { SetProperty(ref scripts, value); }
+        }
+
+        private int videoQuality = 10;
+        public int VideoQuality
+        {
+            get { return videoQuality; }
+            set { SetProperty(ref videoQuality, value); }
+        }
+
+        private List<string> _scripts;
+
+        #endregion        
+
         #region AviSynthProperties
+        private AviSynthOption aviSynthOptions;
         public AviSynthOption AviSynthOptions
         {
             get { return aviSynthOptions; }
@@ -139,46 +172,22 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             get { return wheelPosY; }
             set { SetProperty(ref wheelPosY, value); }
         }
-        #endregion
-
-        #region Properties
-        private ICollectionView scripts;
-        public ICollectionView Scripts
-        {
-            get { return scripts; }
-            set { SetProperty(ref scripts, value); }
-        }
-
-        private int videoQuality = 10;
-        public int VideoQuality
-        {
-            get { return videoQuality; }
-            set { SetProperty(ref videoQuality, value); }
-        }
-
-        private List<string> _scripts;
-
         #endregion        
-
-        #region Services
-        private IAviSynthScripter _avisynthScripter;
-        private IFolderExplore _folderExplorer;
-        private IEventAggregator _eventAggregator;
-        #endregion
-
-        #region Commands
-        public ICommand SaveScriptCommand { get; private set; }
-        public ICommand OpenExportFolderCommand { get; private set; }
-        public ICommand ProcessScriptCommand { get; private set; }
-        #endregion
 
         #region Support Methods
 
-        private string GetSystemExportPath() => @"exports\\videos\\" + _selectedService.CurrentSystem.Replace(' ', '_') + "\\";
+        /// <summary>
+        /// Gets the system export path for videos
+        /// </summary>
+        /// <returns></returns>
+        private string GetSystemExportPath() => $"{Environment.CurrentDirectory}\\{exportPath}\\{_selectedService.CurrentSystem}\\";
 
+        /// <summary>
+        /// Gets the scripts in export folder.
+        /// </summary>
         private void GetScriptsInExportFolder()
         {
-            var path = exportPath + _selectedService.CurrentSystem.Replace(' ', '_');
+            var path = exportPath + _selectedService.CurrentSystem;
 
             if (!Directory.Exists(path)) return;
 
@@ -191,21 +200,25 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             Scripts = new ListCollectionView(_scripts);
         }
 
+        /// <summary>
+        /// Processes the script with FFmpeg
+        /// </summary>
         private void ProcessScript()
         {
             try
             {
-                var ffmpegExe = ConfigurationManager.AppSettings["ffmpeg:ExeLocation"].ToString();
-
                 var selectedScript = Scripts.CurrentItem as string;
 
                 if (selectedScript == null) return;
 
-                var scriptPath = GetSystemExportPath() + selectedScript + ".avs";
-                var videoPath = GetSystemExportPath() + selectedScript + ".mp4";
+                var scriptPath = "\"" + $"{GetSystemExportPath() + selectedScript}.avs" + "\"";
+                var videoPath = "\"" + $"{GetSystemExportPath() + selectedScript}.mp4" + "\"";
 
-                Process.Start(ffmpegExe,
-                     "-i " + scriptPath + " -vcodec libx264 -crf " + VideoQuality + " " + videoPath);
+                if (!File.Exists(_settings.HypermintSettings.Ffmpeg))
+                    throw new FileNotFoundException("Ffmpeg not found. Set the Ffmpeg path in settings to process.");
+
+                var args = "-i " + scriptPath + " -vcodec libx264 -crf " + VideoQuality + " " + videoPath;
+                Process.Start(_settings.HypermintSettings.Ffmpeg, args);
             }
             catch (Exception ex)
             {
@@ -213,7 +226,11 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             }
         }
 
-        private void SaveScript(string[] videos)
+        /// <summary>
+        /// Saves the script.
+        /// </summary>
+        /// <param name="videos">The videos.</param>
+        private void SaveScript(IEnumerable<string> videos)
         {
             var aviSynthOptions = new AviSynthOption()
             {
@@ -231,12 +248,16 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             var wheelPath = _settings.HypermintSettings.HsPath + "\\Media\\" + _selectedService.CurrentSystem + "\\" +
                 Images.Wheels + "\\";
 
-            var scriptOptions = new ScriptOptions(videos,aviSynthOptions, _selectedService.CurrentSystem, Overlay, ResizeOverlay, wheelPath, @"exports\videos\");            
+            //Setup script export options
+            var scriptOptions = new ScriptOptions(videos.ToArray(),aviSynthOptions, 
+                _selectedService.CurrentSystem, Overlay, ResizeOverlay, wheelPath,
+                GetSystemExportPath());            
 
+            //Create script from builder
             string scriptCreated = _avisynthScripter.CreateScript(scriptOptions);            
 
+            //Get scripts and select the created
             GetScriptsInExportFolder();
-
             Scripts.MoveCurrentTo(scriptCreated);
 
         }
