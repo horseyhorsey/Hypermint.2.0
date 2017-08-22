@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -28,6 +29,7 @@ namespace Hs.Hypermint.Search.ViewModels
 
         private int pageCount;
         private int currentPage;
+        private string _noWheelImage = Path.Combine(Environment.CurrentDirectory, "Images\\noimage.png");
         #endregion
 
         #region Constructor
@@ -86,7 +88,8 @@ namespace Hs.Hypermint.Search.ViewModels
         /// </summary>
         public int GamesFoundCount { get; set; }
 
-        private string pageInfo;
+        private string pageInfo;        
+
         public string PageInfo
         {
             get { return pageInfo; }
@@ -173,19 +176,24 @@ namespace Hs.Hypermint.Search.ViewModels
 
             foreach (var system in _hyperspinManager.Systems)
             {
-                //var dbPath = Path.Combine(PathHelper
-                //    .GetSystemDatabasePath(_settingsRepo.HypermintSettings.HsPath, system.Name), $"{system.Name}.xml");
+                //xml path for system
+                var dbPath = Path.Combine(_settingsRepo.HypermintSettings.HsPath, "Databases", system.Name, $"{system.Name}.xml");
 
-                var dbPath = "";
-
+                //only scan if xml exists
                 if (File.Exists(dbPath))
                 {
                     try
                     {
+                        
                         var games = await _hsXmlPRovider.SearchXmlAsync(_settingsRepo.HypermintSettings.HsPath, system.Name, dbPath, searchOptions.SearchString);
                         foreach (var game in games)
-                        {
-                            SearchGames.Add(new GameSearch { Game = game });
+                        {                            
+                            //Get the wheel image if game has one or set to no image.
+                            var wheelImage = Path.Combine(_settingsRepo.HypermintSettings.HsPath, "Media", system.Name, "Images\\Wheel\\" + game.RomName + ".png");
+                            if (!File.Exists(wheelImage))
+                                wheelImage = _noWheelImage;
+
+                            SearchGames.Add(new GameSearch { Game = game , WheelImage = wheelImage });
                         }
 
                         GamesFoundCount = searchedGames.Count;
@@ -202,8 +210,8 @@ namespace Hs.Hypermint.Search.ViewModels
                         FilteredGames.CurrentChanged += FilteredGames_CurrentChanged;
 
                     }
-#warning Todo: Log these errors
-                    catch (Exception) { throw; }
+
+                    catch (Exception ex) { _ea.GetEvent<ErrorMessageEvent>().Publish($"Error searching: {ex.Message}"); }
                 }                
             }
         }

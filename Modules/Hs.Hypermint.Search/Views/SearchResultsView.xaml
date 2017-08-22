@@ -14,16 +14,20 @@
         <ItemContainerTemplate x:Key="GameSearchItemLong">
             <Grid>
                 <StackPanel>
-                    <Image Width="140" Height="120"
-                                       Source="{Binding SystemImage}"
+                    <Image Width="140" Height="120" Source="{Binding SystemImage}"
                                        HorizontalAlignment="Center">
                     </Image>
                     <Label Content="{Binding Game.System}"/>
                 </StackPanel>
                 <StackPanel>
                     <Image Width="140" Height="80"
-                                       Source="{Binding WheelImage}"
                                        HorizontalAlignment="Left">
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding WheelImage}"
+                                                 DecodePixelWidth="300" 
+                                                         DecodePixelHeight="100" 
+                                                         CacheOption="OnDemand"/>
+                        </Image.Source>
                     </Image>
                     <Label Content="{Binding Game.Description}"/>
                 </StackPanel>
@@ -80,7 +84,8 @@
 
                 <!--SEARCH RESULTS-->
                 <ListBox Grid.Row="1"
-                                  ItemsSource="{Binding FilteredGames}" ItemTemplate="{StaticResource GameSearchItemLong}">
+                                  ItemsSource="{Binding FilteredGames}" 
+                         ItemTemplate="{StaticResource GameSearchItemLong}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate >
                             <StackPanel />

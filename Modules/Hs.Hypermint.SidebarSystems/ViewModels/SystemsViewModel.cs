@@ -51,8 +51,8 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _mainMenuXmlPath = Path.Combine(
                     _settingsRepo.HypermintSettings.HsPath, Root.Databases,
                     @"Main Menu\Main Menu.xml");
-
-            SystemItems = new ListCollectionView(_hyperspinManager.Systems);
+            
+            SystemItems = new ListCollectionView(_hyperspinManager.Systems);            
             SystemItems.CurrentChanged += SystemItems_CurrentChanged;
 
             //When main menu is selected
@@ -228,7 +228,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         /// </summary>
         /// <param name="x">The x.</param>
         private async Task OnMainMenuSelected(string x)
-        {
+        {            
             try { await UpdateSystemsAsync(x); }
             catch (XmlException xmlEx)
             {
@@ -308,8 +308,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             SystemsCount = _hyperspinManager.Systems.Count - 1;
             SystemsHeader = "Systems: " + SystemsCount;
 
-#warning    Nothing is used by this message
-            _eventAggregator.GetEvent<SystemsGenerated>().Publish("");
+            SystemItems.MoveCurrentToFirst();
         }
 
         #endregion

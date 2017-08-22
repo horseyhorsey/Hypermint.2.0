@@ -10,6 +10,7 @@ using System.Collections;
 using System.Windows.Input;
 using Frontends.Models.Hyperspin;
 using Hypermint.Base.Model;
+using System.Windows.Media.Imaging;
 
 namespace Hs.Hypermint.Search.ViewModels
 {
@@ -157,7 +158,7 @@ namespace Hs.Hypermint.Search.ViewModels
         public Game Game { get; set; }
         public string WheelImage { get; set; }
 
-        public string SystemImage { get; set; }
+        public Uri SystemImage { get; set; }
     }
 
     #endregion   
