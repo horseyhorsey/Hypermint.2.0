@@ -303,6 +303,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             var system = _selectedService.CurrentSystem;
             var hsPath = _hyperspinManager._hyperspinFrontEnd.Path;
 
+            this.FilterGamesByText(new GameFilter() { ShowClones = true, FilterText = "", ShowEnabledOnly = false, ShowFavoritesOnly = false });
+
             if (GamesList != null)
             {
                 try
