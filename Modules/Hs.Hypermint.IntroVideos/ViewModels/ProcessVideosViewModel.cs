@@ -83,6 +83,8 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
                 Videos.Remove(video);
             }
+
+            SelectedItems.Clear();
         }
 
         /// <summary>

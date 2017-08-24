@@ -12,16 +12,15 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions >
 
-                <TabControl Grid.Row="0" Grid.Column="0">
+                <TabControl>
                     <TabItem Header="Text">
 
                         <Grid>
 
-                            <views:TextWheelView/>
+                            <views:TextWheelView HorizontalAlignment="Left"/>
 
                             <GroupBox Header="Annotate" Visibility="Collapsed">
                                 <DockPanel>

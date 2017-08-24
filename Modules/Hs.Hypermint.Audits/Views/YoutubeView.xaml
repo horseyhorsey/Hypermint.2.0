@@ -92,7 +92,7 @@
                     </Rectangle>
                 </Button>
 
-                <Label Content="Seach" VerticalAlignment="Center"/>
+                <Label Content="Search" VerticalAlignment="Center"/>
                 <DockPanel IsEnabled="{Binding VideosVisible}">
                 <CheckBox Content="System" IsChecked="{Binding IncludeSystem}"
                           ToolTip="Include system name in search" Margin="5"/>

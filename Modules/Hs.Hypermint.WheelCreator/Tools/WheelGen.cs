@@ -233,7 +233,7 @@ namespace Hs.Hypermint.WheelCreator.Tools
                 images.Add(label);
 
                 // Append the images
-                using (IMagickImage output = images.Flatten() )
+                using (MagickImage output = images.Flatten() )
                 {
                     output.Alpha(AlphaOption.Set);
                     output.Transparent(new MagickColor(System.Drawing.Color.White));

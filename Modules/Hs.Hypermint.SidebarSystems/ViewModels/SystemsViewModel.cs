@@ -15,6 +15,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using Frontends.Models.Hyperspin;
 using System.Xml;
+using System.Linq;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
@@ -63,12 +64,19 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             _eventAggregator.GetEvent<SystemFilteredEvent>().Subscribe(FilterSystemsByText);
             _eventAggregator.GetEvent<ReorderingSystemsEvent>().Subscribe(x => ReOrderSystems = x);
+            _eventAggregator.GetEvent<NewSystemCreatedEvent>().Subscribe(OnSystemCreated);
 
             //UpdateSystemsAsync(_mainMenuXmlPath);
 
             //_eventAggregator.GetEvent<AddNewSystemEvent>().Publish("SystemsView");
 
         }
+
+        public SystemsViewModel()
+        {
+
+        }
+
         #endregion
 
         #region Properties
@@ -116,45 +124,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         #endregion
 
         #region Support Methods
-
-        /// <summary>
-        /// Generate directorys for a hyperspin system
-        /// </summary>
-        /// <param name="hsPath">Path to hyperspin</param>
-        /// <param name="systemName">The system name</param>
-        [Obsolete]
-        private void CreateMediaDirectorysForNewSystem(string hsPath, string systemName)
-        {
-            var newSystemMediaPath = Path.Combine(hsPath, Root.Media, systemName);
-
-            CreateDefaultHyperspinFolders(newSystemMediaPath);
-        }
-
-        /// <summary>
-        /// Creates all needed folders for a hyperspin system
-        /// </summary>
-        /// <param name="hyperSpinSystemMediaDirectory"></param>
-        [Obsolete]
-        private void CreateDefaultHyperspinFolders(string hyperSpinSystemMediaDirectory)
-        {
-            for (int i = 1; i < 5; i++)
-            {
-                Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\Images\\Artwork" + i);
-            }
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Backgrounds);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.GenreBackgrounds);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.GenreWheel);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Letters);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Pointer);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Special);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Images.Wheels);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Themes);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.BackgroundMusic);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.SystemExit);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.SystemStart);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Sound.WheelSounds);
-            Directory.CreateDirectory(hyperSpinSystemMediaDirectory + "\\" + Root.Video);
-        }
 
         /// <summary>
         /// Filter the systems list
@@ -243,6 +212,16 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         }
 
         /// <summary>
+        /// Called when [system created]. Add the main menu item to the systems
+        /// </summary>
+        /// <param name="mainMenu">The main menu.</param>
+        private void OnSystemCreated(MainMenu mainMenu)
+        {
+            if (mainMenu != null)
+                _hyperspinManager.Systems.Add(mainMenu);
+        }
+
+        /// <summary>
         /// Sets the image.
         /// </summary>
         /// <param name="imagePath">The image path.</param>
@@ -305,10 +284,19 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         {
             await _hyperspinManager.PopulateMainMenuSystems(mainMenuXml);
 
-            SystemsCount = _hyperspinManager.Systems.Count - 1;
-            SystemsHeader = "Systems: " + SystemsCount;
+            UpdateHeader();
 
             SystemItems.MoveCurrentToFirst();
+        }
+
+        private void UpdateHeader()
+        {
+            //Need to move the systems to viewmodel items to listen  for the change on enabled
+            SystemsCount = _hyperspinManager.Systems.Count - 1;
+            //var _enabledCount = _hyperspinManager.Systems.Where(x => x.Enabled == 1).Count();
+            //            SystemsHeader = $"Systems: {SystemsCount} Enabled: {_enabledCount}";
+
+            SystemsHeader = $"Systems: {SystemsCount}";
         }
 
         #endregion

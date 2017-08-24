@@ -33,7 +33,6 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         public DelegateCommand OpenExportFolderCommand { get; private set; }
 
         private IEventAggregator _eventAgg;
-        private IGameRepo _gameRepo;
         private ISelectedService _selectedService;
 
         private bool processCancel = false;
@@ -81,6 +80,8 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
         private bool overwriteImage = false;
         private IFolderExplore _folderExplorer;
+        private IHyperspinManager _hyperspinManager;
+        private ISettingsHypermint _settings;
 
         public bool OverwriteImage
         {
@@ -107,23 +108,31 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         {
             get { return processGenres; }
             set { SetProperty(ref processGenres, value); }
-        }        
+        }
+
+        private bool _onlyProcessMissingWheels;
+        public bool OnlyProcessMissingWheels
+        {
+            get { return _onlyProcessMissingWheels; }
+            set { SetProperty(ref _onlyProcessMissingWheels, value); }
+        }
 
         public WheelProcessViewModel(IEventAggregator ea,
             IGameRepo gameRepo,
             ISelectedService selectedService,
-            IFolderExplore folderExplore)
+            IFolderExplore folderExplore, IHyperspinManager hyperspinManager, ISettingsHypermint settings)
         {
             _eventAgg = ea;
-            _gameRepo = gameRepo;
             _selectedService = selectedService;
             _folderExplorer = folderExplore;
+            _hyperspinManager = hyperspinManager;
+            _settings = settings;
 
             PresetsUpdated("");
 
             ProcessWheelsCommand = new DelegateCommand(async () =>
             {
-                if (_gameRepo.GamesList != null)
+                if (_hyperspinManager.CurrentSystemsGames != null)
                 {
                     Cancellable = true;
 
@@ -196,7 +205,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 image.Write("preview.png");
 
                 var imagePath = "preview.png";
-                
+
                 _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
             }
         }
@@ -206,7 +215,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             ProcessRunning = true;
 
             var WheelNamesList = new List<WheelNames>();
-            foreach (var game in _gameRepo.GamesList)
+            foreach (var game in _hyperspinManager.CurrentSystemsGames)
             {
                 WheelNamesList.Add(new WheelNames
                 {
@@ -221,6 +230,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
 
             ITextImageService srv = new TextImage();
             var exportPath = "Exports\\Wheels\\" + _selectedService.CurrentSystem + "\\";
+            var hsSysWheelPath = Path.Combine(_settings.HypermintSettings.HsPath, "Media", _selectedService.CurrentSystem, "Images", "Wheel");
 
             if (!Directory.Exists(exportPath))
                 Directory.CreateDirectory(exportPath);
@@ -229,62 +239,68 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             foreach (var wheel in WheelNamesList)
             {
                 string exportName = wheel.RomName + ".png";
+                string hsWheelPath = Path.Combine(hsSysWheelPath, exportName);
                 var imagePath = Path.Combine(exportPath, exportName);
 
                 if (!ProcessCancel)
                 {
                     ProcessWheelInfo = "Processing wheels : " + i + " of " + gameCount;
 
-                    if (!File.Exists(imagePath))
+                    //User selects just to process missing wheels from their hyperspin directory
+                    if (OnlyProcessMissingWheels)
                     {
-                        if (_selectedService.CurrentSystem.ToLower().Contains("main menu"))
-                            ProcessWheelSetting.PreviewText = wheel.RomName;
-                        else
-                            ProcessWheelSetting.PreviewText = wheel.Description;
-
-                        using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
+                        if (!File.Exists(hsWheelPath))
                         {
-                            image.Write(imagePath);
-
-                            if (PreviewCreated)
-                                _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
-                        }
+                            if (OverwriteImage)
+                            {
+                                await ProcessWheel(srv, wheel, imagePath);
+                            }
+                        }                            
                     }
+                    //Generated wheel doesn't exist in exports so create it
+                    else if (!File.Exists(imagePath))
+                    {
+                        await ProcessWheel(srv, wheel, imagePath);
+                    }
+                    //User wants to overwrite
                     else
                     {
                         if (OverwriteImage)
                         {
-                            if (_selectedService.CurrentSystem.ToLower().Contains("main menu"))
-                                ProcessWheelSetting.PreviewText = wheel.RomName;
-                            else
-                                ProcessWheelSetting.PreviewText = wheel.Description;
-
-                            using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
-                            {
-                                image.Write(imagePath);
-
-                                if (PreviewCreated)
-                                    _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
-                            }
+                            await ProcessWheel(srv, wheel, imagePath);
                         }
                     }
 
                     i++;
                 }
-
-                else
+                else //Cancel the process
                 {
                     ProcessWheelInfo = "Processing wheels cancelled";
                     break;
                 }
-
             }
-            
+
             Cancellable = false;
             ProcessRunning = false;
             ProcessCancel = false;
 
             ProcessWheelInfo = "Processing wheels complete";
+        }
+
+        private async Task ProcessWheel(ITextImageService srv, WheelNames wheel, string imagePath)
+        {
+            if (_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                ProcessWheelSetting.PreviewText = wheel.RomName;
+            else
+                ProcessWheelSetting.PreviewText = wheel.Description;
+
+            using (var image = await srv.GenerateCaptionAsync(ProcessWheelSetting))
+            {
+                image.Write(imagePath);
+
+                if (PreviewCreated)
+                    _eventAgg.GetEvent<GenerateWheelEvent>().Publish(imagePath);
+            }
         }
 
         private async Task ProcessLettersAsync()
@@ -337,7 +353,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             ProcessWheelInfo = "Processing genres";
 
             var genreList = new List<string>();
-            foreach (var game in _gameRepo.GamesList)
+            foreach (var game in _hyperspinManager.CurrentSystemsGames)
             {
                 if (!string.IsNullOrEmpty(game.Genre))
                     if (!genreList.Contains(game.Genre))
@@ -350,7 +366,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 ResetProcess();
                 return;
             }
-            
+
             var exportPath = "Exports\\Genres\\" + _selectedService.CurrentSystem + "\\";
 
             if (!Directory.Exists(exportPath))
@@ -365,10 +381,10 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                     ProcessWheelSetting.PreviewText = genre.ToString();
 
                     string exportName = genre + ".png";
-                    var imagePath = Path.Combine(exportPath, exportName);             
+                    var imagePath = Path.Combine(exportPath, exportName);
 
-                    if (!File.Exists(imagePath))                    
-                        await SaveImageAsync(imagePath);                    
+                    if (!File.Exists(imagePath))
+                        await SaveImageAsync(imagePath);
                     else if (OverwriteImage)
                         await SaveImageAsync(imagePath);
 

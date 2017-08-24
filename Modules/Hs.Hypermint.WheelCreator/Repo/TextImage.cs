@@ -40,7 +40,6 @@ namespace Hs.Hypermint.WheelCreator.Repo
                     image.Shade(setting.ShadeAzimuth, setting.ShadeElevation, false);
 
                 var shadowColor = new MagickColor(Converters.ColorConvert.ColorFromMediaColor(setting.ShadowColor));
-
                 image.Shadow(setting.ShadowX, setting.ShadowY, setting.ShadowSigma,
                     new Percentage(setting.ShadowPercentage), new MagickColor(shadowColor));
 

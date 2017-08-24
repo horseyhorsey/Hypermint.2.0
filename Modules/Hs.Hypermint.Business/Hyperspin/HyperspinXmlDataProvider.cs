@@ -38,7 +38,8 @@ namespace Hs.Hypermint.Business.Hyperspin
 
         public async Task<IEnumerable<MainMenu>> GetAllSystems(string frontendPath, string systemName, string dbName = "")
         {
-            _hsSerializer = new HyperspinSerializer(frontendPath, systemName, dbName);
+            _hsSerializer = new 
+                HyperspinSerializer(frontendPath, systemName, dbName);
 
             return await _hsSerializer.DeserializeMenusAsync();
         }

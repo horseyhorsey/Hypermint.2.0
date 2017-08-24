@@ -1,4 +1,5 @@
-﻿using Hypermint.Base;
+﻿using Hs.Hypermint.FilesViewer.Views;
+using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
@@ -14,9 +15,9 @@ namespace Hs.Hypermint.FilesViewer
 
         public override void Initialize()
         {            
-            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(FilesView));
+            //RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(FilesView));
 
+            RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(RlFilesView));
         }
-
     }
 }

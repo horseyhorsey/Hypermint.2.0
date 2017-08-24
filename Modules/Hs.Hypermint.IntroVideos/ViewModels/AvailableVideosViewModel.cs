@@ -56,6 +56,8 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
                 _eventAggregator.GetEvent<AddToProcessVideoListEvent>().Publish(video);
             }
+
+            SelectedItems.Clear();
         }
 
         public void AddVideo(IntroVideo vid)

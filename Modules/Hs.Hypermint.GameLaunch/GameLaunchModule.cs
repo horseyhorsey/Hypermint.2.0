@@ -16,8 +16,6 @@ namespace Hs.Hypermint.GameLaunch
         public override void Initialize()
         {
             UnityContainer.RegisterType<IGameLaunch, GameLaunch>(new ContainerControlledLifetimeManager());
-
         }
-
     }
 }

@@ -351,6 +351,7 @@ namespace Hs.Hypermint.FilesViewer
 
             DroppedFileName = ""; FileNameToSave = "";
         }
+
         /// <summary>
         /// Initialize dialog values, check if image
         /// </summary>
@@ -544,11 +545,7 @@ namespace Hs.Hypermint.FilesViewer
             });
 
             var foldersInFolder =
-                _rlAuditer.GetFoldersForMediaColumn(
-                _systemName,
-                _romName,
-                _settingsRepo.HypermintSettings.RlMediaPath,
-                MediaType);
+                _rlAuditer.GetFoldersForMediaColumn( _systemName, _romName, _settingsRepo.HypermintSettings.RlMediaPath, MediaType);
 
             if (foldersInFolder != null)
             {

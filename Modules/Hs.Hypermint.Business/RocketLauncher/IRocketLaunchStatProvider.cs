@@ -1,7 +1,6 @@
 ﻿using Frontends.Models.Hyperspin;
 using Frontends.Models.Interfaces;
 using Frontends.Models.RocketLauncher.Stats;
-using Horsesoft.Frontends.Helper.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -23,7 +22,7 @@ namespace Hs.Hypermint.Business.RocketLauncher
         /// Sets up the stats provider from a frontend
         /// </summary>
         /// <param name="frontend">The frontend.</param>
-        void SetUp(IFrontend frontend);
+        void SetUp(string rlPath);
 
         /// <summary>
         /// Gets the rl game stats asynchronous.

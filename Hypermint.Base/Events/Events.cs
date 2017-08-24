@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using Hypermint.Base.Model;
 using System.Collections;
+using Frontends.Models.Hyperspin;
 
 namespace Hypermint.Base
 {
@@ -105,5 +106,7 @@ namespace Hypermint.Base
 
     public class BuildMultiSystemEvent : PubSubEvent<bool> { }
     public class ScanMultiSystemFavoritesEvent : PubSubEvent<bool> { }
-    
+    public class NewSystemCreatedEvent : PubSubEvent<MainMenu> { }
+
+
 }

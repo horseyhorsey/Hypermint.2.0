@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             dialog:DialogParticipation.Register="{Binding}"
              d:DesignHeight="300" d:DesignWidth="500">
 
     <UserControl.Resources>
@@ -68,7 +70,9 @@
                 <TextBox Text="{Binding Author,UpdateSourceTrigger=PropertyChanged}"  ToolTip="Optional resolution" Margin="3"
                          metro:TextBoxHelper.Watermark="Author name"                         
                          metro:TextBoxHelper.ClearTextButton="True"  />
-                <TextBox Text="{Binding Description,UpdateSourceTrigger=PropertyChanged}" ToolTip="Description" Margin="3"
+                
+                <TextBox Text="{Binding Description,UpdateSourceTrigger=PropertyChanged}" 
+                         ToolTip="Description" Margin="3"
                          metro:TextBoxHelper.Watermark="Description"                         
                          metro:TextBoxHelper.ClearTextButton="True" />
 
@@ -88,7 +92,7 @@
             </DockPanel>
 
 
-            <Label FontSize="18" Content="{Binding FileNameToSave}"/>
+            <Label FontSize="18" Content="{Binding FileNameToSave, UpdateSourceTrigger=PropertyChanged}"/>
 
         </StackPanel>
 

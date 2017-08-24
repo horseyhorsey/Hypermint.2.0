@@ -5,6 +5,7 @@ using Hypermint.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Prism.Events;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -18,15 +19,17 @@ namespace Hs.Hypermint.RocklaunchStats.ViewModels
         #region Fields
         private IEventAggregator _eventAggregator;
         private ISettingsHypermint _settingsRepo;
+        private IHyperspinManager _hyperspinManager;
         private IRocketLaunchStatProvider _statsRepo;
         #endregion
 
         #region Constructor
-        public StatsViewModel(IRocketLaunchStatProvider statsRepo, IEventAggregator eventAggregator, ISettingsHypermint settingsRepo)
+        public StatsViewModel(IRocketLaunchStatProvider statsRepo, IEventAggregator eventAggregator, ISettingsHypermint settingsRepo, IHyperspinManager hyperspinManager)
         {
             _statsRepo = statsRepo;
             _eventAggregator = eventAggregator;
             _settingsRepo = settingsRepo;
+            _hyperspinManager = hyperspinManager;
 
             //Updates the stats when system changed.
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(async (x) => await UpdateStatsOnSystemChanged(x));
@@ -41,8 +44,8 @@ namespace Hs.Hypermint.RocklaunchStats.ViewModels
             set { SetProperty(ref stats, value); }
         }
 
-        private GlobalStats _globalStats;
-        public GlobalStats GlobalStats
+        private ObservableCollection<GlobalStats> _globalStats;
+        public ObservableCollection<GlobalStats> GlobalStats
         {
             get { return _globalStats; }
             set { SetProperty(ref _globalStats, value); }
@@ -57,29 +60,33 @@ namespace Hs.Hypermint.RocklaunchStats.ViewModels
         public async Task UpdateStatsOnSystemChanged(string systemName)
         {
             if (!Directory.Exists(_settingsRepo.HypermintSettings.RlPath))
-                return;
-
+                return;            
             try
             {
 #warning Needs to be moved out of the view model, set it up in the bootstrapper maybe
                 if (!_statsRepo.IsProviderSetUp())
                 {
-                    //_statsRepo.SetUp(new HyperspinFrontend { Path = _settingsRepo.HypermintSettings.RlPath });
+                    _statsRepo.SetUp(_settingsRepo.HypermintSettings.RlPath);
                 }
 
                 if (systemName.ToLower().Contains("main menu"))
                 {
                     await _statsRepo.GetGlobalStatsAsync();
 
-                    GlobalStats = _statsRepo.GlobalStats;
+                    var gStats = _statsRepo.GlobalStats;                    
+                    GlobalStats.Clear();
+                    GlobalStats.Add(gStats);
                 }
                 else
-                {
+                {                    
                     await _statsRepo.PopulateSystemStatsAsync(new MainMenu { Name = systemName });
 
                     if (_statsRepo.SystemGameStats?.Count() > 0)
                     {
                         Stats = new ListCollectionView(_statsRepo.SystemGameStats?.ToList());
+                        var stats = Stats.CurrentItem as GameStat;
+                        
+
                     }
                 }
             }

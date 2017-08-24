@@ -14,6 +14,7 @@ using Frontends.Models.Hyperspin;
 using Hypermint.Base.Model;
 using System.Windows.Input;
 using System.Linq;
+using Hypermint.Base.Services;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -27,6 +28,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private IMainMenuRepo _mainmenuRepo;
         private IDialogCoordinator _dialogService;
         private IHyperspinManager _hyperspinManager;
+        private ISelectedService _selectedService;
         private CustomDialog customDialog;
         #endregion
 
@@ -34,7 +36,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         public MultiSystemViewModel(IEventAggregator ea, IMultiSystemRepo multiSystem, IFileDialogHelper fileService,
             IDialogCoordinator dialogService, IHyperspinManager hyperspinManager,
           ISettingsHypermint settings, IHyperspinXmlService xmlService,
-          IMainMenuRepo mainMenuRepo)
+          IMainMenuRepo mainMenuRepo, ISelectedService selectedService)
         {
             _eventAggregator = ea;
             _multiSystemRepo = multiSystem;
@@ -44,6 +46,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             _mainmenuRepo = mainMenuRepo;
             _dialogService = dialogService;
             _hyperspinManager = hyperspinManager;
+            _selectedService = selectedService;
 
             MultiSystemList = new ListCollectionView(_hyperspinManager.MultiSystemGamesList);
 
@@ -212,7 +215,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             customDialog = new CustomDialog() { Title = "Save MultiSystem" };
 
             customDialog.Content = new SaveMultiSystemView { DataContext = new SaveMultiSystemViewModel(_dialogService, customDialog,_eventAggregator,_settingsService
-                ,_multiSystemRepo, _hyperspinManager, _xmlService,_mainmenuRepo,_fileFolderService) };
+                ,_multiSystemRepo, _hyperspinManager, _xmlService,_mainmenuRepo,_fileFolderService, _selectedService) };
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }

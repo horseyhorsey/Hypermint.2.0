@@ -40,15 +40,19 @@ namespace Hypermint.Base
 
         IFrontend _hyperspinFrontEnd { get; set; }
 
+        Task AuditMedia(string systemName);
+
         Task<bool> CreateMultiSystem(MultiSystemOptions options);
+
+        Task<bool> SaveCurrentSystemsListToXmlAsync(string currentMainMenu, bool isMultisystem);
 
         /// <summary>
         /// Creates a system and all of its needed directories and settings for hyperspin to work.
         /// </summary>
         /// <param name="systemName">Name of the system.</param>
-        /// <param name="existingDb">if set to <c>true</c> [existing database].</param>
+        /// <param name="existingDb">hyperspin database file</param>
         /// <returns></returns>
-        Task<bool> CreateSystem(string systemName, bool existingDb = false);
+        Task<bool> CreateSystem(string systemName, string existingDb = "", string mainmenuName = "");
 
         /// <summary>
         /// Gets the frontend.
@@ -101,5 +105,14 @@ namespace Hypermint.Base
         /// <param name="dbName">Name of the database.</param>
         /// <returns></returns>
         Task<bool> SaveCurrentGamesListToGenreXmlsAsync(string systemName);
+
+        /// <summary>
+        /// Gets the hyperspin media files.
+        /// </summary>
+        /// <param name="systemName">Name of the system.</param>
+        /// <param name="folder">The folder.</param>
+        /// <param name="fileFilter">The file filter.</param>
+        /// <returns></returns>
+        Task<IEnumerable<string>> GetHyperspinMediaFiles(string systemName, string folder, string fileFilter = "*.*");
     }
 }

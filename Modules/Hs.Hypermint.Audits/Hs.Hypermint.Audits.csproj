@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Frontends.Models, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Frontends.Models.1.0.7\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    <Reference Include="Frontends.Models, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.17\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -116,6 +116,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\HsMediaAuditViewModel.cs" />
+    <Compile Include="ViewModels\RlAuditMediaViewModelBase.cs" />
+    <Compile Include="ViewModels\RlBezelAuditViewModel.cs" />
+    <Compile Include="ViewModels\RlDefaultAuditViewModel.cs" />
+    <Compile Include="ViewModels\RlFadeAuditViewModel.cs" />
+    <Compile Include="ViewModels\RlMediaAuditViewModel.cs" />
+    <Compile Include="ViewModels\RlPauseAuditViewModel.cs" />
     <Compile Include="ViewModels\RlScanMediaFolderViewModel.cs" />
     <Compile Include="ViewModels\YoutubeViewModel.cs" />
     <Compile Include="Views\HsMediaAuditView.xaml.cs">
@@ -124,8 +130,20 @@
     <Compile Include="Views\RlAuditOptionView.xaml.cs">
       <DependentUpon>RlAuditOptionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RlBezelAuditView.xaml.cs">
+      <DependentUpon>RlBezelAuditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RlDefaultAuditView.xaml.cs">
+      <DependentUpon>RlDefaultAuditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RlFadeAuditView.xaml.cs">
+      <DependentUpon>RlFadeAuditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RlMediaAuditView.xaml.cs">
       <DependentUpon>RlMediaAuditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RlPauseAuditView.xaml.cs">
+      <DependentUpon>RlPauseAuditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RlScanMediaFolderView.xaml.cs">
       <DependentUpon>RlScanMediaFolderView.xaml</DependentUpon>
@@ -188,6 +206,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Templates\DatagridTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\HsMediaAuditView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -196,7 +218,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RlBezelAuditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RlDefaultAuditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RlFadeAuditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RlMediaAuditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RlPauseAuditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

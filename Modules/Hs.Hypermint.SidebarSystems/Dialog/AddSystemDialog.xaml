@@ -33,7 +33,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         
-        <StackPanel>
+        <StackPanel HorizontalAlignment="Center">
 
             <!--NEW SYSTEM NAME-->
             <TextBox metro:TextBoxHelper.ClearTextButton="True" 

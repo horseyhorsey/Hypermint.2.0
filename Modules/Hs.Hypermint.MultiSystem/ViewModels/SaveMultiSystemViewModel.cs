@@ -8,6 +8,7 @@ using Hypermint.Base.Interfaces;
 using Hs.Hypermint.DatabaseDetails.Services;
 using Frontends.Models.Hyperspin;
 using System.Windows.Input;
+using Hypermint.Base.Services;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -29,7 +30,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         #region Constructors
         public SaveMultiSystemViewModel(IDialogCoordinator dialogService, CustomDialog customDialog, IEventAggregator ea,
             ISettingsHypermint settingsService, IMultiSystemRepo multiSystem, IHyperspinManager hyperspinManager,
-            IHyperspinXmlService xmlService, IMainMenuRepo mainMenuRepo, IFileDialogHelper fileService)
+            IHyperspinXmlService xmlService, IMainMenuRepo mainMenuRepo, IFileDialogHelper fileService, ISelectedService selected)
         {
             _dialogService = dialogService;
             _customDialog = customDialog;
@@ -52,27 +53,16 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             {
                 try
                 {
-                    await BuildMultiSystemAsync();
+                    if (CheckValid())
+                    {
+                        await BuildMultiSystemAsync();
 
-                    // Add the new system to the main menu if it doesn't already exist and save.            
-                    //MainMenu newMenuItem = new MainMenu(MultiSystemName, 1);
-                    //if (!nameExists)
-                    //{
-                    //    progressResult.SetMessage($"Adding system {MultiSystemName}");
-                    //    await Task.Delay(1000);
-                    //    _mainmenuRepo.Systems.Add(newMenuItem);
-                    //    _xmlService.SerializeMainMenuXml(_mainmenuRepo.Systems, hsPath);
-                    //}
+                        await _hyperspinManager.SaveCurrentSystemsListToXmlAsync(selected.CurrentMainMenu, true);
 
-                    //await progressResult.CloseAsync();                    
+                        await _dialogService.HideMetroDialogAsync(this, _customDialog);
+                    }
                 }
-                catch (Exception ex)
-                {
-                }
-                finally
-                {
-                    await _dialogService.HideMetroDialogAsync(this, _customDialog);
-                }
+                catch (Exception ex) { await _dialogService.HideMetroDialogAsync(this, _customDialog); }
             }
             );
         }
@@ -181,27 +171,17 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             return _hyperspinManager.CreateMultiSystem(MultiSystemOptions);
         }
 
-        /// <summary>
-        /// Determines whether this instance [can build system].
-        /// </summary>
-        /// <returns>
-        ///   <c>true</c> if this instance [can build system]; otherwise, <c>false</c>.
-        /// </returns>
-        private bool CanBuildSystem()
+        private bool CheckValid()
         {
-            if (!string.IsNullOrEmpty(MultiSystemOptions.MultiSystemName))
-            {
-                if (_hyperspinManager.MultiSystemGamesList.Count > 0)
-                {
-                    return true;
-                }
+            if (string.IsNullOrWhiteSpace(MultiSystemName))
+                return false;
 
-                return false;
-            }
-            else
+            if (_hyperspinManager.MultiSystemGamesList?.Count <= 0)
             {
                 return false;
             }
+
+            return true;
         }
 
         private async void SaveDatabasesAsync(string dbName)

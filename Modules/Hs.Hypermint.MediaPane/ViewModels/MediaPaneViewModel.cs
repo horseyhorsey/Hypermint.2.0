@@ -294,8 +294,16 @@ namespace Hs.Hypermint.MediaPane.ViewModels
 
             if (selectedOptions[1].Contains("Sound") || selectedOptions[1] == "MusicBg")
             {
-                SetSound(imagePath);
-                return;
+                if (selectedOptions[1] == "Wheel Sounds")
+                {
+
+                    return;
+                }
+                else
+                {
+                    SetSound(imagePath);
+                    return;
+                }
             }
 
             if (!File.Exists(imagePath))

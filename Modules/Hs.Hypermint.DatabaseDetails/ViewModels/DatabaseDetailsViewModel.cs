@@ -43,9 +43,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _selectedService = selectedService;
 
             ScanRomsCommand = new DelegateCommand(ScanRoms);            
-
-            //Events                                   
-            _eventAggregator.GetEvent<SaveMainMenuEvent>().Subscribe(SaveCurrentMainMenuItems);            
         }
 
         #endregion
@@ -107,14 +104,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
             //}
 
-        }
-
-        [Obsolete("Shouldnt be savin main menu items here")]
-        private void SaveCurrentMainMenuItems(string xml)
-        {
-            //if (_menuRepo.Systems != null || _menuRepo.Systems.Count > 0)
-            //    _xmlService.SerializeMainMenuXml(
-            //        _menuRepo.Systems, _settingsRepo.HypermintSettings.HsPath, xml);
         }
 
         #endregion

@@ -148,6 +148,49 @@ namespace Hs.Hypermint.WheelCreator.Tools.Tests
             }
         }
 
+        [TestMethod()]
+        public void GenerateCaptionAsync()
+        {
+            var image = new MagickImage(MagickColors.Transparent, 400 , 200);
+
+                var captionString = "caption:" + "My Test Text";
+
+                image.Settings.FillColor =
+                    new MagickColor(MagickColors.Aquamarine);
+
+                image.Settings.StrokeColor =
+                    new MagickColor(MagickColors.Red);
+
+                //image.Settings.StrokeWidth = setting.StrokeWidth;
+
+                //image.Settings.Font = setting.FontName;
+
+                image.Settings.TextGravity = Gravity.Center;
+
+            //if (setting.ShadeOn)
+            //    image.Shade(setting.ShadeAzimuth, setting.ShadeElevation, false);
+
+            image.Read(captionString);
+
+                image.Write(Environment.CurrentDirectory + "\\Images\\CaptionTest.png");
+                //if (setting.ArcAmount > 0)
+                //    image.Distort(DistortMethod.Arc, setting.ArcAmount);
+
+
+                //var shadowColor = new MagickColor(Converters.ColorConvert.ColorFromMediaColor(setting.ShadowColor));
+
+                //image.Shadow(setting.ShadowX, setting.ShadowY, setting.ShadowSigma,
+                //    new Percentage(setting.ShadowPercentage), new MagickColor(shadowColor));
+
+                ////image.RePage();
+
+                //if (setting.Trim)
+                //    image.Trim();
+
+            //return image;
+
+        }
+
         private static void ShrinkFit()
         {
 

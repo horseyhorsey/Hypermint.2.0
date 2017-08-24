@@ -37,10 +37,9 @@ namespace Hs.Hypermint.Business.RocketLauncher
         /// Sets up the provider from a frontend interface
         /// </summary>
         /// <param name="frontend">The frontend.</param>
-        public void SetUp(IFrontend frontend)
+        public void SetUp(string rlPath)
         {
-            _frontend = frontend;
-            _rocketStats = new RocketStats(frontend);
+            _rocketStats = new RocketStats(rlPath);
         }
 
         /// <summary>

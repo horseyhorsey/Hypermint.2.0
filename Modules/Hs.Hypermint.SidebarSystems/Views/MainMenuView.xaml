@@ -5,11 +5,31 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <GroupBox Header="{Binding MenusHeader}" ToolTip="Names that include a prefix of 'Main Menu*.xml' will be populated.">
-            
-            <!--MAIN MENU DATABASES-->
-            <ComboBox ItemsSource="{Binding MainMenuDatabases, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name"
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <!--MAIN MENU DATABASES-->
+                <ComboBox ItemsSource="{Binding MainMenuDatabases, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name"
                           ToolTip="{Binding Name}"
                           SelectedItem="{Binding SelectedMainMenu}"/>
+
+                <!--OPEN DATABASE FOLDER-->
+                <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{DynamicResource MetroCircleButtonStyle}"
+                        Command="{Binding OpenFolderCommand}"
+                        CommandParameter="Databases"
+                        ToolTip="Open Main Menu database directory."
+                Height="30" Width="30">
+                    <Rectangle Width="10" Height="10"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_folder}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

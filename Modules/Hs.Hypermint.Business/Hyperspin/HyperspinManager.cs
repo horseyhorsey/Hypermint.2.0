@@ -1,7 +1,10 @@
 ﻿using Frontends.Models;
 using Frontends.Models.Hyperspin;
 using Frontends.Models.Interfaces;
+using Horsesoft.Frontends.Helper.Auditing;
 using Horsesoft.Frontends.Helper.Common;
+using Horsesoft.Frontends.Helper.Media;
+using Horsesoft.Frontends.Helper.Paths.Hyperspin;
 using Horsesoft.Frontends.Helper.Serialization;
 using Horsesoft.Frontends.Helper.Systems;
 using Horsesoft.Frontends.Helper.Tools;
@@ -30,6 +33,7 @@ namespace Hs.Hypermint.Business.Hyperspin
         private ISettingsHypermint _settingsRepo;
         public IFrontend _hyperspinFrontEnd { get; set; }
         private IHyperspinSerializer _hsSerializer;
+        private IHyperspinAudit _auditer;
 
         public HyperspinManager(ISettingsHypermint settingsRepo, IHyperspinXmlDataProvider hsDataProvider)
         {
@@ -42,7 +46,7 @@ namespace Hs.Hypermint.Business.Hyperspin
 
             //init system stuff
             _systemCreator = new SystemCreator(_hyperspinFrontEnd);
-            Systems = new ObservableCollection<MainMenu>();           
+            Systems = new ObservableCollection<MainMenu>();
 
             //init games lists
             CurrentSystemsGames = new ObservableCollection<GameItemViewModel>();
@@ -85,12 +89,35 @@ namespace Hs.Hypermint.Business.Hyperspin
 
         #region Public Methods
 
+        public async Task AuditMedia(string systemName)
+        {
+            _auditer = new HyperspinAudit(_hyperspinFrontEnd, new MediaHelperHs(_hyperspinFrontEnd.Path, systemName));
+
+            if (systemName.ToLower().Contains("main menu"))
+            {
+                await _auditer.ScanMainMenuMediaAsync(CurrentSystemsGames.Select(x => x.Game));
+            }
+            else
+            {
+                await _auditer.ScanForMediaAsync(CurrentSystemsGames.Select(x => x.Game));
+            }
+        }
+
+        /// <summary>
+        /// Creates the multi system.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
         public Task<bool> CreateMultiSystem(MultiSystemOptions options)
         {
             IMediaCopier mc = new MediaCopier(_hyperspinFrontEnd);
             _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, options.MultiSystemName, "");
             IMultiSystem ms = new MultiSystem(_hsSerializer, _systemCreator, mc, options);
-            var games = MultiSystemGamesList.Select(x => x.game);
+            var games = MultiSystemGamesList.Select(x => x.Game);
+
+            if (!Systems.Any(x => x.Name == options.MultiSystemName))
+                Systems.Add(new MainMenu(options.MultiSystemName, 1));
+
             return ms.CreateMultiSystem(games, _hyperspinFrontEnd.Path, _settingsRepo.HypermintSettings.RlPath);
         }
 
@@ -100,9 +127,17 @@ namespace Hs.Hypermint.Business.Hyperspin
         /// <param name="systemName">Name of the system.</param>
         /// <param name="existingDb">if set to <c>true</c> [existing database].</param>
         /// <returns></returns>
-        public async Task<bool> CreateSystem(string systemName, bool existingDb = false)
+        public async Task<bool> CreateSystem(string systemName, string existingDb = "", string mainmenuName = "")
         {
-            return await _systemCreator.CreateSystem(systemName);
+            if (!await _systemCreator.CreateSystem(systemName, existingDb))
+                return false;
+
+            Systems.Add(new MainMenu(systemName, 1));
+
+            _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, systemName, mainmenuName);
+            await SaveCurrentSystemsListToXmlAsync(mainmenuName, false);
+
+            return true;
         }
 
         /// <summary>
@@ -213,14 +248,14 @@ namespace Hs.Hypermint.Business.Hyperspin
                 {
                     _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, systemName, dbName);
 
-                    var games = CurrentSystemsGames.Select(x => x.game);
+                    var games = CurrentSystemsGames.Select(x => x.Game);
                     await _hsSerializer.SerializeAsync(games, false);
                     return true;
                 }
                 catch (System.Exception)
                 {
                     return false;
-                }                
+                }
             });
         }
 
@@ -235,9 +270,9 @@ namespace Hs.Hypermint.Business.Hyperspin
             {
                 try
                 {
-                    var games = CurrentSystemsGames.Select(x => x.game);
+                    var games = CurrentSystemsGames.Select(x => x.Game);
 
-                    _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, systemName);                    
+                    _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, systemName);
                     await _hsSerializer.SerializeGenresAsync(games);
 
                     return true;
@@ -260,8 +295,11 @@ namespace Hs.Hypermint.Business.Hyperspin
             CurrentSystemsGames.Clear();
 
             return await _hsDataProvider.GetAllGames(_hyperspinFrontEnd.Path, systemName, dbName);
+        }
 
-            //AddGamesToCollection(games);
+        public async Task<IEnumerable<string>> GetHyperspinMediaFiles(string systemName, string folder, string fileFilter ="*.*")
+        {
+            return await Task.Run(() => PathHelper.GetMediaFilesForGame(_hyperspinFrontEnd.Path, systemName, folder, fileFilter));
         }
 
         #endregion
@@ -288,6 +326,13 @@ namespace Hs.Hypermint.Business.Hyperspin
                     }
                 }
             });
+        }
+
+        public async Task<bool> SaveCurrentSystemsListToXmlAsync(string currentMainMenu, bool isMultiSystem)
+        {
+            _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, "Main Menu", currentMainMenu);
+
+            return await _hsSerializer.SerializeAsync(Systems, isMultiSystem);
         }
     }
 }

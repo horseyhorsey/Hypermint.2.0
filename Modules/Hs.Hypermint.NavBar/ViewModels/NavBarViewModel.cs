@@ -185,7 +185,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
                     {
                         CurrentView += "RocketLaunch media audit";
-                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "FilesView");
+                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "RlFilesView");
                     }                       
                     break;
                 case "IntroVideosView":

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -23,7 +24,6 @@ namespace Hs.Hypermint.Audits.ViewModels
         public RlScanMediaFolderViewModel(string rlMediaFolder, string hsFolder, string mediaFolderName, string systemName, IGameRepo gameRepo,
             IDialogCoordinator dialogService, CustomDialog customDialog)
         {
-            //Bad shit
             rocketMediaScanner = new RocketMediaFolderScanner(rlMediaFolder, hsFolder);
             CurrentMediaFolder = Path.Combine(rlMediaFolder, mediaFolderName, systemName);
             Directories = rocketMediaScanner.GetAllFolders(CurrentMediaFolder);
@@ -160,95 +160,14 @@ namespace Hs.Hypermint.Audits.ViewModels
         #endregion
 
         #region Commands
-        public DelegateCommand CloseCommand { get; private set; }
-        public DelegateCommand MatchFoldersCommand { get; private set; }
-        public DelegateCommand RenameCommand { get; private set; }
-        public DelegateCommand ClearMatchedCommand { get; private set; }
-        public DelegateCommand ClearSelectedCommand { get; private set; }        
+        public ICommand CloseCommand { get; private set; }
+        public ICommand MatchFoldersCommand { get; private set; }
+        public ICommand RenameCommand { get; private set; }
+        public ICommand ClearMatchedCommand { get; private set; }
+        public ICommand ClearSelectedCommand { get; private set; }        
         #endregion
 
         #region Support Methods
-
-        private void UpdateMatchedFolderFilter()
-        {
-            UnmatchedFoldersView.Filter = (x) =>
-            {
-                if (x != null)
-                {
-                    var folder = x as UnMatchedFolder;
-
-                    //Hide all
-                    if (!ShowMatched && !ShowUnmatched) return false;
-                    else if (!ShowMatched && ShowUnmatched)
-                    {
-                        return string.IsNullOrEmpty(folder.RecommendedName);
-                    }
-                    else if (ShowMatched && !ShowUnmatched)
-                    {
-                        return !string.IsNullOrEmpty(folder.RecommendedName);
-                    }
-                    else return true;
-                }
-
-                return false;
-            };
-        }
-
-        private void UpdateFolderFilter()
-        {
-            GamesFolders.Filter = (x) =>
-            {
-                if (x != null)
-                {
-                    var folder = x as TempGame;
-
-                    //Hide all
-                    if (!ShowMissing && !ShowAvailable) return false;
-                    else if (!ShowMissing && ShowAvailable)
-                    {
-                        return folder.HasFolder;
-                    }
-                    else if (ShowMissing && !ShowAvailable)
-                    {
-                        return !folder.HasFolder;
-                    }
-                    else return true;
-                }
-
-                return false;
-            };
-        }
-
-        private void RenameUnmatchedFolders()
-        {
-            var result = System.Windows.MessageBox.Show("Sure you want to rename all folders checked?", "Rename folders", System.Windows.MessageBoxButton.YesNo);
-
-            if (result == System.Windows.MessageBoxResult.Yes)
-            {
-                var foldersToRemove = new List<UnMatchedFolder>();
-
-                //Add folders to Matched (CurrentGames)
-                foreach (var folder in UnmatchedFolders.Where(x => x.Rename))
-                {
-                    try
-                    {
-                        Directory.Move(Path.Combine(CurrentMediaFolder,folder.FolderName),Path.Combine(CurrentMediaFolder, folder.RecommendedName));
-
-                        foldersToRemove.Add(folder);
-
-                        CurrentGames.Add(new TempGame { HasFolder = true, RomName = folder.RecommendedName });
-                    }
-                    catch (Exception) { }
-                    
-                }
-
-                //remove folders from unmatched
-                foreach (var item in foldersToRemove)
-                {
-                    UnmatchedFolders.Remove(item);
-                }
-            }
-        }
 
         /// <summary>
         /// Matches the folders asynchronous.
@@ -420,8 +339,90 @@ namespace Hs.Hypermint.Audits.ViewModels
         */
         }
 
+        private void RenameUnmatchedFolders()
+        {
+            var result = System.Windows.MessageBox.Show("Sure you want to rename all folders checked?", "Rename folders", System.Windows.MessageBoxButton.YesNo);
+
+            if (result == System.Windows.MessageBoxResult.Yes)
+            {
+                var foldersToRemove = new List<UnMatchedFolder>();
+
+                //Add folders to Matched (CurrentGames)
+                foreach (var folder in UnmatchedFolders.Where(x => x.Rename))
+                {
+                    try
+                    {
+                        Directory.Move(Path.Combine(CurrentMediaFolder, folder.FolderName), Path.Combine(CurrentMediaFolder, folder.RecommendedName));
+
+                        foldersToRemove.Add(folder);
+
+                        CurrentGames.Add(new TempGame { HasFolder = true, RomName = folder.RecommendedName });
+                    }
+                    catch (Exception) { }
+
+                }
+
+                //remove folders from unmatched
+                foreach (var item in foldersToRemove)
+                {
+                    UnmatchedFolders.Remove(item);
+                }
+            }
+        }
+
+        private void UpdateMatchedFolderFilter()
+        {
+            UnmatchedFoldersView.Filter = (x) =>
+            {
+                if (x != null)
+                {
+                    var folder = x as UnMatchedFolder;
+
+                    //Hide all
+                    if (!ShowMatched && !ShowUnmatched) return false;
+                    else if (!ShowMatched && ShowUnmatched)
+                    {
+                        return string.IsNullOrEmpty(folder.RecommendedName);
+                    }
+                    else if (ShowMatched && !ShowUnmatched)
+                    {
+                        return !string.IsNullOrEmpty(folder.RecommendedName);
+                    }
+                    else return true;
+                }
+
+                return false;
+            };
+        }
+
+        private void UpdateFolderFilter()
+        {
+            GamesFolders.Filter = (x) =>
+            {
+                if (x != null)
+                {
+                    var folder = x as TempGame;
+
+                    //Hide all
+                    if (!ShowMissing && !ShowAvailable) return false;
+                    else if (!ShowMissing && ShowAvailable)
+                    {
+                        return folder.HasFolder;
+                    }
+                    else if (ShowMissing && !ShowAvailable)
+                    {
+                        return !folder.HasFolder;
+                    }
+                    else return true;
+                }
+
+                return false;
+            };
+        }
+
         #endregion
 
+        #region Support Classes
         public class TempGame
         {
             public string RomName { get; set; }
@@ -458,6 +459,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 get { return _recommendedName; }
                 set { SetProperty(ref _recommendedName, value); }
             }
-        }
+        } 
+        #endregion
     }
 }

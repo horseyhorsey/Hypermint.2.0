@@ -234,6 +234,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 _hyperspinManager.CurrentSystemsGames.Add(new GameItemViewModel(game));
             }
+
+           // _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish("");
         }
 
         /// <summary>
@@ -300,7 +302,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 {
                     var games = await _hyperspinManager.SetGamesForSystem(dbName);
                     //await _hyperspinManager.GetSystemDatabases(system);
-                    await _hyperspinManager.GetGenreDatabases(system);
+
+                    //Genres
+                    try
+                    {
+                        await _hyperspinManager.GetGenreDatabases(system);
+                    }
+                    catch (Exception) { }
 
                     foreach (var game in games)
                     {

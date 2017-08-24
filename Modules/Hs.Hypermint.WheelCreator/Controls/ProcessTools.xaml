@@ -13,7 +13,7 @@
               VerticalAlignment="Center" IsChecked="{Binding OverwriteImage}" 
               ToolTip="Overwrite existing wheel in export folder"/>
         <CheckBox DockPanel.Dock="Left" Content="Missing Wheels" HorizontalAlignment="Left" Margin="10"
-              VerticalAlignment="Center" IsChecked="True" ToolTip="Only run batch on missing wheels in database"/>
+              VerticalAlignment="Center" IsChecked="{Binding OnlyProcessMissingWheels}" ToolTip="Only run batch on missing wheels in database"/>
 
         <StackPanel Orientation="Horizontal">
             <!--Preview wheel-->

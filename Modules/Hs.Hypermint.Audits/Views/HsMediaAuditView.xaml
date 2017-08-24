@@ -2,17 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"       
-              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:local="clr-namespace:Hs.Hypermint.Audits.Views"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-             dialog:DialogParticipation.Register="{Binding}"  
+             dialog:DialogParticipation.Register="{Binding}"
              xmlns:auditcontrol="clr-namespace:Hs.Hypermint.Audits.Controls"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"  
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600">
+             d:DesignHeight="300" d:DesignWidth="1800">
 
     <UserControl.Resources>
         <Style TargetType="{x:Type DataGridCell}">
@@ -30,13 +27,10 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid x:Name="root">
+    <Grid x:Name="LayoutRoot">
         <GroupBox Header="{Binding MediaAuditHeaderInfo}" >
 
             <Grid >
-                <Grid.Resources>
-                    <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-                </Grid.Resources>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -45,79 +39,17 @@
 
                 <auditcontrol:HsControlsView Grid.Row="0"/>
 
-                <!--STANDARD GRID-->
-                <DataGrid Grid.Row="1" x:Name="DatabaseGrid"
-                          Visibility="{Binding ElementName=root,
-                    Path=DataContext.IsntMainMenu,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisConverter}}"
-                          Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False" 
-                      IsReadOnly="True" SelectionMode="Single"
-                      BorderThickness="2" AutoGenerateColumns="False">
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="CurrentCellChanged">
-                            <prism:InvokeCommandAction 
-                            Command="{Binding CurrentCellChanged}" 
-                            CommandParameter="{Binding CurrentColumn,
-                            ElementName=DatabaseGrid,UpdateSourceTrigger=PropertyChanged}">
-                            </prism:InvokeCommandAction>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                    <DataGrid.Columns >
-                        <DataGridTextColumn  Header="Romname" Binding="{Binding RomName}"/>
-                        <DataGridTextColumn  Header="Description" Binding="{Binding Description}"/>
-                        <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
-                        <DataGridTextColumn Header="Artwork1" Binding="{Binding HaveArt1}"/>
-                        <DataGridTextColumn Header="Artwork2" Binding="{Binding HaveArt2,UpdateSourceTrigger=PropertyChanged}"/>
-                        <DataGridTextColumn Header="Artwork3" Binding="{Binding HaveArt3}"/>
-                        <DataGridTextColumn Header="Artwork4" Binding="{Binding HaveArt4}"/>
-                        <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
-                        <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
-                        <DataGridTextColumn Header="Backgrounds" Binding="{Binding HaveBackground}"/>
-                        <DataGridTextColumn Header="MusicBg" Binding="{Binding HaveBGMusic}"/>
-                        <DataGridTextColumn Header="Sound Start" Binding="{Binding HaveS_Start}"/>
-                        <DataGridTextColumn Header="Sound End" Binding="{Binding HaveS_Exit}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <!--NORMAL GAME AUDIT-->
+                <DataGrid Grid.Row="1"
+                          Template="{StaticResource DatabaseAuditBaseGrid}" 
+                          Visibility="{Binding IsMainMenu,Converter={StaticResource BoolToVisConverter}}"/>
 
                 <!--MAIN MENU-->
-                <DataGrid x:Name="DatabaseGridMainMenu" Grid.Row="1" Margin="5"
-                          Visibility="{Binding ElementName=root,Path=DataContext.IsMainMenu,
-                    UpdateSourceTrigger=PropertyChanged,Converter={StaticResource BoolToVisConverter}}"
-                    Height="Auto" ItemsSource="{Binding AuditList}" CanUserAddRows="False" 
-                      IsReadOnly="True" SelectionMode="Single"
-                      BorderThickness="2" AutoGenerateColumns="False" >
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="CurrentCellChanged">
-                            <prism:InvokeCommandAction 
-                            Command="{Binding CurrentCellChanged}" 
-                            CommandParameter="{Binding CurrentColumn,
-                            ElementName=DatabaseGridMainMenu,UpdateSourceTrigger=PropertyChanged}">
-                            </prism:InvokeCommandAction>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                    <DataGrid.Columns>
-                        <DataGridTextColumn  Header="Romname" Binding="{Binding RomName}"/>
-                        <DataGridTextColumn Header="Wheel" Binding="{Binding HaveWheel}"/>
-                        <DataGridTextColumn Header="Videos" Binding="{Binding HaveVideo}"/>
-                        <DataGridTextColumn Header="Theme" Binding="{Binding HaveTheme}"/>
-                        <DataGridTextColumn Header="Sound Click" Binding="{Binding HaveS_Click}"/>
-                        <DataGridTextColumn Header="Wheel Sounds" Binding="{Binding HaveS_Wheel}"/>
-                        <DataGridTextColumn Header="Letters" Binding="{Binding HaveLetters}"/>
-                        <DataGridTextColumn Header="Special" Binding="{Binding HaveSpecial}"/>
-                        <DataGridTextColumn Header="GenreBg" Binding="{Binding HaveGenreBG}"/>
-                        <DataGridTextColumn Header="GenreWheel" Binding="{Binding HaveGenreWheel}"/>
-                        <DataGridTextColumn Header="Pointer" Binding="{Binding HavePointer}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <DataGrid Grid.Row="1"
+                          Template="{StaticResource DatabaseMainMenuAuditBaseGrid}" 
+                          Visibility="{Binding IsntMainMenu,Converter={StaticResource BoolToVisConverter}}"/>
 
             </Grid>
-
-
         </GroupBox>
-
-
     </Grid>
 </UserControl>

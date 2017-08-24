@@ -4,13 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:patterns="clr-namespace:Hs.Hypermint.WheelCreator"             
-             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
-             prism:ViewModelLocator.AutoWireViewModel="True"             
-             xmlns:local="clr-namespace:Hs.Hypermint.WheelCreator.Controls"
-             xmlns:views="clr-namespace:Hs.Hypermint.WheelCreator.Views"
+             prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" Width="Auto">
 
+    <!--IMAGE PREVIEW-->
     <GroupBox Header="Simple wheel creator">
         <Grid>
             <Image Grid.Column="1" Stretch="Uniform"

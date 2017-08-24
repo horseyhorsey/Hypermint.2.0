@@ -257,7 +257,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             progressResult.SetMessage("Saving Database");
 
-            if (!await _hyperspinManager.SaveCurrentGamesListToXmlAsync(system, system + "Tests"))
+            if (!await _hyperspinManager.SaveCurrentGamesListToXmlAsync(system, dbName))
                 throw new Exception("Failed saving database");
 
             progressResult.SetMessage(dbName + " Database saved.");

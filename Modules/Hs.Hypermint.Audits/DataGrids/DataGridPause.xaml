@@ -36,7 +36,8 @@
                    Grid.Row="0" BorderThickness="4" AutoGenerateColumns="False" 
                    IsSynchronizedWithCurrentItem="True"
                   IsReadOnly="True" SelectionMode="Single" SelectionUnit="Cell"
-                  ItemsSource="{Binding AuditListDefaults}">
+                  >
+            <!--ItemsSource="{Binding AuditListDefaults}"-->
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CurrentCellChanged">
@@ -83,7 +84,7 @@
                   Grid.Row="1" BorderThickness="2" 
                   AutoGenerateColumns="False" IsReadOnly="True" 
                    SelectionMode="Single"  IsSynchronizedWithCurrentItem="True"
-                  ItemsSource="{Binding AuditList}">
+                  ItemsSource="{Binding GamesList}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CurrentCellChanged">

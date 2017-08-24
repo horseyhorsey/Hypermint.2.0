@@ -1,22 +1,37 @@
 ﻿using Hypermint.Base;
+using Hypermint.Base.Interfaces;
+using Hypermint.Base.Services;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
-using System;
+using Prism.Events;
+using System.IO;
+using System.Linq;
 using System.Windows.Input;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
     public class AddSystemDialogViewModel : ViewModelBase
     {
+        #region Fields
         private IDialogCoordinator _dialogService;
-        private IHyperspinManager _manager;
+        private IHyperspinManager _hyperspinManager;
+        private CustomDialog _callingDialog;
+        private IEventAggregator _eventAggregator;
+        private IFileDialogHelper _fileFolderServic;
+        private ISettingsHypermint _settings;
+        private ISelectedService _service;
+        #endregion
 
-        public AddSystemDialogViewModel(IDialogCoordinator dialogService, CustomDialog callingDialog, IHyperspinManager manager)
+        public AddSystemDialogViewModel(IDialogCoordinator dialogService, CustomDialog callingDialog, IHyperspinManager manager,
+            IEventAggregator ea, IFileDialogHelper fileFolderServic, ISettingsHypermint settings, ISelectedService service)
         {
             _dialogService = dialogService;
-            _manager = manager;
-
-            SaveMainMenuCommand = new DelegateCommand(SaveMainMenu);
+            _hyperspinManager = manager;
+            _callingDialog = callingDialog;
+            _eventAggregator = ea;
+            _fileFolderServic = fileFolderServic;
+            _settings = settings;
+            _service = service;
 
             CloseDialogCommand = new DelegateCommand(async () =>
             {
@@ -25,17 +40,19 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
             SelectDatabaseCommand = new DelegateCommand(() =>
             {
-                //OnSelectDatabase(_fileFolderService);
+                OnSelectDatabase();
+            });
+
+            SaveNewSystemCommand = new DelegateCommand(() =>
+            {
+                OnSaveNewSystem();
             });
         }        
 
         #region Commands
-
-        public ICommand SaveMainMenuCommand { get; private set; }
-        public ICommand CloseDialogCommand { get; private set; }
-        [Obsolete("Need enabling")]
+        public ICommand CloseDialogCommand { get; private set; }        
         public ICommand SelectDatabaseCommand { get; private set; }
-
+        public ICommand SaveNewSystemCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -74,31 +91,58 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
 
         #region Support Methods
 
-        [Obsolete("Need implementing")]
-        private void OnSelectDatabase()
+        /// <summary>
+        /// Called when [saving new system].
+        /// </summary>
+        private void OnSaveNewSystem()
         {
-            //if (!Directory.Exists(_settingsRepo.HypermintSettings.HsPath)) return;
+            if (string.IsNullOrWhiteSpace(NewSystemName))
+            {
+                return;
+            }
 
-            //PickedDatabaseXml = _fileFolderService
-            //    .SetFileDialog(_settingsRepo.HypermintSettings.HsPath + "\\Databases");
-
-            //ShortDbName = Path.GetFileNameWithoutExtension(PickedDatabaseXml);
+            SaveNewSystem(NewSystemName);
         }
 
-        [Obsolete("Need implementing")]
         /// <summary>
-        /// Saves the main menu.
+        /// Called when [selecting a database file].
         /// </summary>
-        private void SaveMainMenu()
+        private void OnSelectDatabase()
         {
-            //if (_selectedService.CurrentMainMenu == null) return;
+            if (!Directory.Exists(_settings.HypermintSettings.HsPath)) return;
 
-            //try
-            //{
-            //    _eventAggregator.GetEvent<SaveMainMenuEvent>().Publish(_selectedService.CurrentMainMenu);
-            //}
-            //catch (Exception) { }
-        } 
+            PickedDatabaseXml = _fileFolderServic.SetFileDialog(_settings.HypermintSettings.HsPath + "\\Databases");
+
+            ShortDbName = Path.GetFileNameWithoutExtension(PickedDatabaseXml);
+        }
+
+        /// <summary>
+        /// Saves a new system to hyperspin
+        /// </summary>
+        /// <param name="createFromExistingDb"></param>
+        private void SaveNewSystem(string systemName)
+        {
+            if (systemName.Contains("Main Menu"))
+            {
+                System.Windows.MessageBox.Show("Can't create systems that contain Main Menu");
+                return;
+            }
+
+            if (_hyperspinManager.Systems.Any(x => x.Name == systemName))
+            {
+                //System exists ask to overwrite.
+                if (System.Windows.MessageBox.Show("Do you want to overwrite the system?",
+                    "System already exists",
+                    System.Windows.MessageBoxButton.OKCancel, System.Windows.MessageBoxImage.Warning) == System.Windows.MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+            }
+
+            _hyperspinManager.CreateSystem(systemName, PickedDatabaseXml, _service.CurrentMainMenu);
+
+            _dialogService.HideMetroDialogAsync(this, _callingDialog);
+        }
 
         #endregion
     }

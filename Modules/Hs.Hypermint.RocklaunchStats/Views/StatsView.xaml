@@ -4,6 +4,11 @@
              xmlns:charts="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+
+    </UserControl.Resources>
+    
     <Grid>
 
         <GroupBox Header="Rocket launch stats">
@@ -16,33 +21,70 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <charts:StackedBarChart 
-                ChartTitle="Top Ten Times Played"
-                    IsRowColumnSwitched="True"
-                    ChartSubTitle=" "
+                        <charts:PieChart  
+                Style="{StaticResource MinimalChartStyle}"
+                ChartTitle="Single fixed Series"
+                ChartSubTitle="Fixed size Pie Chart with a single serie"
+                Palette="{Binding Path=SelectedPalette.Value}"
+                FontSize="{Binding Path=SelectedFontSize}"
+                IsRowColumnSwitched="{Binding Path=IsRowColumnSwitched}"
+                
+                ToolTipFormat="{Binding Path=ToolTipFormat}"
+                Foreground="{Binding Path=Foreground}" 
+                Background="{Binding Path=Background}"
                 >
+                            <charts:PieChart.Series>
+                                <charts:ChartSeries
+                        SeriesTitle="Errors"
+                        DisplayMember="Rom"
+                        ValueMember="Number"
+                        ItemsSource="{Binding Path=Stats}">
+                                </charts:ChartSeries>
+                            </charts:PieChart.Series>
+                        </charts:PieChart>
+
+                        <!--<charts:StackedBarChart Style="{StaticResource MinimalChartStyle}"  ChartTitle="Top Ten Times Played" IsRowColumnSwitched="True" ChartSubTitle=" ">
                             <charts:StackedBarChart.Series>
                                 <charts:ChartSeries SeriesTitle="Top ten: played"
-                                        ItemsSource="{Binding GlobalStats.TopTenTimePlayed}"
+                                        ItemsSource="{Binding Stats}"
+                                        DisplayMember="Rom"                                            
+                                        ValueMember="{Binding TimesPlayed}">
+                                </charts:ChartSeries>
+                            </charts:StackedBarChart.Series>
+                        </charts:StackedBarChart>-->
+
+                        <!--<charts:PieChart  
+                Style="{DynamicResource BaseChartStyle}"
+                ChartTitle="Single fixed Series"
+                ChartSubTitle="Fixed size Pie Chart with a single serie"
+                Palette="{Binding Path=SelectedPalette.Value}"
+                FontSize="{Binding Path=SelectedFontSize}"
+                IsRowColumnSwitched="{Binding Path=IsRowColumnSwitched}"
+                ToolTipFormat="{Binding Path=ToolTipFormat}"
+                Foreground="{Binding Path=Foreground}" 
+                Background="{Binding Path=Background}"           
+                SeriesSource="{Binding Stats}"
+                SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}"
+                >
+                            <charts:PieChart.Series>
+                                <charts:ChartSeries
+                        SeriesTitle="Errors"
+                        DisplayMember="Rom"
+                        ValueMember="TimePlayed"
+                        ItemsSource="{Binding Path=TimesPlayed}">
+                                </charts:ChartSeries>
+                            </charts:PieChart.Series>
+                        </charts:PieChart>-->
+
+                        <!--<charts:StackedBarChart Grid.Column="1" ChartTitle="Top Ten: Time Played" IsRowColumnSwitched="True" ChartSubTitle=" ">
+                            <charts:StackedBarChart.Series>
+                                <charts:ChartSeries SeriesTitle="Top ten: Time played"
+                                        ItemsSource="{Binding GlobalStats,UpdateSourceTrigger=PropertyChanged}"
                                         DisplayMember="Rom"                                            
                                         ValueMember="TimesPlayed">
                                 </charts:ChartSeries>
                             </charts:StackedBarChart.Series>
-                        </charts:StackedBarChart>
-
-                        <charts:StackedBarChart Grid.Column="1"
-                ChartTitle="Top Ten: Time Played"
-                    IsRowColumnSwitched="True"
-                    ChartSubTitle=" "
-                >
-                            <charts:StackedBarChart.Series>
-                                <charts:ChartSeries SeriesTitle="Top ten: Time played"
-                                        ItemsSource="{Binding GlobalStats.TopTenTimesPlayed}"
-                                        DisplayMember="Rom"                                            
-                                        ValueMember="TotalTimePlayed">
-                                </charts:ChartSeries>
-                            </charts:StackedBarChart.Series>
-                        </charts:StackedBarChart>
+                        </charts:StackedBarChart>-->
                     </Grid>
                 </TabItem>
 

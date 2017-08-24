@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Frontends.Models, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Frontends.Models.1.0.7\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    <Reference Include="Frontends.Models, Version=1.0.0.17, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.17\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\gong-wpf-dragdrop.1.1.0\lib\net45\GongSolutions.Wpf.DragDrop.dll</HintPath>
@@ -91,7 +91,6 @@
       <DependentUpon>SaveDatabaseDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\DatabaseOptionsViewModel.cs" />
-    <Compile Include="ViewModels\DatabasePickerViewModelOld.cs" />
     <Compile Include="ViewModels\FilterControlViewModel.cs" />
     <Compile Include="ViewModels\SaveDatabaseDialogViewModel.cs" />
     <Compile Include="Views\DatabaseDetailsView.xaml.cs">

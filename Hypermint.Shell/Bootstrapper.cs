@@ -85,6 +85,7 @@ namespace Hypermint.Shell
             Container.RegisterInstance<IFileDialogHelper>(Container.Resolve<Base.Services.FileFolderService>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
             Container.RegisterInstance<IGameLaunch>(Container.Resolve<GameLaunch>());
+            Container.RegisterInstance<IRlScan>(Container.Resolve<RlScan>());
 
             Container.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());
             //Container.RegisterType<IHyperspinXmlDataProvider, MainMenuRepo>(new ContainerControlledLifetimeManager());
