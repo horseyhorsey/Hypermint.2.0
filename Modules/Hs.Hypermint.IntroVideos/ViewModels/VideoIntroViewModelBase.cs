@@ -5,23 +5,27 @@ using Prism.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Linq;
 using System.Windows.Input;
-using System;
 using System.Collections;
+using Prism.Events;
+using Hypermint.Base.Events;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
     public abstract class VideoIntroViewModelBase : ViewModelBase, IDropTarget
     {
+        private IEventAggregator _eventAggregator;
+
         #region Commands
         public ICommand AddSelectedCommand { get; set; }
         public ICommand RemoveSelectedCommand { get; set; }
         public ICommand SelectionProcessChanged { get; set; }
         #endregion
 
-        public VideoIntroViewModelBase()
+        public VideoIntroViewModelBase(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+
             SelectedItems = new List<IntroVideo>();
             Videos = new ObservableCollection<IntroVideo>();
 
@@ -43,7 +47,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         {
             get { return _videos; }
             set { SetProperty(ref _videos, value); }
-        }
+        }        
 
         public List<IntroVideo> SelectedItems { get; set; }
 
@@ -71,43 +75,9 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
                     SelectedItems.Add(video as IntroVideo);
                 }
             }
-            //if (items == null)
-            //{
-            //    SelectedAvailableItemsCount = 0;
-            //    SelectedAvailableVideos.Clear();
-            //    return;
-            //}
-            //else
-            //{
-            //    SelectedAvailableItemsCount = items.Count;
-            //}
 
-            //try
-            //{
-            //    SelectedAvailableVideos.Clear();
-            //    foreach (var item in items)
-            //    {
-            //        var video = item as IntroVideo;
-            //        if (video.FileName != null)
-            //            SelectedAvailableVideos.Add(video);
-            //    }
-
-            //    if (SelectedAvailableItemsCount > 1)
-            //        SelectedAvailableHeader = "Selected videos: " + SelectedAvailableItemsCount;
-            //    else if (SelectedAvailableItemsCount == 1)
-            //    {
-            //        var video = items[0] as IntroVideo;
-            //        SelectedAvailableHeader = "Selected item: " + video.FileName;
-            //        _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish(video.FileName);
-            //    }
-            //    else
-            //        SelectedAvailableHeader = "";
-            //}
-            //catch (Exception)
-            //{
-
-
-            //}
+            if (videos.Count == 1)
+                _eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish((videos[0] as IntroVideo).FileName);
         }
 
         public void DragOver(IDropInfo dropInfo)

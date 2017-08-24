@@ -19,7 +19,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         public ICommand RandomVideoCommand { get; set; }
 
-        public AvailableVideosViewModel(IEventAggregator eventAggregator, ISettingsHypermint settings, IFileFolderChecker fileChecker)
+        public AvailableVideosViewModel(IEventAggregator eventAggregator, ISettingsHypermint settings, IFileFolderChecker fileChecker) : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
             _fileChecker = fileChecker;
@@ -27,19 +27,13 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
             RandomVideoCommand = new DelegateCommand(() => { });
 
-            base.AddSelectedCommand = new DelegateCommand(() => AddSelected());            
+            base.AddSelectedCommand = new DelegateCommand(() => AddSelected());
 
-            _eventAggregator.GetEvent<RandomVideosEvent>().Subscribe((amount) => GrabRandomVideos(amount));
-
-            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(x => SystemChanged(x));
-
+            //Events
             _eventAggregator.GetEvent<AddSelectedVideosEvent>().Subscribe(AddSelected);
             _eventAggregator.GetEvent<AddToAvailableVideosEvent>().Subscribe(AddVideo);
-        }
-
-        public AvailableVideosViewModel()
-        {
-
+            _eventAggregator.GetEvent<RandomVideosEvent>().Subscribe((amount) => GrabRandomVideos(amount));
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(x => SystemChanged(x));
         }
 
         #region Public Methods
@@ -69,6 +63,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         {
             base.OnVideoSelectionChanged(videos);
         }
+
         #endregion
 
         #region Support Methods
