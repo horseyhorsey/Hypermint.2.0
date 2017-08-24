@@ -8,7 +8,7 @@
              xmlns:prism="http://prismlibrary.com/"      
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="800">
 
     <UserControl.Resources>
         <ItemContainerTemplate x:Key="GameSearchItemLong">
@@ -99,13 +99,10 @@
         <!--DETAILS VIEW-->
         <TabItem Header="Detailed" IsSelected="True">
             <!--Search items display-->
-            <DataGrid x:Name="DataGridSearch"  Grid.Column="0" Grid.Row="2" 
-                          IsReadOnly="True"
-                  CanUserAddRows="False"
-                          AutoGenerateColumns="False"
-                  Grid.RowSpan="1" Margin="10"
+            <DataGrid x:Name="DataGridSearch"  Grid.Column="0" Grid.Row="2"  Grid.RowSpan="1"
+                          IsReadOnly="True" CanUserAddRows="False" AutoGenerateColumns="False"                  
                   ItemsSource="{Binding FoundGames, UpdateSourceTrigger=PropertyChanged}">
-
+                
                 <!--SelectionChanged-->
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
@@ -118,8 +115,8 @@
                 </i:Interaction.Triggers>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Game" Binding="{Binding Game.Description}"/>
-                    <DataGridTextColumn Header="System" Binding="{Binding Game.System}"/>
+                    <DataGridTextColumn Header="Game" Width="1*" Binding="{Binding Game.Description}"/>
+                    <DataGridTextColumn Header="System" Width="1*" Binding="{Binding Game.System}"/>
                     <DataGridTextColumn Header="Genre" Binding="{Binding Game.Genre}"/>
                     <DataGridTextColumn Header="Year" Binding="{Binding Game.Year}"/>
                     <DataGridTextColumn Header="Manufacturer" Binding="{Binding Game.Manufacturer}"/>

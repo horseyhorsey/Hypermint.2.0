@@ -34,11 +34,7 @@ namespace Hs.Hypermint.Search.ViewModels
             SelectSystemsCommand = new DelegateCommand<string>(x =>
             {
                 OnSystemsSelected(x);
-            });
-
-            // Command for datagrid selectedItems
-            SelectionChanged = new DelegateCommand<IList>( items => {
-                    OnSelectionChanged(items); });
+            });            
 
             DockSystemsCommand = new DelegateCommand(() => { SystemsVisible = !SystemsVisible; });
 
@@ -86,8 +82,7 @@ namespace Hs.Hypermint.Search.ViewModels
 
         #region Commands
 
-        public ICommand SelectSystemsCommand { get; }
-        public ICommand SelectionChanged { get; set; }
+        public ICommand SelectSystemsCommand { get; }        
         public ICommand ListBoxChanged { get; private set; }
         public ICommand DockSystemsCommand { get; private set; }
 
@@ -123,31 +118,6 @@ namespace Hs.Hypermint.Search.ViewModels
 
         }
 
-        private void OnSelectionChanged(IList items)
-        {
-            if (items == null)
-            {
-                _selectedService.SelectedGames.Clear();
-                return;
-            }
-
-            try
-            {
-                _selectedService.SelectedGames.Clear();
-                foreach (var item in items)
-                {
-                    var game = item as GameSearch;
-
-                    if (game.Game.RomName != null)
-                        _selectedService.SelectedGames.Add(new GameItemViewModel(game.Game));
-                };
-            }
-            catch (Exception)
-            {
-
-
-            }
-        }
 
         #endregion
     }

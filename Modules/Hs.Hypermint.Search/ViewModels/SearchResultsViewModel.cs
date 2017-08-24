@@ -7,6 +7,7 @@ using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -50,6 +51,8 @@ namespace Hs.Hypermint.Search.ViewModels
 
             //Scan games on this event
             _ea.GetEvent<OnSearchForGames>().Subscribe( searchOptions =>  ScanForGamesAsync(searchOptions, false));
+
+            SelectionChanged = new DelegateCommand<IList>(items => { OnMultipleItemsSelectionChanged(items); });
 
         }
         #endregion
@@ -100,6 +103,7 @@ namespace Hs.Hypermint.Search.ViewModels
 
         #region Commands
         public ICommand PageGamesCommand { get; private set; }
+        public ICommand SelectionChanged { get; set; }
         #endregion
 
         #region Support Methods
@@ -148,6 +152,32 @@ namespace Hs.Hypermint.Search.ViewModels
             FilteredGames.CurrentChanged += FilteredGames_CurrentChanged;
 
             PageInfo = currentPage + " | " + pageCount + "  Games found: " + GamesFoundCount;
+        }
+
+        private void OnMultipleItemsSelectionChanged(IList items)
+        {
+            if (items == null)
+            {
+                _selectedSvc.SelectedGames.Clear();
+                return;
+            }
+
+            try
+            {
+                _selectedSvc.SelectedGames.Clear();
+                foreach (var item in items)
+                {
+                    var game = item as GameSearch;
+
+                    if (game.Game.RomName != null)
+                        _selectedSvc.SelectedGames.Add(new GameItemViewModel(game.Game));
+                };
+            }
+            catch (Exception)
+            {
+
+
+            }
         }
 
         /// <summary>
