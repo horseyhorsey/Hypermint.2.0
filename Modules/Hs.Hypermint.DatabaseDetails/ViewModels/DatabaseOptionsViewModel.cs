@@ -93,6 +93,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
                     switch (SelectedItem)
                     {
+                        case "Description":
+                            msg = new UserRequestRowMessage(_selectedService.SelectedGames, RowUpdateType.Description, ApplyString);
+                            break;
                         case "Genre":
                             msg = new UserRequestRowMessage(_selectedService.SelectedGames, RowUpdateType.Genre, ApplyString);
                             break;
@@ -120,25 +123,24 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         /// <summary>
         /// Replace all selected games descriptions from view models Pattern and Replacement properties.        
-        /// </summary>       
-        [Obsolete]
+        /// </summary>              
         private void ReplaceDescriptions()
         {
-//#warning Check that when renaming descriptions it doesn't break anything for frontend or launcher
-//            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
-//            {
-//                try
-//                {
-//                    _selectedService.SelectedGames.ForEach((game) =>
-//                    {
-//                        var index = _gameRepo.GamesList.IndexOf(game);
+            //#warning Check that when renaming descriptions it doesn't break anything for frontend or launcher
+            if (_selectedService.SelectedGames != null && _selectedService.SelectedGames.Count > 0)
+            {
+                try
+                {
+                    _selectedService.SelectedGames.ForEach((game) =>
+                    {
+                        var index = _hyperspinManager.CurrentSystemsGames.IndexOf(game);
 
-//                        _gameRepo.GamesList.ElementAt(index).Description = game.Description.Replace(Pattern, Replacement);
+                        _hyperspinManager.CurrentSystemsGames[index].Description = game.Description.Replace(Pattern, Replacement);
 
-//                    });
-//                }
-//                catch (Exception) { }
-//            }                
+                    });
+                }
+                catch (Exception) { }
+            }
         }
 
         #endregion

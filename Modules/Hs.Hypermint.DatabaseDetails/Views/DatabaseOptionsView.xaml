@@ -9,6 +9,7 @@
 
     <UserControl.Resources>
         <x:Array Type="{x:Type sys:String}" x:Key="ReplaceOptions">
+            <sys:String>Description</sys:String>
             <sys:String>Genre</sys:String>
             <sys:String>Manufacturer</sys:String>
             <sys:String>Rating</sys:String>
@@ -36,8 +37,10 @@
                 <!--EDIT MULTIPLE ROWS-->
                 <DockPanel HorizontalAlignment="Stretch" LastChildFill="False">
 
+                    <Label Content="Replace multiple selection" VerticalAlignment="Center"/>
+
                     <ComboBox MaxWidth="100" Width="100" MaxHeight="22" ItemsSource="{StaticResource ReplaceOptions}"
-                              SelectedIndex="0"
+                              SelectedValue="Description"
                               SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                     </ComboBox>
 
@@ -63,6 +66,8 @@
 
                 <!--DESCRIPTION REPLACE-->
                 <DockPanel LastChildFill="False" Height="32" ToolTip="Descriptions replace">
+
+                    <Label Content="Replace descriptions        " VerticalAlignment="Center"/>
                     <!--PATTERN-->
                     <TextBox Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}" Width="100" ToolTip="Matching text to replace from description" DockPanel.Dock="Left" Margin="3"
                              metro:TextBoxHelper.ClearTextButton="True"                        
@@ -73,7 +78,7 @@
                              metro:TextBoxHelper.ClearTextButton="True"                        
                              metro:TextBoxHelper.Watermark="Replace"/>
 
-                    <Button Style="{DynamicResource MetroCircleButtonStyle}" DockPanel.Dock="Right"
+                    <Button Style="{DynamicResource MetroCircleButtonStyle}"
                         Height="30" Width="30"
                         Command="{Binding ReplaceDescriptionCommand}"                        
                         HorizontalAlignment="Right" ToolTip="Apply replacement">

@@ -368,13 +368,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                                     game.Genre = (string)msg.Value;
                                     break;
                                 case RowUpdateType.Manufacturer:
-                                    game.Genre = (string)msg.Value;
+                                    game.Manufacturer = (string)msg.Value;
                                     break;
                                 case RowUpdateType.Rating:
-                                    game.Genre = (string)msg.Value;
+                                    game.Rating = (string)msg.Value;
                                     break;
                                 case RowUpdateType.Year:
-                                    game.Year = (int)msg.Value;
+                                    int yr = 0000;
+                                    int.TryParse((string)msg.Value, out yr);
+                                    game.Year = yr;
                                     break;
                                 case RowUpdateType.Enabled:
                                     game.GameEnabled = (int)msg.Value;
