@@ -26,47 +26,46 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="220"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+        <Label HorizontalAlignment="Center" Content="Save Hyperspin files." FontSize="32"/>
 
-
-        <Label Content="Databases" FontSize="28" Grid.Row="0"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-            <metro:ToggleSwitch IsChecked="{Binding SaveOptions.SaveToDatabase}"
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
+            <metro:ToggleSwitch IsChecked="{Binding SaveOptions.SaveToDatabase}" ToolTip="Save an xml database for hyperspin"
                                    ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
                                    Margin="{StaticResource ControlMargin}"
                                    Header="Database"/>
-            <metro:ToggleSwitch IsChecked="{Binding SaveOptions.SaveGenres}"
+            <metro:ToggleSwitch IsChecked="{Binding SaveOptions.SaveFavoritesText}" ToolTip="Save favorites to text"
+                                   ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
+                                   Margin="{StaticResource ControlMargin}"
+                                   Header="Favorites"/>
+            <metro:ToggleSwitch IsChecked="{Binding SaveOptions.SaveGenres}" ToolTip="Generate genre xmls from the game list."
                                    ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
                                    Margin="{StaticResource ControlMargin}"
                                    Header="Genres"/>
         </StackPanel>
 
         <!--favorites-->
-        <Label Content="Favorites" FontSize="32" Grid.Row="1"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" >
-            <metro:ToggleSwitch IsChecked="{Binding SaveOptions.SaveFavoritesText}"
-                                   ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
-                                   Margin="{StaticResource ControlMargin}"
-                                   Header="Text"/>
-            <metro:ToggleSwitch IsChecked="{Binding SaveOptions.SaveFavoritesXml}"
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" >
+            <!--<metro:ToggleSwitch IsChecked="{Binding SaveOptions.SaveFavoritesXml}"
                                    ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
                                    Margin="{StaticResource ControlMargin}"
                                    Header="Xml"/>
             <metro:ToggleSwitch IsChecked="{Binding SaveOptions.AddToGenre}"
                                    ToggleSwitchButtonStyle="{StaticResource CustomMetroToggleSwitchButton}"
                                    Margin="{StaticResource ControlMargin}"
-                                   Header="Add to genre"/>
+                                   Header="Add to genre"/>-->
         </StackPanel>
 
-        <TextBox Grid.Row="3" Height="28" Margin="5" Text="{Binding DbName}"/>
+        <StackPanel Grid.Row="3">
+            <Label Content="Database Name" ToolTip="Leave empty to save as the system name and overwrite exisiting, or specify a new database name that will be saved to the systems database directory."/>
+            <TextBox Height="28" Margin="5" Text="{Binding SaveOptions.DbName, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center">
             
+            <!--SAVE-->
             <Button Width="50" Height="50" VerticalAlignment="Top" Margin="15" 
                         Command="{Binding SaveXmlCommand}"
                         CommandParameter=""
@@ -81,7 +80,8 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
-
+    
+            <!--CLOSE-->
             <Button Width="50" Height="50" VerticalAlignment="Top" Margin="15" 
                         Command="{Binding CloseCommand}"                        
                     Background="{DynamicResource ValidationBrush5}"
@@ -97,6 +97,7 @@
             </Button>
             
         </StackPanel>
+        
     </Grid>
 </UserControl>
     
