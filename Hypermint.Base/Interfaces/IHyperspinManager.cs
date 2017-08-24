@@ -114,5 +114,13 @@ namespace Hypermint.Base
         /// <param name="fileFilter">The file filter.</param>
         /// <returns></returns>
         Task<IEnumerable<string>> GetHyperspinMediaFiles(string systemName, string folder, string fileFilter = "*.*");
+
+        /// <summary>
+        /// Scans for roms.
+        /// </summary>
+        /// <param name="systemName">Name of the system.</param>
+        /// <param name="rlPath">The rl path.</param>
+        /// <returns></returns>
+        Task ScanForRoms(string systemName, string rlPath);
     }
 }

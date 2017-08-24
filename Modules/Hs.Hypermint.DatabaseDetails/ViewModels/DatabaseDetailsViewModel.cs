@@ -16,6 +16,7 @@ using System.Windows.Input;
 using Frontends.Models.Hyperspin;
 using Hypermint.Base.Model;
 using System.Linq;
+using System.IO;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -40,9 +41,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _eventAggregator = eventAggregator;
             _dialogService = dialogService;
             _hyperspinManager = hyperspinManager;
-            _selectedService = selectedService;
-
-            ScanRomsCommand = new DelegateCommand(ScanRoms);            
+            _selectedService = selectedService;         
         }
 
         #endregion
@@ -82,29 +81,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         }
 
-        [Obsolete]
-        private void ScanRoms()
-        {
-            //if (!Directory.Exists(_hyperspinManager._hyperspinFrontEnd.Path)) return;
 
-            //try
-            //{
-            //    if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
-            //    {
-            //        //_gameRepo.ScanForRoms(
-            //        //    _settingsRepo.HypermintSettings.RlPath,
-            //        //    _selectedService.CurrentSystem);
-            //    }
-
-            //    if (GamesList != null)
-            //        GamesList.Refresh();
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
-
-        }
 
         #endregion
     }
