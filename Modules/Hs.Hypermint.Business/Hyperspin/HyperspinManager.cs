@@ -118,7 +118,11 @@ namespace Hs.Hypermint.Business.Hyperspin
             if (!Systems.Any(x => x.Name == options.MultiSystemName))
                 Systems.Add(new MainMenu(options.MultiSystemName, 1));
 
-            return ms.CreateMultiSystem(games, _hyperspinFrontEnd.Path, _settingsRepo.HypermintSettings.RlPath);
+            //Group the games because we can't have duplicate romnames in the database.
+            var filteredGames = games.GroupBy(x => x.RomName).Select(grp => grp.First());
+
+            return ms.CreateMultiSystem(filteredGames
+                , _hyperspinFrontEnd.Path, _settingsRepo.HypermintSettings.RlPath);
         }
 
         /// <summary>
@@ -385,12 +389,19 @@ namespace Hs.Hypermint.Business.Hyperspin
                     {
                         foreach (var favorite in faves)
                         {
-                            CurrentSystemsGames.FirstOrDefault(x => x.RomName == favorite.RomName).IsFavorite = true;
+                            CurrentSystemsGames.FirstOrDefault(x => x.RomName == favorite.RomName)
+                                .Game.IsFavorite = true;
                         }
                     }
                 }
             }
             catch(Exception ex) { }
+        }
+
+        public async Task<bool> SaveFavorites(string system)
+        {
+            _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, system);
+            return await _hsSerializer.SerializeFavoritesAsync(CurrentSystemsGames.Select(x => x.Game));
         }
     }
 }

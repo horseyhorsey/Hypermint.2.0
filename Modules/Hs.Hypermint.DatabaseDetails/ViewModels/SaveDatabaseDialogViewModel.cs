@@ -115,7 +115,14 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 .ShowMessageAsync(this, saveInfoText, "Do you want to save? ", MessageDialogStyle.AffirmativeAndNegative, mahSettings);
 
             if (result == MessageDialogResult.Affirmative)
-                await SaveDatabasesAndFavoritesAsync(x);
+            {
+                try
+                {
+                    await SaveDatabasesAndFavoritesAsync(x);
+                }
+                catch (Exception ex) { }
+            }
+                
         }
 
         /// <summary>
@@ -145,85 +152,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             if (SaveOptions.SaveGenres)
             {
                 await SaveGenreXmls(progressResult, system);
+            }            
+
+            if (SaveOptions.SaveFavoritesText || SaveOptions.SaveFavoritesXml)
+            {
+                await SaveFavoritesAsync(progressResult, system);
             }
 
             //Close all and return
             await progressResult.CloseAsync();
             await _dialogService.HideMetroDialogAsync(this, customDialog);
-            return;
 
-#warning TODO save favorites
-            if (SaveOptions.SaveFavoritesText || SaveOptions.SaveFavoritesXml)
-            {
-                //var faveGames = new Games();
-                //var games = _gameRepo.GamesList.Where(m => m.IsFavorite == true);
-                //foreach (var favorite in games)
-                //{
-                //    faveGames.Add(favorite);
-                //}
-
-                //if (SaveOptions.SaveFavoritesText)
-                //{
-                //    // progressResult.SetMessage("Saving favorites text..");
-
-                //    await Task.Delay(500);
-                //    //dbName == "Favorites";                
-                //    var favesTextFile = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
-                //    Root.Databases, _selectedService.CurrentSystem,
-                //    "favorites.txt");
-
-                //   // if (!_fileFolderChecker.FileExists(favesTextFile))
-                //  //  {
-                //        //  progressResult.SetMessage("Favorites not found, creating..");
-
-                //        //await Task.Delay(500);
-
-                //        //using (var fileToCreate = _fileFolderChecker.CreateFile(favesTextFile))
-                //        //{
-                //        //    fileToCreate.Close();
-                //        //};
-                //   // }
-
-                //    //_xmlService.SaveFavoritesText(faveGames, favesTextFile);
-
-                //    //  progressResult.SetMessage("Saved favorites text..");
-
-                //    await Task.Delay(500);
-                //}
-
-                //try
-                //{
-                //    //  progressResult.SetMessage("Saving favorites xml");
-
-                //    if (SaveOptions.SaveFavoritesXml && dbName != "Favorites")
-                //    {
-
-                //        //_xmlService.SerializeHyperspinXml(faveGames, _selectedService.CurrentSystem,
-                //        //   _settingsRepo.HypermintSettings.HsPath, "Favorites");
-                //    }
-
-                //    //   progressResult.SetMessage("Saved favorites to database");
-
-                //}
-                //catch (System.IO.IOException ex)
-                //{
-                //    //   progressResult.SetMessage("Saved failed " + ex.InnerException);
-
-                //    await Task.Delay(2000);
-
-                //}
-                //catch (Exception ex)
-                //{
-                //    //   progressResult.SetMessage("Saved failed " + ex.InnerException);
-
-                //    await Task.Delay(2000);
-                //}
-
-
-            }
-
-            // await progressResult.CloseAsync();
-            // await _dialogService.HideMetroDialogAsync(this, customDialog);
             //_eventAggregator.GetEvent<ErrorMessageEvent>().Publish(e.TargetSite + " : " + e.Message); 
 
         }
@@ -261,6 +200,24 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 throw new Exception("Failed saving database");
 
             progressResult.SetMessage(dbName + " Database saved.");
+        }
+
+        /// <summary>
+        /// Saves the favorites to text asynchronous.
+        /// </summary>
+        /// <param name="dbName">Name of the database.</param>
+        /// <param name="progressResult">The progress result.</param>
+        /// <param name="system">The system.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Failed saving database</exception>
+        private async Task SaveFavoritesAsync(ProgressDialogController progressResult, string system)
+        {
+            progressResult.SetMessage("Saving Favorites");
+
+            if (!await _hyperspinManager.SaveFavorites(system))
+                ;
+
+            progressResult.SetMessage(system + " favorites saved.");
         }
 
         #endregion

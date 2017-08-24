@@ -129,5 +129,13 @@ namespace Hypermint.Base
         /// <param name="systemName">Name of the system.</param>
         /// <returns></returns>
         Task GetFavoritesForSystem(string systemName);
+
+        /// <summary>
+        /// Saves the favorites.
+        /// </summary>
+        /// <param name="system">The system.</param>
+        /// <param name="dbName">Name of the database.</param>
+        /// <returns></returns>
+        Task<bool> SaveFavorites(string system);
     }
 }
