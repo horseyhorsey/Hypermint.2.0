@@ -52,7 +52,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
             _eventAggregator.GetEvent<AddToMultiSystemEvent>().Subscribe(AddToMultiSystem);
             _eventAggregator.GetEvent<BuildMultiSystemEvent>().Subscribe((x) =>  OpenBuildMultiSystemDialog());
-            _eventAggregator.GetEvent<ScanMultiSystemFavoritesEvent>().Subscribe((x) => ScanFavoritesAsync());
+            _eventAggregator.GetEvent<ScanMultiSystemFavoritesEvent>().Subscribe( async (x) =>  await ScanFavoritesAsync());
 
             //Commands
             RemoveGameCommand = new DelegateCommand<GameItemViewModel>(RemoveFromMultisystemList);
@@ -110,7 +110,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         /// <summary>
         /// Scans the all the systems favorites asynchronous.
         /// </summary>
-        private async void ScanFavoritesAsync()
+        private async Task ScanFavoritesAsync()
         {
             var mahSettings = new MetroDialogSettings()
             {

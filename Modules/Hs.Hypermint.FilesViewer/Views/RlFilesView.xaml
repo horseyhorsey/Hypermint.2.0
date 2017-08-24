@@ -12,8 +12,9 @@
              dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
+
         <Style x:Key="TreeViewItemFocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -135,7 +136,8 @@
     <Grid Margin="10" x:Name="LayoutRoot">
         <GroupBox  Grid.Row="1" Grid.Column="0" Header="Rocket launcher dirs" ddrop:DragDrop.IsDropTarget="True"
             ddrop:DragDrop.DropHandler="{Binding}">
-            <controls:MultiSelectTreeView x:Name="tree" ItemsSource="{Binding RlFiles,UpdateSourceTrigger=PropertyChanged}" SelectedItems="{Binding SelectedNodes}">
+            <controls:MultiSelectTreeView x:Name="tree" Tag="{Binding}" ItemsSource="{Binding RlFiles,UpdateSourceTrigger=PropertyChanged}" SelectedItems="{Binding SelectedNodes}">
+                
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MyTreeViewItemStyle}">
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -149,9 +151,11 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
 
-                <TreeView.ContextMenu >
-                    <ContextMenu ContextMenuService.Placement="Absolute"  ContextMenuService.PlacementTarget="{Binding ElementName=tree}">
+                <TreeView.ContextMenu>
+                    <ContextMenu ContextMenuService.Placement="Absolute" >
                         <!--<MenuItem Header="Add selection" Command="{Binding AddToTemplateCommand}"/>-->
+                        <MenuItem Header="Open" Command="{Binding Path=PlacementTarget.Tag.OpenFileFolderCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+                        </MenuItem>
                     </ContextMenu>
                 </TreeView.ContextMenu>
 
@@ -161,7 +165,6 @@
                         </prism:InvokeCommandAction>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                
 
             </controls:MultiSelectTreeView>
         </GroupBox>

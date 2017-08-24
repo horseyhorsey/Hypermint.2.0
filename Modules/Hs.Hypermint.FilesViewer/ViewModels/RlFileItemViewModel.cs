@@ -1,6 +1,9 @@
 ﻿using Hypermint.Base.Model;
+using Prism.Commands;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Input;
+using System;
 
 namespace Hs.Hypermint.FilesViewer.ViewModels
 {
@@ -21,12 +24,21 @@ namespace Hs.Hypermint.FilesViewer.ViewModels
             if (isDirectory)
                 DisplayName = Path.GetFileNameWithoutExtension(displayName);
             else
-                DisplayName = Path.GetFileName(displayName);            
+                DisplayName = Path.GetFileName(displayName);
+
+            OpenFileFolderCommand = new DelegateCommand(OpenFileFolder);
+        }
+
+        private void OpenFileFolder()
+        {
+            
         }
 
         public string FullPath { get; set; }
         public bool IsDirectory { get; set; }
 
         public IList<RlFileItemViewModel> Children { get; set; }
+
+        public ICommand OpenFileFolderCommand { get; set; }
     }
 }

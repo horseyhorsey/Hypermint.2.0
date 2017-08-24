@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using MahApps.Metro.Controls.Dialogs;
 using Hs.Hypermint.FilesViewer.Dialog;
 using Hypermint.Base.Events;
+using System.Diagnostics;
 
 namespace Hs.Hypermint.FilesViewer.ViewModels
 {
@@ -27,7 +28,8 @@ namespace Hs.Hypermint.FilesViewer.ViewModels
         private ISelectedService _selectedService;
         private IDialogCoordinator _dialogService;
         private CustomDialog customDialog;
-        public ICommand SelectedItemChangedCommand { get; set; }          
+        public ICommand SelectedItemChangedCommand { get; set; }
+        public ICommand OpenFileFolderCommand { get; set; }
         #endregion
 
         #region Constructors
@@ -45,7 +47,9 @@ namespace Hs.Hypermint.FilesViewer.ViewModels
 
             SelectedItemChangedCommand = new DelegateCommand<RlFileItemViewModel>(FilesSelectionChanged);
 
-        } 
+            OpenFileFolderCommand = new DelegateCommand(OpenFileFolder);
+
+        }
         #endregion
 
         #region Properties
@@ -162,6 +166,25 @@ namespace Hs.Hypermint.FilesViewer.ViewModels
         {
             
             ShowMediaPaneSelectedFile(fileItemVm);
+        }
+
+        /// <summary>
+        /// Opens the file folder.
+        /// </summary>
+        private void OpenFileFolder()
+        {
+            if (SelectedNodes.Count > 0)
+            {
+                try
+                {
+                    Process.Start(SelectedNodes[0].FullPath);
+                }
+                catch (Exception ex)
+                {
+                    _eventAggregator.GetEvent<ErrorMessageEvent>().Publish(ex.Message);
+                }
+
+            }
         }
 
         private void SetSelectedClearFiles(string[] HeaderAndGame)

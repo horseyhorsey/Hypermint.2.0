@@ -29,6 +29,7 @@ namespace Hypermint.Base.Model
         public string CloneOf { get { return Game.CloneOf; } set { Game.CloneOf = value; } }
         public string Rating { get { return Game.Rating; } set { Game.Rating = value; } }
         public string Crc { get { return Game.Crc; } set { Game.Crc = value; } }
+        public string OriginalSystem { get { return Game.OriginalSystem; } set { Game.OriginalSystem = value; } }
 
         //Extra props
         public bool RomExists { get { return Game.RomExists; } set { Game.RomExists = value; } }

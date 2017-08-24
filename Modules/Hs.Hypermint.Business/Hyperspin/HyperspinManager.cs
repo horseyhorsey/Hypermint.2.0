@@ -158,12 +158,14 @@ namespace Hs.Hypermint.Business.Hyperspin
         /// Gets the games from all favorites text files found in system database folders.
         /// </summary>
         /// <returns></returns>
-        public Task<IEnumerable<Game>> GetGamesFromAllFavorites()
-        {
+        public async Task<IEnumerable<Game>> GetGamesFromAllFavorites()
+        {            
             if (_hsSerializer == null)
-                _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, "", "");
+                _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, "Main Menu", "");
 
-            return _hsSerializer.CreateGamesListFromAllFavoriteTexts(_hyperspinFrontEnd.Path, Systems);
+            _hsSerializer.ChangeSystemAndDatabase("Main Menu");
+
+            return await _hsSerializer.CreateGamesListFromAllFavoriteTexts(_hyperspinFrontEnd.Path, Systems.AsEnumerable());
         }
 
         /// <summary>
@@ -294,7 +296,28 @@ namespace Hs.Hypermint.Business.Hyperspin
         {
             CurrentSystemsGames.Clear();
 
-            return await _hsDataProvider.GetAllGames(_hyperspinFrontEnd.Path, systemName, dbName);
+            var games = await _hsDataProvider.GetAllGames(_hyperspinFrontEnd.Path, systemName, dbName);
+
+            //Map the original systems from a games.ini
+            if (games != null && games.Count() > 0)
+            {                
+                var dbPath = Path.Combine(_hyperspinFrontEnd.Path, "Databases", systemName);
+                if (Directory.Exists(dbPath + "\\" + "MultiSystem"))
+                {
+                    var romMapper = new RomMapperRl();
+                    var mappedGames = await romMapper.GetGamesFromRocketLaunchGamesIniAsync(dbPath + "\\MultiSystem");
+                    foreach (var game in mappedGames)
+                    {
+                        try
+                        {
+                            games.FirstOrDefault(x => x.RomName == game.RomName).OriginalSystem = game.System;
+                        }
+                        catch { }
+                    }
+                }
+            }
+
+            return games;
         }
 
         public async Task<IEnumerable<string>> GetHyperspinMediaFiles(string systemName, string folder, string fileFilter ="*.*")

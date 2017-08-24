@@ -76,7 +76,14 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         {
             get { return databaseHeaderInfo; }
             set { SetProperty(ref databaseHeaderInfo, value); }
-        }        
+        }
+
+        private bool _isMultiSystem;
+        public bool IsMultiSystem
+        {
+            get { return _isMultiSystem; }
+            set { SetProperty(ref _isMultiSystem, value); }
+        }
 
         #endregion
 
@@ -301,7 +308,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 try
                 {
                     var games = await _hyperspinManager.SetGamesForSystem(dbName);
-                    //await _hyperspinManager.GetSystemDatabases(system);
 
                     //Genres
                     try
@@ -310,6 +316,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     }
                     catch (Exception) { }
 
+                    //Build the viewmodel
                     foreach (var game in games)
                     {
                         _hyperspinManager.CurrentSystemsGames.Add(new GameItemViewModel(game));

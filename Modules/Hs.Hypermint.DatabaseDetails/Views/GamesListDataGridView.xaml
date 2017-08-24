@@ -67,6 +67,7 @@
                 <DataGridTextColumn Header="CloneOf" Binding="{Binding CloneOf}"/>
                 <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" />
                 <DataGridTextColumn Header="Crc" Binding="{Binding Crc}"/>
+                <DataGridTextColumn Header="System" Binding="{Binding OriginalSystem}" IsReadOnly="True"/>
             </DataGrid.Columns>
 
         </DataGrid>
