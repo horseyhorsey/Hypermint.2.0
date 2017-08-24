@@ -320,6 +320,14 @@ namespace Hs.Hypermint.Business.Hyperspin
             return games;
         }
 
+        public async Task ScanForRoms(string systemName, string rlPath)
+        {
+            if (!Directory.Exists(rlPath)) return;
+
+            IRomScan romScan = new RomScanner();
+            await romScan.ScanRlRomPathsAsync(CurrentSystemsGames.Select(x => x.Game), rlPath, systemName);
+        }
+
         public async Task<IEnumerable<string>> GetHyperspinMediaFiles(string systemName, string folder, string fileFilter ="*.*")
         {
             return await Task.Run(() => PathHelper.GetMediaFilesForGame(_hyperspinFrontEnd.Path, systemName, folder, fileFilter));

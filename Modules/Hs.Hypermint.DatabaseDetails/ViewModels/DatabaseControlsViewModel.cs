@@ -1,12 +1,14 @@
 ﻿using Hs.Hypermint.DatabaseDetails.Dialog;
 using Hypermint.Base;
 using Hypermint.Base.Events;
+using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -18,6 +20,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private IHyperspinManager _hyperspinManager;
         private IDialogCoordinator _dialogService;
         private IUnityContainer _container;
+        private ISettingsHypermint _settings;
         private IEventAggregator _eventAgg;
         private ISelectedService _selectedService;
         private CustomDialog customDialog;
@@ -31,7 +34,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         #region Constructors
 
-        public DatabaseControlsViewModel(IEventAggregator eventAgg, IUnityContainer container,
+        public DatabaseControlsViewModel(IEventAggregator eventAgg, IUnityContainer container, ISettingsHypermint settings,
             IHyperspinManager hsManager, ISelectedService selectedService, IDialogCoordinator dialogService)
         {
             _hyperspinManager = hsManager;
@@ -39,6 +42,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _selectedService = selectedService;
             _dialogService = dialogService;
             _container = container;
+            _settings = settings;
 
             EnableFaveItemsCommand = new DelegateCommand<string>(x => UpdateRows(x, RowUpdateType.Favorite));
             EnableDbItemsCommand = new DelegateCommand<string>(x => UpdateRows(x, RowUpdateType.Enabled));
@@ -47,8 +51,12 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 await RunCustomDialog();
             });
-        } 
+
+            ScanRomsCommand = new DelegateCommand(async () => await ScanRomsFromRocketLauncherDirsAsync());
+        }
         #endregion
+
+        public ICommand ScanRomsCommand { get; private set; }
 
         #region Support Methods
 
@@ -72,6 +80,21 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
 
+        }
+
+        /// <summary>
+        /// Scans the roms from rocket launcher dirs. Note:Should be moved to the gamelist to refresh from there.
+        /// </summary>
+        private async Task ScanRomsFromRocketLauncherDirsAsync()
+        {            
+            try
+            {
+                if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
+                {
+                    await _hyperspinManager.ScanForRoms( _selectedService.CurrentSystem, _settings.HypermintSettings.RlPath);                    
+                }
+            }
+            catch { }
         }
 
         /// <summary>

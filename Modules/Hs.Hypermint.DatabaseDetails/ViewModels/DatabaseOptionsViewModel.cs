@@ -1,5 +1,6 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Events;
+using Hypermint.Base.Interfaces;
 using Hypermint.Base.Model;
 using Hypermint.Base.Services;
 using Prism.Commands;
@@ -38,7 +39,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         #region Commands
         public ICommand ApplyToCellsCommand { get; private set; }
-        public ICommand ReplaceDescriptionCommand { get; private set; }
+        public ICommand ReplaceDescriptionCommand { get; private set; }        
         #endregion
 
         #region Properties
