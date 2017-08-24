@@ -114,5 +114,12 @@ namespace Hypermint.Base
         /// <param name="fileFilter">The file filter.</param>
         /// <returns></returns>
         Task<IEnumerable<string>> GetHyperspinMediaFiles(string systemName, string folder, string fileFilter = "*.*");
+
+        /// <summary>
+        /// Gets the favorites for system.
+        /// </summary>
+        /// <param name="systemName">Name of the system.</param>
+        /// <returns></returns>
+        Task GetFavoritesForSystem(string systemName);
     }
 }

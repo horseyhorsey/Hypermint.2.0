@@ -357,5 +357,32 @@ namespace Hs.Hypermint.Business.Hyperspin
 
             return await _hsSerializer.SerializeAsync(Systems, isMultiSystem);
         }
+
+        /// <summary>
+        /// Gets the favorites for system.
+        /// </summary>
+        /// <param name="systemName">Name of the system.</param>
+        /// <returns></returns>
+        public async Task GetFavoritesForSystem(string systemName)
+        {
+            try
+            {
+                if (CurrentSystemsGames.Count > 0)
+                {
+                    _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, systemName);
+
+                    var faves = await _hsSerializer.DeserializeFavoritesAsync();
+
+                    if (faves != null)
+                    {
+                        foreach (var favorite in faves)
+                        {
+                            CurrentSystemsGames.FirstOrDefault(x => x.RomName == favorite.RomName).IsFavorite = true;
+                        }
+                    }
+                }
+            }
+            catch(Exception ex) { }
+        }
     }
 }

@@ -308,7 +308,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 try
                 {
                     var games = await _hyperspinManager.SetGamesForSystem(system, dbName);
-
+                    
                     //Genres
                     try
                     {
@@ -321,6 +321,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     {
                         _hyperspinManager.CurrentSystemsGames.Add(new GameItemViewModel(game));
                     }
+
+                    if (!system.Contains("Main Menu"))
+                        await _hyperspinManager.GetFavoritesForSystem(system);
 
                     //Publish after the gameslist is updated here
                     _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish(dbName);
