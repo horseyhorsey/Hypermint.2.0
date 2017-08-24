@@ -8,6 +8,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -28,8 +29,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
 
         }
 
-        public DatabasePickerViewModel( IEventAggregator eventAggregator, IHyperspinManager hyperspinManager,
-    ISettingsHypermint settingsRepo, IFolderExplore folderService, ISelectedService selectedService)
+        public DatabasePickerViewModel( IEventAggregator eventAggregator, IHyperspinManager hyperspinManager, ISettingsHypermint settingsRepo, 
+            IFolderExplore folderService, ISelectedService selectedService)
         {
             _eventAggregator = eventAggregator;
             _hyperspinManager = hyperspinManager;
@@ -38,13 +39,13 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _selectedService = selectedService;
 
             this.SystemDatabases = new ListCollectionView(_hyperspinManager.DatabasesCurrentSystem);
-            this.GenreDatabases = new ListCollectionView(_hyperspinManager.DatabasesCurrentGenres);
-
-            //_hyperspinManager._hyperspinFrontEnd.GetDatabaseFilesForSystemAsync()
+            this.GenreDatabases = new ListCollectionView(_hyperspinManager.DatabasesCurrentGenres);            
 
             OpenFolderCommand = new DelegateCommand<string>(OpenFolder);
 
             SystemDatabases.CurrentChanged += SystemDatabases_CurrentChanged;
+
+            _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(async (x) => await OnSystemChanged(x));
         }
 
         #endregion
@@ -78,6 +79,16 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// Called when a [system is changed]. Gets the databases matching the system name.
+        /// </summary>
+        /// <param name="systemName">Name of the system.</param>
+        /// <returns></returns>
+        private async Task OnSystemChanged(string systemName)
+        {
+            await _hyperspinManager.GetSystemDatabases(systemName);
         }
 
         /// <summary>

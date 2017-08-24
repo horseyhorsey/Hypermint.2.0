@@ -9,7 +9,7 @@
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" dialog:DialogParticipation.Register="{Binding}"              
              mc:Ignorable="d">
     
-    <GroupBox Header="{Binding DatabaseHeaderInfo}">
+    <GroupBox Header="Hyperspin Database Editor">
         <Grid>
 
             <Grid.ColumnDefinitions>
@@ -29,6 +29,7 @@
                 <Rectangle Fill="{DynamicResource AccentColorBrush}"
                    Grid.RowSpan="2" MinHeight="500" VerticalAlignment="Stretch"/>
             </Border>
+            
             <views:DatabaseControlsView Grid.Row="0" Margin="5" Grid.Column="0" Grid.RowSpan="4"
                                         VerticalAlignment="Top" HorizontalAlignment="Left"/>
             

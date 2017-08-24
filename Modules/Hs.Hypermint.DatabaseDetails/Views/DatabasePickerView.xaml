@@ -8,14 +8,14 @@
         <StackPanel>
             
             <!--LIST OF DATABASES FOR THE SYSTEM-->
-            <metro:SplitButton Height="68"
+            <metro:SplitButton Height="68" ItemsSource="{Binding SystemDatabases, UpdateSourceTrigger=PropertyChanged}"
                                   Name="SplitButton1"
                                   Width="100"
                                   HorizontalAlignment="Center"
                                   Orientation="Vertical"
                                   DisplayMemberPath="{Binding ElementName=SplitButton0, Path=DisplayMemberPath}"
                                   SelectedIndex="{Binding SelectedIndex, ElementName=SplitButton0, Mode=TwoWay}"
-                                  ItemsSource="{Binding SystemDatabases, UpdateSourceTrigger=PropertyChanged}">
+                                  >
                 <metro:SplitButton.Icon>
                     <Viewbox Width="32"
                              Height="32"

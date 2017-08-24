@@ -274,15 +274,15 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                 }
 
                 if (SelectedItemsCount > 1)
+                {
+                    //_eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
                     DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
+                }                    
                 else
-                    DatabaseHeaderInfo = "";
+                    DatabaseHeaderInfo = "";                
             }
-            catch (Exception)
-            {
-
-
-            }
+            catch { }
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 try
                 {
-                    var games = await _hyperspinManager.SetGamesForSystem(dbName);
+                    var games = await _hyperspinManager.SetGamesForSystem(system, dbName);
 
                     //Genres
                     try
