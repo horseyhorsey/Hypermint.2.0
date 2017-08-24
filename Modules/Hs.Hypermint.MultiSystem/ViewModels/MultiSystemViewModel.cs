@@ -15,6 +15,7 @@ using Hypermint.Base.Model;
 using System.Windows.Input;
 using System.Linq;
 using Hypermint.Base.Services;
+using System.Collections;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
@@ -67,6 +68,39 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             {
                 await _dialogService.HideMetroDialogAsync(this, customDialog);
             });
+
+            SelectionChanged = new DelegateCommand<IList>(items => { OnMultipleItemsSelectionChanged(items); });
+        }
+
+        /// <summary>
+        /// Called when items are changed in the view
+        /// </summary>
+        /// <param name="items">The items.</param>
+        private void OnMultipleItemsSelectionChanged(IList items)
+        {
+            if (items == null)
+            {
+                _selectedService.SelectedGames.Clear();
+                return;
+            }
+
+            try
+            {
+                _selectedService.SelectedGames.Clear();
+
+                foreach (var item in items)
+                {
+                    var game = item as GameItemViewModel;
+                    if (game.Name != null)
+                        _selectedService.SelectedGames.Add(item as GameItemViewModel);
+                }
+
+                if (items.Count > 1)
+                {
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
+                }
+            }
+            catch { }
         }
 
         #endregion
@@ -103,6 +137,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         public DelegateCommand<GameItemViewModel> RemoveGameCommand { get; set; }
         public DelegateCommand<string> OpenSearchCommand { get; private set; }
         public ICommand CloseCommand { get; private set; }
+        public ICommand SelectionChanged { get; set; }
         #endregion
 
         #region Support Methods
@@ -157,6 +192,12 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
         }
 
+        /// <summary>
+        /// Scans the games.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <param name="tempGames">The temporary games.</param>
+        /// <returns></returns>
         private Task ScanGames(Game game, List<Game> tempGames)
         {
             return Task.Run(() =>
