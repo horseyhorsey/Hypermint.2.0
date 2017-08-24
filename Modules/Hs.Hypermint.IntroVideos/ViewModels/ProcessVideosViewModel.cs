@@ -13,7 +13,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
     {
         private IEventAggregator _eventAggregator;
 
-        public ProcessVideosViewModel(IEventAggregator eventAggregator)
+        public ProcessVideosViewModel(IEventAggregator eventAggregator): base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<AddToProcessVideoListEvent>().Subscribe(video => AddVideo(video));
