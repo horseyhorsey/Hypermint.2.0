@@ -6,11 +6,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
 using System;
-using Hs.Hypermint.DatabaseDetails.Services;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using Hs.Hypermint.MultiSystem.Views;
-using Frontends.Models.Hyperspin;
 using Hypermint.Base.Model;
 using System.Windows.Input;
 using System.Linq;
@@ -24,8 +22,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         #region Services
         private IFileDialogHelper _fileFolderService;
         private ISettingsHypermint _settingsService;
-        private IMultiSystemRepo _multiSystemRepo;
-        private IHyperspinXmlService _xmlService;
         private IMainMenuRepo _mainmenuRepo;
         private IDialogCoordinator _dialogService;
         private IHyperspinManager _hyperspinManager;
@@ -34,16 +30,13 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         #endregion
 
         #region Constructors
-        public MultiSystemViewModel(IEventAggregator ea, IMultiSystemRepo multiSystem, IFileDialogHelper fileService,
+        public MultiSystemViewModel(IEventAggregator ea, IFileDialogHelper fileService,
             IDialogCoordinator dialogService, IHyperspinManager hyperspinManager,
-          ISettingsHypermint settings, IHyperspinXmlService xmlService,
-          IMainMenuRepo mainMenuRepo, ISelectedService selectedService)
+          ISettingsHypermint settings, IMainMenuRepo mainMenuRepo, ISelectedService selectedService)
         {
             _eventAggregator = ea;
-            _multiSystemRepo = multiSystem;
             _fileFolderService = fileService;
             _settingsService = settings;
-            _xmlService = xmlService;
             _mainmenuRepo = mainMenuRepo;
             _dialogService = dialogService;
             _hyperspinManager = hyperspinManager;
@@ -162,31 +155,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         }
 
         /// <summary>
-        /// Scans the games.
-        /// </summary>
-        /// <param name="game">The game.</param>
-        /// <param name="tempGames">The temporary games.</param>
-        /// <returns></returns>
-        private Task ScanGames(Game game, List<Game> tempGames)
-        {
-            return Task.Run(() =>
-            {
-                if (!tempGames.Exists(x => x.RomName == game.RomName))
-                {
-                    tempGames.Add(game);
-                }
-
-                tempGames.Sort();
-                _hyperspinManager.MultiSystemGamesList.Clear();
-
-                foreach (Game sortedGame in tempGames)
-                {
-                    _multiSystemRepo.MultiSystemList.Add(sortedGame);
-                }
-            });
-        }
-
-        /// <summary>
         /// Add to a multisystem list from the main database menu event with a hyperspin manager.
         /// </summary>
         /// <param name="games"></param>
@@ -225,7 +193,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             customDialog = new CustomDialog() { Title = "Save MultiSystem" };
 
             customDialog.Content = new SaveMultiSystemView { DataContext = new SaveMultiSystemViewModel(_dialogService, customDialog,_eventAggregator,_settingsService
-                ,_multiSystemRepo, _hyperspinManager, _xmlService,_mainmenuRepo,_fileFolderService, _selectedService) };
+                , _hyperspinManager,_mainmenuRepo,_fileFolderService, _selectedService) };
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }
