@@ -56,11 +56,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             var selectedCount = _selectedService.SelectedGames.Count;
             if (selectedCount > 1)
             {
-                DatabaseHeaderInfo = $"Hyperspin Database Editor: Roms selected {selectedCount}";
+                DatabaseHeaderInfo = $"Hyperspin Database Editor: Roms selected: {selectedCount}";
             }
             else if (selectedCount == 1)
             {
-                DatabaseHeaderInfo = $"Hyperspin Database Editor: Roms selected {_selectedService.SelectedGames[0].RomName}";
+                DatabaseHeaderInfo = $"Hyperspin Database Editor: Rom selected: {_selectedService.SelectedGames[0].RomName}";
             }
             else
             {
