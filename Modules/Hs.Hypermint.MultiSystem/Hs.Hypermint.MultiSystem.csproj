@@ -132,14 +132,6 @@
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Hs.Hypermint.DatabaseDetails\Hs.Hypermint.DatabaseDetails.csproj">
-      <Project>{0f4321e7-fa9a-4528-b7ca-8d0edec79bc3}</Project>
-      <Name>Hs.Hypermint.DatabaseDetails</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
-      <Project>{7c5872ea-a3bd-4bfa-911c-0a9b62f2f11f}</Project>
-      <Name>Hs.Hypermint.Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialog\SearchForGamesDialog.xaml">
