@@ -5,7 +5,6 @@ using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
 using Hypermint.Base.Interfaces;
-using Hs.Hypermint.DatabaseDetails.Services;
 using Frontends.Models.Hyperspin;
 using System.Windows.Input;
 using Hypermint.Base.Services;
@@ -18,8 +17,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private IDialogCoordinator _dialogService;
         private IEventAggregator _eventAggregator;
         private ISettingsHypermint _settingsService;
-        private IMultiSystemRepo _multiSystemRepo;
-        private IHyperspinXmlService _xmlService;
         private IMainMenuRepo _mainmenuRepo;
         private IFileDialogHelper _fileFolderService;
         private IHyperspinManager _hyperspinManager;
@@ -29,15 +26,13 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
         #region Constructors
         public SaveMultiSystemViewModel(IDialogCoordinator dialogService, CustomDialog customDialog, IEventAggregator ea,
-            ISettingsHypermint settingsService, IMultiSystemRepo multiSystem, IHyperspinManager hyperspinManager,
-            IHyperspinXmlService xmlService, IMainMenuRepo mainMenuRepo, IFileDialogHelper fileService, ISelectedService selected)
+            ISettingsHypermint settingsService, IHyperspinManager hyperspinManager,
+            IMainMenuRepo mainMenuRepo, IFileDialogHelper fileService, ISelectedService selected)
         {
             _dialogService = dialogService;
             _customDialog = customDialog;
             _eventAggregator = ea;
             _settingsService = settingsService;
-            _multiSystemRepo = multiSystem;
-            _xmlService = xmlService;
             _mainmenuRepo = mainMenuRepo;
             _fileFolderService = fileService;
             _hyperspinManager = hyperspinManager;
@@ -227,94 +222,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             var hsPath = _settingsService.HypermintSettings.HsPath;
             SettingsTemplate = _fileFolderService.SetFileDialog(hsPath);
         }
-
-        //private void GenerateMediaItems(string hsPath)
-        //{
-        //    foreach (var game in _multiSystemRepo.MultiSystemList)
-        //    {
-        //        ProgressMessage = $"Media for {game.Description}";
-        //        CopyArtworks(ref hsPath, game);
-        //        CopyThemes(ref hsPath, game);
-        //        CopyVideos(ref hsPath, game);
-        //        CopyWheels(ref hsPath, game);
-        //    }
-        //}
-        //private void CopyVideos(ref string hsPath, Game game)
-        //{
-        //    var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Video, game.RomName + ".mp4");
-        //    var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Video, game.RomName + ".mp4");
-
-        //    if (!File.Exists(tempSymlinkFile))
-        //    {
-        //        if (File.Exists(FileToLink))
-        //        {
-        //            SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-        //            return;
-        //        }
-        //    }
-
-        //    FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Video, game.RomName + ".flv");
-        //    tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Video, game.RomName + ".flv");
-
-        //    if (File.Exists(FileToLink))
-        //    {
-        //        if (CreateSymbolicLinks)
-        //            SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-        //        else
-        //            File.Copy(FileToLink, tempSymlinkFile, true);
-        //    }
-        //}
-        //private void CopyArtworks(ref string hsPath, Game game)
-        //{
-        //    for (int i = 1; i < 5; i++)
-        //    {
-        //        var FileToLink = Path.Combine(hsPath, Root.Media, game.System, "Images\\Artwork" + i, game.RomName + ".png");
-        //        var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, "Images\\Artwork" + i, game.RomName + ".png");
-
-        //        if (!File.Exists(tempSymlinkFile))
-        //        {
-        //            if (File.Exists(FileToLink))
-        //            {
-        //                if (CreateSymbolicLinks)
-        //                    SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-        //                else
-        //                    File.Copy(FileToLink, tempSymlinkFile, true);
-        //            }
-        //        }
-        //    }
-        //}
-        //private void CopyWheels(ref string hsPath, Game game)
-        //{
-        //    var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Images.Wheels, game.RomName + ".png");
-        //    var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Images.Wheels, game.RomName + ".png");
-
-        //    if (File.Exists(FileToLink))
-        //    {
-        //        if (CreateSymbolicLinks)
-        //            SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-        //        else
-        //            File.Copy(FileToLink, tempSymlinkFile, true);
-        //    }
-        //}
-        //private void CopyThemes(ref string hsPath, Game game)
-        //{
-        //    var FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Themes, game.RomName + ".zip");
-        //    var tempSymlinkFile = Path.Combine(hsPath, Root.Media, MultiSystemName, Root.Themes, game.RomName + ".zip");
-
-        //    if (DefaultTheme)
-        //    {
-        //        if (!File.Exists(tempSymlinkFile))
-        //        {
-        //            if (!File.Exists(FileToLink))
-        //                FileToLink = Path.Combine(hsPath, Root.Media, game.System, Root.Themes, "default.zip");
-        //        }
-        //    }
-
-        //    if (CreateSymbolicLinks)
-        //        SymbolicLinkService.CheckThenCreate(FileToLink, tempSymlinkFile);
-        //    else
-        //        File.Copy(FileToLink, tempSymlinkFile, true);
-        //}
 
         #endregion
     }
