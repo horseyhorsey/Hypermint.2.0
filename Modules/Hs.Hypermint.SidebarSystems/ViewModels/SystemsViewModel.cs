@@ -15,7 +15,6 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using Frontends.Models.Hyperspin;
 using System.Xml;
-using System.Linq;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {

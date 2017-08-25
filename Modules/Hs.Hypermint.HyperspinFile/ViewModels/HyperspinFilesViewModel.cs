@@ -30,27 +30,26 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         private ISettingsHypermint _settingsRepo;
         private ISelectedService _selectedService;
         private IEventAggregator _eventAggregator;
+        private IImageEditService _imageEdit;
+        private IRegionManager _regionManager;
+        private IFolderExplore _folderExplore;
+        private ITrashMaster _trashMaster;
+        private IHyperspinManager _hyperspinManager;
         #endregion
 
         #region Constructors
-        public HyperspinFilesViewModel(IEventAggregator ea, ISettingsHypermint settings, IAuditer al,
+        public HyperspinFilesViewModel(IEventAggregator ea, ISettingsHypermint settings,
              IRegionManager regionManager, IFolderExplore folderExplore, ITrashMaster trashMaster,
             ISelectedService selectedService, IImageEditService imageEdit, IHyperspinManager hyperspinManager)
         {
             _eventAggregator = ea;
             _settingsRepo = settings;
 
-
-#warning 69 need to reenable
-            //IAuditer auditRepo,
-            //_auditRepo = auditRepo;
-
             _selectedService = selectedService;
             _imageEdit = imageEdit;
             _regionManager = regionManager;
             _folderExplore = folderExplore;
             _trashMaster = trashMaster;
-            _auditRepo = al;
             _hyperspinManager = hyperspinManager;
 
 
@@ -157,13 +156,6 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         private List<UnusedMediaFile> UnusedVideos;
 
         private string mediaTypeName = "Controls";
-        private IImageEditService _imageEdit;
-        private IRegionManager _regionManager;
-        private IFolderExplore _folderExplore;
-        private ITrashMaster _trashMaster;
-        private IAuditer _auditRepo;
-        private IHyperspinManager _hyperspinManager;
-
         public string MediaTypeName
         {
             get { return mediaTypeName; }
@@ -262,65 +254,67 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         #endregion        
 
         #region Support Methods
+        [Obsolete("Use helpers to get unused files")]
         private void BuildUnusedMediaList(string obj)
         {
-            UnusedWheels = new List<UnusedMediaFile>();
-            BuildList(ref UnusedWheels, Images.Wheels);
+            //UnusedWheels = new List<UnusedMediaFile>();
+            //BuildList(ref UnusedWheels, Images.Wheels);
 
-            UnusedArtwork1 = new List<UnusedMediaFile>();
-            BuildList(ref UnusedArtwork1, Images.Artwork1);
+            //UnusedArtwork1 = new List<UnusedMediaFile>();
+            //BuildList(ref UnusedArtwork1, Images.Artwork1);
 
-            UnusedArtwork2 = new List<UnusedMediaFile>();
-            BuildList(ref UnusedArtwork2, Images.Artwork2);
+            //UnusedArtwork2 = new List<UnusedMediaFile>();
+            //BuildList(ref UnusedArtwork2, Images.Artwork2);
 
-            UnusedArtwork3 = new List<UnusedMediaFile>();
-            BuildList(ref UnusedArtwork3, Images.Artwork3);
+            //UnusedArtwork3 = new List<UnusedMediaFile>();
+            //BuildList(ref UnusedArtwork3, Images.Artwork3);
 
-            UnusedArtwork4 = new List<UnusedMediaFile>();
-            BuildList(ref UnusedArtwork4, Images.Artwork4);
+            //UnusedArtwork4 = new List<UnusedMediaFile>();
+            //BuildList(ref UnusedArtwork4, Images.Artwork4);
 
-            UnusedThemes = new List<UnusedMediaFile>();
-            BuildList(ref UnusedThemes, Root.Themes);
+            //UnusedThemes = new List<UnusedMediaFile>();
+            //BuildList(ref UnusedThemes, Root.Themes);
 
-            UnusedVideos = new List<UnusedMediaFile>();
-            BuildList(ref UnusedVideos, Root.Video);
+            //UnusedVideos = new List<UnusedMediaFile>();
+            //BuildList(ref UnusedVideos, Root.Video);
 
         }
 
+        [Obsolete("Use helpers to get unused files")]
         private void BuildList(ref List<UnusedMediaFile> mediaList, string mediaPath)
         {
-            var pathToScan = Path.Combine(
-                _settingsRepo.HypermintSettings.HsPath,
-                Root.Media, _selectedService.CurrentSystem,
-                mediaPath);
+            //var pathToScan = Path.Combine(
+            //    _settingsRepo.HypermintSettings.HsPath,
+            //    Root.Media, _selectedService.CurrentSystem,
+            //    mediaPath);
 
-            var files = Directory.GetFiles(pathToScan);
+            //var files = Directory.GetFiles(pathToScan);
 
-            foreach (string file in files)
-            {
-                var fileNameNoExt = Path.GetFileNameWithoutExtension(file);
-                var fileNameExt = Path.GetExtension(file);
+            //foreach (string file in files)
+            //{
+            //    var fileNameNoExt = Path.GetFileNameWithoutExtension(file);
+            //    var fileNameExt = Path.GetExtension(file);
 
-                try
-                {
-                    if (fileNameNoExt.ToLower() != "thumbs" && !file.ToLower().Contains("default.zip"))
-                    {
-                        var fileMatchedToGame = _auditRepo.AuditsGameList.Where(x => x.RomName == fileNameNoExt).Any();
+            //    try
+            //    {
+            //        if (fileNameNoExt.ToLower() != "thumbs" && !file.ToLower().Contains("default.zip"))
+            //        {
+            //            var fileMatchedToGame = _auditRepo.AuditsGameList.Where(x => x.RomName == fileNameNoExt).Any();
 
-                        if (!fileMatchedToGame)
-                            mediaList.Add(new UnusedMediaFile()
-                            {
-                                FileName = fileNameNoExt,
-                                Extension = fileNameExt
-                            });
-                    }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+            //            if (!fileMatchedToGame)
+            //                mediaList.Add(new UnusedMediaFile()
+            //                {
+            //                    FileName = fileNameNoExt,
+            //                    Extension = fileNameExt
+            //                });
+            //        }
+            //    }
+            //    catch (Exception)
+            //    {
+            //        throw;
+            //    }
 
-            }
+            //}
         }
 
         private void SetCurrentName(string[] romAndColumn)

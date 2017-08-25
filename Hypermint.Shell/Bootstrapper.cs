@@ -74,43 +74,23 @@ namespace Hypermint.Shell
             Container.RegisterType<IApplicationCommands, ApplicationCommandsProxy>();
             Container.RegisterType<IDialogCoordinator, DialogCoordinator>();
 
-#warning reenable this with new
-            Container.RegisterInstance<IAuditer>(Container.Resolve<Auditer>());
-
             Container.RegisterInstance<ISettingsHypermint>(Container.Resolve<SettingsRepo>());
             Container.RegisterInstance<IFileFolderChecker>(Container.Resolve<FileFolderChecker>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
-            Container.RegisterInstance<IFileDialogHelper>(Container.Resolve<Base.Services.FileFolderService>());
+            Container.RegisterInstance<IFileDialogHelper>(Container.Resolve<FileDialogHelper>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());
             Container.RegisterInstance<IGameLaunch>(Container.Resolve<GameLaunch>());
-            Container.RegisterInstance<IRlScan>(Container.Resolve<RlScan>());
-
-            Container.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());            
-
-            Container.RegisterType<IRocketLaunchStatProvider, RocketLaunchStatProvider>(
-                new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<ISearchYoutube, SearchYoutubeService>(
-                new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<IGameRepo, GameRepo>(
-                new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<IPdfService, PdfService>(
-                new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<IImageEditService, ImageEditRepo>(
-                new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<ITrashMaster, TrashMaster>(
-                new ContainerControlledLifetimeManager());
+            Container.RegisterInstance<IRlScan>(Container.Resolve<RlScan>());           
+            
+            Container.RegisterType<IImageEditService, ImageEditor>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IPdfService, PdfService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ISearchYoutube, SearchYoutubeService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ITrashMaster, TrashMaster>(new ContainerControlledLifetimeManager());
 
             //New providers
-            Container.RegisterType<IHyperspinXmlDataProvider, HyperspinDataProvider>(
-                new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<IHyperspinManager, HyperspinManager>(
-                new ContainerControlledLifetimeManager());
+            Container.RegisterType<IHyperspinManager, HyperspinManager>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IHyperspinXmlDataProvider, HyperspinDataProvider>( new ContainerControlledLifetimeManager());            
+            Container.RegisterType<IRocketLaunchStatProvider, RocketLaunchStatProvider>( new ContainerControlledLifetimeManager());
 
             RegisterNavigationTypes();
 

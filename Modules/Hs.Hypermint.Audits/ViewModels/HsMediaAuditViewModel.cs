@@ -5,15 +5,12 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.ComponentModel;
-using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Hypermint.Base.Events;
 using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using System.Linq;
-using System.Collections.Generic;
-using Frontends.Models.Hyperspin;
 using System.Windows.Input;
 using Hypermint.Base.Model;
 
@@ -22,7 +19,6 @@ namespace Hs.Hypermint.Audits.ViewModels
     public class HsMediaAuditViewModel : HyperMintModelBase, IGamesList
     {
         #region Fields                
-        private IGameRepo _gameRepo;
         private ISearchYoutube _youtube;
         private IDialogCoordinator _dialogService;
         private IHyperspinManager _hyperspinManager;
@@ -30,14 +26,12 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         //IAuditer auditer
         #region Constructor
-        public HsMediaAuditViewModel(ISettingsHypermint settings, IHyperspinManager hsManager, IGameRepo gameRepo,
-            IEventAggregator eventAggregator, IAuditer auditer,
-            IDialogCoordinator dialogService,
+        public HsMediaAuditViewModel(ISettingsHypermint settings, IHyperspinManager hsManager,
+            IEventAggregator eventAggregator, IDialogCoordinator dialogService,
             ISelectedService selectedService, IGameLaunch gameLaunch,
             ISearchYoutube youtube) : base(eventAggregator, selectedService, gameLaunch, settings)
         {
 
-            _gameRepo = gameRepo;
             _youtube = youtube;
             _dialogService = dialogService;
             _hyperspinManager = hsManager;

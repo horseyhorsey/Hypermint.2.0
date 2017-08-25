@@ -2,12 +2,10 @@
 using Hypermint.Base.Models;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.IO;
-using System;
 
-namespace Hs.Hypermint.Services
+namespace Hypermint.Base.Services
 {
-    public class ImageEditRepo : IImageEditService
+    public class ImageEditor : IImageEditService
     {
         /// <summary>
         /// 
@@ -51,7 +49,7 @@ namespace Hs.Hypermint.Services
                 }
                 else if (preset.StretchImage)
                 {
-                    if (preset.FlipOn)                    
+                    if (preset.FlipOn)
                         tempImage = FlipImage(imgIn, preset.FlipL);
 
                     if (tempImage != null)
@@ -80,7 +78,7 @@ namespace Hs.Hypermint.Services
                             finalImage = ResizeImage(tempImage, new Size(imgIn.Width, imgIn.Height));
                         else
                             finalImage = ResizeImage(imgIn, new Size(imgIn.Width, imgIn.Height));
-                    }                     
+                    }
                 }
 
                 try

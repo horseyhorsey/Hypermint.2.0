@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Hypermint.Base.Services
 {
-    public class FileFolderService : IFileDialogHelper
+    public class FileDialogHelper : IFileDialogHelper
     {
         #region Properties        
         public string SelectedFolder { get; set; }
@@ -35,15 +35,21 @@ namespace Hypermint.Base.Services
         /// <summary>
         /// Opens a folder browser and sets SelectedFolder
         /// </summary>
-        public void SetFolderDialog()
+        public bool SetFolderDialog()
         {
+            bool result = false;
             var folderBrowserDialog = new FolderBrowserDialog();
-            var result = folderBrowserDialog.ShowDialog();
+            var dialogResult = folderBrowserDialog.ShowDialog();
 
-            if (result == DialogResult.OK)
+            if (dialogResult == DialogResult.OK)
+            {
                 SelectedFolder = folderBrowserDialog.SelectedPath;
+                result = true;
+            }
+                        
+            return result;
+        }
 
-        } 
         #endregion
 
     }

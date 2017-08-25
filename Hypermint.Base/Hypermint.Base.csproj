@@ -36,6 +36,12 @@
     <Reference Include="Frontends.Models, Version=1.0.0.20, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Frontends.Models.1.0.20\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.11.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.11\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0104\lib\net40-client\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -111,7 +117,7 @@
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Events\YoutubeEvents.cs" />
     <Compile Include="Helpers\Distance.cs" />
-    <Compile Include="Helpers\FileDialogHelper.cs" />
+    <Compile Include="Services\FileDialogHelper.cs" />
     <Compile Include="Helpers\RegionHelper.cs" />
     <Compile Include="Interfaces\IAuditer.cs" />
     <Compile Include="Interfaces\IAuditerRl.cs" />
@@ -125,8 +131,6 @@
     <Compile Include="Interfaces\IHyperspinDataProvider.cs" />
     <Compile Include="Interfaces\IHyperspinManager.cs" />
     <Compile Include="Interfaces\IImageEditService.cs" />
-    <Compile Include="Interfaces\IMainMenuRepo.cs" />
-    <Compile Include="Interfaces\IMultiSystemRepo.cs" />
     <Compile Include="Interfaces\IPdfService.cs" />
     <Compile Include="Interfaces\IRlScan.cs" />
     <Compile Include="Interfaces\ISearchYoutube.cs" />
@@ -150,15 +154,17 @@
     <Compile Include="Constants\RegionNames.cs" />
     <Compile Include="Services\AviSynthScriptBuilder.cs" />
     <Compile Include="Services\AviSynthScripter.cs" />
-    <Compile Include="Services\FileFolderService.cs" />
     <Compile Include="Services\FlyoutService.cs" />
     <Compile Include="Services\IAviSynthScripter.cs" />
     <Compile Include="Interfaces\IFileDialogHelper.cs" />
     <Compile Include="Services\IFlyoutService.cs" />
+    <Compile Include="Services\ImageEditor.cs" />
     <Compile Include="Services\ISelectedService.cs" />
+    <Compile Include="Services\PdfService.cs" />
     <Compile Include="Services\ScriptBuilder.cs" />
     <Compile Include="Services\SearchYoutubeService.cs" />
     <Compile Include="Services\SelectedService.cs" />
+    <Compile Include="Services\TrashMaster.cs" />
     <Compile Include="SettingsRepo.cs" />
   </ItemGroup>
   <ItemGroup>

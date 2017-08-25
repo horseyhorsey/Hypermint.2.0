@@ -84,25 +84,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Auditer.cs" />
     <Compile Include="FileFolderChecker.cs" />
     <Compile Include="FileFolderService.cs" />
     <Compile Include="Helpers\IniFileReader.cs" />
     <Compile Include="Helpers\RlStaticMethods.cs" />
-    <Compile Include="ImageEditRepo.cs" />
-    <Compile Include="GameRepo.cs" />
-    <Compile Include="GenreRepo.cs" />
     <Compile Include="Helpers\IniFile.cs" />
-    <Compile Include="MainMenuRepo.cs" />
-    <Compile Include="PdfService.cs" />
-    <Compile Include="RlMediaFolders.cs" />
-    <Compile Include="RocketMediaFolderScanner.cs" />
-    <Compile Include="RocketMediaFolderScanResult.cs" />
-    <Compile Include="RocketSettingsRepo.cs" />
-    <Compile Include="RomCheck.cs" />
     <Compile Include="ServicesModule.cs" />
-    <Compile Include="StatRepo.cs" />
-    <Compile Include="TrashMaster.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

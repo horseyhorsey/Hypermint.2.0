@@ -104,7 +104,6 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         {
             try
             {
-
                 var videoFiles = _fileChecker.GetFiles(hyperSpinVideoPath + "\\", videoExtFilter);
 
                 foreach (var video in videoFiles)

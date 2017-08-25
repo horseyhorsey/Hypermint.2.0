@@ -17,7 +17,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private IDialogCoordinator _dialogService;
         private IEventAggregator _eventAggregator;
         private ISettingsHypermint _settingsService;
-        private IMainMenuRepo _mainmenuRepo;
         private IFileDialogHelper _fileFolderService;
         private IHyperspinManager _hyperspinManager;
         #endregion
@@ -26,14 +25,12 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
         #region Constructors
         public SaveMultiSystemViewModel(IDialogCoordinator dialogService, CustomDialog customDialog, IEventAggregator ea,
-            ISettingsHypermint settingsService, IHyperspinManager hyperspinManager,
-            IMainMenuRepo mainMenuRepo, IFileDialogHelper fileService, ISelectedService selected)
+            ISettingsHypermint settingsService, IHyperspinManager hyperspinManager, IFileDialogHelper fileService, ISelectedService selected)
         {
             _dialogService = dialogService;
             _customDialog = customDialog;
             _eventAggregator = ea;
             _settingsService = settingsService;
-            _mainmenuRepo = mainMenuRepo;
             _fileFolderService = fileService;
             _hyperspinManager = hyperspinManager;
 

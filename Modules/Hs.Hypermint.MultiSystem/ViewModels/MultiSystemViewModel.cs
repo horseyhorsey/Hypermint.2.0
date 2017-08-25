@@ -22,7 +22,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         #region Services
         private IFileDialogHelper _fileFolderService;
         private ISettingsHypermint _settingsService;
-        private IMainMenuRepo _mainmenuRepo;
         private IDialogCoordinator _dialogService;
         private IHyperspinManager _hyperspinManager;
         private ISelectedService _selectedService;
@@ -32,12 +31,11 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         #region Constructors
         public MultiSystemViewModel(IEventAggregator ea, IFileDialogHelper fileService,
             IDialogCoordinator dialogService, IHyperspinManager hyperspinManager,
-          ISettingsHypermint settings, IMainMenuRepo mainMenuRepo, ISelectedService selectedService)
+          ISettingsHypermint settings, ISelectedService selectedService)
         {
             _eventAggregator = ea;
             _fileFolderService = fileService;
             _settingsService = settings;
-            _mainmenuRepo = mainMenuRepo;
             _dialogService = dialogService;
             _hyperspinManager = hyperspinManager;
             _selectedService = selectedService;
@@ -193,7 +191,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             customDialog = new CustomDialog() { Title = "Save MultiSystem" };
 
             customDialog.Content = new SaveMultiSystemView { DataContext = new SaveMultiSystemViewModel(_dialogService, customDialog,_eventAggregator,_settingsService
-                , _hyperspinManager,_mainmenuRepo,_fileFolderService, _selectedService) };
+                , _hyperspinManager,_fileFolderService, _selectedService) };
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }

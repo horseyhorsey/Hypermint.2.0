@@ -1,43 +1,22 @@
-﻿using ImageMagick;
-using Hypermint.Base.Interfaces;
-using System.IO;
-using System.Text.RegularExpressions;
+﻿using Hypermint.Base.Interfaces;
+using ImageMagick;
+using iTextSharp.text.pdf;
 using System;
 using System.Drawing;
-using System.Windows.Media.Imaging;
+using System.IO;
 using System.Windows.Media;
-using iTextSharp.text.pdf;
+using System.Windows.Media.Imaging;
 
-namespace Hs.Hypermint.Services
+namespace Hypermint.Base.Services
 {
     public class PdfService : IPdfService
     {
-        /// <summary>
-        /// This METHOD IS FLAKEY, NO GOOD!
-        /// </summary>
-        /// <param name="pdfFile"></param>
-        /// <returns></returns>        
-        //public int GetNumberOfPdfPages(string pdfFile)
-        //{
-        //    int pageCount = 0;
-
-        //    using (StreamReader sr = new StreamReader(File.OpenRead(pdfFile)))
-        //    {
-        //        Regex regex = new Regex(@"/Type\s*/Page[^s]");
-        //        MatchCollection matches = regex.Matches(sr.ReadToEnd());
-
-        //        pageCount = matches.Count;
-        //    }
-
-        //    return pageCount;
-        //}
-
         public int GetNumberOfPdfPages(string pdfFile)
         {
             int pageCount = 0;
 
             try
-            {                
+            {
                 using (var pdfStream = new FileStream(pdfFile, FileMode.Open))
                 {
                     var pdfReader = new PdfReader(pdfStream);
@@ -48,7 +27,7 @@ namespace Hs.Hypermint.Services
 
             }
             catch (Exception)
-            {                
+            {
             }
 
 
@@ -75,7 +54,7 @@ namespace Hs.Hypermint.Services
 
                     return null;
                 }
-                
+
 
                 return SetBitmapImageFromBitmap(collection.ToBitmap(System.Drawing.Imaging.ImageFormat.Jpeg));
             }
@@ -88,7 +67,7 @@ namespace Hs.Hypermint.Services
                 var hBitmap = source.GetHbitmap();
 
                 return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                    hBitmap, IntPtr.Zero, 
+                    hBitmap, IntPtr.Zero,
                     System.Windows.Int32Rect.Empty,
                     BitmapSizeOptions.FromEmptyOptions());
 
