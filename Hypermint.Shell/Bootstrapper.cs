@@ -85,18 +85,7 @@ namespace Hypermint.Shell
             Container.RegisterInstance<IGameLaunch>(Container.Resolve<GameLaunch>());
             Container.RegisterInstance<IRlScan>(Container.Resolve<RlScan>());
 
-            Container.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());
-            //Container.RegisterType<IHyperspinXmlDataProvider, MainMenuRepo>(new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<IHyperspinXmlService, HyperspinXmlService>(
-                new ContainerControlledLifetimeManager());
-
-#warning this needs replacing with the helper lib
-            //Container.RegisterType<IAuditerRl, Auditer>(
-              //  new ContainerControlledLifetimeManager());
-
-            Container.RegisterType<IStatsRepo, StatRepo>(
-                new ContainerControlledLifetimeManager());
+            Container.RegisterType<IMainMenuRepo, MainMenuRepo>(new ContainerControlledLifetimeManager());            
 
             Container.RegisterType<IRocketLaunchStatProvider, RocketLaunchStatProvider>(
                 new ContainerControlledLifetimeManager());
@@ -122,12 +111,6 @@ namespace Hypermint.Shell
 
             Container.RegisterType<IHyperspinManager, HyperspinManager>(
                 new ContainerControlledLifetimeManager());
-
-            //Move these into the business layer
-            //Container.RegisterType<ISystemCreator, SystemCreator>(
-            //    new ContainerControlledLifetimeManager());
-            //Container.RegisterType<IFrontend, HyperspinFrontend>(
-            //    new ContainerControlledLifetimeManager());
 
             RegisterNavigationTypes();
 
