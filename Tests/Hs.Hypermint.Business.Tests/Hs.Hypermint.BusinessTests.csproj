@@ -36,11 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Frontends.Models, Version=1.0.0.19, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Frontends.Models.1.0.19\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    <Reference Include="Frontends.Models, Version=1.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.20\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
-    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.55, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.55\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
+    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.56, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.56\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

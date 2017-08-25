@@ -27,6 +27,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         private ISelectedService _selectedService;
         private ISettingsHypermint _settings;
         private IDialogCoordinator _dialogService;
+        private IRlScan _rlScan;
 
         #region Commands
         public ICommand ScanRlMediaCommand { get; set; }
@@ -51,6 +52,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             _selectedService = selected;
             _settings = settings;
             _dialogService = dialogService;
+            _rlScan = rlScan;
 
             //Setup the games list.
             GamesList = new ListCollectionView(_hyperspinManager.CurrentSystemsGames);
@@ -185,7 +187,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             var rlScanFolderVm = new RlScanMediaFolderViewModel(
                     _settings.HypermintSettings.RlMediaPath,
                     _settings.HypermintSettings.HsPath, obj, _selectedService.CurrentSystem, _dialogService, customDialog,
-                    _hyperspinManager.CurrentSystemsGames.Select(x => x.Game));
+                    _hyperspinManager.CurrentSystemsGames.Select(x => x.Game), _rlScan);
 
             customDialog.DataContext = rlScanFolderVm;            
 

@@ -35,12 +35,7 @@ namespace Hs.Hypermint.Services
         #region Properties
 
         public string RocketLaunchMediaFolder { get; private set; }
-        public string HyperSpinPath { get; private set; }
-
-        List<string> MediaFolders = new List<string>
-            {
-                "Backgrounds", "Artwork", "Fade"
-            };
+        public string HyperSpinPath { get; private set; }      
 
         #endregion
 
