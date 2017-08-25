@@ -11,5 +11,6 @@ namespace Hypermint.Base.Interfaces
         Task ScanBezelsAsync(IEnumerable<Game> games, string rlPath);
         Task ScanPauseAsync(IEnumerable<Game> games, string rlPath);        
         Task<RlAudit> ScanDefaultsAsync(string rlPath, string systemName);
+        Task ScanFadeAsync(IEnumerable<Game> games, string rlPath);
     }
 }

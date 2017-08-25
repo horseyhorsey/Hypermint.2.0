@@ -29,6 +29,11 @@ namespace Hs.Hypermint.Business.RocketLauncher
             return await _audit.ScanDefaultsForSystem(rlPath, systemName);
         }
 
+        public async Task ScanFadeAsync(IEnumerable<Game> games, string rlPath)
+        {
+            await _audit.ScanSystemMediaAsync(RlMediaType.Fade, games, rlPath);
+        }
+
         public async Task ScanPauseAsync(IEnumerable<Game> games, string rlPath)
         {
             await _audit.ScanSystemMediaAsync(RlMediaType.Artwork, games, rlPath);
