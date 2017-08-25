@@ -11,6 +11,9 @@ using System.Reflection;
 using System.Windows.Controls;
 using Hypermint.Base.Model;
 using Prism.Events;
+using MahApps.Metro.Controls.Dialogs;
+using Hs.Hypermint.Audits.Views;
+using System.Linq;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -22,11 +25,14 @@ namespace Hs.Hypermint.Audits.ViewModels
         private IGameLaunch gameLaunch;
         private ISettingsHypermint settings;
         private ISelectedService _selectedService;
+        private ISettingsHypermint _settings;
+        private IDialogCoordinator _dialogService;
 
         #region Commands
         public ICommand ScanRlMediaCommand { get; set; }
         public ICommand LaunchRlMode { get; set; }
         public ICommand CurrentCellChanged { get; set; }
+        public ICommand OpenScanRocketMediaFolderCommand { get; set; }
         #endregion
 
         #region Constructors
@@ -36,12 +42,15 @@ namespace Hs.Hypermint.Audits.ViewModels
 
         }
 
-        public RlAuditMediaViewModelBase(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, 
-            ISelectedService selected, IRlScan rlScan)
+        public RlAuditMediaViewModelBase(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch,
+            ISettingsHypermint settings, 
+            ISelectedService selected, IRlScan rlScan, IDialogCoordinator dialogService)
         {
             _eventAggregator = ea;
             _hyperspinManager = hyperspinManager;
             _selectedService = selected;
+            _settings = settings;
+            _dialogService = dialogService;
 
             //Setup the games list.
             GamesList = new ListCollectionView(_hyperspinManager.CurrentSystemsGames);
@@ -57,6 +66,8 @@ namespace Hs.Hypermint.Audits.ViewModels
                     settings.HypermintSettings.RlPath,
                     selected.CurrentSystem, selected.CurrentRomname, x);
             });
+
+            OpenScanRocketMediaFolderCommand = new DelegateCommand<string>(OpenScanRocketMediaFolderAsync);
         }
 
         private void OnCurrentCellChanged(object selectedGameCell)
@@ -76,6 +87,10 @@ namespace Hs.Hypermint.Audits.ViewModels
         private bool _isBusy;
         private string _currentColumnType;
         private string _currentColumnHeader;
+        private CustomDialog customDialog;
+        private IEventAggregator ea;
+        private ISelectedService selected;
+        private IRlScan rlScan;
 
         public string MediaAuditHeaderInfo { get; private set; }
 
@@ -155,6 +170,25 @@ namespace Hs.Hypermint.Audits.ViewModels
             catch (Exception ex) { }
 
             return _currentColumnHeader;
+        }
+
+        /// <summary>
+        /// Opens the scan rocket media folder asynchronous. Creates a customDialog from RLScanMediaFolder view/viewmodel
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        private async void OpenScanRocketMediaFolderAsync(string obj)
+        {
+            customDialog = new CustomDialog() { Title = obj };
+
+            customDialog.Content = new RlScanMediaFolderView();
+            {
+                customDialog.DataContext = new RlScanMediaFolderViewModel(
+                    _settings.HypermintSettings.RlMediaPath, 
+                    _settings.HypermintSettings.HsPath, obj, _selectedService.CurrentSystem, _dialogService, customDialog, 
+                    _hyperspinManager.CurrentSystemsGames.Select(x => x.Game));
+            };
+
+            await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }
 
         /// <summary>

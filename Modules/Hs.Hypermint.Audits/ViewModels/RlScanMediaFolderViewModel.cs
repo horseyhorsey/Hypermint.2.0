@@ -14,6 +14,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
+using Frontends.Models.Hyperspin;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -21,25 +22,26 @@ namespace Hs.Hypermint.Audits.ViewModels
     {
         const string patterns = @"\(.*\)";
 
-        public RlScanMediaFolderViewModel(string rlMediaFolder, string hsFolder, string mediaFolderName, string systemName, IGameRepo gameRepo,
-            IDialogCoordinator dialogService, CustomDialog customDialog)
+        public RlScanMediaFolderViewModel(string rlMediaFolder, string hsFolder, string mediaFolderName, string systemName,
+            IDialogCoordinator dialogService, CustomDialog customDialog, IEnumerable<Game> gamesList)
         {
             rocketMediaScanner = new RocketMediaFolderScanner(rlMediaFolder, hsFolder);
             CurrentMediaFolder = Path.Combine(rlMediaFolder, mediaFolderName, systemName);
             Directories = rocketMediaScanner.GetAllFolders(CurrentMediaFolder);
-            Results = rocketMediaScanner.MatchFoldersToGames(Directories, gameRepo);
+            Results = rocketMediaScanner.MatchFoldersToGames(Directories, gamesList);
 
+            //REDUNDANT
             //Go over games and create list marking whether a folder is matched
-            var games = gameRepo.GamesList;
-            var games2 = new ObservableCollection<TempGame>();
-            foreach (var game in games)
-            {
-                games2.Add(new TempGame
-                {
-                    HasFolder = Results.MatchedFolders.Any(x => x == game.RomName),
-                    RomName = game.RomName
-                });
-            }
+            //var games = gameRepo.GamesList;
+            //var games2 = new ObservableCollection<TempGame>();
+            //foreach (var game in games)
+            //{
+            //    games2.Add(new TempGame
+            //    {
+            //        HasFolder = Results.MatchedFolders.Any(x => x == game.RomName),
+            //        RomName = game.RomName
+            //    });
+            //}
 
             UnmatchedFolders = new ObservableCollection<UnMatchedFolder>();
 
@@ -48,7 +50,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 UnmatchedFolders.Add(new UnMatchedFolder { FolderName = folder });
             });
 
-            CurrentGames = games2;
+            CurrentGames = new ObservableCollection<TempGame>(gamesList.Select(x => new TempGame { RomName = x.RomName, HasFolder = Results.MatchedFolders.Any(y => y == x.RomName) }));
 
             GamesFolders = new ListCollectionView(CurrentGames);
 
