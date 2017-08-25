@@ -22,39 +22,31 @@ namespace Hs.Hypermint.Audits.ViewModels
     {
         const string patterns = @"\(.*\)";
 
+        #region Commands
+        public ICommand CloseCommand { get; private set; }
+        public ICommand MatchFoldersCommand { get; private set; }
+        public ICommand RenameCommand { get; private set; }
+        public ICommand ClearMatchedCommand { get; private set; }
+        public ICommand ClearSelectedCommand { get; private set; }
+
+        public ICommand ScanForMappedFoldersCommand { get; private set; }
+        #endregion
+
+        private IEnumerable<Game> _games;
+
         public RlScanMediaFolderViewModel(string rlMediaFolder, string hsFolder, string mediaFolderName, string systemName,
             IDialogCoordinator dialogService, CustomDialog customDialog, IEnumerable<Game> gamesList)
         {
             rocketMediaScanner = new RocketMediaFolderScanner(rlMediaFolder, hsFolder);
             CurrentMediaFolder = Path.Combine(rlMediaFolder, mediaFolderName, systemName);
-            Directories = rocketMediaScanner.GetAllFolders(CurrentMediaFolder);
-            Results = rocketMediaScanner.MatchFoldersToGames(Directories, gamesList);
 
-            //REDUNDANT
-            //Go over games and create list marking whether a folder is matched
-            //var games = gameRepo.GamesList;
-            //var games2 = new ObservableCollection<TempGame>();
-            //foreach (var game in games)
-            //{
-            //    games2.Add(new TempGame
-            //    {
-            //        HasFolder = Results.MatchedFolders.Any(x => x == game.RomName),
-            //        RomName = game.RomName
-            //    });
-            //}
-
+            //Collection views
             UnmatchedFolders = new ObservableCollection<UnMatchedFolder>();
-
-            Results.UnMatchedFolders.ForEach(folder =>
-            {
-                UnmatchedFolders.Add(new UnMatchedFolder { FolderName = folder });
-            });
-
-            CurrentGames = new ObservableCollection<TempGame>(gamesList.Select(x => new TempGame { RomName = x.RomName, HasFolder = Results.MatchedFolders.Any(y => y == x.RomName) }));
-
+            CurrentGames = new ObservableCollection<TempGame>();
             GamesFolders = new ListCollectionView(CurrentGames);
+            UnmatchedFoldersView = new ListCollectionView(UnmatchedFolders);
 
-            UnmatchedFoldersView = new ListCollectionView(UnmatchedFolders);            
+            _games = gamesList;
 
             CloseCommand = new DelegateCommand(async () =>
             {
@@ -80,7 +72,9 @@ namespace Hs.Hypermint.Audits.ViewModels
             {
                 RenameUnmatchedFolders();
             });
-        }        
+
+            ScanForMappedFoldersCommand = new DelegateCommand(async () => await LoadAndScanFolders());
+        }
 
         #region Properties
 
@@ -157,17 +151,45 @@ namespace Hs.Hypermint.Audits.ViewModels
             }
         }
 
+        private bool _isBusy = true;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { SetProperty(ref _isBusy, value); }
+        }
+
         public string CurrentMediaFolder { get; private set; }
 
         #endregion
 
-        #region Commands
-        public ICommand CloseCommand { get; private set; }
-        public ICommand MatchFoldersCommand { get; private set; }
-        public ICommand RenameCommand { get; private set; }
-        public ICommand ClearMatchedCommand { get; private set; }
-        public ICommand ClearSelectedCommand { get; private set; }        
-        #endregion
+        public async Task LoadAndScanFolders()
+        {
+            IsBusy = false;
+
+            try
+            {
+                CurrentGames.Clear();
+
+                await Task.Run(() =>
+                 {
+                     Directories = rocketMediaScanner.GetAllFolders(CurrentMediaFolder);
+                     Results = rocketMediaScanner.MatchFoldersToGames(Directories, _games);
+                 });
+
+                Results.UnMatchedFolders.ForEach(folder =>
+                {
+                    UnmatchedFolders.Add(new UnMatchedFolder { FolderName = folder });
+                });
+
+                var games = _games.Select(x => new TempGame { RomName = x.RomName, HasFolder = Results.MatchedFolders.Any(y => y == x.RomName) });
+                foreach (var game in games)
+                {
+                    CurrentGames.Add(game);
+                }
+            }
+            catch { }
+            finally { IsBusy = true; }
+        }
 
         #region Support Methods
 
@@ -461,7 +483,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 get { return _recommendedName; }
                 set { SetProperty(ref _recommendedName, value); }
             }
-        } 
+        }
         #endregion
     }
 }

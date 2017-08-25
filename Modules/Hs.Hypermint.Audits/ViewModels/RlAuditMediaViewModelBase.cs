@@ -181,12 +181,13 @@ namespace Hs.Hypermint.Audits.ViewModels
             customDialog = new CustomDialog() { Title = obj };
 
             customDialog.Content = new RlScanMediaFolderView();
-            {
-                customDialog.DataContext = new RlScanMediaFolderViewModel(
-                    _settings.HypermintSettings.RlMediaPath, 
-                    _settings.HypermintSettings.HsPath, obj, _selectedService.CurrentSystem, _dialogService, customDialog, 
+
+            var rlScanFolderVm = new RlScanMediaFolderViewModel(
+                    _settings.HypermintSettings.RlMediaPath,
+                    _settings.HypermintSettings.HsPath, obj, _selectedService.CurrentSystem, _dialogService, customDialog,
                     _hyperspinManager.CurrentSystemsGames.Select(x => x.Game));
-            };
+
+            customDialog.DataContext = rlScanFolderVm;            
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }
