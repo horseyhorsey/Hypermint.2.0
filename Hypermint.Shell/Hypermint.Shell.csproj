@@ -221,10 +221,6 @@
       <Project>{8a62e2d1-32e9-4fee-9781-d397b73c80c4}</Project>
       <Name>Hs.Hypermint.FilesViewer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modules\Hs.Hypermint.GameLaunch\Hs.Hypermint.GameLaunch.csproj">
-      <Project>{5bb9c221-f83b-40bc-a322-99e537ac07e2}</Project>
-      <Name>Hs.Hypermint.GameLaunch</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.HyperspinFile\Hs.Hypermint.HyperspinFile.csproj">
       <Project>{a95d1749-9183-4b23-81bc-253feda2cb58}</Project>
       <Name>Hs.Hypermint.HyperspinFile</Name>
