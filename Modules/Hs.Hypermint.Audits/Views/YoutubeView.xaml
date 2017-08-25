@@ -101,7 +101,7 @@
                 <CheckBox Content="Description" IsChecked="{Binding IncludeDescription}"
                              ToolTip="Include description in search" Margin="5"/>
                 
-                <Button  Command="{Binding SearchYtCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
+                <Button IsDefault="True"  Command="{Binding SearchYtCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
                 ToolTip="Search">
                     <Rectangle Width="15" Height="15"
