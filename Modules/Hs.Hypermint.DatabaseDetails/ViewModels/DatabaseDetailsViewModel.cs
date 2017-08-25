@@ -1,22 +1,8 @@
-﻿using Hypermint.Base.Interfaces;
-using Prism.Commands;
-using System;
-using System.ComponentModel;
-using System.Windows.Data;
-using Prism.Events;
+﻿using Prism.Events;
 using Hypermint.Base;
-using System.Collections.Generic;
 using Hypermint.Base.Services;
-using System.Collections;
-using Hypermint.Base.Models;
 using MahApps.Metro.Controls.Dialogs;
-using Hypermint.Base.Events;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Frontends.Models.Hyperspin;
-using Hypermint.Base.Model;
-using System.Linq;
-using System.IO;
 
 namespace Hs.Hypermint.DatabaseDetails.ViewModels
 {
@@ -41,7 +27,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             _eventAggregator = eventAggregator;
             _dialogService = dialogService;
             _hyperspinManager = hyperspinManager;
-            _selectedService = selectedService;         
+            _selectedService = selectedService;
+
+            _eventAggregator.GetEvent<GameSelectedEvent>().Subscribe(UpdateHeader);
         }
 
         #endregion
@@ -51,38 +39,33 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         public ICommand ScanRomsCommand { get; private set; }
         #endregion
 
-        #region Support Methods
-
-        [Obsolete]
-        private Task updateFavoritesForGamesList()
+        private string databaseHeaderInfo = "Hyperspin Database Editor";
+        public string DatabaseHeaderInfo
         {
-            return null;
-            //if (_selectedService != null)
-            //{
-            //    await Task.Run(() =>
-            //    {
-            //        try
-            //        {
-            //            var selectedSystemName = _selectedService.CurrentSystem;
-
-            //            //var favesList = _favouriteService.GetFavoritesForSystem
-            //            //    (selectedSystemName, _settingsRepo.HypermintSettings.HsPath);
-
-            //            foreach (var game in _hyperspinManager.CurrentSystemGames)
-            //            {
-            //                if (favesList.Contains(game.RomName))
-            //                    game.IsFavorite = true;
-            //            }
-            //        }
-            //        catch (Exception) { throw; }
-            //    });
-
-            //}
-
+            get { return databaseHeaderInfo; }
+            set { SetProperty(ref databaseHeaderInfo, value); }
         }
 
 
-
-        #endregion
+        /// <summary>
+        /// Updates the header with a selected rom or selected rom count
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        private void UpdateHeader(string[] obj)
+        {
+            var selectedCount = _selectedService.SelectedGames.Count;
+            if (selectedCount > 1)
+            {
+                DatabaseHeaderInfo = $"Hyperspin Database Editor: Roms selected {selectedCount}";
+            }
+            else if (selectedCount == 1)
+            {
+                DatabaseHeaderInfo = $"Hyperspin Database Editor: Roms selected {_selectedService.SelectedGames[0].RomName}";
+            }
+            else
+            {
+                DatabaseHeaderInfo = $"Hyperspin Database Editor";
+            }
+        }
     }
 }
