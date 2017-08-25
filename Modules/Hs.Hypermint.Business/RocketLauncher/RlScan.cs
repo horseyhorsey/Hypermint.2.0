@@ -18,9 +18,10 @@ namespace Hs.Hypermint.Business.RocketLauncher
 
         public string RlPath { get; set; }
 
-        public async Task<bool> ScanBezelsAsync(IEnumerable<Game> games, string rlPath)
+        public async Task ScanBezelsAsync(IEnumerable<Game> games, string rlPath)
         {
-            return await ScanBezelsAsync(games, rlPath);
+            await _audit.ScanSystemMediaAsync(RlMediaType.Bezels, games, rlPath);
+            await _audit.ScanSystemMediaAsync(RlMediaType.Cards, games, rlPath);
         }
 
         public async Task<RlAudit> ScanDefaultsAsync(string rlPath, string systemName)
@@ -41,14 +42,5 @@ namespace Hs.Hypermint.Business.RocketLauncher
             await _audit.ScanSystemMediaAsync(RlMediaType.Videos, games, rlPath);
         }
 
-        //public async Task<bool> ScanPauseAsync(IEnumerable<Game> games, string rlPath)
-        //{
-        //    return await _audit.ScanAllSystemMediaAsync(games, rlPath);
-        //}
-
-        //public void ScanPause(IEnumerable<Game> games, string rlPath)
-        //{
-        //    //
-        //}
     }
 }

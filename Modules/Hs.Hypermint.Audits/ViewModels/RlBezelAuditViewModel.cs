@@ -33,7 +33,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             IsBusy = true;
 
             if (_hyperspinManager.CurrentSystemsGames.Count > 0)
-                   await _rlScan.ScanPauseAsync(_hyperspinManager.CurrentSystemsGames.Select(x => x.Game), _settings.HypermintSettings.RlPath + "\\Media");
+                   await _rlScan.ScanBezelsAsync(_hyperspinManager.CurrentSystemsGames.Select(x => x.Game), _settings.HypermintSettings.RlPath + "\\Media");
 
             IsBusy = false;
         }
