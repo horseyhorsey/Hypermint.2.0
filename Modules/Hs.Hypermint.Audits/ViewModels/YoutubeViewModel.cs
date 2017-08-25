@@ -17,7 +17,7 @@ using System.Windows.Data;
 namespace Hs.Hypermint.Audits.ViewModels
 {
     public class YoutubeViewModel : ViewModelBase
-    {        
+    {
 
         #region Constructors
         public YoutubeViewModel(ISearchYoutube youtube,
@@ -176,9 +176,14 @@ namespace Hs.Hypermint.Audits.ViewModels
                     searchTerm = system + " ";
             }
 
+            if (!string.IsNullOrWhiteSpace(rom))
+                IncludeRomname = true;
+
             if (IncludeRomname)
+            {
                 if (!isMainMenu(system))
                     searchTerm += rom + " ";
+            }
 
             if (IncludeDescription)
                 if (!isMainMenu(system))
@@ -245,7 +250,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 default:
                     break;
             }
-        }        
+        }
         #endregion
     }
 
