@@ -72,37 +72,6 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             SelectionChanged = new DelegateCommand<IList>(items => { OnMultipleItemsSelectionChanged(items); });
         }
 
-        /// <summary>
-        /// Called when items are changed in the view
-        /// </summary>
-        /// <param name="items">The items.</param>
-        private void OnMultipleItemsSelectionChanged(IList items)
-        {
-            if (items == null)
-            {
-                _selectedService.SelectedGames.Clear();
-                return;
-            }
-
-            try
-            {
-                _selectedService.SelectedGames.Clear();
-
-                foreach (var item in items)
-                {
-                    var game = item as GameItemViewModel;
-                    if (game.Name != null)
-                        _selectedService.SelectedGames.Add(item as GameItemViewModel);
-                }
-
-                if (items.Count > 1)
-                {
-                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
-                }
-            }
-            catch { }
-        }
-
         #endregion
 
         #region Properties
@@ -277,6 +246,37 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             {
                 // Clear the list and return to scan dialog
             }
+        }
+
+        /// <summary>
+        /// Called when items are changed in the view
+        /// </summary>
+        /// <param name="items">The items.</param>
+        private void OnMultipleItemsSelectionChanged(IList items)
+        {
+            if (items == null)
+            {
+                _selectedService.SelectedGames.Clear();
+                return;
+            }
+
+            try
+            {
+                _selectedService.SelectedGames.Clear();
+
+                foreach (var item in items)
+                {
+                    var game = item as GameItemViewModel;
+                    if (game.Name != null)
+                        _selectedService.SelectedGames.Add(item as GameItemViewModel);
+                }
+
+                if (items.Count > 1)
+                {
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
+                }
+            }
+            catch { }
         }
 
         #endregion
