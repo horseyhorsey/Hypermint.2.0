@@ -20,7 +20,8 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
         }
 
-        public RlBezelAuditViewModel(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, ISelectedService selected, IRlScan rlScan) : base(ea, hyperspinManager, gameLaunch, settings, selected, rlScan)
+        public RlBezelAuditViewModel(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, ISelectedService selected, IRlScan rlScan) :
+            base(ea, hyperspinManager, gameLaunch, settings, selected, rlScan)
         {
             _rlScan = rlScan;
             _settings = settings;
