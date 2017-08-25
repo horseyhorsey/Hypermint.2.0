@@ -64,19 +64,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             get { return _selectedGame; }
             set
             {
-                SetProperty(ref _selectedGame, value);
-                DatabaseHeaderInfo = "Selected items: " + 1;
+                SetProperty(ref _selectedGame, value);                
             }
         }
 
         public int SelectedItemsCount { get; private set; }
-
-        private string databaseHeaderInfo = "Database Editor";
-        public string DatabaseHeaderInfo
-        {
-            get { return databaseHeaderInfo; }
-            set { SetProperty(ref databaseHeaderInfo, value); }
-        }
 
         private bool _isMultiSystem;
         public bool IsMultiSystem
@@ -273,14 +265,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         _selectedService.SelectedGames.Add(item as GameItemViewModel);
                 }
 
-                if (SelectedItemsCount > 1)
+                if (SelectedItemsCount >= 1)
                 {
-                    //_eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
-                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
-                    DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
-                }                    
-                else
-                    DatabaseHeaderInfo = "";                
+                    //_eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");                    
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });                    
+                }            
             }
             catch { }
         }
