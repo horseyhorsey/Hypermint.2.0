@@ -14,7 +14,6 @@ using Hs.Hypermint.IntroVideos.Views;
 using Hs.Hypermint.Audits.Views;
 using Hs.Hypermint.DatabaseDetails.Views;
 using Hs.Hypermint.WheelCreator.Views;
-using Hs.Hypermint.GameLaunch;
 using MahApps.Metro.Controls.Dialogs;
 using Hs.Hypermint.Search.Views;
 using Hs.Hypermint.SidebarSystems;
@@ -60,8 +59,7 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.FilesViewer.FilesViewModule));            
             moduleCatalog.AddModule(typeof(Hs.Hypermint.MediaPane.MediaPaneModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.IntroVideos.IntroVideosModule));
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.Audits.AuditsModule));
-            moduleCatalog.AddModule(typeof(GameLaunchModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.Audits.AuditsModule));            
             moduleCatalog.AddModule(typeof(Hs.Hypermint.HyperspinFile.HyperspinFileModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Search.SearchModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.WheelCreator.WheelModuleInit));

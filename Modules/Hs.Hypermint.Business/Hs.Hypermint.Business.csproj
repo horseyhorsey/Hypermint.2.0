@@ -36,8 +36,8 @@
     <Reference Include="Frontends.Models, Version=1.0.0.19, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Frontends.Models.1.0.19\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
-    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.54, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.54\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
+    <Reference Include="Horsesoft.Frontends.Helper, Version=1.0.0.55, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Horsesoft.Frontends.Helper.1.0.55\lib\netstandard2.0\Horsesoft.Frontends.Helper.dll</HintPath>
     </Reference>
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
@@ -54,6 +54,7 @@
     <Compile Include="Hyperspin\HyperspinManager.cs" />
     <Compile Include="Hyperspin\HyperspinXmlDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RocketLauncher\GameLaunch.cs" />
     <Compile Include="RocketLauncher\IRlAudit.cs" />
     <Compile Include="RocketLauncher\IRocketLaunchStatProvider.cs" />
     <Compile Include="RocketLauncher\RlScan.cs" />
