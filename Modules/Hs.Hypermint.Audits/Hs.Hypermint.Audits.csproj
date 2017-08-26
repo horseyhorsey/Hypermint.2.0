@@ -172,6 +172,10 @@
       <Project>{7c5872ea-a3bd-4bfa-911c-0a9b62f2f11f}</Project>
       <Name>Hs.Hypermint.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Hs.Hypermint.VideoEdit\Hs.Hypermint.VideoEdit.csproj">
+      <Project>{AC868635-190D-427E-9D00-AE4A5F17B5C1}</Project>
+      <Name>Hs.Hypermint.VideoEdit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\HsControlsView.xaml">
