@@ -15,10 +15,12 @@ namespace Hypermint.Base
     public class GetProcessVideosEvent : PubSubEvent { }
     public class ReturnProcessVideosEvent : PubSubEvent<IEnumerable<string>> { }    
     public class ImageEditSourceEvent : PubSubEvent<string> { }
+    public class VideoSourceEvent : PubSubEvent<string> { }
     public class SetBezelImagesEvent : PubSubEvent<string> { }
     public class ClearRlFilesEvent : PubSubEvent<string> { }
     public class SystemsGenerated : PubSubEvent<string> { }
     public class UpdateFilesEvent : PubSubEvent<string[]> { }
+    public class VideoProcessItemAddedEvent : PubSubEvent<TrimVideo> { }
 
     public class AddNewSystemEvent : PubSubEvent<string> { }
     public class AddToMultiSystemEvent : PubSubEvent<IEnumerable<GameItemViewModel>> { }

@@ -117,6 +117,8 @@
     <Compile Include="Events\SettingsFlyoutEvents.cs" />
     <Compile Include="Events\YoutubeEvents.cs" />
     <Compile Include="Helpers\Distance.cs" />
+    <Compile Include="Interfaces\IMediaPlayer.cs" />
+    <Compile Include="Model\TrimVideo.cs" />
     <Compile Include="Services\FileDialogHelper.cs" />
     <Compile Include="Helpers\RegionHelper.cs" />
     <Compile Include="Interfaces\IAuditer.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Services\SearchYoutubeService.cs" />
     <Compile Include="Services\SelectedService.cs" />
     <Compile Include="Services\TrashMaster.cs" />
+    <Compile Include="Services\VideoHelper.cs" />
     <Compile Include="SettingsRepo.cs" />
   </ItemGroup>
   <ItemGroup>
