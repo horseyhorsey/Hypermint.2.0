@@ -38,14 +38,15 @@ namespace Hs.Hypermint.VideoEdit.ViewModels
                 var ff = _settings.HypermintSettings.Ffmpeg;
                 foreach (var video in VideoProcessItems)
                 {
-
                     try
                     {
                         VideoHelper.TrimVideoRange(ff, video.File, @"C:\Temp\OutputProcess.mp4", video.StartTime, video.EndTime);
                     }
                     catch (Exception ex) { }
-                }
+                }                
             });
+
+            VideoProcessItems.Clear();
         }
 
         private void OnVideoProcessAdded(TrimVideo trimVideo)
