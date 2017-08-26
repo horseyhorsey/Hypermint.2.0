@@ -66,7 +66,7 @@
                         </ContextMenuService.ContextMenu>
                     </MediaElement>
 
-                    <!--PDF CONTROLS-->
+                    <!--OTHER CONTROLS-->
                     <Grid Grid.Row="1">
                         
                         <!--PDF CONTROLS-->
@@ -137,14 +137,25 @@
                         <uc:ucImageEdit Grid.Row="1" Visibility="{Binding IsImageSource,UpdateSourceTrigger=PropertyChanged,
                                      Converter={StaticResource BoolToVisConverter}}"/>
 
-                        <DockPanel>
                         <!--VIDEO CONTROLS-->
-                        <StackPanel Visibility="{Binding ElementName=root, Path=DataContext.IsVideoSource,UpdateSourceTrigger=PropertyChanged,
+                        <DockPanel>
+                            <StackPanel Visibility="{Binding ElementName=root, Path=DataContext.IsVideoSource,UpdateSourceTrigger=PropertyChanged,
                             Converter={StaticResource BoolToVisConverter}}" HorizontalAlignment="Left" Grid.Row="1" MaxHeight="45" Orientation="Horizontal">
 
                             <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left">
 
-                                <!--PLAY-->
+                                    <!--VIDEO EDIT-->
+                                    <Button Height="35" Width="35" Command="{Binding OpenVideoEditorCommand}" ToolTip="Send to video trimmer."
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}">
+                                        <Rectangle Width="12" Height="12" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
+
+                                    <!--PLAY-->
                                 <Button Height="35" Width="35" PreviewMouseDown="PlayButtonMouseDown"
                                         HorizontalAlignment="Left" 
                                         VerticalAlignment="Top" Style="{DynamicResource MetroCircleButtonStyle}" CommandParameter="1">
