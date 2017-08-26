@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System;
 using System.Threading.Tasks;
-using Hs.Hypermint.VideoEdit.Helpers;
 using Hypermint.Base.Interfaces;
 
 namespace Hs.Hypermint.VideoEdit.ViewModels
