@@ -101,7 +101,7 @@ namespace Hs.Hypermint.Audits.ViewModels
 
             DownloadVideoCommand = new DelegateCommand(async () =>
             {
-                if (File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe"))
+                if (!File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe"))
                 {
                     System.Windows.MessageBox.Show("Cannot find youtube-dl.exe in hypermint root");
                     return;
