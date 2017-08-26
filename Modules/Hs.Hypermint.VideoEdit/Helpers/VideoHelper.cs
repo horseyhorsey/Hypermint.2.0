@@ -43,7 +43,7 @@ namespace Hs.Hypermint.VideoEdit.Helpers
             //ffmpeg - ss 00:08:00 - i Video.mp4 - ss 00:01:00 - t 00:01:00 - c copy VideoClip.mp4
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
-            Process.Start(startInfo);
+            Process.Start(startInfo).WaitForExit();
         }
     }
 }

@@ -167,7 +167,6 @@
     <Compile Include="Services\SearchYoutubeService.cs" />
     <Compile Include="Services\SelectedService.cs" />
     <Compile Include="Services\TrashMaster.cs" />
-    <Compile Include="Services\VideoHelper.cs" />
     <Compile Include="SettingsRepo.cs" />
   </ItemGroup>
   <ItemGroup>
