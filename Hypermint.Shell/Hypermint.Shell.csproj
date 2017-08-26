@@ -261,6 +261,10 @@
       <Project>{26595977-a720-409e-aa0d-bbf4c6300eb1}</Project>
       <Name>Hs.Hypermint.SidebarSystems</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.VideoEdit\Hs.Hypermint.VideoEdit.csproj">
+      <Project>{AC868635-190D-427E-9D00-AE4A5F17B5C1}</Project>
+      <Name>Hs.Hypermint.VideoEdit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.WheelCreator\Hs.Hypermint.WheelCreator.csproj">
       <Project>{ae055706-c4c1-4cd9-af7d-ef82bfb94dec}</Project>
       <Name>Hs.Hypermint.WheelCreator</Name>

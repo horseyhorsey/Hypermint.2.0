@@ -23,6 +23,7 @@ using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.Hypermint.MediaPane.Views;
 using Hs.Hypermint.Business.RocketLauncher;
 using Hs.Hypermint.Business.Hyperspin;
+using Hs.Hypermint.VideoEdit.Views;
 
 namespace Hypermint.Shell
 {
@@ -64,7 +65,8 @@ namespace Hypermint.Shell
             moduleCatalog.AddModule(typeof(Hs.Hypermint.Search.SearchModule));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.WheelCreator.WheelModuleInit));
             moduleCatalog.AddModule(typeof(Hs.Hypermint.RocklaunchStats.RocklaunchStatsModule));            
-            moduleCatalog.AddModule(typeof(Hs.Hypermint.ImageEdit.ImageEditModule));            
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.ImageEdit.ImageEditModule));
+            moduleCatalog.AddModule(typeof(Hs.Hypermint.VideoEdit.VideoEditModule));
         }
 
         protected override void ConfigureContainer()
@@ -109,6 +111,7 @@ namespace Hypermint.Shell
             Container.RegisterTypeForNavigation<SearchView>("SearchView");
             Container.RegisterTypeForNavigation<StatsView>("StatsView");
             Container.RegisterTypeForNavigation<BezelEditView>("BezelEditView");
+            Container.RegisterTypeForNavigation<VideoEditView>("VideoEditView");
 
 
             //Container.RegisterTypeForNavigation<Hs.Hypermint.SidebarSystems.Views.SystemsView>("SystemView");
