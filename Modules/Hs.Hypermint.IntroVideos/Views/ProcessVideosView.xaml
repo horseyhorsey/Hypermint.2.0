@@ -12,6 +12,19 @@
             <!--VIDEO LISTS-->
             <DataGrid Template="{StaticResource VideoGrid}"/>
         </GroupBox>
+
+        <DockPanel HorizontalAlignment="Right" Height="35" VerticalAlignment="Top">
+
+            <!--TOOLTIP-->
+            <ContentPresenter ContentTemplate="{StaticResource Tip_Rectangle}">
+                <ContentPresenter.ToolTip>
+                    <Grid>
+                        <TextBlock Text="{StaticResource Tip_IntroVideoProcess}" MaxWidth="140" TextWrapping="Wrap"/>
+                    </Grid>
+                </ContentPresenter.ToolTip>
+            </ContentPresenter>
+                        
+        </DockPanel>
     </Grid>
-    
+
 </UserControl>

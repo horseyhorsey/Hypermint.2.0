@@ -4,5 +4,15 @@
 
     <sys:String x:Key="DragDropHyperSpin">Drop &amp; drop files. If a file already exists, the dropped file will renamed and will have it's name incremented with a number.</sys:String>
     <sys:String x:Key="DragDropRocketLauncher">Drop &amp; drop files. This will show a dialog for each dropped file. Depending on the media type you will have different options to choose from.</sys:String>
-    
+
+    <sys:String x:Key="Tip_IntroVideoProcess">This list contains the videos that will go into the final script. You need to use the scan format button first to check all your videos are compatible.</sys:String>
+
+    <DataTemplate x:Key="Tip_Rectangle" >
+        <Rectangle Width="15" Height="15" Fill="White" Margin="5">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_question}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </DataTemplate>
+
 </ResourceDictionary>
