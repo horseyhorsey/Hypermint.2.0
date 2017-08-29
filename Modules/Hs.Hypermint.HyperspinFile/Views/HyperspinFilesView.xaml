@@ -54,6 +54,19 @@
                 </Rectangle>
 
             </Button>
+
+            <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="6"                    
+                    ToolTip="{StaticResource DragDropHyperSpin}" Height="25" Width="25"
+                    Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="13" Height="15"
+                                   Fill="{Binding Path=Foreground, 
+                                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_question}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+            </Button>
         </DockPanel>
         
     </Grid>

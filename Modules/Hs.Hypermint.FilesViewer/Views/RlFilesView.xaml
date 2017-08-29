@@ -134,6 +134,7 @@
     </UserControl.Resources>
 
     <Grid Margin="10" x:Name="LayoutRoot">
+        
         <GroupBox  Grid.Row="1" Grid.Column="0" Header="Rocket launcher dirs" ddrop:DragDrop.IsDropTarget="True"
             ddrop:DragDrop.DropHandler="{Binding}">
             <controls:MultiSelectTreeView x:Name="tree" Tag="{Binding}" ItemsSource="{Binding RlFiles,UpdateSourceTrigger=PropertyChanged}" SelectedItems="{Binding SelectedNodes}">
@@ -168,5 +169,49 @@
 
             </controls:MultiSelectTreeView>
         </GroupBox>
+
+        <!--TODO: ADD THESE BUTTONS BACK IN TO DELETE< ETC-->
+        <DockPanel HorizontalAlignment="Right" Height="35" VerticalAlignment="Top">
+            <!--<Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="6"
+                    Command="{Binding OpenFolderCommand}"
+                    ToolTip="Open media folder for this coloumn." Height="25" Width="25"
+                    Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="13" Height="15"
+                                   Fill="{Binding Path=Foreground, 
+                                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_folder}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+            </Button>
+
+            <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="6"
+                    Command="{Binding OpenTrashFolderCommand}"
+                    ToolTip="Open trash folder for this coloumn." Height="25" Width="25"
+                    Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="13" Height="15"
+                                   Fill="{Binding Path=Foreground, 
+                                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_delete}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+            </Button>-->
+
+            <Button VerticalAlignment="Center" HorizontalAlignment="Left" Margin="6"                    
+                    ToolTip="{StaticResource DragDropRocketLauncher}" Height="25" Width="25"
+                    Style="{DynamicResource AccentedSquareButtonStyle}">
+                <Rectangle Width="13" Height="15"
+                                   Fill="{Binding Path=Foreground, 
+                                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{DynamicResource appbar_question}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+            </Button>
+        </DockPanel>
     </Grid>
 </UserControl>

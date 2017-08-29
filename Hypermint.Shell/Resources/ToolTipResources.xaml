@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="DragDropHyperSpin">Drop &amp; drop files. If a file already exists, the dropped file will renamed and will have it's name incremented with a number.</sys:String>
+    <sys:String x:Key="DragDropRocketLauncher">Drop &amp; drop files. This will show a dialog for each dropped file. Depending on the media type you will have different options to choose from.</sys:String>
+    
+</ResourceDictionary>
