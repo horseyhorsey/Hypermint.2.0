@@ -7,10 +7,6 @@ namespace Hypermint.Base.Interfaces
     /// </summary>
     public interface ISettingsHypermint
     {
-        Setting HypermintSettings { get; set; }
-
-        void LoadHypermintSettings();
-
-        void SaveHypermintSettings();          
+        Setting HypermintSettings { get; set; }         
     }
 }

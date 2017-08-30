@@ -23,17 +23,9 @@ namespace Hypermint.Shell.ViewModels
         #region Ctors
         public SettingsFlyoutViewModel(IFileDialogHelper findDir, ISettingsHypermint settings)
         {
-            // if (settings == null) throw new ArgumentNullException("settings");
-            //_eventAggregator = eventAggregator;     
 
             _hyperMintSettings = settings;
             _fileFolderService = findDir;
-
-            //Load hypermint settings
-            if (_hyperMintSettings.HypermintSettings == null)
-            {
-                _hyperMintSettings.LoadHypermintSettings();
-            }
                 
             HyperMintSettings = _hyperMintSettings.HypermintSettings;
             
@@ -45,7 +37,7 @@ namespace Hypermint.Shell.ViewModels
             GuiThemes = new ObservableCollection<string>(MahAppTheme.AvailableThemes);
 
             //setup commands
-            SaveSettings = new DelegateCommand(SaveGuiSettings);
+            SaveSettings = new DelegateCommand(SaveUiSettings);
             FindPath = new DelegateCommand<string>(LocatePath);
 
         }
@@ -60,7 +52,7 @@ namespace Hypermint.Shell.ViewModels
             set
             {
                 SetProperty(ref _currentThemeColor, value);
-                changeGuiTheme();
+                ChangeUiTheme();
             }
         }
 
@@ -71,7 +63,7 @@ namespace Hypermint.Shell.ViewModels
             set
             {
                 SetProperty(ref _isDarkTheme, value);
-                changeGuiTheme();
+                ChangeUiTheme();
             }
         }
 
@@ -85,6 +77,61 @@ namespace Hypermint.Shell.ViewModels
         #endregion
 
         #region Support Methods
+
+        /// <summary>
+        /// Changes the UI theme.
+        /// </summary>
+        private void ChangeUiTheme()
+        {
+            string darkOrLight = string.Empty;
+            if (IsDarkTheme)
+                darkOrLight = "BaseDark";
+            else
+                darkOrLight = "BaseLight";
+
+            // now set the theme
+            try
+            {
+                MahApps.Metro.ThemeManager.ChangeAppStyle(System.Windows.Application.Current,
+                            MahApps.Metro.ThemeManager.GetAccent(CurrentThemeColor),
+                            MahApps.Metro.ThemeManager.GetAppTheme(darkOrLight));
+            }
+            catch { }
+
+        }
+
+        /// <summary>
+        /// Locate directory to set with Windows.Forms Folder Dialog
+        /// </summary>
+        /// <param name="pathName"></param>
+        private void LocatePath(string pathName)
+        {
+            var userPath = "";
+
+            _fileFolderService.SetFolderDialog();
+
+            if (!string.IsNullOrEmpty(_fileFolderService.SelectedFolder))
+            {
+                userPath = _fileFolderService.SelectedFolder;
+
+                UpdatePath(pathName, userPath);
+            }
+
+        }        
+
+        public void SaveUiSettings()
+        {
+            Properties.Settings.Default.GuiColor = CurrentThemeColor;
+            Properties.Settings.Default.GuiTheme = IsDarkTheme;
+            Properties.Settings.Default.RocketlauncherMedia = _hyperMintSettings.HypermintSettings.RlMediaPath;
+            Properties.Settings.Default.Hyperspin = _hyperMintSettings.HypermintSettings.HsPath;
+            Properties.Settings.Default.Rocketlauncher = _hyperMintSettings.HypermintSettings.RlPath;
+            Properties.Settings.Default.Icons = _hyperMintSettings.HypermintSettings.Icons;
+            Properties.Settings.Default.GhostscriptPath = _hyperMintSettings.HypermintSettings.GhostscriptPath;
+            Properties.Settings.Default.Ffmpeg = _hyperMintSettings.HypermintSettings.Ffmpeg;
+            Properties.Settings.Default.Author = _hyperMintSettings.HypermintSettings.Author;
+            Properties.Settings.Default.Save();            
+        }
 
         /// <summary>
         /// Update the local model to reflect changes to UI
@@ -113,69 +160,6 @@ namespace Hypermint.Shell.ViewModels
 
         }
 
-        private void getSavedHypermintSettings()
-        {
-            _hyperMintSettings.LoadHypermintSettings();
-        }
-
-        private void saveHypermintSettings()
-        {
-            _hyperMintSettings.SaveHypermintSettings();
-
-        }
-
-
-        /// <summary>
-        /// Locate directory to set with Windows.Forms Folder Dialog
-        /// </summary>
-        /// <param name="pathName"></param>
-        private void LocatePath(string pathName)
-        {
-            var userPath = "";
-
-            _fileFolderService.SetFolderDialog();
-
-            if (!string.IsNullOrEmpty(_fileFolderService.SelectedFolder))
-            {
-                userPath = _fileFolderService.SelectedFolder;
-
-                UpdatePath(pathName, userPath);
-            }
-
-        }
-
-        private void changeGuiTheme()
-        {
-            string darkOrLight = string.Empty;
-            if (IsDarkTheme)
-                darkOrLight = "BaseDark";
-            else
-                darkOrLight = "BaseLight";
-
-            // now set the theme
-            try
-            {
-                MahApps.Metro.ThemeManager.ChangeAppStyle(System.Windows.Application.Current,
-                            MahApps.Metro.ThemeManager.GetAccent(CurrentThemeColor),
-                            MahApps.Metro.ThemeManager.GetAppTheme(darkOrLight));
-            }
-            catch (System.Exception)
-            {
-
-
-            }
-
-        }
-
-        public void SaveGuiSettings()
-        {
-            Properties.Settings.Default.GuiColor = CurrentThemeColor;
-            Properties.Settings.Default.GuiTheme = IsDarkTheme;
-            Properties.Settings.Default.Save();
-
-            _hyperMintSettings.HypermintSettings = HyperMintSettings;
-            saveHypermintSettings();
-        }
         #endregion
 
     }

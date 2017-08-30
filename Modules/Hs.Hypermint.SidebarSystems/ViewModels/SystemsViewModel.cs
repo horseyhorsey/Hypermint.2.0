@@ -15,7 +15,6 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using Frontends.Models.Hyperspin;
 using System.Xml;
-using System.Linq;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
@@ -42,10 +41,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _settingsRepo = settings;
             _selectedService = selectedService;
             _dialogService = dialogService;
-            _hyperspinManager = hyperspinManager;
-
-            if (_settingsRepo.HypermintSettings == null)
-                _settingsRepo.LoadHypermintSettings();
+            _hyperspinManager = hyperspinManager;           
 
             // Setup the main menu database to read in all systems
             _mainMenuXmlPath = "";

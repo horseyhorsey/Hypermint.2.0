@@ -117,9 +117,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
             set { SetProperty(ref _onlyProcessMissingWheels, value); }
         }
 
-        public WheelProcessViewModel(IEventAggregator ea,
-            IGameRepo gameRepo,
-            ISelectedService selectedService,
+        public WheelProcessViewModel(IEventAggregator ea, ISelectedService selectedService,
             IFolderExplore folderExplore, IHyperspinManager hyperspinManager, ISettingsHypermint settings)
         {
             _eventAgg = ea;

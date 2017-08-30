@@ -10,6 +10,8 @@ using Hypermint.Base.Events;
 using Prism.Commands;
 using Hypermint.Base.Helpers;
 using Prism.Regions;
+using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace Hs.Hypermint.MediaPane.ViewModels
 {
@@ -63,15 +65,19 @@ namespace Hs.Hypermint.MediaPane.ViewModels
                 _eventAggregator.GetEvent<ImageEditSourceEvent>().Publish(currentImagePath);
             });
 
+            OpenVideoEditorCommand = new DelegateCommand(() =>
+            {
+                if (!File.Exists(VideoSource.LocalPath)) return;                
+
+                _eventAggregator.GetEvent<NavigateRequestEvent>().Publish("VideoEditView");
+                _eventAggregator.GetEvent<VideoSourceEvent>().Publish(VideoSource.LocalPath);
+            });
+
             ChangeMediaCommand = new DelegateCommand(() =>
             {
                 SetMediaForGameHs(new string[] { _selectedService.CurrentRomname, "Videos" });
             });
-
-            //PlayCommand = new DelegateCommand<int>((i) =>
-            //{
-            //    _eventAggregator.GetEvent<MediaCommandEvent>().Publish(i);
-            //});
+          
         }
 
         #endregion
@@ -178,9 +184,9 @@ namespace Hs.Hypermint.MediaPane.ViewModels
         #region Commands
         public DelegateCommand<string> PagePdfCommand { get; private set; }
         public DelegateCommand ImageEditCommand { get; private set; }
-
         public DelegateCommand ChangeMediaCommand { get; private set; }
-
+        public ICommand OpenVideoEditorCommand { get; set; }
+        
         #endregion
 
         #region Support Methods

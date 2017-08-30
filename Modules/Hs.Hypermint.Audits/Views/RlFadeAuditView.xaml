@@ -8,54 +8,11 @@
              d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="65"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="DatabaseGridDefault"  Grid.Row="0" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
-                   IsSynchronizedWithCurrentItem="True"
-                   SelectionMode="Single" 
-                  ItemsSource="{Binding AuditListDefaults}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="CurrentCellChanged">
-                    <prism:InvokeCommandAction 
-                            Command="{Binding CurrentCellChanged}" 
-                            CommandParameter="{Binding CurrentColumn,
-                            ElementName=DatabaseGridDefault,UpdateSourceTrigger=PropertyChanged}">
-                    </prism:InvokeCommandAction>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Fade" Binding="{Binding RomName}">
-                    <DataGridTextColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" >
-                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="5"/>
-                                <Button Style="{DynamicResource MetroCircleButtonStyle}" Height="20" Width="20" HorizontalAlignment="Left" 
-                                        ToolTip="Check Fade folders" Command="{Binding ElementName=DatabaseGridDefault,Path=DataContext.OpenScanRocketMediaFolderCommand}" CommandParameter="Fade">
-                                    <Rectangle Width="15" Height="15" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type Button}}}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_reset}"/>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Layer 1" Binding="{Binding HaveFadeLayer1}" />
-                <DataGridTextColumn Header="Layer 2" Binding="{Binding HaveFadeLayer2}"/>
-                <DataGridTextColumn Header="Layer 3" Binding="{Binding HaveFadeLayer3}"/>
-                <DataGridTextColumn Header="Layer 4" Binding="{Binding HaveFadeLayer4}"/>
-                <DataGridTextColumn Header="Info Bar" Binding="{Binding HaveInfoBar}"/>
-                <DataGridTextColumn Header="Progress Bar" Binding="{Binding HaveProgressBar}"/>
-                <DataGridTextColumn Header="7z extracting" Binding="{Binding Have7zExtract}"/>
-                <DataGridTextColumn Header="7z complete" Binding="{Binding Have7zComplete}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <DataGrid x:Name="DatabaseGridMainMenu"  Grid.Row="1" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
+        <DataGrid x:Name="DatabaseGridMainMenu"  Grid.Row="0" BorderThickness="2" AutoGenerateColumns="False" IsReadOnly="True" 
                    IsSynchronizedWithCurrentItem="True"
                    SelectionMode="Single" 
                   ItemsSource="{Binding GamesList}">
@@ -82,7 +39,7 @@
         </DataGrid>
 
         <DockPanel Grid.Row="2">
-            <Button Command="{Binding FadeScanCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
+            <Button Command="{Binding ScanRlMediaCommand}" Style="{DynamicResource MetroCircleButtonStyle}"
                 Height="40" Width="40" HorizontalAlignment="Left"
                 ToolTip="Scan fade layers" IsEnabled="{Binding ScanEnabled}">
                 <Rectangle Width="15" Height="15"

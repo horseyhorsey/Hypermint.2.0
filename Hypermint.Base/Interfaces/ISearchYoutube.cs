@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hypermint.Base.Interfaces
@@ -7,8 +9,10 @@ namespace Hypermint.Base.Interfaces
     {
         Task<List<string>> SearchAsync(string searchTerm);
 
-        IEnumerable<string> Search(string searchTerm, string systemName);
-
-        List<string> GetYoutubeMp4s(string youtubeUrl);        
+        /// <summary>
+        /// youtube-dl.exe
+        /// </summary>
+        /// <returns></returns>
+        Task YtDownload(string url, string outputPath, Action<string> outputCallback, CancellationToken token);
     }
 }

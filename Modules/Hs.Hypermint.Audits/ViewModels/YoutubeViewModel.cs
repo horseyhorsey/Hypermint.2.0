@@ -2,30 +2,54 @@
 using Hypermint.Base.Events;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
     public class YoutubeViewModel : ViewModelBase
-    {        
+    {
+        #region Fields
+        private ICollectionView videoList;
+        private ISearchYoutube _youtube;
+        private IEventAggregator _evtAggr;
+        private ISelectedService _selectedService;
+        private ISettingsHypermint _settings;
+        private IDialogCoordinator _dialog;
+        CancellationTokenSource source = new CancellationTokenSource();
+        CancellationToken token;
+        ProgressDialogController pdc = null;
+        #endregion
 
         #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="YoutubeViewModel"/> class.
+        /// </summary>
+        /// <param name="youtube">The youtube.</param>
+        /// <param name="ea">The ea.</param>
+        /// <param name="selectedService">The selected service.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="dialog">The dialog.</param>
         public YoutubeViewModel(ISearchYoutube youtube,
-            IEventAggregator ea, ISelectedService selectedService)
+            IEventAggregator ea, ISelectedService selectedService, ISettingsHypermint settings, IDialogCoordinator dialog)
         {
             _youtube = youtube;
             _evtAggr = ea;
             _selectedService = selectedService;
+            _settings = settings;
+            _dialog = dialog;            
 
             _evtAggr.GetEvent<GetVideosEvent>().Subscribe(async (x) =>
             {
@@ -74,14 +98,63 @@ namespace Hs.Hypermint.Audits.ViewModels
 
                 cancelSource.Cancel();
             });
-        }
-        #endregion
 
-        #region Fields
-        private ICollectionView videoList;
-        private ISearchYoutube _youtube;
-        private IEventAggregator _evtAggr;
-        private ISelectedService _selectedService;
+            DownloadVideoCommand = new DelegateCommand(async () =>
+            {
+                if (!File.Exists(Environment.CurrentDirectory + "\\youtube-dl.exe"))
+                {
+                    System.Windows.MessageBox.Show("Cannot find youtube-dl.exe in hypermint root");
+                    return;
+                }
+                    
+                await DownloadVideoAsync();
+            });
+        }
+
+        /// <summary>
+        /// Downloads the video asynchronous.
+        /// </summary>
+        /// <returns></returns>
+        private async Task DownloadVideoAsync()
+        {            
+            //Build the video path to Hs
+            var sys = _selectedService.CurrentSystem;
+            var rom = _selectedService.CurrentRomname;
+            var path = Path.Combine(_settings.HypermintSettings.HsPath, "Media", sys, "Video", rom + ".mp4");
+
+            //Get a new incremented filename if already exists.
+            var outputpath = VideoHelper.CreateIncrementalFileName(path);;
+
+            token = source.Token;
+            pdc = await _dialog.ShowProgressAsync(this, "", "", true, new MetroDialogSettings()
+            {
+                CancellationToken = token,                
+            });
+            pdc.SetCancelable(true);
+            pdc.Canceled += Pdc_Canceled;
+
+            await _youtube.YtDownload(SelectedVideo.VideoUrl, outputpath, Callback, token);
+
+            await pdc.CloseAsync();
+        }
+
+        private void Pdc_Canceled(object sender, EventArgs e)
+        {
+            //source.Cancel();
+
+            var p = Process.GetProcessesByName("youtube-dl");
+            if (p[0] != null)
+            {
+                p[0].Kill();
+            }
+        }
+
+        private void Callback(string arg)
+        {
+            if (pdc != null)
+                pdc.SetMessage(arg);
+        }
+
         #endregion
 
         #region Properties
@@ -150,6 +223,13 @@ namespace Hs.Hypermint.Audits.ViewModels
             set { SetProperty(ref searchTermText, value); }
         }
 
+        private YoutubeVideo _selectedVideo;
+        public YoutubeVideo SelectedVideo
+        {
+            get { return _selectedVideo; }
+            set { SetProperty(ref _selectedVideo, value); }
+        }
+
         private CancellationTokenSource cancelSource;
         #endregion
 
@@ -158,6 +238,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         public DelegateCommand AuditViewCommand { get; private set; }
         public DelegateCommand SearchYtCommand { get; private set; }
         public DelegateCommand CancelSearchCommand { get; private set; }
+        public ICommand DownloadVideoCommand { get; set; }
 
         #endregion
 
@@ -176,9 +257,14 @@ namespace Hs.Hypermint.Audits.ViewModels
                     searchTerm = system + " ";
             }
 
+            if (!string.IsNullOrWhiteSpace(rom))
+                IncludeRomname = true;
+
             if (IncludeRomname)
+            {
                 if (!isMainMenu(system))
                     searchTerm += rom + " ";
+            }
 
             if (IncludeDescription)
                 if (!isMainMenu(system))
@@ -245,7 +331,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 default:
                     break;
             }
-        }        
+        }
         #endregion
     }
 

@@ -36,9 +36,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _dataProvider = dataProvider;
             _hyperspinManager = hyperspinManager;
 
-            if (_settingsRepo.HypermintSettings.HsPath == null)
-                _settingsRepo.LoadHypermintSettings();
-
             //Init the collections used
             MainMenuItemViewModels = new ObservableCollection<MainMenuItemViewModel>();
             SelectedMainMenuItem = new MainMenuItemViewModel();

@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Frontends.Models, Version=1.0.0.19, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Frontends.Models.1.0.19\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    <Reference Include="Frontends.Models, Version=1.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Frontends.Models.1.0.20\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -131,14 +131,6 @@
     <ProjectReference Include="..\..\Hypermint.Base\Hypermint.Base.csproj">
       <Project>{5f4fdb5e-3624-4c1a-9b9e-8f27f185eadd}</Project>
       <Name>Hypermint.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hs.Hypermint.DatabaseDetails\Hs.Hypermint.DatabaseDetails.csproj">
-      <Project>{0f4321e7-fa9a-4528-b7ca-8d0edec79bc3}</Project>
-      <Name>Hs.Hypermint.DatabaseDetails</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hs.Hypermint.Services\Hs.Hypermint.Services.csproj">
-      <Project>{7c5872ea-a3bd-4bfa-911c-0a9b62f2f11f}</Project>
-      <Name>Hs.Hypermint.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

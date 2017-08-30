@@ -54,6 +54,15 @@
                 </Rectangle>
 
             </Button>
+
+            <!--TOOLTIP-->
+            <ContentPresenter ContentTemplate="{StaticResource Tip_Rectangle}">
+                <ContentPresenter.ToolTip>
+                    <Grid>
+                        <TextBlock Text="{StaticResource DragDropHyperSpin}" MaxWidth="140" TextWrapping="Wrap"/>
+                    </Grid>
+                </ContentPresenter.ToolTip>
+            </ContentPresenter>
         </DockPanel>
         
     </Grid>

@@ -8,6 +8,7 @@ using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using System.Windows.Input;
 using Prism.Events;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -20,7 +21,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
         }
 
-        public RlBezelAuditViewModel(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, ISelectedService selected, IRlScan rlScan) : base(ea, hyperspinManager, gameLaunch, settings, selected, rlScan)
+        public RlBezelAuditViewModel(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, ISelectedService selected, IRlScan rlScan, IDialogCoordinator dialogService) : base(ea, hyperspinManager, gameLaunch, settings, selected, rlScan, dialogService)
         {
             _rlScan = rlScan;
             _settings = settings;
@@ -33,7 +34,7 @@ namespace Hs.Hypermint.Audits.ViewModels
             IsBusy = true;
 
             if (_hyperspinManager.CurrentSystemsGames.Count > 0)
-                   await _rlScan.ScanPauseAsync(_hyperspinManager.CurrentSystemsGames.Select(x => x.Game), _settings.HypermintSettings.RlPath + "\\Media");
+                   await _rlScan.ScanBezelsAsync(_hyperspinManager.CurrentSystemsGames.Select(x => x.Game), _settings.HypermintSettings.RlPath + "\\Media");
 
             IsBusy = false;
         }

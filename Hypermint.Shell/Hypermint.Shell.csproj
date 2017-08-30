@@ -59,8 +59,8 @@
       <HintPath>..\packages\ModernUICharts.WPF.Beta.0.9.1\lib\De.TorstenMandelkow.MetroChart.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Frontends.Models, Version=1.0.0.19, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Frontends.Models.1.0.19\lib\netstandard2.0\Frontends.Models.dll</HintPath>
+    <Reference Include="Frontends.Models, Version=1.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Frontends.Models.1.0.20\lib\netstandard2.0\Frontends.Models.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
@@ -155,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\ToolTipResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SettingsFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -221,10 +225,6 @@
       <Project>{8a62e2d1-32e9-4fee-9781-d397b73c80c4}</Project>
       <Name>Hs.Hypermint.FilesViewer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modules\Hs.Hypermint.GameLaunch\Hs.Hypermint.GameLaunch.csproj">
-      <Project>{5bb9c221-f83b-40bc-a322-99e537ac07e2}</Project>
-      <Name>Hs.Hypermint.GameLaunch</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.HyperspinFile\Hs.Hypermint.HyperspinFile.csproj">
       <Project>{a95d1749-9183-4b23-81bc-253feda2cb58}</Project>
       <Name>Hs.Hypermint.HyperspinFile</Name>
@@ -264,6 +264,10 @@
     <ProjectReference Include="..\Modules\Hs.Hypermint.SidebarSystems\Hs.Hypermint.SidebarSystems.csproj">
       <Project>{26595977-a720-409e-aa0d-bbf4c6300eb1}</Project>
       <Name>Hs.Hypermint.SidebarSystems</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\Hs.Hypermint.VideoEdit\Hs.Hypermint.VideoEdit.csproj">
+      <Project>{AC868635-190D-427E-9D00-AE4A5F17B5C1}</Project>
+      <Name>Hs.Hypermint.VideoEdit</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\Hs.Hypermint.WheelCreator\Hs.Hypermint.WheelCreator.csproj">
       <Project>{ae055706-c4c1-4cd9-af7d-ef82bfb94dec}</Project>

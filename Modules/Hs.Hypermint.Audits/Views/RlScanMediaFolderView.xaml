@@ -8,7 +8,7 @@
              dialog:DialogParticipation.Register="{Binding}"  
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="500">
-    <Grid>
+    <Grid IsEnabled="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,7 +21,8 @@
 
         <TabControl Grid.Row="1">
 
-            <TabItem Header="Mapped folders">
+            <!--DISPLAY ALL MAPPED TO ROM FOLDERS-->
+            <TabItem Header="Mapped folders" ToolTip="" >
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -33,6 +34,7 @@
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <CheckBox IsChecked="{Binding ShowMissing}" Margin="5" Content="Missing" ToolTip="Only show missing folders"/>
                         <CheckBox IsChecked="{Binding ShowAvailable}" Margin="5" Content="Available" ToolTip="Only show available folders"/>
+                        <Button Content="Refresh" Command="{Binding ScanForMappedFoldersCommand}" ToolTip="Scans the directory for folders that are mapped to a rom."/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center">
@@ -52,7 +54,7 @@
 
             </TabItem>
 
-            <TabItem Header="Match folders">
+            <TabItem Header="Unknown folders">
 
                 <Grid>
                     <Grid.RowDefinitions>

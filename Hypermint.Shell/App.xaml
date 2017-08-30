@@ -14,6 +14,8 @@
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Hs.Hypermint.IntroVideos;component/Templates/DatagridTemplates.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Hs.Hypermint.Audits;component/Templates/DatagridTemplates.xaml"/>
+
+                <ResourceDictionary Source="Resources/ToolTipResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="MinimalChartStyle" TargetType="charts:ChartBase">
