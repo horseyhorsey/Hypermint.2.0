@@ -33,5 +33,15 @@
                 </ListView>
             </Grid>
         </GroupBox>
+        
+        <!--TOOLTIP-->
+        <ContentPresenter ContentTemplate="{StaticResource Tip_Rectangle}" Grid.Column="1" 
+                          Margin="3" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <ContentPresenter.ToolTip>
+                <Grid>
+                    <TextBlock Text="{StaticResource Tip_VideoTrimProcessList}" MaxWidth="140" TextWrapping="Wrap"/>
+                </Grid>
+            </ContentPresenter.ToolTip>
+        </ContentPresenter>
     </Grid>
 </UserControl>
