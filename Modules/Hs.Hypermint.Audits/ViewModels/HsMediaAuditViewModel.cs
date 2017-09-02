@@ -272,10 +272,16 @@ namespace Hs.Hypermint.Audits.ViewModels
             {
                 var g = o as GameItemViewModel;
 
-                if (_selectedService.IsMainMenu())
-                    return g.RomName.ToUpper().Contains(FilterText.ToUpper());
+                if (g.Description != null || g.RomName != null)
+                {
+                    if (_selectedService.IsMainMenu())
+                        return g.RomName.ToUpper().Contains(FilterText.ToUpper());
+                    else
+                        return g.Description.ToUpper().Contains(FilterText.ToUpper()); ;
+                }
                 else
-                    return g.Description.ToUpper().Contains(FilterText.ToUpper()); ;
+                    return false;
+                
             };
         }
 

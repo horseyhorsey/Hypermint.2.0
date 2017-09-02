@@ -7,6 +7,11 @@ namespace Hypermint.Base.Model
     {
         public Game Game { get; set; }
 
+        public GameItemViewModel()
+        {
+            this.Game = new Game();
+        }
+
         /// <summary>
         /// Data bind wraps the Game model from Frontends.Models.Hyperspin <para/>
         /// *Fody propertychanged not available on .Net std 2.0
