@@ -98,9 +98,12 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         {
             MainMenuItemViewModels.Clear();
 
-            _hyperspinManager._hyperspinFrontEnd.Path = _settingsRepo.HypermintSettings.HsPath;
-            if (_selectedService.CurrentSystem == null)
-                await _hyperspinManager.GetSystemDatabases("Main Menu");
+            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+            {
+                _hyperspinManager._hyperspinFrontEnd.Path = _settingsRepo.HypermintSettings.HsPath;
+                if (_selectedService.CurrentSystem == null)
+                    await _hyperspinManager.GetSystemDatabases("Main Menu");
+            }
             
             //Create view models for each database file
             foreach (var dbFile in _hyperspinManager.DatabasesCurrentSystem)

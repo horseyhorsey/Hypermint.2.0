@@ -242,14 +242,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// </summary>
         public async void Load()
         {
-            var games = await _hyperspinManager.SetGamesForSystem("Main Menu");
-
-            foreach (var game in games)
+            if (_hyperspinManager._hyperspinFrontEnd.Path != null)
             {
-                _hyperspinManager.CurrentSystemsGames.Add(new GameItemViewModel(game));
-            }
+                var games = await _hyperspinManager.SetGamesForSystem("Main Menu");
 
-           // _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish("");
+                foreach (var game in games)
+                {
+                    _hyperspinManager.CurrentSystemsGames.Add(new GameItemViewModel(game));
+                }
+
+                // _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish("");
+            }
         }
 
         /// <summary>

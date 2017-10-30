@@ -79,7 +79,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -171,11 +170,6 @@
     <Compile Include="SettingsRepo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Controls\" />
     <Folder Include="MockData\Hyperspin\Media\" />
     <Folder Include="MockData\Hyperspin\Settings\" />
@@ -185,6 +179,7 @@
     <Content Include="MockData\Hyperspin\Databases\American Laser Games\American Laser Games.xml" />
     <Content Include="MockData\Hyperspin\Databases\Amstrad CPC\Amstrad CPC.xml" />
     <Content Include="MockData\Hyperspin\Databases\Main Menu\Main Menu.xml" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.1.2\build\netstandard1.0\Fody.targets" Condition="Exists('..\packages\Fody.2.1.2\build\netstandard1.0\Fody.targets')" />

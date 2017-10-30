@@ -181,12 +181,16 @@ namespace Hs.Hypermint.Business.Hyperspin
         {
             DatabasesCurrentGenres.Clear();
 
-            var genres = await _hsDataProvider.GetAllGenreDatabases(_hyperspinFrontEnd.Path, system);
-
-            foreach (var genre in genres)
+            try
             {
-                DatabasesCurrentGenres.Add(new HyperspinFile($"{genre}.xml") { });
+                var genres = await _hsDataProvider.GetAllGenreDatabases(_hyperspinFrontEnd.Path, system);
+
+                foreach (var genre in genres)
+                {
+                    DatabasesCurrentGenres.Add(new HyperspinFile($"{genre}.xml") { });
+                }
             }
+            catch { }
         }
 
         /// <summary>
