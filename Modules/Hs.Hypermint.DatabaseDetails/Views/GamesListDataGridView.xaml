@@ -14,9 +14,9 @@
         <DataGrid x:Name="DatabaseGrid" 
                       Grid.Row="1" Grid.Column="1" Grid.RowSpan="5" BorderThickness="2"
                       SelectedItem="{Binding SelectedGame, UpdateSourceTrigger=PropertyChanged}"
-                      ItemsSource="{Binding GamesList, UpdateSourceTrigger=PropertyChanged}"
-                      AutoGenerateColumns="False"                        
-                      CanUserAddRows="True" >
+                      ItemsSource="{Binding Games, UpdateSourceTrigger=PropertyChanged}"
+                      AutoGenerateColumns="False" IsReadOnly="False"                  
+                      CanUserAddRows="True">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">

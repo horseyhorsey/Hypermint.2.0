@@ -52,6 +52,7 @@ namespace Hypermint.Shell.ViewModels
         private void DisplayError(string error)
         {
             ErrorMessage = error;
+            //System.Windows.MessageBox.Show(error);
         }
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {

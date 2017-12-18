@@ -63,9 +63,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _eventAggregator.GetEvent<NewSystemCreatedEvent>().Subscribe(OnSystemCreated);
 
             //UpdateSystemsAsync(_mainMenuXmlPath);
-
             //_eventAggregator.GetEvent<AddNewSystemEvent>().Publish("SystemsView");
-
         }
 
         public SystemsViewModel()

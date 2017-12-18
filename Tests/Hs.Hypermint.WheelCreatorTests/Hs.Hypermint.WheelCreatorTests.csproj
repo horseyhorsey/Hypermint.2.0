@@ -65,13 +65,13 @@
     <Compile Include="Tools\WheelGenTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Modules\Hs.Hypermint.WheelCreator\Hs.Hypermint.WheelCreator.csproj">
       <Project>{AE055706-C4C1-4CD9-AF7D-EF82BFB94DEC}</Project>
       <Name>Hs.Hypermint.WheelCreator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
