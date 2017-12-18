@@ -40,5 +40,12 @@ namespace Hypermint.Shell
             });
 
         }
+
+        private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            //TODO: Remove this and replace with logging.
+            MessageBox.Show($"{e.Exception.Message} {e.Exception.InnerException.Message}");
+            e.Handled = false;
+        }
     }
 }

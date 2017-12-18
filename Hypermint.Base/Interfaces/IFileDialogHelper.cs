@@ -7,7 +7,7 @@
     {        
         string SelectedFolder { get; set; }
 
-        void SetFolderDialog();
+        bool SetFolderDialog();
 
         string SetFileDialog(string initialDirectory = "");
     }

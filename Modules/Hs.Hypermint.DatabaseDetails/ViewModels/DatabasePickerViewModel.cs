@@ -88,7 +88,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// <returns></returns>
         private async Task OnSystemChanged(string systemName)
         {
-            await _hyperspinManager.GetSystemDatabases(systemName);
+            try
+            {
+                await _hyperspinManager.GetSystemDatabases(systemName);
+            }
+            catch (Exception) { }
         }
 
         /// <summary>

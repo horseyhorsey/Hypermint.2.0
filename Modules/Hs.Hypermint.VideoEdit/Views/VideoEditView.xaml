@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Hs.Hypermint.VideoEdit.Views.VideoEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:views="clr-namespace:Hs.Hypermint.VideoEdit.Views"
+             prism:ViewModelLocator.AutoWireViewModel="True"             
+             >
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Video Trim">
+            <views:MediaElementView/>
+        </GroupBox>
+
+    </Grid>
+    
+</UserControl>

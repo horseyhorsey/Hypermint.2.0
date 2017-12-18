@@ -6,4 +6,4 @@ Manager for hyperspin
 
 WPF, Prism, Unity, Mahapps
 
-![](https://github.com/horseyhorsey/Hypermint.2.0/blob/master/screen.jpg)
+![](https://github.com/horseyhorsey/Hypermint.2.0/blob/master_august/screen.jpg)

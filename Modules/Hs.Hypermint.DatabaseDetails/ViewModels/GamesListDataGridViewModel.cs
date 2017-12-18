@@ -1,4 +1,5 @@
-﻿using Hypermint.Base;
+﻿using Frontends.Models.Hyperspin;
+using Hypermint.Base;
 using Hypermint.Base.Events;
 using Hypermint.Base.Model;
 using Hypermint.Base.Models;
@@ -8,6 +9,7 @@ using Prism.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -19,7 +21,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
     public class GamesListDataGridViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
-        private IHyperspinManager _hyperspinManager;
+        public IHyperspinManager _hyperspinManager;
         private ISelectedService _selectedService;
 
         public ICommand SelectionChanged { get; set; }
@@ -40,6 +42,8 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             //Set the observable game to a collection for the view.
             GamesList = new ListCollectionView(_hyperspinManager.CurrentSystemsGames);
             GamesList.CurrentChanged += GamesList_CurrentChanged;
+
+            Games = _hyperspinManager.CurrentSystemsGames;
 
             _eventAggregator.GetEvent<GameFilteredEvent>().Subscribe(FilterGamesByText);
             _eventAggregator.GetEvent<SystemDatabaseChanged>().Subscribe(SystemDatabaseChangedHandler);
@@ -64,19 +68,18 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             get { return _selectedGame; }
             set
             {
-                SetProperty(ref _selectedGame, value);
-                DatabaseHeaderInfo = "Selected items: " + 1;
+                SetProperty(ref _selectedGame, value);                
             }
         }
 
-        public int SelectedItemsCount { get; private set; }
-
-        private string databaseHeaderInfo = "Database Editor";
-        public string DatabaseHeaderInfo
+        private ObservableCollection<GameItemViewModel> _games;
+        public ObservableCollection<GameItemViewModel> Games
         {
-            get { return databaseHeaderInfo; }
-            set { SetProperty(ref databaseHeaderInfo, value); }
+            get { return _games; }
+            set { SetProperty(ref _games, value); }
         }
+
+        public int SelectedItemsCount { get; private set; }
 
         private bool _isMultiSystem;
         public bool IsMultiSystem
@@ -99,7 +102,7 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             {
                 ICollectionView cv;
 
-                cv = CollectionViewSource.GetDefaultView(GamesList);
+                cv = CollectionViewSource.GetDefaultView(Games);
 
                 var filter = gameFilter.FilterText;
                 var showClones = gameFilter.ShowClones;
@@ -115,96 +118,100 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                     var g = o as GameItemViewModel;
                     var textFiltered = false;
 
-                    if (string.IsNullOrEmpty(filter))
+                    try
                     {
-                        if (favesOnly && showClones && enabledFilter)
+                        if (string.IsNullOrEmpty(filter))
                         {
-                            textFiltered =
-                            g.GameEnabled.Equals(enabled)
-                            && g.IsFavorite.Equals(favesOnly)
-                            && g.CloneOf.Length >= 0;
+                            if (favesOnly && showClones && enabledFilter)
+                            {
+                                textFiltered =
+                                g.GameEnabled.Equals(enabled)
+                                && g.IsFavorite.Equals(favesOnly)
+                                && g.CloneOf.Length >= 0;
+                            }
+                            else if (favesOnly && showClones)
+                            {
+                                textFiltered =
+                                g.IsFavorite.Equals(favesOnly)
+                                && g.CloneOf.Length >= 0;
+                            }
+                            else if (favesOnly && !showClones && enabledFilter)
+                            {
+                                textFiltered =
+                                g.GameEnabled.Equals(enabled)
+                                && g.IsFavorite.Equals(favesOnly)
+                                && g.CloneOf.Equals(string.Empty);
+                            }
+                            else if (favesOnly && !showClones)
+                            {
+                                textFiltered =
+                                g.IsFavorite.Equals(favesOnly)
+                                && g.CloneOf.Equals(string.Empty);
+                            }
+                            else if (!favesOnly && !showClones && enabledFilter)
+                            {
+                                textFiltered = g.CloneOf.Equals(string.Empty)
+                                  && g.GameEnabled.Equals(enabled);
+                            }
+                            else if (!favesOnly && showClones && enabledFilter)
+                            {
+                                textFiltered = g.CloneOf.Length >= 0
+                                && g.GameEnabled.Equals(enabled);
+                            }
+                            else if (!favesOnly && !showClones) { textFiltered = g.CloneOf.Equals(string.Empty); }
+                            else if (!favesOnly && showClones) { textFiltered = g.CloneOf.Length >= 0; }
                         }
-                        else if (favesOnly && showClones)
+                        else // Text is used as filter
                         {
-                            textFiltered =
-                            g.IsFavorite.Equals(favesOnly)
-                            && g.CloneOf.Length >= 0;
+                            if (showClones && favesOnly && enabledFilter)
+                            {
+                                textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                                && g.GameEnabled.Equals(enabled)
+                                && g.IsFavorite.Equals(favesOnly)
+                                && g.CloneOf.Length >= 0;
+                            }
+                            else if (showClones && favesOnly)
+                            {
+                                textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                                && g.IsFavorite.Equals(favesOnly)
+                                && g.CloneOf.Length >= 0;
+                            }
+                            else if (showClones && !favesOnly && enabledFilter)
+                            {
+                                textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                                && g.GameEnabled.Equals(enabled)
+                                && g.CloneOf.Length >= 0;
+                            }
+                            else if (showClones && !favesOnly)
+                            {
+                                textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                                && g.CloneOf.Length >= 0;
+                            }
+                            else if (!showClones && favesOnly && enabledFilter)
+                            {
+                                textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                                && g.GameEnabled.Equals(enabled)
+                                && g.IsFavorite.Equals(favesOnly) && g.CloneOf.Equals(string.Empty);
+                            }
+                            else if (!showClones && favesOnly)
+                            {
+                                textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                                && g.IsFavorite.Equals(favesOnly) && g.CloneOf.Equals(string.Empty);
+                            }
+                            else if (!showClones && !favesOnly && enabledFilter)
+                            {
+                                textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                                && g.GameEnabled.Equals(enabled)
+                                && g.CloneOf.Equals(string.Empty);
+                            }
+                            else if (!showClones && !favesOnly)
+                            {
+                                textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
+                                && g.CloneOf.Equals(string.Empty);
+                            }
                         }
-                        else if (favesOnly && !showClones && enabledFilter)
-                        {
-                            textFiltered =
-                            g.GameEnabled.Equals(enabled)
-                            && g.IsFavorite.Equals(favesOnly)
-                            && g.CloneOf.Equals(string.Empty);
-                        }
-                        else if (favesOnly && !showClones)
-                        {
-                            textFiltered =
-                            g.IsFavorite.Equals(favesOnly)
-                            && g.CloneOf.Equals(string.Empty);
-                        }
-                        else if (!favesOnly && !showClones && enabledFilter)
-                        {
-                            textFiltered = g.CloneOf.Equals(string.Empty)
-                              && g.GameEnabled.Equals(enabled);
-                        }
-                        else if (!favesOnly && showClones && enabledFilter)
-                        {
-                            textFiltered = g.CloneOf.Length >= 0
-                            && g.GameEnabled.Equals(enabled);
-                        }
-                        else if (!favesOnly && !showClones) { textFiltered = g.CloneOf.Equals(string.Empty); }
-                        else if (!favesOnly && showClones) { textFiltered = g.CloneOf.Length >= 0; }
                     }
-                    else // Text is used as filter
-                    {
-                        if (showClones && favesOnly && enabledFilter)
-                        {
-                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.GameEnabled.Equals(enabled)
-                            && g.IsFavorite.Equals(favesOnly)
-                            && g.CloneOf.Length >= 0;
-                        }
-                        else if (showClones && favesOnly)
-                        {
-                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.IsFavorite.Equals(favesOnly)
-                            && g.CloneOf.Length >= 0;
-                        }
-                        else if (showClones && !favesOnly && enabledFilter)
-                        {
-                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.GameEnabled.Equals(enabled)
-                            && g.CloneOf.Length >= 0;
-                        }
-                        else if (showClones && !favesOnly)
-                        {
-                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.CloneOf.Length >= 0;
-                        }
-                        else if (!showClones && favesOnly && enabledFilter)
-                        {
-                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.GameEnabled.Equals(enabled)
-                            && g.IsFavorite.Equals(favesOnly) && g.CloneOf.Equals(string.Empty);
-                        }
-                        else if (!showClones && favesOnly)
-                        {
-                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.IsFavorite.Equals(favesOnly) && g.CloneOf.Equals(string.Empty);
-                        }
-                        else if (!showClones && !favesOnly && enabledFilter)
-                        {
-                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.GameEnabled.Equals(enabled)
-                            && g.CloneOf.Equals(string.Empty);
-                        }
-                        else if (!showClones && !favesOnly)
-                        {
-                            textFiltered = g.Description.ToUpper().Contains(filter.ToUpper())
-                            && g.CloneOf.Equals(string.Empty);
-                        }
-                    }
+                    catch { }
 
                     return textFiltered;
                 };
@@ -235,14 +242,17 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         /// </summary>
         public async void Load()
         {
-            var games = await _hyperspinManager.SetGamesForSystem("Main Menu");
-
-            foreach (var game in games)
+            if (_hyperspinManager._hyperspinFrontEnd.Path != null)
             {
-                _hyperspinManager.CurrentSystemsGames.Add(new GameItemViewModel(game));
-            }
+                var games = await _hyperspinManager.SetGamesForSystem("Main Menu");
 
-           // _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish("");
+                foreach (var game in games)
+                {
+                    _hyperspinManager.CurrentSystemsGames.Add(new GameItemViewModel(game));
+                }
+
+                // _eventAggregator.GetEvent<GamesUpdatedEvent>().Publish("");
+            }
         }
 
         /// <summary>
@@ -273,14 +283,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
                         _selectedService.SelectedGames.Add(item as GameItemViewModel);
                 }
 
-                if (SelectedItemsCount > 1)
+                if (SelectedItemsCount >= 1)
                 {
-                    //_eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");
-                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });
-                    DatabaseHeaderInfo = "Selected items: " + SelectedItemsCount;
-                }                    
-                else
-                    DatabaseHeaderInfo = "";                
+                    //_eventAggregator.GetEvent<PreviewGeneratedEvent>().Publish("");                    
+                    _eventAggregator.GetEvent<GameSelectedEvent>().Publish(new string[] { _selectedService.SelectedGames[0].RomName, "" });                    
+                }            
             }
             catch { }
         }

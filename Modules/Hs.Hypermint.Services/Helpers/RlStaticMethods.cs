@@ -4,12 +4,66 @@ namespace Hs.Hypermint.Services.Helpers
 {
     public static class RlStaticMethods
     {
+        public static string CreateCardFileName(string desc, string author, string position)
+        {
+            if (author != "")
+                author = " (" + author + ")";
+
+            string spacer = " - ";
+            if (string.IsNullOrWhiteSpace(author))
+                if (string.IsNullOrWhiteSpace(desc))
+                    spacer = "";
+
+            return "Instruction Card" + spacer + desc + author + " - " + position;
+        }
+
+        public static string CreateFileNameForRlImage(string hmColumnName, string ratio, string desc, string author)
+        {
+            if (author != "")
+                author = " (" + author + ")";
+
+            string spacer = " - ";
+            if (string.IsNullOrWhiteSpace(ratio))
+                if (string.IsNullOrWhiteSpace(author))
+                    if (string.IsNullOrWhiteSpace(desc))
+                        spacer = "";
+
+            switch (hmColumnName)
+            {
+                case "Backgrounds":
+                case "Background":
+                case "BezelBg":
+                    return "Background - " + ratio + author;
+                case "Bezel":
+                case "Layer 1":
+                case "Layer 2":
+                case "Layer 3":
+                case "Extra Layer 1":
+                    return hmColumnName + spacer + ratio + " " + desc + author;
+                default:
+                    return "";
+            }
+        }
+
+        private static string GetRlGameMediaPath(string rlMediaPath, string mediaType, string systemName, string romName, string parentMediaType = "")
+        {
+            if (parentMediaType != "")
+            {
+                if (mediaType == "Screenshots")
+                    return Path.Combine(rlMediaPath, parentMediaType, systemName, romName, mediaType);
+                else
+                    return Path.Combine(rlMediaPath, parentMediaType, systemName, romName);
+            }
+            else
+                return Path.Combine(rlMediaPath, mediaType, systemName, romName);
+        }
+
         /// <summary>
         /// Get full RL media path from mediatype system & rom
         /// </summary>
         /// <param name="rlMediaType"></param>
         /// <returns></returns>
-        public static string GetSelectedPath(string rlMediaPath, 
+        public static string GetSelectedPath(string rlMediaPath,
             string rlMediaType, string systemName, string romName)
         {
             if (rlMediaType == "Saved Game")
@@ -22,57 +76,6 @@ namespace Hs.Hypermint.Services.Helpers
                     rlMediaType, systemName, romName, parentMediaType);
 
             return gameMediaRootPath;
-        }
-
-        public static string GetParentMediaType(string rlMediaType)
-        {
-            if (rlMediaType.ToLower().Contains("layer"))
-                rlMediaType = "layer";
-
-            switch (rlMediaType)
-            {
-                case "Screenshots":
-                    rlMediaType = "Artwork";
-                    break;
-                case "_Default Folder":
-                    rlMediaType = "Fade";
-                    break;
-                case "Bezel":
-                case "BezelBg":
-                case "Cards":
-                    rlMediaType = "Bezels";
-                    break;
-                case "Backgrounds":
-                case "Background":
-                    rlMediaType = "Backgrounds";
-                    break;
-                case "Info":
-                case "Progress":
-                case "Extract":
-                case "Complete":
-                case "layer":
-                    rlMediaType = "Fade";
-                    break;                
-                default:
-                    rlMediaType = "";
-                    break;
-            }
-
-            return rlMediaType;
-        }
-
-        private static string GetRlGameMediaPath(string rlMediaPath, string mediaType,
-            string systemName, string romName, string parentMediaType = "")
-        {
-            if (parentMediaType != "")
-            {
-                if (mediaType == "Screenshots")
-                    return Path.Combine(rlMediaPath, parentMediaType, systemName, romName, mediaType);
-                else
-                    return Path.Combine(rlMediaPath, parentMediaType, systemName, romName);
-            }
-            else
-                return Path.Combine(rlMediaPath, mediaType, systemName, romName);
         }
 
         public static string GetMediaFormatFromFile(string file)
@@ -113,46 +116,56 @@ namespace Hs.Hypermint.Services.Helpers
             return mediaFormat;
         }
 
-        public static string CreateFileNameForRlImage(string hmColumnName, string ratio,
-            string desc, string author)
+        public static string GetParentMediaType(string rlMediaType)
         {
-            if (author != "")
-                author = " (" + author + ")";
+            if (rlMediaType.ToLower().Contains("layer"))
+                rlMediaType = "layer";
 
-            string spacer = " - ";
-            if (string.IsNullOrWhiteSpace(ratio))
-                if (string.IsNullOrWhiteSpace(author))
-                    if (string.IsNullOrWhiteSpace(desc))
-                        spacer = "";            
-
-            switch (hmColumnName)
+            switch (rlMediaType)
             {
+                case "Screenshots":
+                    rlMediaType = "Artwork";
+                    break;
+                case "_Default Folder":
+                    rlMediaType = "Fade";
+                    break;
+                case "Bezel":
+                case "BezelBg":
+                case "Cards":
+                    rlMediaType = "Bezels";
+                    break;
                 case "Backgrounds":
                 case "Background":
-                case "BezelBg":
-                    return "Background - " + ratio + author;
-                case "Bezel":
-                case "Layer 1":
-                case "Layer 2":
-                case "Layer 3":
-                case "Extra Layer 1":
-                    return hmColumnName + spacer + ratio + " " + desc + author;
+                    rlMediaType = "Backgrounds";
+                    break;
+                case "Info":
+                case "Progress":
+                case "Extract":
+                case "Complete":
+                case "layer":
+                    rlMediaType = "Fade";
+                    break;
                 default:
-                    return "";
+                    rlMediaType = "";
+                    break;
             }
+
+            return rlMediaType;
         }
 
-        public static string CreateCardFileName(string desc, string author, string position)
+        public static string[] LoadBezelIniValues(string bezelIni)
         {
-            if (author != "")
-                author = " (" + author + ")";
+            if (!File.Exists(bezelIni)) return null;
 
-            string spacer = " - ";
-            if (string.IsNullOrWhiteSpace(author))
-                if (string.IsNullOrWhiteSpace(desc))
-                        spacer = "";
+            IniFileReader ini = new IniFileReader(bezelIni);
 
-            return "Instruction Card" + spacer + desc + author + " - " + position;
+            string[] values = new string[4];
+
+            values[0] = ini.IniReadValue("General", "Bezel Screen Top Left X Coordinate");
+            values[1] = ini.IniReadValue("General", "Bezel Screen Top Left Y Coordinate");
+            values[2] = ini.IniReadValue("General", "Bezel Screen Bottom Right X Coordinate");
+            values[3] = ini.IniReadValue("General", "Bezel Screen Bottom Right Y Coordinate");
+            return values;
         }
 
         public static void SaveBezelIni(double[] Inipoints, string fileName)
@@ -164,23 +177,8 @@ namespace Hs.Hypermint.Services.Helpers
                 sw.WriteLine("Bezel Screen Top Left Y Coordinate=" + Inipoints[1]);
                 sw.WriteLine("Bezel Screen Bottom Right X Coordinate=" + Inipoints[2]);
                 sw.WriteLine("Bezel Screen Bottom Right Y Coordinate=" + Inipoints[3]);
-                sw.Flush();                
+                sw.Flush();
             }
-        }
-
-        public static string[] LoadBezelIniValues(string bezelIni)
-        {
-            if (!File.Exists(bezelIni)) return null;            
-
-            IniFileReader ini = new IniFileReader(bezelIni);
-
-            string[] values = new string[4];
-
-            values[0] = ini.IniReadValue("General", "Bezel Screen Top Left X Coordinate");
-            values[1] = ini.IniReadValue("General", "Bezel Screen Top Left Y Coordinate");
-            values[2] = ini.IniReadValue("General", "Bezel Screen Bottom Right X Coordinate");
-            values[3] = ini.IniReadValue("General", "Bezel Screen Bottom Right Y Coordinate");                                   
-            return values;
         }
     }
 }

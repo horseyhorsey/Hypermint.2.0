@@ -36,9 +36,6 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _dataProvider = dataProvider;
             _hyperspinManager = hyperspinManager;
 
-            if (_settingsRepo.HypermintSettings.HsPath == null)
-                _settingsRepo.LoadHypermintSettings();
-
             //Init the collections used
             MainMenuItemViewModels = new ObservableCollection<MainMenuItemViewModel>();
             SelectedMainMenuItem = new MainMenuItemViewModel();
@@ -101,9 +98,12 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         {
             MainMenuItemViewModels.Clear();
 
-            _hyperspinManager._hyperspinFrontEnd.Path = _settingsRepo.HypermintSettings.HsPath;
-            if (_selectedService.CurrentSystem == null)
-                await _hyperspinManager.GetSystemDatabases("Main Menu");
+            if (Directory.Exists(_settingsRepo.HypermintSettings.HsPath))
+            {
+                _hyperspinManager._hyperspinFrontEnd.Path = _settingsRepo.HypermintSettings.HsPath;
+                if (_selectedService.CurrentSystem == null)
+                    await _hyperspinManager.GetSystemDatabases("Main Menu");
+            }
             
             //Create view models for each database file
             foreach (var dbFile in _hyperspinManager.DatabasesCurrentSystem)

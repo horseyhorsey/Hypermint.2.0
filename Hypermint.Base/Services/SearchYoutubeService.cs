@@ -1,13 +1,18 @@
 ﻿using Hypermint.Base.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hypermint.Base.Services
 {
     public class SearchYoutubeService : ISearchYoutube
-    {        
+    {
+        private Action<string> _outputCallback;
+
         public async Task<List<string>> SearchAsync(string searchTerm) => await GoogleSearch(searchTerm);
 
         private async Task<List<string>> GoogleSearch(string searchTerm)
@@ -39,26 +44,45 @@ namespace Hypermint.Base.Services
             }
 
             return videoLinks;
-        }        
-        
-        public List<string> GetYoutubeMp4s(string youtubeUrl)
-        {                        
-            var info = new YoutubeInfo.YoutubeInfo();                             
-
-            var mp4s = new List<string>();
-
-            foreach (var mp4 in info.GetMp4Videos(youtubeUrl))
-            {                
-                mp4s.Add(mp4.DownloadUrl);                
-            }
-
-            return mp4s;
-            
         }
 
-        public IEnumerable<string> Search(string searchTerm, string systemName)
+        CancellationToken _token;
+        public async Task YtDownload(string url, string outputPath, Action<string> outputCallback, CancellationToken token)
         {
-            return new string[2];
+            _token = token;
+            _outputCallback = outputCallback;
+            await Task.Run(() =>
+             {
+                 ProcessStartInfo si = new ProcessStartInfo(Environment.CurrentDirectory + "\\youtube-dl.exe");
+                 Process p = new Process();
+                 p.EnableRaisingEvents = true;
+
+                 p.StartInfo = si;
+
+                 si.Arguments = " -f mp4 -o " + "\"" + outputPath + "\"" + " " + url;
+                 si.RedirectStandardOutput = true;
+                 si.UseShellExecute = false;
+                 si.CreateNoWindow = true;
+                 p.OutputDataReceived += P_OutputDataReceived;
+                 p.Exited += P_Exited;
+                 p.Start();
+
+                 // To avoid deadlocks, always read the output stream first and then wait.
+                 p.BeginOutputReadLine();
+                 p.WaitForExit();
+                 
+             }, _token).ContinueWith(x => x.IsCanceled);
+        }
+
+        private void P_Exited(object sender, EventArgs e)
+        {
+            var cancelled = _token.IsCancellationRequested;
+        }
+
+        private void P_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null)
+                _outputCallback.Invoke(e.Data);
         }
     }
 }

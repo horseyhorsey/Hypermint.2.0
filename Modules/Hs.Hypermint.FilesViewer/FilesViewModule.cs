@@ -8,15 +8,10 @@ namespace Hs.Hypermint.FilesViewer
 {
     public class FilesViewModule : PrismBaseModule
     {
-        public FilesViewModule(IUnityContainer container, IRegionManager manager) : base(container, manager)
-        {            
-          // RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(FilesView));            
-        }
+        public FilesViewModule(IUnityContainer container, IRegionManager manager) : base(container, manager) { }
 
         public override void Initialize()
         {            
-            //RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(FilesView));
-
             RegionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(RlFilesView));
         }
     }

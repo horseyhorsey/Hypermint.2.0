@@ -46,5 +46,89 @@ namespace Hypermint.Shell.Properties {
                 this["GuiColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Hyperspin")]
+        public string Hyperspin {
+            get {
+                return ((string)(this["Hyperspin"]));
+            }
+            set {
+                this["Hyperspin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Rocketlauncher")]
+        public string Rocketlauncher {
+            get {
+                return ((string)(this["Rocketlauncher"]));
+            }
+            set {
+                this["Rocketlauncher"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Rocketlauncher\\Media")]
+        public string RocketlauncherMedia {
+            get {
+                return ((string)(this["RocketlauncherMedia"]));
+            }
+            set {
+                this["RocketlauncherMedia"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string Ffmpeg {
+            get {
+                return ((string)(this["Ffmpeg"]));
+            }
+            set {
+                this["Ffmpeg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Hypermint")]
+        public string Author {
+            get {
+                return ((string)(this["Author"]));
+            }
+            set {
+                this["Author"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Rocketlauncher\\RocketlauncherUI\\Media\\Icons")]
+        public string Icons {
+            get {
+                return ((string)(this["Icons"]));
+            }
+            set {
+                this["Icons"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\gs\\gs9.14\\bin")]
+        public string GhostscriptPath {
+            get {
+                return ((string)(this["GhostscriptPath"]));
+            }
+            set {
+                this["GhostscriptPath"] = value;
+            }
+        }
     }
 }

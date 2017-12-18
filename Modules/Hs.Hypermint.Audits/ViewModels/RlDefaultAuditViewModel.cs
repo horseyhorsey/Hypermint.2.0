@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using Frontends.Models.RocketLauncher;
 using System.Windows.Input;
 using Prism.Commands;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -21,8 +22,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
         }
 
-        public RlDefaultAuditViewModel(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, ISelectedService selected, IRlScan rlScan)
-            : base(ea, hyperspinManager, gameLaunch, settings, selected, rlScan)
+        public RlDefaultAuditViewModel(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, ISelectedService selected, IRlScan rlScan, IDialogCoordinator dialogService) : base(ea, hyperspinManager, gameLaunch, settings, selected, rlScan, dialogService)
         {
             _rlScan = rlScan;
             _settings = settings;

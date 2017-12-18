@@ -1,5 +1,4 @@
-﻿using Hs.Hypermint.Services;
-using Hypermint.Base;
+﻿using Hypermint.Base;
 using Hypermint.Base.Helpers;
 using Hypermint.Base.Interfaces;
 using MahApps.Metro.Controls.Dialogs;
@@ -14,6 +13,9 @@ using System;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
+using Frontends.Models.Hyperspin;
+using Frontends.Models.RocketLauncher;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -21,48 +23,24 @@ namespace Hs.Hypermint.Audits.ViewModels
     {
         const string patterns = @"\(.*\)";
 
-        public RlScanMediaFolderViewModel(string rlMediaFolder, string hsFolder, string mediaFolderName, string systemName, IGameRepo gameRepo,
-            IDialogCoordinator dialogService, CustomDialog customDialog)
+        #region Fields
+        private IEnumerable<Game> _games;
+        private IRlScan _rlScan;        
+        #endregion
+
+        public RlScanMediaFolderViewModel(string rlMediaFolder, string hsFolder, string mediaFolderName, string systemName,
+            IDialogCoordinator dialogService, CustomDialog customDialog, IEnumerable<Game> gamesList, IRlScan rlScan)
         {
-            rocketMediaScanner = new RocketMediaFolderScanner(rlMediaFolder, hsFolder);
+            _games = gamesList;
+            _rlScan = rlScan;
+
             CurrentMediaFolder = Path.Combine(rlMediaFolder, mediaFolderName, systemName);
-            Directories = rocketMediaScanner.GetAllFolders(CurrentMediaFolder);
-            Results = rocketMediaScanner.MatchFoldersToGames(Directories, gameRepo);
 
-            //Go over games and create list marking whether a folder is matched
-            var games = gameRepo.GamesList;
-            var games2 = new ObservableCollection<TempGame>();
-            foreach (var game in games)
-            {
-                games2.Add(new TempGame
-                {
-                    HasFolder = Results.MatchedFolders.Any(x => x == game.RomName),
-                    RomName = game.RomName
-                });
-            }
-
+            //Collection views
             UnmatchedFolders = new ObservableCollection<UnMatchedFolder>();
-
-            Results.UnMatchedFolders.ForEach(folder =>
-            {
-                UnmatchedFolders.Add(new UnMatchedFolder { FolderName = folder });
-            });
-
-            CurrentGames = games2;
-
+            CurrentGames = new ObservableCollection<TempGame>();
             GamesFolders = new ListCollectionView(CurrentGames);
-
-            UnmatchedFoldersView = new ListCollectionView(UnmatchedFolders);            
-
-            CloseCommand = new DelegateCommand(async () =>
-            {
-                await dialogService.HideMetroDialogAsync(this, customDialog);
-            });
-
-            MatchFoldersCommand = new DelegateCommand(async () =>
-            {
-                await MatchFoldersAsync();
-            });
+            UnmatchedFoldersView = new ListCollectionView(UnmatchedFolders);
 
             ClearMatchedCommand = new DelegateCommand(() =>
             {
@@ -73,12 +51,29 @@ namespace Hs.Hypermint.Audits.ViewModels
                     folder.Rename = false;
                 }
             });
-
+            CloseCommand = new DelegateCommand(async () =>
+            {
+                await dialogService.HideMetroDialogAsync(this, customDialog);
+            });
+            MatchFoldersCommand = new DelegateCommand(async () =>
+            {
+                await MatchFoldersAsync();
+            });
             RenameCommand = new DelegateCommand(() =>
             {
                 RenameUnmatchedFolders();
             });
-        }        
+            ScanForMappedFoldersCommand = new DelegateCommand(async () => await LoadAndScanFolders());
+        }
+
+        #region Commands
+        public ICommand CloseCommand { get; private set; }
+        public ICommand MatchFoldersCommand { get; private set; }
+        public ICommand RenameCommand { get; private set; }
+        public ICommand ClearMatchedCommand { get; private set; }
+        public ICommand ClearSelectedCommand { get; private set; }
+        public ICommand ScanForMappedFoldersCommand { get; private set; }
+        #endregion
 
         #region Properties
 
@@ -86,10 +81,8 @@ namespace Hs.Hypermint.Audits.ViewModels
         public ICollectionView UnmatchedFoldersView { get; set; }
 
         public ObservableCollection<TempGame> CurrentGames { get; set; }
-        public ObservableCollection<UnMatchedFolder> UnmatchedFolders { get; set; }
-
-        private RocketMediaFolderScanner rocketMediaScanner;
-        public RocketMediaFolderScanResult Results { get; private set; }
+        public ObservableCollection<UnMatchedFolder> UnmatchedFolders { get; set; }        
+        public  MediaScanResult Results { get; private set; }
 
         public string[] Directories { get; set; }
 
@@ -155,17 +148,45 @@ namespace Hs.Hypermint.Audits.ViewModels
             }
         }
 
+        private bool _isBusy = true;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { SetProperty(ref _isBusy, value); }
+        }
+
         public string CurrentMediaFolder { get; private set; }
 
         #endregion
 
-        #region Commands
-        public ICommand CloseCommand { get; private set; }
-        public ICommand MatchFoldersCommand { get; private set; }
-        public ICommand RenameCommand { get; private set; }
-        public ICommand ClearMatchedCommand { get; private set; }
-        public ICommand ClearSelectedCommand { get; private set; }        
-        #endregion
+        public async Task LoadAndScanFolders()
+        {
+            IsBusy = false;
+
+            try
+            {
+                CurrentGames.Clear();
+
+                await Task.Run(() =>
+                 {
+                     Directories = _rlScan.GetAllFolders(CurrentMediaFolder);
+                     Results = _rlScan.MatchFoldersToGames(Directories, _games);
+                 });
+
+                Results.UnMatchedFolders.ForEach(folder =>
+                {
+                    UnmatchedFolders.Add(new UnMatchedFolder { FolderName = folder });
+                });
+
+                var games = _games.Select(x => new TempGame { RomName = x.RomName, HasFolder = Results.MatchedFolders.Any(y => y == x.RomName) });
+                foreach (var game in games)
+                {
+                    CurrentGames.Add(game);
+                }
+            }
+            catch { }
+            finally { IsBusy = true; }
+        }
 
         #region Support Methods
 
@@ -223,120 +244,6 @@ namespace Hs.Hypermint.Audits.ViewModels
                 }
             });
 
-        }
-
-        private void MatchDescriptions()
-        {
-            //// PIN X CHECK MATCHING
-            /*
-            var g = MatchYearGreaterThan;
-            var tableNameEdit = "";
-            var tableDescriptionEdit = "";
-            var masterNameEdit = "";
-            var masterDescriptionEdit = "";
-            var rgx = new Regex(patterns);
-            var count = 0;
-            var bestTableMatch = new VirtualPin.Database.PinballXTable();
-
-            //clearMatchedDescriptions();
-
-            foreach (VirtualPin.Database.UnMatchedTable table in UnMatchedTables)
-            {
-                var inputTableName = table.FileName;
-                var inputTableDesc = table.Description;
-
-                if (RemoveParenthysis)
-                {
-                    tableNameEdit = rgx.Replace(inputTableName, string.Empty);
-                    tableDescriptionEdit = rgx.Replace(inputTableDesc, string.Empty);
-                }
-
-                if (MatchYearGreaterThan)
-                {
-                    if (table.Year > YearValue || table.Year == 0)
-                        flagMatchEnabled = true;
-                    else flagMatchEnabled = false;
-                }
-                else
-                {
-                    if (table.Year < YearValue || table.Year == 0)
-                        flagMatchEnabled = true;
-                    else flagMatchEnabled = false;
-                }
-
-                if (flagMatchEnabled)
-                {
-                    if (!table.MatchedName)
-                    {
-                        foreach (var masterTable in _tableRepo.MasterTableList)
-                        {
-                            if (RemoveParenthysisMaster)
-                            {
-                                masterNameEdit = rgx.Replace(masterTable.Name, string.Empty);
-                                masterDescriptionEdit = rgx.Replace(masterTable.Description, string.Empty);
-                            }
-
-                            if (MatchYearGreaterThan)
-                            {
-                                flagMatchEnabled = masterTable.Year > YearValue;
-                            }
-                            else
-                            {
-                                flagMatchEnabled = masterTable.Year < YearValue;
-                            }
-
-                            if (flagMatchEnabled)
-                            {
-                                string pattern;
-                                //if (bw.CancellationPending)
-                                //{
-                                //    e.Cancel = true;
-                                //    return;
-                                //}
-
-                                if (!TableMatchDescription)
-                                {
-                                    pattern = RemoveParenthysis ? tableNameEdit.ToUpper() : table.FileName.ToUpper();
-                                }
-                                else
-                                {
-                                    pattern = RemoveParenthysis
-                                        ? tableDescriptionEdit.ToUpper()
-                                        : table.Description.ToUpper();
-                                }
-
-                                var input = !MasterMatchDescription ? masterTable.Name.ToUpper() : masterTable.Description.ToUpper();
-
-                                var d = new Distance();
-                                var i = d.LD(input, pattern);
-
-                                if (i <= MatchDistance)
-                                {
-                                    MatchDistance = i;
-                                    bestTableMatch = masterTable;
-                                    table.FlagRename = true;
-                                    table.MatchedDescription = masterTable.Description;
-
-                                    RenameEnabled = true;
-                                }
-                            }
-                        }
-                    }
-                }
-                count++;
-                //li.Add(bestTableMatch);
-                bestTableMatch = new VirtualPin.Database.PinballXTable();
-                //var percentage = (Int32)Math.Round((double)(count * 100) / ScanCount);
-                //bw.ReportProgress(percentage);
-
-            }
-
-            UnMatchedTables.Refresh();
-
-            // Put the list into the background workers Result
-            //e.Result = li;
-        }
-        */
         }
 
         private void RenameUnmatchedFolders()
@@ -459,7 +366,7 @@ namespace Hs.Hypermint.Audits.ViewModels
                 get { return _recommendedName; }
                 set { SetProperty(ref _recommendedName, value); }
             }
-        } 
+        }
         #endregion
     }
 }

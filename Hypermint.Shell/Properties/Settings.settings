@@ -8,5 +8,26 @@
     <Setting Name="GuiColor" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Hyperspin" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Hyperspin</Value>
+    </Setting>
+    <Setting Name="Rocketlauncher" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Rocketlauncher</Value>
+    </Setting>
+    <Setting Name="RocketlauncherMedia" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Rocketlauncher\Media</Value>
+    </Setting>
+    <Setting Name="Ffmpeg" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\</Value>
+    </Setting>
+    <Setting Name="Author" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Hypermint</Value>
+    </Setting>
+    <Setting Name="Icons" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Rocketlauncher\RocketlauncherUI\Media\Icons</Value>
+    </Setting>
+    <Setting Name="GhostscriptPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\gs\gs9.14\bin</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

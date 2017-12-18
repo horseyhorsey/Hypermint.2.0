@@ -23,8 +23,7 @@ namespace Hs.Hypermint.Search.ViewModels
         #region Fields
         private IEventAggregator _ea;
         private ISettingsHypermint _settingsRepo;
-        private ISelectedService _selectedSvc;
- 
+        private ISelectedService _selectedSvc; 
         private IHyperspinXmlDataProvider _hsXmlPRovider;
         private IHyperspinManager _hyperspinManager;
 
@@ -35,7 +34,7 @@ namespace Hs.Hypermint.Search.ViewModels
 
         #region Constructor
         public SearchResultsViewModel(IEventAggregator ea, ISettingsHypermint settingsRepo, 
-            ISelectedService selectedSvc, IHyperspinXmlService xmlService, IHyperspinXmlDataProvider hsXmlPRovider, 
+            ISelectedService selectedSvc, IHyperspinXmlDataProvider hsXmlPRovider, 
             IHyperspinManager hyperspinManager )
         {
             _ea = ea;

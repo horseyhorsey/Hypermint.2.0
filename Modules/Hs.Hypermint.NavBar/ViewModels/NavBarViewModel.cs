@@ -221,6 +221,10 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     CurrentView += "Image edit";
                     _regionManager.RequestNavigate("FilesRegion", "ImagePresetView");
                     break;
+                case "VideoEditView":
+                    CurrentView += "Video edit";
+                    _regionManager.RequestNavigate("FilesRegion", "VideoProcessView");
+                    break;
                 default:
                     break;
             }

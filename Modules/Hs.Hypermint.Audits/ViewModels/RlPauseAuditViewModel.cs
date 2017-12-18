@@ -5,6 +5,7 @@ using Hypermint.Base.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using Prism.Events;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Hs.Hypermint.Audits.ViewModels
 {
@@ -17,7 +18,7 @@ namespace Hs.Hypermint.Audits.ViewModels
         {
         }
 
-        public RlPauseAuditViewModel(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, ISelectedService selected, IRlScan rlScan) : base(ea, hyperspinManager, gameLaunch, settings, selected, rlScan)
+        public RlPauseAuditViewModel(IEventAggregator ea, IHyperspinManager hyperspinManager, IGameLaunch gameLaunch, ISettingsHypermint settings, ISelectedService selected, IRlScan rlScan, IDialogCoordinator dialogService) : base(ea, hyperspinManager, gameLaunch, settings, selected, rlScan, dialogService)
         {
             _rlScan = rlScan;
             _settings = settings;
