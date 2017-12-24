@@ -338,7 +338,7 @@ namespace Hs.Hypermint.Business.Hyperspin
 
         public async Task<IEnumerable<string>> GetHyperspinMediaFiles(string systemName, string folder, string fileFilter ="*.*")
         {
-            return await Task.Run(() => PathHelper.GetMediaFilesForGame(_hyperspinFrontEnd.Path, systemName, folder, fileFilter));
+            return await Task.Run(() => HyperspinPaths.GetMediaFilesForGame(_hyperspinFrontEnd.Path, systemName, folder, fileFilter));
         }
 
         #endregion

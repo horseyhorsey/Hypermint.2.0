@@ -49,7 +49,7 @@ namespace Hs.Hypermint.BusinessTests.IntergrationsTests
         [InlineData("Nintendo 64", "007", 2)]        
         public async void SearchForGamesAsync(string systemName, string searchString, int expectedCount)
         {
-            var db = PathHelper.GetSystemDatabasePath(_fixture._frontend.Path, systemName) + "\\" + $"{systemName}.xml";
+            var db = HyperspinPaths.GetSystemDatabasePath(_fixture._frontend.Path, systemName) + "\\" + $"{systemName}.xml";
             var games = await  _fixture._xmlDataProvider.SearchXmlAsync(_fixture._frontend.Path, systemName, db, searchString);
 
             Assert.True(games.Count() == expectedCount);            

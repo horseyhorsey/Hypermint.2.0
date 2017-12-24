@@ -31,7 +31,7 @@ namespace Hs.Hypermint.Business.Hyperspin
         public async Task<IEnumerable<Genre>> GetAllGenreDatabases(string frontendPath, string systemName)
         {
             //_hsSerializer = new HyperspinSerializer(frontendPath, systemName);
-            var path = PathHelper.GetSystemDatabasePath(frontendPath, systemName);
+            var path = HyperspinPaths.GetSystemDatabasePath(frontendPath, systemName);
 
             return await _hsSerializer.GetGenresAsync(path + "\\genre.xml");
         }
