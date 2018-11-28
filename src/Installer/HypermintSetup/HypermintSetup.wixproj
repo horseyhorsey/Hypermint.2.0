@@ -25,6 +25,16 @@
   <ItemGroup>
     <Content Include="hm.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hypermint.Shell\Hypermint.Shell.csproj">
+      <Name>Hypermint.Shell</Name>
+      <Project>{989c2d81-b19b-463c-bffc-343087e7e5f9}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
