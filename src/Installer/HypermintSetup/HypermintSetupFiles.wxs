@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Directory Id="dir1A723342C1CDE511B938C434E5A15833"/>
+    </DirectoryRef>
+
+    <DirectoryRef Id="DATAFOLDER">
+      <Directory Id="dir1A723342C1CDE511B938C434E5A1532562"/>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="dir3D8558C22E6D9C0EEB041F8272FA140D">
+      <Directory Id="dir012149B8E1B7C9B2E094311B4647EBE6" Name="Amstrad CPC" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dirA76AA40750372F86663E162DF57C6AD7">
+      <Directory Id="dir12118D19BEC6D39596627721F3C8105A" Name="image" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dir1A723342C1CDE511B938C434E5A1532562">
+      <Directory Id="dir14D5D58E0C6F88776F73B8E4434503D9" Name="Exports" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dirA76AA40750372F86663E162DF57C6AD7">
+      <Directory Id="dir1966567FE9956C744E3D13DB533D52B2" Name="wheel" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dir1A723342C1CDE511B938C434E5A1532562">
+      <Directory Id="dir3D8558C22E6D9C0EEB041F8272FA140D" Name="trash" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dir1A723342C1CDE511B938C434E5A1532562">
+      <Directory Id="dir49C57B874B4CFB4F65644D27B8E6043B" Name="Images" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dir012149B8E1B7C9B2E094311B4647EBE6">
+      <Directory Id="dir4C870ABEF462A7FBD856647C00CA867D" Name="hs" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dir1966567FE9956C744E3D13DB533D52B2">
+      <Directory Id="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Name="text" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dir1A723342C1CDE511B938C434E5A1532562">
+      <Directory Id="dirA76AA40750372F86663E162DF57C6AD7" Name="Preset" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dir14D5D58E0C6F88776F73B8E4434503D9">
+      <Directory Id="dirC6516E82C8C49028EF79056EE73284D0" Name="Videos" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <DirectoryRef Id="dir4C870ABEF462A7FBD856647C00CA867D">
+      <Directory Id="dirE888C84A9BC8784D8A27A32C93DD13AC" Name="Artwork3" />
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Binaries">
+      <Component Id="cmp8717BDC675297A6EE90A358AB390277F" Directory="dir1A723342C1CDE511B938C434E5A15833" Guid="{B11C9914-35D2-479B-AD6E-558E17090EA8}">
+        <File Id="filE1D209DDB8B79130AC65AF9A3DF6CEBA" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\De.TorstenMandelkow.MetroChart.dll" />
+      </Component>
+      <Component Id="cmpF560E9FB53128E977D15BDE702525844" Directory="dir1A723342C1CDE511B938C434E5A15833" Guid="{79FFABA3-3A3D-47DB-A28A-969ECC72C0E1}">
+        <File Id="filA870BF45CA2F0FBB73971CBB63A7F1F1" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Hypermint-2.0.exe" />
+      </Component>
+      <Component Id="cmp46A9C6C8F3B0C10E5EE620B1674A33B3" Directory="dir1A723342C1CDE511B938C434E5A15833" Guid="{3FDB3EFF-C922-4E84-9BBF-4466F0BB8939}">
+        <File Id="fil7F08A3F1DA60577A70084F8F922A7F0C" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Hypermint-2.0.exe.config" />
+      </Component>
+      <Component Id="cmp36C8C972427B517AED77C75F80A5F838" Directory="dir1A723342C1CDE511B938C434E5A15833" Guid="{A810C7D2-6F70-4CA8-9F1C-DE18EBAD8F7E}">
+        <File Id="filFFB99289748758CCA42172E8D2CF1817" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\preview.png" />
+      </Component>
+      <Component Id="cmpBAFF3F5664FB82F92664B826EF151B41" Directory="dir1A723342C1CDE511B938C434E5A15833" Guid="{338347F6-1A97-4A08-BE08-FBE87C1A5EA7}">
+        <File Id="fil70266F30B981BB4A05904FE264F90C42" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\youtube-dl.exe" />
+      </Component>
+      
+      
+      <Component Id="cmp9FB041B7B628ACCEB181852BD37C0861" Directory="dirC6516E82C8C49028EF79056EE73284D0" Guid="{9847831B-AA65-44FA-9E8A-BE3543BB5837}">
+        <File Id="fil613EB4A38F7C21E89705E4F3A702080D" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Exports\Videos\readme.txt" />
+      </Component>
+      
+      
+      <Component Id="cmp0C90C4F5BA39487B3306C67E27D8C3CE" Directory="dir49C57B874B4CFB4F65644D27B8E6043B" Guid="{C584D51A-0F8A-49C0-9D2D-2B07EA8FEE77}">
+        <File Id="fil760B327F08AEF156628DA381A63BAD1F" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Images\noimage.png" />
+      </Component>
+      
+      <!--PRESET IMAGES-->
+      <Component Id="cmp8B965C5FBBF643DAC5D6E1D7D0538EBB" Directory="dir12118D19BEC6D39596627721F3C8105A" Guid="{34D0D7EE-404C-4EAB-B63F-8C18268B3038}">
+        <File Id="filBEC114D0315910C72DC8AF7E891D3ADB" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\image\FillBezelBg.xml" />
+      </Component>
+      <Component Id="cmp49A118C46181FACA4928F2A05C829D0C" Directory="dir12118D19BEC6D39596627721F3C8105A" Guid="{CCD1F344-47E0-48C1-B46B-21BA37C77738}">
+        <File Id="fil5255555FBA92782F24C3656F5CFB2059" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\image\FillBezelBgJpg.xml" />
+      </Component>
+      <Component Id="cmp4612FFCB02D78E2157EE8DA382C876D9" Directory="dir12118D19BEC6D39596627721F3C8105A" Guid="{202851F6-3A68-4870-988F-3C8AD3250D8D}">
+        <File Id="filFB35B614543C9E9EFF854384C0B7BEA7" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\image\SidebarTileFromWheel.xml" />
+      </Component>
+      <Component Id="cmpACFA13664C8BD1DAB683B33F2BBD00D6" Directory="dir12118D19BEC6D39596627721F3C8105A" Guid="{AEF1D66D-75AB-4722-8D17-11A349C81DB9}">
+        <File Id="fil4CF53FF0E4EE57576D48EDAF62399C05" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\image\TapeSpinTiledFlipped.xml" />
+      </Component>
+      <Component Id="cmpEC8BA3EA762F2424DF2CCFDDD8450035" Directory="dir12118D19BEC6D39596627721F3C8105A" Guid="{1B57D74D-DC32-4CD2-86C3-3D6B95569CC3}">
+        <File Id="filEA776F5F25CCAC5B80D0B2141F9ADC67" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\image\TiledWheel.xml" />
+      </Component>
+      <Component Id="cmpAFCE3566C56B982B73BDAEF9431A0911" Directory="dir12118D19BEC6D39596627721F3C8105A" Guid="{1176B000-662E-4622-87FE-53B02FD75CD9}">
+        <File Id="fil537B422F4E7653CB59D30C316D088726" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\image\TiledWheelBezelBg.xml" />
+      </Component>
+      
+      
+      <Component Id="cmp46A09AF6BA16EDA70BF502CC8B2843FB" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{49D7F76B-AD3A-4F02-B173-D7AD0A9817D3}">
+        <File Id="filCE2EBD0E9E89E6A1B9B2FB7B3B5FB99F" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\Amstrad.xml" />
+      </Component>
+      <Component Id="cmpC451DE19E5B23D6B7E545BBFC21D0C5F" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{2F978CF5-6069-4476-981F-8D03D6611C0D}">
+        <File Id="filF2CAD2FED5E71E3B24CA39FD5FA3077F" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\AmstradBlueYellow.xml" />
+      </Component>
+      <Component Id="cmp21145B9CB2844F9BCE98C1836A64D00E" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{EDD99957-2911-4793-BCB5-F18FB85FFDC1}">
+        <File Id="fil6B15A2DD88C22C12CC761E0CF489C3F9" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\AmstradBlueYellowArc.xml" />
+      </Component>
+      <Component Id="cmp5076CF346A7610829E8B598DC22E5D7B" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{6AFE19A5-121A-4B30-97BB-1122A41ACF76}">
+        <File Id="fil8E0405E21D84D0ED8E064EDCAED3025F" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\AmstradYellowBlue.xml" />
+      </Component>
+      <Component Id="cmp6A7FB5BDA9E054637C200C5A35E86451" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{3ECFA288-7A06-4001-9C91-D38948B6BEBA}">
+        <File Id="filF5BD28C5D49B5A6AD1E451D2959F83F7" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\ArialRodHull.xml" />
+      </Component>
+      <Component Id="cmp40E7CCE3818013C9039288391A42231F" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{1832FB03-9BFF-4524-962A-84855A58D4AE}">
+        <File Id="fil23A0E635FC3341B45E5460EB681A5652" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\CpcYellowBlueShade.xml" />
+      </Component>
+      <Component Id="cmp2A9D500C876C053BACAE3C54455EC7DE" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{C0E23422-A88D-402E-BFEA-48792E372E49}">
+        <File Id="filF71F9D5058B0265BC5B83529F2AF8C0A" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\CpcYellowNoShadow.xml" />
+      </Component>
+      <Component Id="cmp584958E1D69420BC43D06E21ACC4DBB2" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{A85DBBB7-1F8F-423F-8B22-8D478DEE5903}">
+        <File Id="fil802A4D5D740C463C28DB8F853AEC77CF" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\RodHullPurple.xml" />
+      </Component>
+      <Component Id="cmp0D1BE4C22C7B2E62215648476B83EC48" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{0AD11C3C-5017-4DF3-BE47-F22C24C61EAC}">
+        <File Id="fil248150631C82AB1047C68590E34FF1E7" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\Roman Time.xml" />
+      </Component>
+      <Component Id="cmp3BFF68CD90B3A94ABE159E3298C9726E" Directory="dir4CB4C861FCA2109E3E5A2390BFA8E5AF" Guid="{A84CBACF-AA28-4328-AF0B-32F3125F7450}">
+        <File Id="fil2DC47359760266414A9A3BA12420421A" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\Preset\wheel\text\StdImpact.xml" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

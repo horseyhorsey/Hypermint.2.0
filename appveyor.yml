@@ -1,0 +1,62 @@
+version: '2.0.0.{build}'
+image: Visual Studio 2017
+branches:
+  only:
+  - master_august
+#- develop_MoveWcfToApi 
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: true
+  
+init:
+  # Good practise, because Windows line endings are different from Unix/Linux ones
+  - cmd: git config --global core.autocrlf true
+install:
+  # Install repo specific stuff here
+  
+build:
+  # enable MSBuild parallel builds
+  parallel: false
+  # path to Visual Studio solution or project      
+  #project: Horsify 2.0.sln
+  
+before_build:
+  # Display .NET Core version  
+  - cmd: dotnet --version
+  - nuget restore "src/Hypermint.sln"       
+  
+# build cache to preserve files/folders between builds
+cache:
+  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+  - packages -> **\packages.config
+  - projectA\libs
+  #- node_modules                    # local npm modules
+  - '%LocalAppData%\NuGet\Cache'    # NuGet < v3
+  - '%LocalAppData%\NuGet\v3-cache' # NuGet v3  
+
+# Build platforms
+platform:
+  - Any CPU
+# build Configuration, i.e. Debug, Release, etc.
+configuration:
+  - Release
+  - Debug
+  
+matrix:
+  exclude:
+    - configuration: Debug 
+    
+#test: off
+# test:
+  # # except assemblies to test
+  # assemblies:
+    # except:
+      # - '**\bin\$(configuration)\*Tests.dll'    
+  
+after_build:
+  # For once the build has completed
+artifacts:
+    - path: 'src\Installer\HypermintSetup\bin\Release\HypermintSetup.msi'
+      name: HypermintSetup
+clone_depth: 1
+on_finish :
+deploy: off

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Hypermint 2" Language="1033" Version="1.0.0.0" Manufacturer="Horsesoft" UpgradeCode="5a0e5365-d9b4-4533-8b84-e2cbc469a359">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"  />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate  EmbedCab="yes"/>
+
+    <Feature Id="ProductFeature" Title="Hypermint 2" Level="1">
+      <!--<ComponentGroupRef Id="ProductComponents" />-->
+      <ComponentGroupRef Id="Binaries"/>
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+    </Feature>
+
+    <Icon Id="hm.ico" SourceFile="hm.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="hm.ico"/>
+  </Product>
+    
+  <Fragment>
+
+    <!--PROGRAM FILES-->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="Hypermint 2"/>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Hypermint 2" />
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop" />
+
+      <!--PROGRAM DATA-->
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="DATAFOLDER" Name="Hypermint">
+        </Directory>
+      </Directory>
+
+    </Directory>
+  </Fragment>
+
+  <!--Start menu Shortcut-->
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="6678A5C1-C39F-4166-8838-5C285F6087BC">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="Hypermint 2" Description="Manages Rocketlauncher and Hyperspin" 
+                  Target="[INSTALLFOLDER]Hypermint-2.0.exe" WorkingDirectory="APPLICATIONROOTDIRECTORY" />
+        <RemoveFolder Id="RemoveApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\Horsesoft\Hypermint" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <!--Desktop Shortcut-->
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="ApplicationShortcutDesktop" Guid="AF06F346-4257-4657-AF93-1DC38EB89DFD">
+        <Shortcut Id="ApplicationDesktopShortcut" Name="Hypermint 2" Description="Manages Rocketlauncher and Hyperspin"
+                  Target="[INSTALLFOLDER]Hypermint-2.0.exe" WorkingDirectory="APPLICATIONROOTDIRECTORY" />        
+        <RemoveFolder Id="RemoveDesktopFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\Horsesoft\Hypermint" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+      <Component Id="cmp8717BDC675297A6EE90A358AB390277Fiukui"  Guid="{B11C9914-35D2-479B-AD6E-558E17090EA8}">
+        <File Id="filE1D209DDB8B79130AC65AF9A3DF6tjtjyjCEBA" KeyPath="yes" Source="..\..\Hypermint.Shell\Bin\Debug\De.TorstenMandelkow.MetroChart.dll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>
