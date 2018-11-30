@@ -9,6 +9,7 @@ using System;
 using System.Windows.Input;
 using System.Collections;
 using System.IO;
+using Prism.Logging;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
@@ -19,7 +20,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         public ICommand RandomVideoCommand { get; set; }
 
-        public AvailableVideosViewModel(IEventAggregator eventAggregator, ISettingsHypermint settings) : base(eventAggregator)
+        public AvailableVideosViewModel(ILoggerFacade loggerFacade, IEventAggregator eventAggregator, ISettingsHypermint settings) : base(loggerFacade, eventAggregator)
         {
             _eventAggregator = eventAggregator;
             _settings = settings;
