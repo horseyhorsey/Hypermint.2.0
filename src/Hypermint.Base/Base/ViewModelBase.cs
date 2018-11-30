@@ -11,7 +11,7 @@ namespace Hypermint.Base
     /// </summary>
     public class HypermintViewModelBase : ViewModelBase
     {
-        private ILoggerFacade _loggerFacade;
+        protected readonly ILoggerFacade _loggerFacade;
 
         public HypermintViewModelBase(ILoggerFacade loggerFacade)
         {

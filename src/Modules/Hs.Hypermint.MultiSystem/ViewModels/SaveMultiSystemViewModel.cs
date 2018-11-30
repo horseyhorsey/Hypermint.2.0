@@ -8,10 +8,11 @@ using Hypermint.Base.Interfaces;
 using Frontends.Models.Hyperspin;
 using System.Windows.Input;
 using Hypermint.Base.Services;
+using Prism.Logging;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
-    public class SaveMultiSystemViewModel : ViewModelBase
+    public class SaveMultiSystemViewModel : HypermintViewModelBase
     {
         #region Fields        
         private IDialogCoordinator _dialogService;
@@ -25,7 +26,8 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
 
         #region Constructors
         public SaveMultiSystemViewModel(IDialogCoordinator dialogService, CustomDialog customDialog, IEventAggregator ea,
-            ISettingsHypermint settingsService, IHyperspinManager hyperspinManager, IFileDialogHelper fileService, ISelectedService selected)
+            ISettingsHypermint settingsService, IHyperspinManager hyperspinManager, IFileDialogHelper fileService, 
+            ISelectedService selected, ILoggerFacade loggerFacade) : base(loggerFacade)
         {
             _dialogService = dialogService;
             _customDialog = customDialog;
@@ -49,12 +51,18 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                     {
                         await BuildMultiSystemAsync();
 
+                        Log("Saving MS to xmls");
                         await _hyperspinManager.SaveCurrentSystemsListToXmlAsync(selected.CurrentMainMenu, true);
 
+                        Log("Completed");
                         await _dialogService.HideMetroDialogAsync(this, _customDialog);
                     }
                 }
-                catch (Exception ex) { await _dialogService.HideMetroDialogAsync(this, _customDialog); }
+                catch (Exception ex)
+                {
+                    Log(ex.Message, Category.Warn);
+                    await _dialogService.HideMetroDialogAsync(this, _customDialog);
+                }
             }
             );
         }
@@ -159,6 +167,9 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
                 MultiSystemName = MultiSystemName,
                 SettingsTemplateFile = SettingsTemplate
             };
+
+            Log($"Settings: MS Name: {MultiSystemName}, Copy media: {CopyMedia}, Copy media: {CreateGenres}, Create RomMap: {CreateRomMap}," +
+                $"Symbolic: {CreateSymbolicLinks}, HS Settings template: {SettingsTemplate}", Category.Warn);
 
             return _hyperspinManager.CreateMultiSystem(MultiSystemOptions);
         }

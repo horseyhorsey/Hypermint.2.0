@@ -7,10 +7,10 @@ using Hypermint.Base.Models;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,7 +19,7 @@ using System.Windows.Input;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
-    public class ExportVideoOptionsViewModel : ViewModelBase
+    public class ExportVideoOptionsViewModel : HypermintViewModelBase
     {
         #region Fields
         private IAviSynthScripter _avisynthScripter;
@@ -30,8 +30,8 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         #endregion
 
         #region Constructors
-        public ExportVideoOptionsViewModel( IAviSynthScripter aviSynthScripter, IEventAggregator ea,
-                    ISettingsHypermint settings, ISelectedService selected)
+        public ExportVideoOptionsViewModel(ILoggerFacade loggerFacade, IAviSynthScripter aviSynthScripter, IEventAggregator ea,
+                    ISettingsHypermint settings, ISelectedService selected) : base(loggerFacade)
         {
             _avisynthScripter = aviSynthScripter;
             _eventAggregator = ea;
@@ -183,8 +183,9 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         /// Gets the scripts in export folder.
         /// </summary>
         private void GetScriptsInExportFolder()
-        {
+        {            
             var path = GetSystemExportPath();
+            Log($"Export path: {path}");
 
             if (!Directory.Exists(path)) return;
 
@@ -205,21 +206,28 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             try
             {
                 var selectedScript = Scripts.CurrentItem as string;
-
                 if (selectedScript == null) return;
 
                 var scriptPath = "\"" + $"{GetSystemExportPath() + selectedScript}.avs" + "\"";
                 var videoPath = "\"" + $"{GetSystemExportPath() + selectedScript}.mp4" + "\"";
 
+                Log($"{scriptPath} - {videoPath}");
+
                 if (!File.Exists(_settings.HypermintSettings.Ffmpeg))
+                {
+                    Log($"Ffmpeg not available at {_settings.HypermintSettings.Ffmpeg}", Category.Warn);
                     throw new FileNotFoundException("Ffmpeg not found. Set the Ffmpeg path in settings to process.");
+                }
+                    
 
                 var args = "-i " + scriptPath + " -vcodec libx264 -crf " + VideoQuality + " " + videoPath;
+                Log($"Running Ffmpeg: {args}");
                 Process.Start(_settings.HypermintSettings.Ffmpeg, args);
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
+                Log(ex.Message, Category.Exception);
             }
         }
 
@@ -229,6 +237,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         /// <param name="videos">The videos.</param>
         private void SaveScript(IEnumerable<string> videos)
         {
+            Log("");
             var aviSynthOptions = new AviSynthOption()
             {
                 DissolveAmount = DissolveAmount,
@@ -251,10 +260,12 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
                 GetSystemExportPath());            
 
             //Create script from builder
-            string scriptCreated = _avisynthScripter.CreateScript(scriptOptions);            
+            string scriptCreated = _avisynthScripter.CreateScript(scriptOptions);
+            Log($"Script created: {scriptCreated}");
 
             //Get scripts and select the created
             GetScriptsInExportFolder();
+
             if (Scripts == null)
                 Scripts = new ListCollectionView(_scripts);
 
@@ -267,12 +278,12 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             Scripts = null;
 
             try
-            {
+            {                
                 GetScriptsInExportFolder();
             }
             catch (Exception ex)
             {
-
+                Log(ex.Message, Category.Exception);
                 Debug.WriteLine(ex.Message);
             }
 

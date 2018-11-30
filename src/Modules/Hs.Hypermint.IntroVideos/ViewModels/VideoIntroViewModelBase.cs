@@ -9,10 +9,11 @@ using System.Windows.Input;
 using System.Collections;
 using Prism.Events;
 using Hypermint.Base.Events;
+using Prism.Logging;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
-    public abstract class VideoIntroViewModelBase : ViewModelBase, IDropTarget
+    public abstract class VideoIntroViewModelBase : HypermintViewModelBase, IDropTarget
     {
         private IEventAggregator _eventAggregator;
 
@@ -22,7 +23,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         public ICommand SelectionProcessChanged { get; set; }
         #endregion
 
-        public VideoIntroViewModelBase(IEventAggregator eventAggregator)
+        public VideoIntroViewModelBase(ILoggerFacade loggerFacade, IEventAggregator eventAggregator) : base (loggerFacade)
         {
             _eventAggregator = eventAggregator;
 

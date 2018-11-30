@@ -3,6 +3,7 @@ using Hypermint.Base.Events;
 using Hypermint.Base.Model;
 using MediaToolkit.Model;
 using Prism.Events;
+using Prism.Logging;
 using System;
 using System.Collections;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
     {
         private IEventAggregator _eventAggregator;
 
-        public ProcessVideosViewModel(IEventAggregator eventAggregator): base(eventAggregator)
+        public ProcessVideosViewModel(ILoggerFacade loggerFacade, IEventAggregator eventAggregator): base(loggerFacade, eventAggregator)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<AddToProcessVideoListEvent>().Subscribe(video => AddVideo(video));
@@ -92,6 +93,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         /// </summary>
         private void ScanFormat()
         {
+            Log("");
             foreach (var video in Videos)
             {
                 try
@@ -113,13 +115,13 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
                                     engine.Dispose();
                                 }
                             }
-                            catch (Exception) { }
+                            catch (Exception ex) { Log(ex.Message, Prism.Logging.Category.Exception); }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show(ex.InnerException.Message);
+                    Log(ex.Message, Prism.Logging.Category.Exception);
                 }
             }
 

@@ -98,7 +98,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\MultiSystemControlPanelViewModel.cs" />
-    <Compile Include="ViewModels\MultiSystemOptionsViewModel.cs" />
     <Compile Include="ViewModels\MultiSystemViewModel.cs" />
     <Compile Include="ViewModels\SaveMultiSystemViewModel.cs" />
     <Compile Include="Views\MultiSystemControlPanelView.xaml.cs">

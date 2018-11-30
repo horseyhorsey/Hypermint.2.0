@@ -14,10 +14,11 @@ using System.Windows.Input;
 using System.Linq;
 using Hypermint.Base.Services;
 using System.Collections;
+using Prism.Logging;
 
 namespace Hs.Hypermint.MultiSystem.ViewModels
 {
-    public class MultiSystemViewModel : ViewModelBase
+    public class MultiSystemViewModel : HypermintViewModelBase
     {
         #region Services
         private IFileDialogHelper _fileFolderService;
@@ -31,14 +32,14 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         #region Constructors
         public MultiSystemViewModel(IEventAggregator ea, IFileDialogHelper fileService,
             IDialogCoordinator dialogService, IHyperspinManager hyperspinManager,
-          ISettingsHypermint settings, ISelectedService selectedService)
+          ISettingsHypermint settings, ISelectedService selectedService, ILoggerFacade loggerFacade) : base(loggerFacade)
         {
             _eventAggregator = ea;
             _fileFolderService = fileService;
             _settingsService = settings;
             _dialogService = dialogService;
             _hyperspinManager = hyperspinManager;
-            _selectedService = selectedService;
+            _selectedService = selectedService;            
 
             MultiSystemList = new ListCollectionView(_hyperspinManager.MultiSystemGamesList);
 
@@ -159,7 +160,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
         private void AddToMultiSystem(IEnumerable<GameItemViewModel> games)
         {
             if (_hyperspinManager.MultiSystemGamesList == null) throw new NullReferenceException("Multi system games list is null!");
-
+            
             foreach (var game in games)
             {
                 //Only add the game if it doesn't already exits
@@ -191,7 +192,7 @@ namespace Hs.Hypermint.MultiSystem.ViewModels
             customDialog = new CustomDialog() { Title = "Save MultiSystem" };
 
             customDialog.Content = new SaveMultiSystemView { DataContext = new SaveMultiSystemViewModel(_dialogService, customDialog,_eventAggregator,_settingsService
-                , _hyperspinManager,_fileFolderService, _selectedService) };
+                , _hyperspinManager,_fileFolderService, _selectedService, _loggerFacade) };
 
             await _dialogService.ShowMetroDialogAsync(this, customDialog);
         }
