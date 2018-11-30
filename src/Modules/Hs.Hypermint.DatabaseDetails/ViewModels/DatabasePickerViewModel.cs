@@ -2,12 +2,14 @@
 using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
+using Hypermint.Base.Extensions;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -19,7 +21,6 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         private IEventAggregator _eventAggregator;
         private IHyperspinManager _hyperspinManager;
         private ISettingsHypermint _settingsRepo;
-        private IFolderExplore _folderService;
         private ISelectedService _selectedService;
 
         #region Constructors
@@ -30,12 +31,11 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
         }
 
         public DatabasePickerViewModel( IEventAggregator eventAggregator, IHyperspinManager hyperspinManager, ISettingsHypermint settingsRepo, 
-            IFolderExplore folderService, ISelectedService selectedService)
+            ISelectedService selectedService)
         {
             _eventAggregator = eventAggregator;
             _hyperspinManager = hyperspinManager;
             _settingsRepo = settingsRepo;
-            _folderService = folderService;
             _selectedService = selectedService;
 
             this.SystemDatabases = new ListCollectionView(_hyperspinManager.DatabasesCurrentSystem);
@@ -71,10 +71,9 @@ namespace Hs.Hypermint.DatabaseDetails.ViewModels
             switch (hyperspinDirType)
             {
                 case "Databases":
-                    var pathToOpen = _settingsRepo.HypermintSettings.HsPath;
-                    _folderService.OpenFolder(pathToOpen + "\\" +
-                        Root.Databases + "\\" +
-                        _selectedService.CurrentSystem);
+                    var pathToOpen = Path.Combine(_settingsRepo.HypermintSettings.HsPath,
+                        Root.Databases, _selectedService.CurrentSystem);
+                    var di = new DirectoryInfo(pathToOpen).Open();
                     break;
                 default:
                     break;

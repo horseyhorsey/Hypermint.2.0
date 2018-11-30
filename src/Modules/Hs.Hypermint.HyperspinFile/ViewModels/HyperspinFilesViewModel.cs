@@ -3,6 +3,7 @@ using Hs.Hypermint.HyperspinFile.Models;
 using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
+using Hypermint.Base.Extensions;
 using Hypermint.Base.Helpers;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Services;
@@ -32,14 +33,13 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
         private IEventAggregator _eventAggregator;
         private IImageEditService _imageEdit;
         private IRegionManager _regionManager;
-        private IFolderExplore _folderExplore;
         private ITrashMaster _trashMaster;
         private IHyperspinManager _hyperspinManager;
         #endregion
 
         #region Constructors
         public HyperspinFilesViewModel(IEventAggregator ea, ISettingsHypermint settings,
-             IRegionManager regionManager, IFolderExplore folderExplore, ITrashMaster trashMaster,
+             IRegionManager regionManager, ITrashMaster trashMaster,
             ISelectedService selectedService, IImageEditService imageEdit, IHyperspinManager hyperspinManager)
         {
             _eventAggregator = ea;
@@ -48,7 +48,6 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             _selectedService = selectedService;
             _imageEdit = imageEdit;
             _regionManager = regionManager;
-            _folderExplore = folderExplore;
             _trashMaster = trashMaster;
             _hyperspinManager = hyperspinManager;
 
@@ -116,9 +115,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
             OpenTrashFolderCommand = new DelegateCommand(() =>
             {
                 var sys = GetSystemFolderName(columnHeader);
-
-                _folderExplore.OpenFolder(_trashMaster.GetHsTrashPath(sys, columnHeader));
-
+                var result = new DirectoryInfo(_trashMaster.GetHsTrashPath(sys, columnHeader)).Open();
             });
         }
 
@@ -776,7 +773,7 @@ namespace Hs.Hypermint.HyperspinFile.ViewModels
                  name,
                  columnHeader);
 
-            _folderExplore.OpenFolder(hsMediaPath);
+            var result = new DirectoryInfo(hsMediaPath).Open();
         }
 
         private string GetSystemFolderName(string mediaType)

@@ -49,7 +49,7 @@ namespace Hs.Hypermint.Search.ViewModels
             PageGamesCommand = new DelegateCommand<string>(x => PageGames(x));
 
             //Scan games on this event
-            _ea.GetEvent<OnSearchForGames>().Subscribe( searchOptions =>  ScanForGamesAsync(searchOptions, false));
+            _ea.GetEvent<OnSearchForGames>().Subscribe( searchOptions =>  ScanForGamesAsync(searchOptions));
 
             SelectionChanged = new DelegateCommand<IList>(items => { OnMultipleItemsSelectionChanged(items); });
 
@@ -198,8 +198,7 @@ namespace Hs.Hypermint.Search.ViewModels
         /// Scans for games asynchronous.
         /// </summary>
         /// <param name="searchOptions">The search options.</param>
-        /// <param name="meh">if set to <c>true</c> [meh].</param>
-        private async void ScanForGamesAsync(SearchOptions searchOptions, bool meh= false)
+        private async void ScanForGamesAsync(SearchOptions searchOptions)
         {
             SearchGames.Clear();    
 

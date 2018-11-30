@@ -15,7 +15,6 @@ namespace Hs.Hypermint.SidebarSystems
         public SidebarSystemsModule(IUnityContainer container, IRegionManager manager) : base(container, manager)
         {
             _regionManager = manager;
-            UnityContainer.RegisterType<IFolderExplore, FolderExplore>();
             RegionManager.RegisterViewWithRegion(RegionNames.SidebarRegion, typeof(SidebarView));
             //RegionManager.RegisterViewWithRegion(RegionNames.SidebarMainMenusRegion, typeof(MainMenuView));
             //RegionManager.RegisterViewWithRegion(RegionNames.SidebarSystemsRegion, typeof(SystemsView));

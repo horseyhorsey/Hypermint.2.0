@@ -10,6 +10,7 @@ using System.IO;
 using System.Windows.Data;
 using Prism.Commands;
 using System.Windows.Input;
+using Hypermint.Base.Extensions;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
@@ -28,7 +29,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         public MainMenuViewModel(ISettingsHypermint settingsRepo, IEventAggregator ea,
             IHyperspinManager hyperspinManager,
             ISelectedService selectedService,
-            IHyperspinXmlDataProvider dataProvider, IFolderExplore folderService)
+            IHyperspinXmlDataProvider dataProvider)
         {
             _settingsRepo = settingsRepo;
             _selectedService = selectedService;
@@ -41,8 +42,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             SelectedMainMenuItem = new MainMenuItemViewModel();
             MainMenuDatabases = new ListCollectionView(MainMenuItemViewModels);
             MainMenuDatabases.CurrentChanged += MainMenuDatabases_CurrentChanged;
-
-            OpenFolderCommand = new DelegateCommand<string>(x => folderService.OpenFolder(Path.Combine(_settingsRepo.HypermintSettings.HsPath, "Databases", "Main Menu")));
+            OpenFolderCommand = new DelegateCommand<string>(OnOpenDirectory);
 
             SetMainMenuDatabases("Main Menu");
         }
@@ -150,6 +150,11 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
             _eventAggregator.GetEvent<MainMenuSelectedEvent>().Publish(_selectedService.CurrentMainMenu);
         }
 
+        private void OnOpenDirectory(string obj)
+        {
+            var mmDir = Path.Combine(_settingsRepo.HypermintSettings.HsPath, "Databases", "Main Menu");
+            var result = new DirectoryInfo(mmDir).Open();
+        }
         #endregion
 
     }

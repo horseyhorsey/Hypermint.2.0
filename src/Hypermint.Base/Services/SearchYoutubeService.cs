@@ -53,6 +53,7 @@ namespace Hypermint.Base.Services
             _outputCallback = outputCallback;
             await Task.Run(() =>
              {
+                 //TODO: don't harcode this externalapp
                  ProcessStartInfo si = new ProcessStartInfo(Environment.CurrentDirectory + "\\youtube-dl.exe");
                  Process p = new Process();
                  p.EnableRaisingEvents = true;

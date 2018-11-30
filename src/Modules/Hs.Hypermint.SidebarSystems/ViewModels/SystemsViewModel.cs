@@ -15,6 +15,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using Frontends.Models.Hyperspin;
 using System.Xml;
+using Hypermint.Base.Model;
 
 namespace Hs.Hypermint.SidebarSystems.ViewModels
 {
@@ -151,8 +152,8 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         {
             if (ReOrderSystems)
             {
-                var sourceItem = dropInfo.Data as MainMenu;
-                var targetItem = dropInfo.TargetItem as MainMenu;
+                var sourceItem = dropInfo.Data as MenuItemViewModel;
+                var targetItem = dropInfo.TargetItem as MenuItemViewModel;
 
                 var AddInIndex = _hyperspinManager.Systems.IndexOf(targetItem);
 
@@ -171,11 +172,11 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         {
             if (ReOrderSystems)
             {
-                var sourceItem = dropInfo.Data as MainMenu;
+                var sourceItem = dropInfo.Data as MenuItemViewModel;
 
                 if (_hyperspinManager.Systems.IndexOf(sourceItem) == 0) return;
 
-                var targetItem = dropInfo.TargetItem as MainMenu;
+                var targetItem = dropInfo.TargetItem as MenuItemViewModel;
 
                 if (sourceItem != null && targetItem != null)
                 {
@@ -212,7 +213,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         private void OnSystemCreated(MainMenu mainMenu)
         {
             if (mainMenu != null)
-                _hyperspinManager.Systems.Add(mainMenu);
+                _hyperspinManager.Systems.Add(new MenuItemViewModel(mainMenu));
         }
 
         /// <summary>
@@ -252,7 +253,7 @@ namespace Hs.Hypermint.SidebarSystems.ViewModels
         {
             if (ReOrderSystems) return;
 
-            MainMenu system = SystemItems.CurrentItem as MainMenu;
+            MenuItemViewModel system = SystemItems.CurrentItem as MenuItemViewModel;
 
             if (system != null)
             {

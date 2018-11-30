@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Frontends.Models.Hyperspin;
 using Hypermint.Base.Model;
 using System.Windows.Media.Imaging;
+using System.Collections.ObjectModel;
 
 namespace Hs.Hypermint.Search.ViewModels
 {
@@ -18,6 +19,7 @@ namespace Hs.Hypermint.Search.ViewModels
     {
         #region Fields               
         private IHyperspinManager _hyperspinManager;
+        private ObservableCollection<MenuItemViewModel> _systemVms;
         #endregion
 
         #region Constructors
@@ -28,36 +30,10 @@ namespace Hs.Hypermint.Search.ViewModels
             IGameLaunch gameLaunch) : base(eventAggregator, selectedSrv, gameLaunch, settings)
         {
             _hyperspinManager = hyperspinManager;
-
-            Systems = new ListCollectionView(_hyperspinManager.Systems);
-
-            SelectSystemsCommand = new DelegateCommand<string>(x =>
-            {
-                OnSystemsSelected(x);
-            });            
-
+            Systems = new ListCollectionView(_hyperspinManager.Systems);                        
+            
             DockSystemsCommand = new DelegateCommand(() => { SystemsVisible = !SystemsVisible; });
-
-            //_eventAggregator.GetEvent<SystemsGenerated>().Subscribe(x => OnSystemsUpdated(x));
-        }
-
-        private void OnSystemsSelected(string x)
-        {
-            try
-            {
-                var sysEnabled = 0;
-
-                if (x == "all")
-                    sysEnabled = 1;
-
-                foreach (MainMenu item in _hyperspinManager.Systems)
-                {
-                    item.Enabled = sysEnabled;
-                }
-
-                Systems.Refresh();
-            }
-            catch (Exception) { }
+            SelectSystemsCommand = new DelegateCommand<string>(OnSystemsSelected);
         }
 
         #endregion
@@ -88,36 +64,23 @@ namespace Hs.Hypermint.Search.ViewModels
 
         #endregion
 
-        #region Support Methods        
-
-        /// <summary>
-        /// Called when [systems are updated].
-        /// </summary>
-        /// <param name="system">The system.</param>
-        private void OnSystemsUpdated(string system)
+        #region Support Methods   
+        
+        private void OnSystemsSelected(string x)
         {
-            //try
-            //{
-            //    if (_hyperspinManager.Systems != null)
-            //    {
-            //        foreach (var systemss in _hyperspinManager.Systems)
-            //        {
-            //            if (!systemss.Name.Contains("Main Menu"))
-            //            {
-            //                 .Add(new MainMenu()
-            //                {
-            //                    Name = systemss.Name,
-            //                    SysIcon = systemss.SysIcon,
-            //                    Enabled = 1
-            //                });
-            //            }
-            //        }                    
-            //    }
-            //}
-            //catch (Exception) { }
+            try
+            {
+                var sysEnabled = 0;
+                if (x == "all")
+                    sysEnabled = 1;
 
+                foreach (MenuItemViewModel item in _hyperspinManager.Systems)
+                {
+                    item.Enabled = sysEnabled;
+                }
+            }
+            catch (Exception) { }
         }
-
 
         #endregion
     }

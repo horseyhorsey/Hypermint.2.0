@@ -131,14 +131,14 @@ namespace Hypermint.Base.Services
 
             var system = options.SystemName;
 
-            if (!Directory.Exists(options.ExportScriptPath + system))
-                Directory.CreateDirectory(options.ExportScriptPath + system);
+            if (!Directory.Exists(options.ExportScriptPath))
+                Directory.CreateDirectory(options.ExportScriptPath);
 
             var scriptFile = system + ".avs";
 
             i = 1;
 
-            while (File.Exists(options.ExportScriptPath + system + "\\" + scriptFile))
+            while (File.Exists(options.ExportScriptPath + "\\" + scriptFile))
             {
                 scriptFile = system + "(" + i + ")" + ".avs";
                 i++;

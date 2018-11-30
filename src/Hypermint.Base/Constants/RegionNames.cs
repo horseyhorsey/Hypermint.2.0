@@ -17,6 +17,13 @@
         public static string SearchViewRegion = "SearchViewRegion";
         public static string SearchResultsViewRegion = "SearchResultsViewRegion";
         public static string SidebarMainMenusRegion = "SidebarMainMenusRegion";
-        public static string SidebarSystemsRegion = "SidebarSystemsRegion";        
+        public static string SidebarSystemsRegion = "SidebarSystemsRegion";
+
+        public static string MediaPaneView { get; set; }
+    }
+
+    public static class ViewNames
+    {
+        public const string MediaPaneView = "MediaPaneView";
     }
 }

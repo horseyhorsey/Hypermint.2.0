@@ -1,6 +1,7 @@
 ﻿using Hypermint.Base;
 using Hypermint.Base.Constants;
 using Hypermint.Base.Events;
+using Hypermint.Base.Extensions;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Models;
 using Hypermint.Base.Services;
@@ -22,7 +23,6 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
     {
         #region Fields
         private IAviSynthScripter _avisynthScripter;
-        private IFolderExplore _folderExplorer;
         private IEventAggregator _eventAggregator;
         private ISettingsHypermint _settings;
         private ISelectedService _selectedService;
@@ -31,10 +31,9 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
         #region Constructors
         public ExportVideoOptionsViewModel( IAviSynthScripter aviSynthScripter, IEventAggregator ea,
-                    ISettingsHypermint settings, ISelectedService selected,IFolderExplore folderexplorer)
+                    ISettingsHypermint settings, ISelectedService selected)
         {
             _avisynthScripter = aviSynthScripter;
-            _folderExplorer = folderexplorer;
             _eventAggregator = ea;
             _settings = settings;
             _selectedService = selected;
@@ -63,10 +62,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
             OpenExportFolderCommand = new DelegateCommand(() =>
             {
                 var dir = GetSystemExportPath();
-                if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-
-                _folderExplorer.OpenFolder(dir);
+                var result = new DirectoryInfo(dir).Open();
             });
 
         }
@@ -188,7 +184,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         /// </summary>
         private void GetScriptsInExportFolder()
         {
-            var path = exportPath + _selectedService.CurrentSystem;
+            var path = GetSystemExportPath();
 
             if (!Directory.Exists(path)) return;
 
@@ -259,6 +255,9 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
 
             //Get scripts and select the created
             GetScriptsInExportFolder();
+            if (Scripts == null)
+                Scripts = new ListCollectionView(_scripts);
+
             Scripts.MoveCurrentTo(scriptCreated);
 
         }

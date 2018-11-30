@@ -46,7 +46,7 @@ namespace Hs.Hypermint.Business.Hyperspin
 
             //init system stuff
             _systemCreator = new SystemCreator(_hyperspinFrontEnd);
-            Systems = new ObservableCollection<MainMenu>();
+            Systems = new ObservableCollection<MenuItemViewModel>();
 
             //init games lists
             CurrentSystemsGames = new ObservableCollection<GameItemViewModel>();
@@ -63,11 +63,11 @@ namespace Hs.Hypermint.Business.Hyperspin
         /// </summary>
         public ICollection<MainMenu> SystemsCollection { get; set; }
 
-        private ObservableCollection<MainMenu> systems;
+        private ObservableCollection<MenuItemViewModel> systems;
         /// <summary>
         /// Gets or sets the hyperspin systems.
         /// </summary>
-        public ObservableCollection<MainMenu> Systems
+        public ObservableCollection<MenuItemViewModel> Systems
         {
             get { return systems; }
             set { SetProperty(ref systems, value); }
@@ -116,7 +116,7 @@ namespace Hs.Hypermint.Business.Hyperspin
             var games = MultiSystemGamesList.Select(x => x.Game);
 
             if (!Systems.Any(x => x.Name == options.MultiSystemName))
-                Systems.Add(new MainMenu(options.MultiSystemName, 1));
+                Systems.Add(new MenuItemViewModel(new MainMenu(options.MultiSystemName, 1)));
 
             //Group the games because we can't have duplicate romnames in the database.
             var filteredGames = games.GroupBy(x => x.RomName).Select(grp => grp.First());
@@ -136,7 +136,7 @@ namespace Hs.Hypermint.Business.Hyperspin
             if (!await _systemCreator.CreateSystem(systemName, existingDb))
                 return false;
 
-            Systems.Add(new MainMenu(systemName, 1));
+            Systems.Add(new MenuItemViewModel(new MainMenu(systemName, 1)));
 
             _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, systemName, mainmenuName);
             await SaveCurrentSystemsListToXmlAsync(mainmenuName, false);
@@ -169,28 +169,24 @@ namespace Hs.Hypermint.Business.Hyperspin
 
             _hsSerializer.ChangeSystemAndDatabase("Main Menu");
 
-            return await _hsSerializer.CreateGamesListFromAllFavoriteTexts(_hyperspinFrontEnd.Path, Systems.AsEnumerable());
+            return await _hsSerializer.CreateGamesListFromAllFavoriteTexts(_hyperspinFrontEnd.Path, Systems.Select(x=> x.MainMenu));
         }
 
-        /// <summary>
-        /// Gets the genre databases.
-        /// </summary>
-        /// <param name="system">The system.</param>
-        /// <returns></returns>
-        public async Task GetGenreDatabases(string system)
+        public async Task<IEnumerable<HyperspinFile>> GetGenreDatabases(string system)
         {
-            DatabasesCurrentGenres.Clear();
-
             try
             {
+                var hyperFiles = new List<HyperspinFile>();
                 var genres = await _hsDataProvider.GetAllGenreDatabases(_hyperspinFrontEnd.Path, system);
-
                 foreach (var genre in genres)
                 {
-                    DatabasesCurrentGenres.Add(new HyperspinFile($"{genre}.xml") { });
+                    hyperFiles.Add(new HyperspinFile($"{genre}.xml"));
                 }
+                return hyperFiles;
             }
-            catch { }
+            catch {  }
+
+            return null;
         }
 
         /// <summary>
@@ -237,7 +233,7 @@ namespace Hs.Hypermint.Business.Hyperspin
             {
                 foreach (var system in _systems)
                 {
-                    Systems.Add(system);
+                    Systems.Add(new MenuItemViewModel(system));
                 }
 
                 await GetSystemIconsAsync();
@@ -358,7 +354,7 @@ namespace Hs.Hypermint.Business.Hyperspin
                 {
                     if (Directory.Exists(icons))
                     {
-                        foreach (var system in Systems)
+                        foreach (var system in Systems.Select(x=>x.MainMenu))
                         {
                             system.SysIcon = new Uri(Path.Combine(icons, system.Name + ".png"));
                         }
@@ -371,7 +367,7 @@ namespace Hs.Hypermint.Business.Hyperspin
         {
             _hsSerializer = new HyperspinSerializer(_hyperspinFrontEnd.Path, "Main Menu", currentMainMenu);
 
-            return await _hsSerializer.SerializeAsync(Systems, isMultiSystem);
+            return await _hsSerializer.SerializeAsync(Systems.Select(x => x.MainMenu), isMultiSystem);
         }
 
         /// <summary>

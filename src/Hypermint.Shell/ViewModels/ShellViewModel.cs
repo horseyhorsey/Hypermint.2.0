@@ -7,26 +7,26 @@ using Prism.Regions;
 using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
 using Hypermint.Base.Model;
+using Prism.Logging;
+using Hypermint.Base.Constants;
 
 namespace Hypermint.Shell.ViewModels
 {
-    public class ShellViewModel : ViewModelBase, IDropTarget
+    public class ShellViewModel : HypermintViewModelBase, IDropTarget
     {
         public DelegateCommand<string> NavigateCommand { get; set; }
 
         #region Fields
         private readonly IRegionManager _regionManager;
-        private IEventAggregator _eventAggregator;
         private IHyperspinManager _hsManager;
         private ISelectedService _service;
         #endregion
 
         #region Constructor
-        public ShellViewModel(IRegionManager regionManager, IEventAggregator eventAggregator,
-            ISelectedService service, IHyperspinManager hsManager, ISettingsHypermint settings)
+        public ShellViewModel(ILoggerFacade loggerFacade, IRegionManager regionManager, IEventAggregator eventAggregator,
+            ISelectedService service, IHyperspinManager hsManager, ISettingsHypermint settings) : base (loggerFacade)
         {
             _regionManager = regionManager;
-            _eventAggregator = eventAggregator;
             _hsManager = hsManager;
             _service = service;
 
@@ -34,7 +34,8 @@ namespace Hypermint.Shell.ViewModels
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
 
-            _eventAggregator.GetEvent<ErrorMessageEvent>().Subscribe(DisplayError);
+            //TODO: Remove this and all subscribers and replace with logging.
+            eventAggregator.GetEvent<ErrorMessageEvent>().Subscribe(DisplayError);
         }
 
         #endregion
@@ -52,7 +53,7 @@ namespace Hypermint.Shell.ViewModels
         private void DisplayError(string error)
         {
             ErrorMessage = error;
-            //System.Windows.MessageBox.Show(error);
+            Log(error, Category.Warn, Priority.None);
         }
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
@@ -70,6 +71,7 @@ namespace Hypermint.Shell.ViewModels
         /// <param name="settings">The settings.</param>
         private void LoadSettings(ISettingsHypermint settings)
         {
+            Log("", Category.Debug, Priority.None);
             //Create settings
             settings.HypermintSettings =
                 new Setting
@@ -86,7 +88,8 @@ namespace Hypermint.Shell.ViewModels
 
         private void Navigate(string uri)
         {
-            _eventAggregator.GetEvent<NavigateRequestEvent>().Publish(uri);
+            Log("", Category.Debug, Priority.None);
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, uri);
         }
 
         #endregion

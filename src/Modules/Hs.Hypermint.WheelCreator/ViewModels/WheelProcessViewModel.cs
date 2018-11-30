@@ -14,6 +14,7 @@ using Hypermint.Base.Interfaces;
 using System.Collections.Generic;
 using Hypermint.Base.Services;
 using System.Threading.Tasks;
+using Hypermint.Base.Extensions;
 
 namespace Hs.Hypermint.WheelCreator.ViewModels
 {
@@ -80,7 +81,6 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         }
 
         private bool overwriteImage = false;
-        private IFolderExplore _folderExplorer;
         private IHyperspinManager _hyperspinManager;
         private ISettingsHypermint _settings;
         private ITextImageService _textImageService;
@@ -120,12 +120,11 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
         } 
         #endregion
 
-        public WheelProcessViewModel(ITextImageService textImageService, IEventAggregator ea, ISelectedService selectedService,
-            IFolderExplore folderExplore, IHyperspinManager hyperspinManager, ISettingsHypermint settings)
+        public WheelProcessViewModel(ITextImageService textImageService, IEventAggregator ea, ISelectedService selectedService, 
+            IHyperspinManager hyperspinManager, ISettingsHypermint settings)
         {
             _eventAgg = ea;
-            _selectedService = selectedService;
-            _folderExplorer = folderExplore;
+            _selectedService = selectedService;            
             _hyperspinManager = hyperspinManager;
             _settings = settings;
             _textImageService = textImageService;
@@ -165,7 +164,7 @@ namespace Hs.Hypermint.WheelCreator.ViewModels
                 else if (ProcessGenres)
                     exportPath = GetSystemsWheelExportPath("Genres");
 
-                _folderExplorer.OpenFolder(exportPath);
+                var result = new DirectoryInfo(exportPath).Open();
             });
 
             _eventAgg.GetEvent<PresetWheelsUpdatedEvent>().Subscribe(x =>

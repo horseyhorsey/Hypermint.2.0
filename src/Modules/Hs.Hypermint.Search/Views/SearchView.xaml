@@ -115,7 +115,7 @@
             </Grid>
 
             <!--BUTTON PANEL-->
-            <StackPanel DockPanel.Dock="Right">
+            <!--<StackPanel DockPanel.Dock="Right">
 
                 <StackPanel.LayoutTransform>
                     <RotateTransform Angle="90"/>
@@ -123,7 +123,7 @@
 
                 <Button x:Name="systemsPanel" Content="Systems" Command="{Binding DockSystemsCommand}"/>
 
-            </StackPanel>
+            </StackPanel>-->
 
         </DockPanel>
 

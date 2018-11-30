@@ -8,21 +8,20 @@ using Prism.Events;
 using System;
 using System.Windows.Input;
 using System.Collections;
+using System.IO;
 
 namespace Hs.Hypermint.IntroVideos.ViewModels
 {
     public class AvailableVideosViewModel : VideoIntroViewModelBase
     {
         private IEventAggregator _eventAggregator;
-        private IFileFolderChecker _fileChecker;
         private ISettingsHypermint _settings;
 
         public ICommand RandomVideoCommand { get; set; }
 
-        public AvailableVideosViewModel(IEventAggregator eventAggregator, ISettingsHypermint settings, IFileFolderChecker fileChecker) : base(eventAggregator)
+        public AvailableVideosViewModel(IEventAggregator eventAggregator, ISettingsHypermint settings) : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            _fileChecker = fileChecker;
             _settings = settings;
 
             RandomVideoCommand = new DelegateCommand(() => { });
@@ -104,7 +103,7 @@ namespace Hs.Hypermint.IntroVideos.ViewModels
         {
             try
             {
-                var videoFiles = _fileChecker.GetFiles(hyperSpinVideoPath + "\\", videoExtFilter);
+                var videoFiles = Directory.GetFiles(hyperSpinVideoPath + "\\", videoExtFilter);
 
                 foreach (var video in videoFiles)
                 {

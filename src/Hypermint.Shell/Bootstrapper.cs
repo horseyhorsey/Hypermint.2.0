@@ -19,13 +19,13 @@ using Hs.Hypermint.Search.Views;
 using Hs.Hypermint.SidebarSystems;
 using Hs.Hypermint.DatabaseDetails;
 using Hs.Hypermint.RocklaunchStats.Views;
-using Hs.Hypermint.DatabaseDetails.Services;
 using Hs.Hypermint.MediaPane.Views;
 using Hs.Hypermint.Business.RocketLauncher;
 using Hs.Hypermint.Business.Hyperspin;
 using Hs.Hypermint.VideoEdit.Views;
 using System;
 using System.IO;
+using Prism.Logging;
 
 namespace Hypermint.Shell
 {
@@ -42,13 +42,17 @@ namespace Hypermint.Shell
             if (regionManager != null)
             {
                 regionManager.RegisterViewWithRegion(RegionNames.FlyoutRegion, typeof(SettingsFlyout));
-                //regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SearchView));
-                regionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(Hs.Hypermint.DatabaseDetails.Views.MainMenuView));
+                regionManager.RegisterViewWithRegion(RegionNames.FilesRegion, typeof(MainMenuView));
             }
 
             Application.Current.MainWindow = (Views.Shell)this.Shell;            
             Application.Current.MainWindow.Show();
-        }        
+        }
+
+        protected override ILoggerFacade CreateLogger()
+        {
+            return new HypermintLogger();
+        }
 
         protected override void ConfigureModuleCatalog()
         {
@@ -79,7 +83,6 @@ namespace Hypermint.Shell
             Container.RegisterType<IDialogCoordinator, DialogCoordinator>();
 
             Container.RegisterInstance<ISettingsHypermint>(Container.Resolve<SettingsRepo>());
-            Container.RegisterInstance<IFileFolderChecker>(Container.Resolve<FileFolderChecker>());
             Container.RegisterInstance<IFlyoutService>(Container.Resolve<FlyoutService>());
             Container.RegisterInstance<IFileDialogHelper>(Container.Resolve<FileDialogHelper>());
             Container.RegisterInstance<ISelectedService>(Container.Resolve<SelectedService>());

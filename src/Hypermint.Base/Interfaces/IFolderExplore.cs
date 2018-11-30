@@ -2,6 +2,6 @@
 {
     public interface  IFolderExplore
     {
-        bool OpenFolder(string path);     
+        bool Open(string path);     
     }
 }

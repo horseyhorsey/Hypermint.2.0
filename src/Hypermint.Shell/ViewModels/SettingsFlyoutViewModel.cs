@@ -137,22 +137,25 @@ namespace Hypermint.Shell.ViewModels
         /// Update the local model to reflect changes to UI
         /// </summary>
         /// <param name="pathName"></param>
-        /// <param name="FolderName"></param>
-        public void UpdatePath(string pathName, string FolderName)
+        /// <param name="dirName"></param>
+        public void UpdatePath(string pathName, string dirName)
         {
             switch (pathName)
             {
                 case "HsPath":
-                    HyperMintSettings.HsPath = FolderName;
+                    HyperMintSettings.HsPath = dirName;
                     break;
                 case "RlPath":
-                    HyperMintSettings.RlPath = FolderName;
+                    HyperMintSettings.RlPath = dirName;
                     break;
                 case "RlMediaPath":
-                    HyperMintSettings.RlMediaPath = FolderName;
+                    HyperMintSettings.RlMediaPath = dirName;
                     break;
                 case "GsPath":
-                    HyperMintSettings.GhostscriptPath = FolderName;
+                    HyperMintSettings.GhostscriptPath = dirName;
+                    break;
+                case "Ffmpeg":
+                    HyperMintSettings.Ffmpeg = dirName;
                     break;
                 default:
                     break;

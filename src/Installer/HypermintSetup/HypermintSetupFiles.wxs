@@ -68,9 +68,7 @@
 
   <Fragment>
     <ComponentGroup Id="Binaries">
-      <Component Id="cmp8717BDC675297A6EE90A358AB390277F" Directory="dir1A723342C1CDE511B938C434E5A15833" Guid="{B11C9914-35D2-479B-AD6E-558E17090EA8}">
-        <File Id="filE1D209DDB8B79130AC65AF9A3DF6CEBA" KeyPath="yes" Source="$(var.Hypermint.Shell.TargetDir)De.TorstenMandelkow.MetroChart.dll" />
-      </Component>
+
       <Component Id="cmpF560E9FB53128E977D15BDE702525844" Directory="dir1A723342C1CDE511B938C434E5A15833" Guid="{79FFABA3-3A3D-47DB-A28A-969ECC72C0E1}">
         <File Id="filA870BF45CA2F0FBB73971CBB63A7F1F1" KeyPath="yes" Source="$(var.Hypermint.Shell.TargetDir)Hypermint-2.0.exe" />
       </Component>

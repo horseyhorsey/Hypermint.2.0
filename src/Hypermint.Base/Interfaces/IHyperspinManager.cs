@@ -14,7 +14,7 @@ namespace Hypermint.Base
         /// <summary>
         /// Gets or sets the systems.
         /// </summary>
-        ObservableCollection<MainMenu> Systems { get; set; }
+        ObservableCollection<MenuItemViewModel> Systems { get; set; }
 
         /// <summary>
         /// Gets or sets the current systems games.
@@ -69,7 +69,7 @@ namespace Hypermint.Base
         /// Gets the genre databases.
         /// </summary>
         /// <param name="system">The system.</param>
-        Task GetGenreDatabases(string system);
+        Task<IEnumerable<HyperspinFile>> GetGenreDatabases(string system);
 
         /// <summary>
         /// Gets the system databases.

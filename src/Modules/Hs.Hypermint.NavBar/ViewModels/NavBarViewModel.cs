@@ -8,6 +8,8 @@ using Hypermint.Base.Services;
 using Hypermint.Base.Interfaces;
 using System.IO;
 using System.Windows.Input;
+using System;
+using Hypermint.Base.Extensions;
 
 namespace Hs.Hypermint.NavBar.ViewModels
 {
@@ -16,30 +18,29 @@ namespace Hs.Hypermint.NavBar.ViewModels
         #region Constructors
 
         public NavBarViewModel(IRegionManager manager, IEventAggregator eventAggregator,
-        ISelectedService selectedService, IFolderExplore folderExplore, ISettingsHypermint settings)
+        ISelectedService selectedService, ISettingsHypermint settings)
         {
             _regionManager = manager;
             _eventAggregator = eventAggregator;
             _selectedService = selectedService;
-            _folderExplore = folderExplore;
             _settings = settings;
 
             _eventAggregator.GetEvent<SystemSelectedEvent>().Subscribe(ShowDatabaseOrSearchView);
             _eventAggregator.GetEvent<NavigateRequestEvent>().Subscribe(Navigate);
             _eventAggregator.GetEvent<NavigateMediaPaneRequestEvent>().Subscribe(NavigateMediaPane);
-            _eventAggregator.GetEvent<RequestOpenFolderEvent>().Subscribe(x => { _folderExplore.OpenFolder(x);});
+            _eventAggregator.GetEvent<RequestOpenFolderEvent>().Subscribe(OnOpenFolder);
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
 
             Navigate("DatabaseDetailsView");
         }
+
         #endregion
 
         #region Fields
         private IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
         private ISelectedService _selectedService;
-        private IFolderExplore _folderExplore;
         private ISettingsHypermint _settings;
 
         private string _systemName = "";
@@ -123,14 +124,14 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 {
                     IsNotMainMenu = false;
                     IsMainMenu = true;
-                    _regionManager.RequestNavigate("ContentRegion", "SearchView");
+                    _regionManager.RequestNavigate(RegionNames.ContentRegion, "SearchView");
                     RemoveAllFilesRegionViews();
                 }
                 else
                 {
                     IsNotMainMenu = true;
                     IsMainMenu = false;
-                    _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
+                    _regionManager.RequestNavigate(RegionNames.ContentRegion, "DatabaseDetailsView");
                 }
             }
             else
@@ -139,14 +140,14 @@ namespace Hs.Hypermint.NavBar.ViewModels
                 IsMainMenu = false;
                 IsNotMainMenu = true;
 
-                _regionManager.RequestNavigate("FilesRegion", "DatabaseOptionsView");
+                _regionManager.RequestNavigate(RegionNames.FilesRegion, "DatabaseOptionsView");
 
-                if (!_regionManager.Regions.ContainsRegionWithName("FilesRegion"))
+                if (!_regionManager.Regions.ContainsRegionWithName(RegionNames.FilesRegion))
                 {
                     _regionManager.Regions.Add(RegionNames.FilesRegion, _regionManager.Regions["FilesRegion"]);
                 }
 
-                _regionManager.RequestNavigate("ContentRegion", "DatabaseDetailsView");
+                _regionManager.RequestNavigate(RegionNames.ContentRegion, "DatabaseDetailsView");
 
             }
         }
@@ -157,9 +158,10 @@ namespace Hs.Hypermint.NavBar.ViewModels
         /// <param name="uri"></param>
         private void Navigate(string uri = "")
         {
+            //TODO: Move these view names to constants.
             CurrentView = "Views: ";
 
-            _eventAggregator.GetEvent<NavigateMediaPaneRequestEvent>().Publish("MediaPaneView");
+            _eventAggregator.GetEvent<NavigateMediaPaneRequestEvent>().Publish(ViewNames.MediaPaneView);
 
             switch (uri)
             {
@@ -167,7 +169,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     if (_selectedService.CurrentSystem.ToLower().Contains("main menu"))
                     {
                         CurrentView += "Search view";
-                        _regionManager.RequestNavigate("ContentRegion", "SearchView");
+                        _regionManager.RequestNavigate(RegionNames.ContentRegion, "SearchView");
                         RemoveAllFilesRegionViews();
                     }
                     else
@@ -206,7 +208,7 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     if (!_selectedService.CurrentSystem.ToLower().Contains("main menu"))
                     {
                         CurrentView += "Simple wheel creator";
-                        _regionManager.RequestNavigate("FilesRegion", "WheelProcessView");
+                        _regionManager.RequestNavigate(RegionNames.FilesRegion, "WheelProcessView");
                     }
                     break;
                 case "StatsView":
@@ -219,18 +221,18 @@ namespace Hs.Hypermint.NavBar.ViewModels
                     break;
                 case "CreateImageView":
                     CurrentView += "Image edit";
-                    _regionManager.RequestNavigate("FilesRegion", "ImagePresetView");
+                    _regionManager.RequestNavigate(RegionNames.FilesRegion, "ImagePresetView");
                     break;
                 case "VideoEditView":
                     CurrentView += "Video edit";
-                    _regionManager.RequestNavigate("FilesRegion", "VideoProcessView");
+                    _regionManager.RequestNavigate(RegionNames.FilesRegion, "VideoProcessView");
                     break;
                 default:
                     break;
             }
 
             if (CurrentView != "Views: " && uri != "WebBrowseView" && uri != "DatabaseDetailsView")
-                _regionManager.RequestNavigate("ContentRegion", uri);
+                _regionManager.RequestNavigate(RegionNames.ContentRegion, uri);
 
         }
 
@@ -247,14 +249,19 @@ namespace Hs.Hypermint.NavBar.ViewModels
             catch  { }
         }
 
+        private void OnOpenFolder(string directory)
+        {
+            var result = new DirectoryInfo(directory).Open();
+        }
+
         /// <summary>
         /// Use to clear out the File Region of any views
         /// </summary>
         private void RemoveAllFilesRegionViews()
         {
-            foreach (var view in _regionManager.Regions["FilesRegion"].Views)
+            foreach (var view in _regionManager.Regions[RegionNames.FilesRegion].Views)
             {
-                _regionManager.Regions["FilesRegion"].Deactivate(view);
+                _regionManager.Regions[RegionNames.FilesRegion].Deactivate(view);
             }
         }
 

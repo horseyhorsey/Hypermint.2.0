@@ -57,6 +57,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "HypermintSetup", "Installer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "!Shared", "!Shared", "{510A8718-EC42-4D84-8738-50645454995E}"
 	ProjectSection(SolutionItems) = preProject
+		Changelog.txt = Changelog.txt
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
